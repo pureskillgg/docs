@@ -7,7 +7,7 @@ on:
       - v*
 
 jobs:
-  github:
+  npm:
     runs-on: ubuntu-20.04
     timeout-minutes: 30
     steps:
@@ -16,11 +16,24 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
         with:
-          node_auth_token: ${{ secrets.GH_TOKEN }}
+          node_version: '14'
       - name: Publish
         uses: JS-DevTools/npm-publish@v1
         with:
-          access: restricted
+          access: public
+          token: ${{ secrets.NPM_TOKEN }}
+  github:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Publish
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          access: public
           token: ${{ secrets.GITHUB_TOKEN }}
           registry: https://npm.pkg.github.com
   docs:
@@ -43,8 +56,6 @@ jobs:
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
       - name: Setup
         uses: ./.github/actions/setup
-        with:
-          node_auth_token: ${{ secrets.GH_TOKEN }}
       - name: Get version
         id: version
         run: |

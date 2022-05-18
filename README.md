@@ -1,5 +1,7 @@
 # PureSkill.gg Documentation
 
+[![npm](https://img.shields.io/npm/v/@pureskillgg/docs.svg)](https://www.npmjs.com/package/@pureskillgg/docs)
+[![docs](https://img.shields.io/badge/docs-online-informational)](https://dev.pureskill.gg/docs/)
 [![GitHub Actions](https://github.com/pureskillgg/docs/workflows/main/badge.svg)](https://github.com/pureskillgg/docs/actions)
 
 PureSkill.gg community documentation.
@@ -135,7 +137,7 @@ To submit a patch:
 
 ## License
 
-This npm package is Copyright (c) 2019-2022 FPS Critic, Inc.
+This npm package is licensed under the MIT license.
 
 ## Warranty
 
