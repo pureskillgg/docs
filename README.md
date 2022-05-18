@@ -1,111 +1,19 @@
-# JavaScript Module Package Skeleton
+# PureSkill.gg Documentation
 
-[![GitHub Actions](https://github.com/pureskillgg/makenew-jsmodule/workflows/main/badge.svg)](https://github.com/pureskillgg/makenew-jsmodule/actions)
+[![GitHub Actions](https://github.com/pureskillgg/docs/workflows/main/badge.svg)](https://github.com/pureskillgg/docs/actions)
 
-Package skeleton for a JavaScript module.
+PureSkill.gg community documentation.
 
 ## Description
 
-Bootstrap a new JavaScript module in five minutes or less.
-
-### Features
-
-- [Node.js]'s [npm] package structure.
-- Package management with [npm].
-- Examples with configurable options and arguments powered by [examplr].
-- Published [documentation.js] to [GitHub Pages].
-- Linting with the [JavaScript Standard Style] using [ESLint].
-- [Prettier] code.
-- Futuristic debuggable unit testing with [AVA].
-- Code coverage reporting with [Istanbul] and [c8].
-- Continuous testing and package publishing with [GitHub Actions].
-- [Keep a CHANGELOG].
-- Consistent coding with [EditorConfig].
-- Badges from [Shields.io].
-
-[AVA]: https://github.com/avajs/ava
-[ESLint]: https://eslint.org/
-[EditorConfig]: https://editorconfig.org/
-[GitHub Actions]: https://github.com/features/actions
-[GitHub Pages]: https://pages.github.com/
-[Istanbul]: https://istanbul.js.org/
-[JavaScript Standard Style]: https://standardjs.com/
-[Keep a CHANGELOG]: https://keepachangelog.com/
-[Node.js]: https://nodejs.org/
-[Prettier]: https://prettier.io/
-[Shields.io]: https://shields.io/
-[c8]: https://github.com/bcoe/c8
-[documentation.js]: https://documentation.js.org/
-[examplr]: https://github.com/meltwater/node-examplr
-[npm]: https://www.npmjs.com/
-
-### Bootstrapping a new project
-
-1. Create an empty (**non-initialized**) repository on GitHub.
-2. Clone the master branch of this repository with
-   ```
-   $ git clone --single-branch git@github.com:pureskillgg/makenew-jsmodule.git <new-node-lib>
-   $ cd <new-node-lib>
-   ```
-   Optionally, reset to the latest version with
-   ```
-   $ git reset --hard <version-tag>
-   ```
-3. Run
-   ```
-   $ ./makenew.sh
-   ```
-   This will replace the boilerplate, delete itself,
-   remove the git remote, remove upstream tags,
-   and stage changes for commit.
-4. Create the required GitHub repository secrets.
-5. Review, commit, and push the changes to GitHub with
-   ```
-   $ git diff --cached
-   $ git commit -m "Replace makenew boilerplate"
-   $ git remote add origin git@github.com:<user>/<new-node-lib>.git
-   $ git push -u origin master
-   ```
-6. Ensure the GitHub action passes,
-   then publish the initial version of the package with
-   ```
-   $ nvm install
-   $ npm install
-   $ npm version patch
-   ```
-
-### Updating from this skeleton
-
-If you want to pull in future updates from this skeleton,
-you can fetch and merge in changes from this repository.
-
-Add this as a new remote with
-
-```
-$ git remote add upstream git@github.com:pureskillgg/makenew-jsmodule.git
-```
-
-You can then fetch and merge changes with
-
-```
-$ git fetch --no-tags upstream
-$ git merge upstream/master
-```
-
-#### Changelog for this skeleton
-
-Note that `CHANGELOG.md` is just a template for this skeleton.
-The actual changes for this project are documented in the commit history
-and summarized under [Releases].
-
-[Releases]: https://github.com/pureskillgg/makenew-jsmodule/releases
+TODO
 
 ## Installation
 
 Add this as a dependency to your project using [npm] with
 
 ```
-$ npm install @pureskillgg/makenew-jsmodule
+$ npm install @pureskillgg/docs
 ```
 
 [npm]: https://www.npmjs.com/
@@ -115,8 +23,8 @@ $ npm install @pureskillgg/makenew-jsmodule
 ### Quickstart
 
 ```
-$ git clone https://github.com/pureskillgg/makenew-jsmodule.git
-$ cd makenew-jsmodule
+$ git clone https://github.com/pureskillgg/docs.git
+$ cd docs
 $ nvm install
 $ npm install
 ```
@@ -141,10 +49,10 @@ The [source code] is hosted on GitHub.
 Clone the project with
 
 ```
-$ git clone git@github.com:pureskillgg/makenew-jsmodule.git
+$ git clone git@github.com:pureskillgg/docs.git
 ```
 
-[source code]: https://github.com/pureskillgg/makenew-jsmodule
+[source code]: https://github.com/pureskillgg/docs
 
 ### Requirements
 
@@ -183,7 +91,7 @@ Publishing may be triggered using on the web
 using a [workflow_dispatch on GitHub Actions].
 
 [npm-version]: https://docs.npmjs.com/cli/version
-[workflow_dispatch on GitHub Actions]: https://github.com/pureskillgg/makenew-jsmodule/actions?query=workflow%3Aversion
+[workflow_dispatch on GitHub Actions]: https://github.com/pureskillgg/docs/actions?query=workflow%3Aversion
 
 ## GitHub Actions
 
@@ -218,7 +126,7 @@ Please submit and comment on bug reports and feature requests.
 
 To submit a patch:
 
-1. Fork it (https://github.com/pureskillgg/makenew-jsmodule/fork).
+1. Fork it (https://github.com/pureskillgg/docs/fork).
 2. Create your feature branch (`git checkout -b my-new-feature`).
 3. Make changes.
 4. Commit your changes (`git commit -am 'Add some feature'`).

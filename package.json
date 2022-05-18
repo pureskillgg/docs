@@ -1,7 +1,7 @@
 {
-  "name": "@pureskillgg/makenew-jsmodule",
-  "version": "4.4.1",
-  "description": "Package skeleton for a JavaScript module.",
+  "name": "@pureskillgg/docs",
+  "version": "0.0.0",
+  "description": "PureSkill.gg community documentation.",
   "type": "module",
   "main": "index.js",
   "exports": {
@@ -12,9 +12,9 @@
   "keywords": [
     "node"
   ],
-  "homepage": "https://github.com/pureskillgg/makenew-jsmodule",
-  "bugs": "https://github.com/pureskillgg/makenew-jsmodule/issues",
-  "repository": "pureskillgg/makenew-jsmodule",
+  "homepage": "https://github.com/pureskillgg/docs",
+  "bugs": "https://github.com/pureskillgg/docs/issues",
+  "repository": "pureskillgg/docs",
   "license": "SEE LICENSE IN LICENSE.txt",
   "author": {
     "name": "PureSkill.gg",
