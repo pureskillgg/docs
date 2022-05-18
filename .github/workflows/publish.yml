@@ -71,4 +71,3 @@ jobs:
           cname: docs.pureskill.gg
           user_name: ${{ secrets.GIT_USER_NAME }}
           user_email: ${{ secrets.GIT_USER_EMAIL }}
-
