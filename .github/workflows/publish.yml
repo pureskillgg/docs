@@ -67,15 +67,8 @@ jobs:
         with:
           personal_token: ${{ secrets.GH_TOKEN }}
           publish_dir: .docs
-          destination_dir: ${{ steps.version.outputs.current }}
-          keep_files: true
+          keep_files: false
+          cname: docs.pureskill.gg
           user_name: ${{ secrets.GIT_USER_NAME }}
           user_email: ${{ secrets.GIT_USER_EMAIL }}
-      - name: Publish latest
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          personal_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: .docs
-          keep_files: true
-          user_name: ${{ secrets.GIT_USER_NAME }}
-          user_email: ${{ secrets.GIT_USER_EMAIL }}
+
