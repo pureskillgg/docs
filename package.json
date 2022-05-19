@@ -2,13 +2,7 @@
   "name": "@pureskillgg/docs",
   "version": "0.0.2",
   "description": "PureSkill.gg community documentation.",
-  "type": "module",
   "main": "index.js",
-  "exports": {
-    "import": "./index.js"
-  },
-  "module": "index.js",
-  "sideEffects": false,
   "keywords": [
     "node"
   ],
@@ -23,46 +17,26 @@
   "files": [
     "package-lock.json",
     "index.js",
-    "lib",
-    "data",
-    "docs"
+    "lib"
   ],
   "scripts": {
-    "test": "c8 ava",
-    "pretest": "node index.js",
-    "test:update": "ava --update-snapshots",
-    "test:watch": "ava --watch",
-    "test:debug": "ava debug --break",
-    "lint": "npm-run-all --parallel lint:*",
-    "lint:prettier": "prettier --check --ignore-path .gitignore '**/*.(js|cjs|mjs|json|yml|yaml|graphql)'",
-    "lint:js": "eslint --ignore-path .gitignore --ext .js .",
-    "lint:docs": "documentation lint 'lib/**/*.doc.js'",
-    "preversion": "npm-run-all --parallel lint test",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "prebuild": "docusaurus clear",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids",
+    "lint": "prettier --check --ignore-path .gitignore '**/*.(js|cjs|mjs|json|yml|yaml|graphql)'",
+    "preversion": "npm-run-all --parallel lint build",
     "postversion": "git push --follow-tags",
-    "example": "node examples",
-    "example:inspect": "node --inspect examples",
-    "format": "npm-run-all --parallel format:*",
-    "preformat": "prettier --write --ignore-path .gitignore '**/*.(js|cjs|mjs|json|yml|yaml|graphql)'",
-    "format:js": "eslint --ignore-path .gitignore --fix --ext .js .",
-    "docs": "documentation serve --watch --github 'lib/**/*.doc.js'",
-    "docs:build": "documentation build --format html --github --output .docs 'lib/**/*.doc.js'",
-    "report": "c8 report"
+    "format": "prettier --write --ignore-path .gitignore '**/*.(js|cjs|mjs|json|yml|yaml|graphql)'"
   },
   "engines": {
     "node": ">=14.15.0",
     "npm": ">= 8.1.0"
   },
   "devDependencies": {
-    "@meltwater/examplr": "^7.0.0",
-    "ava": "^4.0.1",
-    "c8": "^7.11.0",
-    "documentation": "^13.2.5",
-    "eslint": "^8.9.0",
-    "eslint-config-prettier": "^8.4.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-n": "^15.0.0",
-    "eslint-plugin-promise": "^6.0.0",
+    "@docusaurus/core": "^2.0.0-beta.20",
+    "@docusaurus/preset-classic": "^2.0.0-beta.20",
     "npm-run-all": "^4.1.2",
     "prettier": "^2.3.0"
   }

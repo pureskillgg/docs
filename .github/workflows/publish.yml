@@ -60,13 +60,13 @@ jobs:
         id: version
         run: |
           echo "::set-output name=current::$(jq -r '.version' package.json)"
-      - name: Documentation
-        run: npm run docs:build
+      - name: Build
+        run: npm run build
       - name: Publish ${{ steps.version.outputs.current }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: .docs
+          publish_dir: build
           keep_files: false
           cname: docs.pureskill.gg
           user_name: ${{ secrets.GIT_USER_NAME }}
