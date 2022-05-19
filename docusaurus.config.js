@@ -9,6 +9,13 @@ const config = {
     defaultLocale: 'en',
     locales: ['en']
   },
+  themeConfig: {
+    colorMode: {
+      defaultMode: 'dark',
+      disableSwitch: false,
+      respectPrefersColorScheme: false
+    }
+  },
   presets: [
     [
       '@docusaurus/preset-classic',
