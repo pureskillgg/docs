@@ -38,6 +38,8 @@ PureSkill.gg provides AI-powered coaching for CS:GO players of all ranks to hone
 
 _Based on [Datasheets for Datasets](https://arxiv.org/abs/1803.09010)._
 
+[Data Dictionary](./assets/csds_dictionary.csv) available.
+
 ### Glossary
 
 - [ADX](https://aws.amazon.com/data-exchange) - AWS Data Exchange
