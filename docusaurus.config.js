@@ -53,7 +53,7 @@ const config = {
         },
         {
           label: 'Discord',
-          to: 'https://discordapp.com/invite/sev2WaJ'
+          to: 'https://pureskill.gg/discord'
         },
         {
           label: 'Contact',

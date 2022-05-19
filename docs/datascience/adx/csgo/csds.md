@@ -16,18 +16,18 @@ The dataset is provided free of charge.
 
 ## Getting Access to the Dataset
 
-We want to understand your amazing project and help you get up and running with the data set. . When you subscribe to this data product, we will need to approve your subscription request. Please send an email to contact@pureskill.gg outlining your use case. Once approved, you can access the developer channels on [Discord](https://discordapp.com/invite/sev2WaJ), just let us know your Discord username.
+We want to understand your amazing project and help you get up and running with the data set. . When you subscribe to this data product, we will need to approve your subscription request. Please send an email to contact@pureskill.gg outlining your use case. Once approved, you can access the developer channels on [Discord](https://pureskill.gg/discord), just let us know your Discord username.
 
 ## Need Help?
 
-- If you have questions, contact us at contact@pureskill.gg or on [Discord](https://discordapp.com/invite/sev2WaJ).
+- If you have questions, contact us at contact@pureskill.gg or on [Discord](https://pureskill.gg/discord).
 
 ## About PureSkill.gg
 
 PureSkill.gg provides AI-powered coaching for CS:GO players of all ranks to hone their skills, rank up, and dominate the game.
 
 - [Website](https://pureskill.gg/)
-- [Discord](https://discordapp.com/invite/sev2WaJ)
+- [Discord](https://pureskill.gg/discord)
 - [YouTube](https://www.youtube.com/channel/UCmgWqRfvuX94XwbuN9CEu_A)
 - [LinkedIn](https://www.linkedin.com/company/itspureskillgg)
 - [Twitter](https://twitter.com/itspureskillgg)
@@ -59,7 +59,7 @@ _Based on [Datasheets for Datasets](https://arxiv.org/abs/1803.09010)._
 
 - **Who funded the creation of the dataset?** FPS Critic, Inc. who produces PureSkill.gg.
 
-- **Any other comments?** If you would like to use the dataset for a different purpose, please reach out to contact@pureskill.gg or contact us on [Discord](https://discordapp.com/invite/sev2WaJ).
+- **Any other comments?** If you would like to use the dataset for a different purpose, please reach out to contact@pureskill.gg or contact us on [Discord](https://pureskill.gg/discord).
 
 ### Composition
 
@@ -158,7 +158,7 @@ From the [Steam help page on API conections](https://help.steampowered.com/en/wi
 
 - **Who will be supporting/hosting/maintaining the dataset?** FPS Critic, Inc. who produces PureSkill.gg.
 
-- **How can the owner/curator/manager of the dataset be contacted (e.g., email address)?** contact@pureskill.gg or on [Discord](https://discordapp.com/invite/sev2WaJ).
+- **How can the owner/curator/manager of the dataset be contacted (e.g., email address)?** contact@pureskill.gg or on [Discord](https://pureskill.gg/discord).
 
 - **Is there an erratum?** Not yet.
 
@@ -169,4 +169,4 @@ From the [Steam help page on API conections](https://help.steampowered.com/en/wi
 
 - **Will older versions of the dataset continue to be supported/hosted/maintained?** We may delete old, unusable data at our discretion. Additionally, we may delete old data to reduce cost.
 
-- **If others want to extend/augment/build on/contribute to the dataset, is there a mechanism for them to do so?** Please reach out to contact@pureskill.gg or on [Discord](https://discordapp.com/invite/sev2WaJ) if you want to extend the provided csds files in any manner. Subscribers are free to release transformations with restrictions as outlined in the DSA.
+- **If others want to extend/augment/build on/contribute to the dataset, is there a mechanism for them to do so?** Please reach out to contact@pureskill.gg or on [Discord](https://pureskill.gg/discord) if you want to extend the provided csds files in any manner. Subscribers are free to release transformations with restrictions as outlined in the DSA.
