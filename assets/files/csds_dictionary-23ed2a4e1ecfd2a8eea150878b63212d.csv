@@ -1,0 +1,626 @@
+FieldName,Type,MaxLength,Nullable,Description,Notes,Example,PrimaryKey,TableName,TableDescription
+round,INTEGER,,,,,,,bomb_action,multi_event
+tick,INTEGER,,,,,,,bomb_action,multi_event
+event_type,VARCHAR,,,,,,,bomb_action,multi_event
+player_id,INTEGER,,,,,,,bomb_action,multi_event
+site_code,INTEGER,,,,,,,bomb_action,multi_event
+entity_id,INTEGER,,,,,,,bomb_action,multi_event
+second,DECIMAL,,,,,,,bomb_action,multi_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,bomb_action,multi_event
+player_x_pos,DECIMAL,,,asof merge (nearby ticks),,,,bomb_action,multi_event
+player_y_pos,DECIMAL,,,asof merge (nearby ticks),,,,bomb_action,multi_event
+player_z_pos,DECIMAL,,,asof merge (nearby ticks),,,,bomb_action,multi_event
+player_x_vel,DECIMAL,,,asof merge (nearby ticks),,,,bomb_action,multi_event
+player_y_vel,DECIMAL,,,asof merge (nearby ticks),,,,bomb_action,multi_event
+player_z_vel,DECIMAL,,,asof merge (nearby ticks),,,,bomb_action,multi_event
+player_phi_ang,DECIMAL,,,asof merge (nearby ticks),,,,bomb_action,multi_event
+player_theta_ang,DECIMAL,,,asof merge (nearby ticks),,,,bomb_action,multi_event
+player_weapon_code,DECIMAL,,,asof merge (nearby ticks),,,,bomb_action,multi_event
+player_team_code,DECIMAL,,,asof merge (nearby ticks),,,,bomb_action,multi_event
+player_tick,DECIMAL,,,asof merge (nearby ticks),,,,bomb_action,multi_event
+player_player_id,DECIMAL,,,asof merge (nearby ticks),,,,bomb_action,multi_event
+round,INTEGER,,,,,,,bomb_defuse,multi_event
+tick,INTEGER,,,,,,,bomb_defuse,multi_event
+event_type,VARCHAR,,,,,,,bomb_defuse,multi_event
+player_id,INTEGER,,,,,,,bomb_defuse,multi_event
+has_kit,BOOL,,,,,,,bomb_defuse,multi_event
+second,DECIMAL,,,,,,,bomb_defuse,multi_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,bomb_defuse,multi_event
+player_x_pos,DECIMAL,,,,,,,bomb_defuse,multi_event
+player_y_pos,DECIMAL,,,,,,,bomb_defuse,multi_event
+player_z_pos,DECIMAL,,,,,,,bomb_defuse,multi_event
+player_x_vel,DECIMAL,,,,,,,bomb_defuse,multi_event
+player_y_vel,DECIMAL,,,,,,,bomb_defuse,multi_event
+player_z_vel,DECIMAL,,,,,,,bomb_defuse,multi_event
+player_phi_ang,DECIMAL,,,,,,,bomb_defuse,multi_event
+player_theta_ang,DECIMAL,,,,,,,bomb_defuse,multi_event
+player_weapon_code,DECIMAL,,,,,,,bomb_defuse,multi_event
+player_team_code,DECIMAL,,,,,,,bomb_defuse,multi_event
+player_tick,DECIMAL,,,,,,,bomb_defuse,multi_event
+player_player_id,DECIMAL,,,,,,,bomb_defuse,multi_event
+round,INTEGER,,,,,,,bomb_state,multi_event
+tick,INTEGER,,,,,,,bomb_state,multi_event
+event_type,VARCHAR,,,,,,,bomb_state,multi_event
+player_id,INTEGER,,,,,,,bomb_state,multi_event
+site_code,INTEGER,,,,,,,bomb_state,multi_event
+second,DECIMAL,,,,,,,bomb_state,multi_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,bomb_state,multi_event
+player_x_pos,DECIMAL,,,,,,,bomb_state,multi_event
+player_y_pos,DECIMAL,,,,,,,bomb_state,multi_event
+player_z_pos,DECIMAL,,,,,,,bomb_state,multi_event
+player_x_vel,DECIMAL,,,,,,,bomb_state,multi_event
+player_y_vel,DECIMAL,,,,,,,bomb_state,multi_event
+player_z_vel,DECIMAL,,,,,,,bomb_state,multi_event
+player_phi_ang,DECIMAL,,,,,,,bomb_state,multi_event
+player_theta_ang,DECIMAL,,,,,,,bomb_state,multi_event
+player_weapon_code,DECIMAL,,,,,,,bomb_state,multi_event
+player_team_code,DECIMAL,,,,,,,bomb_state,multi_event
+player_tick,DECIMAL,,,,,,,bomb_state,multi_event
+player_player_id,DECIMAL,,,,,,,bomb_state,multi_event
+round,INTEGER,,,,,,,bot_takeover,single_event
+tick,INTEGER,,,,,,,bot_takeover,single_event
+player_id,INTEGER,,,,,,,bot_takeover,single_event
+bot_id,INTEGER,,,,,,,bot_takeover,single_event
+player_index,INTEGER,,,,,,,bot_takeover,single_event
+second,DECIMAL,,,,,,,bot_takeover,single_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,bot_takeover,single_event
+player_x_pos,DECIMAL,,,,,,,bot_takeover,single_event
+player_y_pos,DECIMAL,,,,,,,bot_takeover,single_event
+player_z_pos,DECIMAL,,,,,,,bot_takeover,single_event
+player_x_vel,DECIMAL,,,,,,,bot_takeover,single_event
+player_y_vel,DECIMAL,,,,,,,bot_takeover,single_event
+player_z_vel,DECIMAL,,,,,,,bot_takeover,single_event
+player_phi_ang,DECIMAL,,,,,,,bot_takeover,single_event
+player_theta_ang,DECIMAL,,,,,,,bot_takeover,single_event
+player_weapon_code,DECIMAL,,,,,,,bot_takeover,single_event
+player_team_code,DECIMAL,,,,,,,bot_takeover,single_event
+player_tick,DECIMAL,,,,,,,bot_takeover,single_event
+player_player_id,DECIMAL,,,,,,,bot_takeover,single_event
+round,INTEGER,,,,,,,grenade_state,multi_event
+tick,INTEGER,,,,,,,grenade_state,multi_event
+event_type,VARCHAR,,,,,,,grenade_state,multi_event
+entity_id,INTEGER,,,,,,,grenade_state,multi_event
+player_id,INTEGER,,,,,,,grenade_state,multi_event
+x_pos,DECIMAL,,,,,,,grenade_state,multi_event
+y_pos,DECIMAL,,,,,,,grenade_state,multi_event
+z_pos,DECIMAL,,,,,,,grenade_state,multi_event
+second,DECIMAL,,,,,,,grenade_state,multi_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,grenade_state,multi_event
+entity_id_fixed,DECIMAL,,,,,,,grenade_state,multi_event
+tick_throw,DECIMAL,,,,,,,grenade_state,multi_event
+player_x_pos,DECIMAL,,,,,,,grenade_state,multi_event
+player_y_pos,DECIMAL,,,,,,,grenade_state,multi_event
+player_z_pos,DECIMAL,,,,,,,grenade_state,multi_event
+player_x_vel,DECIMAL,,,,,,,grenade_state,multi_event
+player_y_vel,DECIMAL,,,,,,,grenade_state,multi_event
+player_z_vel,DECIMAL,,,,,,,grenade_state,multi_event
+player_phi_ang,DECIMAL,,,,,,,grenade_state,multi_event
+player_theta_ang,DECIMAL,,,,,,,grenade_state,multi_event
+player_weapon_code,DECIMAL,,,,,,,grenade_state,multi_event
+player_team_code,DECIMAL,,,,,,,grenade_state,multi_event
+magic,VARCHAR,,,,,,,header,header
+protocol,INTEGER,,,,,,,header,header
+network_protocol,INTEGER,,,,,,,header,header
+server_name,VARCHAR,,,,,,,header,header
+client_name,VARCHAR,,,,,,,header,header
+map_name,VARCHAR,,,,,,,header,header
+game_directory,VARCHAR,,,,,,,header,header
+playback_time,DECIMAL,,,,,,,header,header
+playback_ticks,INTEGER,,,,,,,header,header
+playback_frames,INTEGER,,,,,,,header,header
+signon_length,INTEGER,,,,,,,header,header
+magic,DECIMAL,,,,,,,header,header
+protocol,DECIMAL,,,,,,,header,header
+network_protocol,DECIMAL,,,,,,,header,header
+server_name,DECIMAL,,,,,,,header,header
+client_name,DECIMAL,,,,,,,header,header
+map_name,DECIMAL,,,,,,,header,header
+game_directory,DECIMAL,,,,,,,header,header
+playback_time,DECIMAL,,,,,,,header,header
+playback_ticks,DECIMAL,,,,,,,header,header
+playback_frames,DECIMAL,,,,,,,header,header
+signon_length,DECIMAL,,,,,,,header,header
+tick_rate,DECIMAL,,,,,,,header,header
+tick_save_rate,DECIMAL,,,,,,,header,header
+rushb_version,DECIMAL,,,,,,,header,header
+ppp_version,DECIMAL,,,,,,,header,header
+match_date,DECIMAL,,,,,,,header,header
+demo_id,DECIMAL,,,,,,,header,header
+sharecode,DECIMAL,,,,,,,header,header
+platform,DECIMAL,,,,,,,header,header
+match_type,DECIMAL,,,,,,,header,header
+game,DECIMAL,,,,,,,header,header
+second,DECIMAL,,,,,,,header,header
+t_starters_avg_rank,DECIMAL,,,,,,,header,header
+t_starters_avg_wins,DECIMAL,,,,,,,header,header
+ct_starters_avg_rank,DECIMAL,,,,,,,header,header
+ct_starters_avg_wins,DECIMAL,,,,,,,header,header
+ct_starters_score_final,DECIMAL,,,,,,,header,header
+t_starters_score_final,DECIMAL,,,,,,,header,header
+providence,DECIMAL,,,,,,,header,header
+number_of_points,DECIMAL,,,,,,,header,header
+round,INTEGER,,,,,,,item_equip,single_event
+tick,INTEGER,,,,,,,item_equip,single_event
+player_id,INTEGER,,,,,,,item_equip,single_event
+item,VARCHAR,,,,,,,item_equip,single_event
+def_index,INTEGER,,,,,,,item_equip,single_event
+can_zoom,BOOL,,,,,,,item_equip,single_event
+has_silencer,BOOL,,,,,,,item_equip,single_event
+is_silenced,BOOL,,,,,,,item_equip,single_event
+has_tracers,BOOL,,,,,,,item_equip,single_event
+weapon_type_code,INTEGER,,,,,,,item_equip,single_event
+is_painted,BOOL,,,,,,,item_equip,single_event
+second,DECIMAL,,,,,,,item_equip,single_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,item_equip,single_event
+player_x_pos,DECIMAL,,,,,,,item_equip,single_event
+player_y_pos,DECIMAL,,,,,,,item_equip,single_event
+player_z_pos,DECIMAL,,,,,,,item_equip,single_event
+player_x_vel,DECIMAL,,,,,,,item_equip,single_event
+player_y_vel,DECIMAL,,,,,,,item_equip,single_event
+player_z_vel,DECIMAL,,,,,,,item_equip,single_event
+player_phi_ang,DECIMAL,,,,,,,item_equip,single_event
+player_theta_ang,DECIMAL,,,,,,,item_equip,single_event
+player_weapon_code,DECIMAL,,,,,,,item_equip,single_event
+player_team_code,DECIMAL,,,,,,,item_equip,single_event
+player_tick,DECIMAL,,,,,,,item_equip,single_event
+player_player_id,DECIMAL,,,,,,,item_equip,single_event
+round,INTEGER,,,,,,,item_pickup,single_event
+tick,INTEGER,,,,,,,item_pickup,single_event
+player_id,INTEGER,,,,,,,item_pickup,single_event
+item,VARCHAR,,,,,,,item_pickup,single_event
+def_index,INTEGER,,,,,,,item_pickup,single_event
+is_silent,BOOL,,,,,,,item_pickup,single_event
+second,DECIMAL,,,,,,,item_pickup,single_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,item_pickup,single_event
+player_x_pos,DECIMAL,,,,,,,item_pickup,single_event
+player_y_pos,DECIMAL,,,,,,,item_pickup,single_event
+player_z_pos,DECIMAL,,,,,,,item_pickup,single_event
+player_x_vel,DECIMAL,,,,,,,item_pickup,single_event
+player_y_vel,DECIMAL,,,,,,,item_pickup,single_event
+player_z_vel,DECIMAL,,,,,,,item_pickup,single_event
+player_phi_ang,DECIMAL,,,,,,,item_pickup,single_event
+player_theta_ang,DECIMAL,,,,,,,item_pickup,single_event
+player_weapon_code,DECIMAL,,,,,,,item_pickup,single_event
+player_team_code,DECIMAL,,,,,,,item_pickup,single_event
+player_tick,DECIMAL,,,,,,,item_pickup,single_event
+player_player_id,DECIMAL,,,,,,,item_pickup,single_event
+round,INTEGER,,,,,,,item_remove,single_event
+tick,INTEGER,,,,,,,item_remove,single_event
+player_id,INTEGER,,,,,,,item_remove,single_event
+item,VARCHAR,,,,,,,item_remove,single_event
+def_index,INTEGER,,,,,,,item_remove,single_event
+second,DECIMAL,,,,,,,item_remove,single_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,item_remove,single_event
+player_x_pos,DECIMAL,,,asof merge (nearby ticks),,,,item_remove,single_event
+player_y_pos,DECIMAL,,,asof merge (nearby ticks),,,,item_remove,single_event
+player_z_pos,DECIMAL,,,asof merge (nearby ticks),,,,item_remove,single_event
+player_x_vel,DECIMAL,,,asof merge (nearby ticks),,,,item_remove,single_event
+player_y_vel,DECIMAL,,,asof merge (nearby ticks),,,,item_remove,single_event
+player_z_vel,DECIMAL,,,asof merge (nearby ticks),,,,item_remove,single_event
+player_phi_ang,DECIMAL,,,asof merge (nearby ticks),,,,item_remove,single_event
+player_theta_ang,DECIMAL,,,asof merge (nearby ticks),,,,item_remove,single_event
+player_weapon_code,DECIMAL,,,asof merge (nearby ticks),,,,item_remove,single_event
+player_team_code,DECIMAL,,,asof merge (nearby ticks),,,,item_remove,single_event
+player_tick,DECIMAL,,,asof merge (nearby ticks),,,,item_remove,single_event
+player_player_id,DECIMAL,,,asof merge (nearby ticks),,,,item_remove,single_event
+round,INTEGER,,,,,,,molotov_state,multi_event
+tick,INTEGER,,,,,,,molotov_state,multi_event
+event_type,VARCHAR,,,,,,,molotov_state,multi_event
+entity_id,INTEGER,,,,,,,molotov_state,multi_event
+x_pos,DECIMAL,,,,,,,molotov_state,multi_event
+y_pos,DECIMAL,,,,,,,molotov_state,multi_event
+z_pos,DECIMAL,,,,,,,molotov_state,multi_event
+second,DECIMAL,,,,,,,molotov_state,multi_event
+entity_id_fixed,DECIMAL,,,,,,,molotov_state,multi_event
+burn_duration,DECIMAL,,,,,,,molotov_state,multi_event
+was_extinguished_by_smoke,DECIMAL,,,,,,,molotov_state,multi_event
+extinguisher_id,DECIMAL,,,,,,,molotov_state,multi_event
+extinguisher_id_fixed,DECIMAL,,,,,,,molotov_state,multi_event
+smoke_entity_id,DECIMAL,,,,,,,molotov_state,multi_event
+was_extinguished_by_thrown_smoke,DECIMAL,,,,,,,molotov_state,multi_event
+player_id,DECIMAL,,,,,,,molotov_state,multi_event
+player_id_fixed,DECIMAL,,,,,,,molotov_state,multi_event
+tick_throw,DECIMAL,,,,,,,molotov_state,multi_event
+player_x_pos,DECIMAL,,,,,,,molotov_state,multi_event
+player_y_pos,DECIMAL,,,,,,,molotov_state,multi_event
+player_z_pos,DECIMAL,,,,,,,molotov_state,multi_event
+player_x_vel,DECIMAL,,,,,,,molotov_state,multi_event
+player_y_vel,DECIMAL,,,,,,,molotov_state,multi_event
+player_z_vel,DECIMAL,,,,,,,molotov_state,multi_event
+player_phi_ang,DECIMAL,,,,,,,molotov_state,multi_event
+player_theta_ang,DECIMAL,,,,,,,molotov_state,multi_event
+player_weapon_code,DECIMAL,,,,,,,molotov_state,multi_event
+player_team_code,DECIMAL,,,,,,,molotov_state,multi_event
+round,INTEGER,,,,,,,player_action,multi_event
+tick,INTEGER,,,,,,,player_action,multi_event
+event_type,VARCHAR,,,,,,,player_action,multi_event
+player_id,INTEGER,,,,,,,player_action,multi_event
+second,DECIMAL,,,,,,,player_action,multi_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_action,multi_event
+player_x_pos,DECIMAL,,,,,,,player_action,multi_event
+player_y_pos,DECIMAL,,,,,,,player_action,multi_event
+player_z_pos,DECIMAL,,,,,,,player_action,multi_event
+player_x_vel,DECIMAL,,,,,,,player_action,multi_event
+player_y_vel,DECIMAL,,,,,,,player_action,multi_event
+player_z_vel,DECIMAL,,,,,,,player_action,multi_event
+player_phi_ang,DECIMAL,,,,,,,player_action,multi_event
+player_theta_ang,DECIMAL,,,,,,,player_action,multi_event
+player_weapon_code,DECIMAL,,,,,,,player_action,multi_event
+player_team_code,DECIMAL,,,,,,,player_action,multi_event
+player_tick,DECIMAL,,,,,,,player_action,multi_event
+player_player_id,DECIMAL,,,,,,,player_action,multi_event
+round,INTEGER,,,,,,,player_blind,single_event
+tick,INTEGER,,,,,,,player_blind,single_event
+player_id,INTEGER,,,,,,,player_blind,single_event
+entity_id,INTEGER,,,,,,,player_blind,single_event
+attacker_id,INTEGER,,,,,,,player_blind,single_event
+blind_duration,DECIMAL,,,,,,,player_blind,single_event
+second,DECIMAL,,,,,,,player_blind,single_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_blind,single_event
+attacker_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_blind,single_event
+player_x_pos,DECIMAL,,,,,,,player_blind,single_event
+player_y_pos,DECIMAL,,,,,,,player_blind,single_event
+player_z_pos,DECIMAL,,,,,,,player_blind,single_event
+player_x_vel,DECIMAL,,,,,,,player_blind,single_event
+player_y_vel,DECIMAL,,,,,,,player_blind,single_event
+player_z_vel,DECIMAL,,,,,,,player_blind,single_event
+player_phi_ang,DECIMAL,,,,,,,player_blind,single_event
+player_theta_ang,DECIMAL,,,,,,,player_blind,single_event
+player_weapon_code,DECIMAL,,,,,,,player_blind,single_event
+player_team_code,DECIMAL,,,,,,,player_blind,single_event
+player_tick,DECIMAL,,,,,,,player_blind,single_event
+player_player_id,DECIMAL,,,,,,,player_blind,single_event
+attacker_x_pos,DECIMAL,,,,,,,player_blind,single_event
+attacker_y_pos,DECIMAL,,,,,,,player_blind,single_event
+attacker_z_pos,DECIMAL,,,,,,,player_blind,single_event
+attacker_x_vel,DECIMAL,,,,,,,player_blind,single_event
+attacker_y_vel,DECIMAL,,,,,,,player_blind,single_event
+attacker_z_vel,DECIMAL,,,,,,,player_blind,single_event
+attacker_phi_ang,DECIMAL,,,,,,,player_blind,single_event
+attacker_theta_ang,DECIMAL,,,,,,,player_blind,single_event
+attacker_weapon_code,DECIMAL,,,,,,,player_blind,single_event
+attacker_team_code,DECIMAL,,,,,,,player_blind,single_event
+attacker_tick,DECIMAL,,,,,,,player_blind,single_event
+attacker_player_id,DECIMAL,,,,,,,player_blind,single_event
+round,INTEGER,,,,,,,player_connect,single_event
+tick,INTEGER,,,,,,,player_connect,single_event
+player_index,INTEGER,,,,,,,player_connect,single_event
+player_id,INTEGER,,,,,,,player_connect,single_event
+is_bot,BOOL,,,,,,,player_connect,single_event
+second,DECIMAL,,,,,,,player_connect,single_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_connect,single_event
+round,INTEGER,,,,,,,player_death,single_event
+tick,INTEGER,,,,,,,player_death,single_event
+player_id,INTEGER,,,,,,,player_death,single_event
+attacker_id,INTEGER,,,,,,,player_death,single_event
+assister_id,INTEGER,,,,,,,player_death,single_event
+weapon_name,VARCHAR,,,,,,,player_death,single_event
+is_headshot,BOOL,,,,,,,player_death,single_event
+penetration_amount,INTEGER,,,,,,,player_death,single_event
+has_replay,BOOL,,,,,,,player_death,single_event
+is_flash_assist,BOOL,,,,,,,player_death,single_event
+is_through_smoke,BOOL,,,,,,,player_death,single_event
+is_attacker_blind,BOOL,,,,,,,player_death,single_event
+is_noscope,BOOL,,,,,,,player_death,single_event
+second,DECIMAL,,,,,,,player_death,single_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_death,single_event
+attacker_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_death,single_event
+assister_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_death,single_event
+player_x_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+player_y_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+player_z_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+player_x_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+player_y_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+player_z_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+player_phi_ang,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+player_theta_ang,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+player_weapon_code,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+player_team_code,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+player_tick,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+player_player_id,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+attacker_x_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+attacker_y_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+attacker_z_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+attacker_x_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+attacker_y_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+attacker_z_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+attacker_phi_ang,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+attacker_theta_ang,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+attacker_weapon_code,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+attacker_team_code,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+attacker_tick,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+attacker_player_id,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+assister_x_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+assister_y_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+assister_z_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+assister_x_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+assister_y_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+assister_z_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+assister_phi_ang,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+assister_theta_ang,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+assister_weapon_code,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+assister_team_code,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+assister_tick,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+assister_player_id,DECIMAL,,,asof merge (nearby ticks),,,,player_death,single_event
+round,INTEGER,,,,,,,player_disconnect,single_event
+tick,INTEGER,,,,,,,player_disconnect,single_event
+player_id,INTEGER,,,,,,,player_disconnect,single_event
+disconnect_reason,VARCHAR,,,,,,,player_disconnect,single_event
+is_bot,BOOL,,,,,,,player_disconnect,single_event
+second,DECIMAL,,,,,,,player_disconnect,single_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_disconnect,single_event
+round,INTEGER,,,,,,,player_fall,single_event
+tick,INTEGER,,,,,,,player_fall,single_event
+player_id,INTEGER,,,,,,,player_fall,single_event
+damage,DECIMAL,,,,,,,player_fall,single_event
+second,DECIMAL,,,,,,,player_fall,single_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_fall,single_event
+player_x_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_fall,single_event
+player_y_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_fall,single_event
+player_z_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_fall,single_event
+player_x_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_fall,single_event
+player_y_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_fall,single_event
+player_z_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_fall,single_event
+player_phi_ang,DECIMAL,,,asof merge (nearby ticks),,,,player_fall,single_event
+player_theta_ang,DECIMAL,,,asof merge (nearby ticks),,,,player_fall,single_event
+player_weapon_code,DECIMAL,,,asof merge (nearby ticks),,,,player_fall,single_event
+player_team_code,DECIMAL,,,asof merge (nearby ticks),,,,player_fall,single_event
+player_tick,DECIMAL,,,asof merge (nearby ticks),,,,player_fall,single_event
+player_player_id,DECIMAL,,,asof merge (nearby ticks),,,,player_fall,single_event
+round,INTEGER,,,,,,,player_footstep,single_event
+tick,INTEGER,,,,,,,player_footstep,single_event
+player_id,INTEGER,,,,,,,player_footstep,single_event
+second,DECIMAL,,,,,,,player_footstep,single_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_footstep,single_event
+round,INTEGER,,,,,,,player_hurt,single_event
+tick,INTEGER,,,,,,,player_hurt,single_event
+player_id,INTEGER,,,,,,,player_hurt,single_event
+attacker_id,INTEGER,,,,,,,player_hurt,single_event
+health,INTEGER,,,,,,,player_hurt,single_event
+armor,INTEGER,,,,,,,player_hurt,single_event
+weapon_name,VARCHAR,,,,,,,player_hurt,single_event
+health_removed,INTEGER,,,,,,,player_hurt,single_event
+armor_removed,INTEGER,,,,,,,player_hurt,single_event
+hit_box_code,INTEGER,,,,,,,player_hurt,single_event
+second,DECIMAL,,,,,,,player_hurt,single_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_hurt,single_event
+attacker_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_hurt,single_event
+player_x_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+player_y_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+player_z_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+player_x_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+player_y_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+player_z_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+player_phi_ang,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+player_theta_ang,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+player_weapon_code,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+player_team_code,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+player_tick,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+player_player_id,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+attacker_x_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+attacker_y_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+attacker_z_pos,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+attacker_x_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+attacker_y_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+attacker_z_vel,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+attacker_phi_ang,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+attacker_theta_ang,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+attacker_weapon_code,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+attacker_team_code,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+attacker_tick,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+attacker_player_id,DECIMAL,,,asof merge (nearby ticks),,,,player_hurt,single_event
+effective_health_removed,DECIMAL,,,,,,,player_hurt,single_event
+round,INTEGER,,,,,,,player_info,player_info
+tick,INTEGER,,,,,,,player_info,player_info
+player_id,INTEGER,,,,,,,player_info,player_info
+team_code,INTEGER,,,,,,,player_info,player_info
+wins,INTEGER,,, Capped to 2501.,,,,player_info,player_info
+rank,INTEGER,,,,,,,player_info,player_info
+commends_friendly,INTEGER,,, Capped to 101.,,,,player_info,player_info
+commends_leader,INTEGER,,, Capped to 101.,,,,player_info,player_info
+commends_teacher,INTEGER,,, Capped to 101.,,,,player_info,player_info
+radar_color_code,INTEGER,,,,,,,player_info,player_info
+second,DECIMAL,,,,,,,player_info,player_info
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_info,player_info
+rank_raw,DECIMAL,,,,,,,player_info,player_info
+rank_platform,DECIMAL,,,,,,,player_info,player_info
+round,INTEGER,,,,,,,player_interaction,multi_event
+tick,INTEGER,,,,,,,player_interaction,multi_event
+event_type,VARCHAR,,,,,,,player_interaction,multi_event
+player_id,INTEGER,,,,,,,player_interaction,multi_event
+entity_id,INTEGER,,,,,,,player_interaction,multi_event
+material,VARCHAR,,,,,,,player_interaction,multi_event
+second,DECIMAL,,,,,,,player_interaction,multi_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_interaction,multi_event
+player_x_pos,DECIMAL,,,,,,,player_interaction,multi_event
+player_y_pos,DECIMAL,,,,,,,player_interaction,multi_event
+player_z_pos,DECIMAL,,,,,,,player_interaction,multi_event
+player_x_vel,DECIMAL,,,,,,,player_interaction,multi_event
+player_y_vel,DECIMAL,,,,,,,player_interaction,multi_event
+player_z_vel,DECIMAL,,,,,,,player_interaction,multi_event
+player_phi_ang,DECIMAL,,,,,,,player_interaction,multi_event
+player_theta_ang,DECIMAL,,,,,,,player_interaction,multi_event
+player_weapon_code,DECIMAL,,,,,,,player_interaction,multi_event
+player_team_code,DECIMAL,,,,,,,player_interaction,multi_event
+player_tick,DECIMAL,,,,,,,player_interaction,multi_event
+player_player_id,DECIMAL,,,,,,,player_interaction,multi_event
+round,INTEGER,,,,,,,player_name,single_event
+tick,INTEGER,,,,,,,player_name,single_event
+player_id,INTEGER,,,,,,,player_name,single_event
+name_new,VARCHAR,,,,,,,player_name,single_event
+name_old,VARCHAR,,,,,,,player_name,single_event
+second,DECIMAL,,,,,,,player_name,single_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_name,single_event
+round,INTEGER,,,,,,,player_personal,player_info
+tick,INTEGER,,,,,,,player_personal,player_info
+player_id,INTEGER,,,,,,,player_personal,player_info
+name,VARCHAR,,,,,,,player_personal,player_info
+clan_tag,VARCHAR,,,,,,,player_personal,player_info
+steam_id,VARCHAR,,,,,,,player_personal,player_info
+second,DECIMAL,,,,,,,player_personal,player_info
+is_bot,DECIMAL,,,,,,,player_personal,player_info
+player_id_fixed,DECIMAL,,,,,,,player_personal,player_info
+round,INTEGER,,,,,,,player_spawn,single_event
+tick,INTEGER,,,,,,,player_spawn,single_event
+player_id,INTEGER,,,,,,,player_spawn,single_event
+second,DECIMAL,,,,,,,player_spawn,single_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_spawn,single_event
+player_x_pos,DECIMAL,,,,,,,player_spawn,single_event
+player_y_pos,DECIMAL,,,,,,,player_spawn,single_event
+player_z_pos,DECIMAL,,,,,,,player_spawn,single_event
+player_x_vel,DECIMAL,,,,,,,player_spawn,single_event
+player_y_vel,DECIMAL,,,,,,,player_spawn,single_event
+player_z_vel,DECIMAL,,,,,,,player_spawn,single_event
+player_phi_ang,DECIMAL,,,,,,,player_spawn,single_event
+player_theta_ang,DECIMAL,,,,,,,player_spawn,single_event
+player_weapon_code,DECIMAL,,,,,,,player_spawn,single_event
+player_team_code,DECIMAL,,,,,,,player_spawn,single_event
+player_tick,DECIMAL,,,,,,,player_spawn,single_event
+player_player_id,DECIMAL,,,,,,,player_spawn,single_event
+tick,INTEGER,,,,,,,player_status,telemetry
+round,INTEGER,,,,,,,player_status,telemetry
+player_id,INTEGER,,,,,,,player_status,telemetry
+armor,INTEGER,,,,,,,player_status,telemetry
+health,INTEGER,,,,,,,player_status,telemetry
+place_name,VARCHAR,,,,,,,player_status,telemetry
+inv_primary,INTEGER,,,,,,,player_status,telemetry
+inv_secondary,INTEGER,,,,,,,player_status,telemetry
+inv_flashbang,INTEGER,,,,,,,player_status,telemetry
+inv_taser,INTEGER,,,,,,,player_status,telemetry
+inv_hegrenade,INTEGER,,,,,,,player_status,telemetry
+inv_smokegrenade,INTEGER,,,,,,,player_status,telemetry
+inv_molotov,INTEGER,,,,,,,player_status,telemetry
+inv_decoy,INTEGER,,,,,,,player_status,telemetry
+inv_incgrenade,INTEGER,,,,,,,player_status,telemetry
+inv_c4,INTEGER,,,,,,,player_status,telemetry
+current_equipment_cost,INTEGER,,,,,,,player_status,telemetry
+freezetime_end_equipment_cost,INTEGER,,,,,,,player_status,telemetry
+money,INTEGER,,,,,,,player_status,telemetry
+ping,INTEGER,,,,,,,player_status,telemetry
+round_start_equipment_cost,INTEGER,,,,,,,player_status,telemetry
+zoom_level,INTEGER,,,,,,,player_status,telemetry
+iron_sight_mode,INTEGER,,,,,,,player_status,telemetry
+burst_mode,BOOL,,,,,,,player_status,telemetry
+is_silenced,BOOL,,,,,,,player_status,telemetry
+reload_visually_complete,BOOL,,,,,,,player_status,telemetry
+weapon_mode,BOOL,,,,,,,player_status,telemetry
+flash_duration,DECIMAL,,,,,,,player_status,telemetry
+flash_max_alpha,DECIMAL,,,,,,,player_status,telemetry
+has_c4,BOOL,,,,,,,player_status,telemetry
+has_defuser,BOOL,,,,,,,player_status,telemetry
+has_helmet,BOOL,,,,,,,player_status,telemetry
+is_defusing,BOOL,,,,,,,player_status,telemetry
+is_fake_player,BOOL,,,,,,,player_status,telemetry
+is_in_bomb_zone,BOOL,,,,,,,player_status,telemetry
+is_in_buy_zone,BOOL,,,,,,,player_status,telemetry
+is_scoped,BOOL,,,,,,,player_status,telemetry
+is_spotted,BOOL,,,,,,,player_status,telemetry
+is_walking,BOOL,,,,,,,player_status,telemetry
+second,DECIMAL,,,,,,,player_status,telemetry
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_status,telemetry
+equipment_value_calc,DECIMAL,,,,,,,player_status,telemetry
+tick,INTEGER,,,,,,,player_vector,telemetry
+round,INTEGER,,,,,,,player_vector,telemetry
+player_id,INTEGER,,,,,,,player_vector,telemetry
+x_pos,DECIMAL,,,,,,,player_vector,telemetry
+y_pos,DECIMAL,,,,,,,player_vector,telemetry
+z_pos,DECIMAL,,,,,,,player_vector,telemetry
+x_vel,DECIMAL,,,,,,,player_vector,telemetry
+y_vel,DECIMAL,,,,,,,player_vector,telemetry
+z_vel,DECIMAL,,,,,,,player_vector,telemetry
+x_aimpunch,DECIMAL,,,,,,,player_vector,telemetry
+y_aimpunch,DECIMAL,,,,,,,player_vector,telemetry
+current_ammo,INTEGER,,,,,,,player_vector,telemetry
+weapon_code,INTEGER,,,,,,,player_vector,telemetry
+inaccuracy,DECIMAL,,,,,,,player_vector,telemetry
+last_shot_time,DECIMAL,,,,,,,player_vector,telemetry
+recoil_index,DECIMAL,,,,,,,player_vector,telemetry
+duck_amount,DECIMAL,,,,,,,player_vector,telemetry
+duck_speed,DECIMAL,,,,,,,player_vector,telemetry
+phi_ang,DECIMAL,,,,,,,player_vector,telemetry
+theta_ang,DECIMAL,,,,,,,player_vector,telemetry
+is_ducked,BOOL,,,,,,,player_vector,telemetry
+is_ducking,BOOL,,,,,,,player_vector,telemetry
+second,DECIMAL,,,,,,,player_vector,telemetry
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,player_vector,telemetry
+team_code,DECIMAL,,,,,,,player_vector,telemetry
+theta_vel,DECIMAL,,,,,,,player_vector,telemetry
+phi_vel,DECIMAL,,,,,,,player_vector,telemetry
+ang_vel,DECIMAL,,,,,,,player_vector,telemetry
+speed_2d,DECIMAL,,,,,,,player_vector,telemetry
+movement_angle,DECIMAL,,,,,,,player_vector,telemetry
+movement_angle_diff,DECIMAL,,,,,,,player_vector,telemetry
+round,INTEGER,,,,,,,round_end,single_event
+tick,INTEGER,,,,,,,round_end,single_event
+winner_team_code,INTEGER,,,,,,,round_end,single_event
+win_reason_code,INTEGER,,,,,,,round_end,single_event
+win_reason_message,VARCHAR,,,,,,,round_end,single_event
+legacy_code,INTEGER,,,,,,,round_end,single_event
+player_count,INTEGER,,,,,,,round_end,single_event
+second,DECIMAL,,,,,,,round_end,single_event
+round,INTEGER,,,,,,,round_mvp,single_event
+tick,INTEGER,,,,,,,round_mvp,single_event
+player_id,INTEGER,,,,,,,round_mvp,single_event
+mvp_reason_code,INTEGER,,,,,,,round_mvp,single_event
+music_kit_mvps,INTEGER,,,,,,,round_mvp,single_event
+second,DECIMAL,,,,,,,round_mvp,single_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,round_mvp,single_event
+round,INTEGER,,,,,,,round_start,single_event
+tick,INTEGER,,,,,,,round_start,single_event
+time_limit,INTEGER,,,,,,,round_start,single_event
+frag_limit,INTEGER,,,,,,,round_start,single_event
+objective,VARCHAR,,,,,,,round_start,single_event
+second,DECIMAL,,,,,,,round_start,single_event
+round,INTEGER,,,,,,,round_state,multi_event
+tick,INTEGER,,,,,,,round_state,multi_event
+event_type,VARCHAR,,,,,,,round_state,multi_event
+t_score,INTEGER,,,,,,,round_state,multi_event
+ct_score,INTEGER,,,,,,,round_state,multi_event
+t_score_raw,INTEGER,,,,,,,round_state,multi_event
+ct_score_raw,INTEGER,,,,,,,round_state,multi_event
+phase,VARCHAR,,,,,,,round_state,multi_event
+is_warmup,BOOL,,,,,,,round_state,multi_event
+second,DECIMAL,,,,,,,round_state,multi_event
+round,INTEGER,,,,,,,tick,single_event
+tick,INTEGER,,,,,,,tick,single_event
+second,DECIMAL,,,,,,,tick,single_event
+previous_phase,DECIMAL,,,,,,,tick,single_event
+second_since_previous_phase,DECIMAL,,,,,,,tick,single_event
+round,INTEGER,,,,,,,weapon_action,multi_event
+tick,INTEGER,,,,,,,weapon_action,multi_event
+event_type,VARCHAR,,,,,,,weapon_action,multi_event
+player_id,INTEGER,,,,,,,weapon_action,multi_event
+second,DECIMAL,,,,,,,weapon_action,multi_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,weapon_action,multi_event
+player_x_pos,DECIMAL,,,,,,,weapon_action,multi_event
+player_y_pos,DECIMAL,,,,,,,weapon_action,multi_event
+player_z_pos,DECIMAL,,,,,,,weapon_action,multi_event
+player_x_vel,DECIMAL,,,,,,,weapon_action,multi_event
+player_y_vel,DECIMAL,,,,,,,weapon_action,multi_event
+player_z_vel,DECIMAL,,,,,,,weapon_action,multi_event
+player_phi_ang,DECIMAL,,,,,,,weapon_action,multi_event
+player_theta_ang,DECIMAL,,,,,,,weapon_action,multi_event
+player_weapon_code,DECIMAL,,,,,,,weapon_action,multi_event
+player_team_code,DECIMAL,,,,,,,weapon_action,multi_event
+player_tick,DECIMAL,,,,,,,weapon_action,multi_event
+player_player_id,DECIMAL,,,,,,,weapon_action,multi_event
+round,INTEGER,,,,,,,weapon_fire,single_event
+tick,INTEGER,,,,,,,weapon_fire,single_event
+player_id,INTEGER,,,,,,,weapon_fire,single_event
+weapon_name,VARCHAR,,,,,,,weapon_fire,single_event
+is_silenced,BOOL,,,,,,,weapon_fire,single_event
+second,DECIMAL,,,,,,,weapon_fire,single_event
+player_id_fixed,DECIMAL,,,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,,,,weapon_fire,single_event
+player_x_pos,DECIMAL,,,,,,,weapon_fire,single_event
+player_y_pos,DECIMAL,,,,,,,weapon_fire,single_event
+player_z_pos,DECIMAL,,,,,,,weapon_fire,single_event
+player_x_vel,DECIMAL,,,,,,,weapon_fire,single_event
+player_y_vel,DECIMAL,,,,,,,weapon_fire,single_event
+player_z_vel,DECIMAL,,,,,,,weapon_fire,single_event
+player_phi_ang,DECIMAL,,,,,,,weapon_fire,single_event
+player_theta_ang,DECIMAL,,,,,,,weapon_fire,single_event
+player_weapon_code,DECIMAL,,,,,,,weapon_fire,single_event
+player_team_code,DECIMAL,,,,,,,weapon_fire,single_event
+player_tick,DECIMAL,,,,,,,weapon_fire,single_event
+player_player_id,DECIMAL,,,,,,,weapon_fire,single_event
+missed_molotov,DECIMAL,,,,,,,weapon_fire,single_event
