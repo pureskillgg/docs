@@ -26,9 +26,11 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "lint": "prettier --check --ignore-path .gitignore '**/*.(js|cjs|mjs|json|yml|yaml|graphql)'",
+    "postlint": "prettier --check --ignore-path .gitignore 'docs/**/*.(md)'",
     "preversion": "npm-run-all --parallel lint build",
     "postversion": "git push --follow-tags",
-    "format": "prettier --write --ignore-path .gitignore '**/*.(js|cjs|mjs|json|yml|yaml|graphql)'"
+    "format": "prettier --write --ignore-path .gitignore '**/*.(js|cjs|mjs|json|yml|yaml|graphql)'",
+    "postformat": "prettier --write --ignore-path .gitignore 'docs/**/*.(md)'"
   },
   "engines": {
     "node": ">=14.15.0",
