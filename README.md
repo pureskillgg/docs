@@ -8,7 +8,7 @@ PureSkill.gg community documentation.
 
 ## Description
 
-TODO
+Source for https://docs.pureskill.gg.
 
 ## Installation
 
@@ -20,7 +20,7 @@ $ npm install @pureskillgg/docs
 
 [npm]: https://www.npmjs.com/
 
-## Development and Testing
+## Development
 
 ### Quickstart
 
@@ -29,12 +29,7 @@ $ git clone https://github.com/pureskillgg/docs.git
 $ cd docs
 $ nvm install
 $ npm install
-```
-
-Run the command below in a separate terminal window:
-
-```
-$ npm run test:watch
+$ npm start
 ```
 
 Primary development tasks are defined under `scripts` in `package.json`
@@ -58,7 +53,7 @@ $ git clone git@github.com:pureskillgg/docs.git
 
 ### Requirements
 
-You will need [Node.js] with [npm] and a [Node.js debugging] client.
+You will need [Node.js] with [npm].
 
 Be sure that all commands run under the correct Node version, e.g.,
 if using [nvm], install the correct version with
@@ -80,7 +75,6 @@ $ npm install
 ```
 
 [Node.js]: https://nodejs.org/
-[Node.js debugging]: https://nodejs.org/en/docs/guides/debugging-getting-started/
 [npm]: https://www.npmjs.com/
 [nvm]: https://github.com/creationix/nvm
 
