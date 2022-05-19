@@ -56,13 +56,9 @@ jobs:
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
       - name: Setup
         uses: ./.github/actions/setup
-      - name: Get version
-        id: version
-        run: |
-          echo "::set-output name=current::$(jq -r '.version' package.json)"
       - name: Build
         run: npm run build
-      - name: Publish ${{ steps.version.outputs.current }}
+      - name: Publish
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.GH_TOKEN }}
