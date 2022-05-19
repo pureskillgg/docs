@@ -3,6 +3,7 @@ const config = {
   tagline: 'Beep Boop.',
   url: 'https://docs.pureskill.gg',
   baseUrl: '/',
+  favicon: 'https://csgo.cdn.pureskill.app/17.2.0/favicon.ico',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   i18n: {
