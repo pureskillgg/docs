@@ -1,4 +1,4 @@
-## Number of Matches Per Day
+# Number of Matches Per Day
 
 Here is an _estimate_ of how many matches are in each day.
 
