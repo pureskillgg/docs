@@ -1,9 +1,9 @@
 # CSDS Documentation
 
-Documentation for CSDS channels built by FPS Critic, Inc. 
-
+Documentation for CSDS channels built by FPS Critic, Inc.
 
 ## bomb_action - multi_event
+
 Events that trigger this channel: bomb_abort_plant, bomb_begin_plant, bomb_dropped, bomb_pickup, player_given_c4
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -28,8 +28,8 @@ player_team_code | merged | none | player_id, tick |
 player_tick | merged | none | player_id, tick |
 player_player_id | merged | none | player_id, tick |
 
-
 ## bomb_defuse - multi_event
+
 Events that trigger this channel: bomb_abort_defuse, bomb_begin_defuse
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -53,8 +53,8 @@ player_team_code | merged | none | player_id, tick |
 player_tick | merged | none | player_id, tick |
 player_player_id | merged | none | player_id, tick |
 
-
 ## bomb_state - multi_event
+
 Events that trigger this channel: bomb_defused, bomb_exploded, bomb_planted
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -78,8 +78,8 @@ player_team_code | merged | none | player_id, tick |
 player_tick | merged | none | player_id, tick |
 player_player_id | merged | none | player_id, tick |
 
-
 ## bot_takeover - single_event
+
 Event that triggers this channel: bot_takeover
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -103,8 +103,8 @@ player_team_code | merged | none | player_id, tick |
 player_tick | merged | none | player_id, tick |
 player_player_id | merged | none | player_id, tick |
 
-
 ## grenade_state - multi_event
+
 Events that trigger this channel: decoy_detonate, decoy_firing, decoy_started, flashbang_detonate, hegrenade_detonate, smokegrenade_detonate, smokegrenade_expired
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -131,8 +131,8 @@ player_theta_ang | merged | none | tick_throw, player_id |
 player_weapon_code | merged | none | tick_throw, player_id |
 player_team_code | merged | none | tick_throw, player_id |
 
-
 ## header - header
+
 Event that triggers this channel: none
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -178,8 +178,8 @@ t_starters_score_final | calculated | round_state:t_score | none |
 providence | calculated | metademo:providence | none |
 number_of_points | calculated | shape of all data frames | none |
 
-
 ## item_equip - single_event
+
 Event that triggers this channel: item_equip
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -209,8 +209,8 @@ player_team_code | merged | none | player_id, tick |
 player_tick | merged | none | player_id, tick |
 player_player_id | merged | none | player_id, tick |
 
-
 ## item_pickup - single_event
+
 Event that triggers this channel: item_pickup
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -235,8 +235,8 @@ player_team_code | merged | none | player_id, tick |
 player_tick | merged | none | player_id, tick |
 player_player_id | merged | none | player_id, tick |
 
-
 ## item_remove - single_event
+
 Event that triggers this channel: item_remove
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -260,8 +260,8 @@ player_team_code | merged | none | player_id, tick |
 player_tick | merged | none | player_id, tick |
 player_player_id | merged | none | player_id, tick |
 
-
 ## molotov_state - multi_event
+
 Events that trigger this channel: inferno_detonate, inferno_expire, inferno_extinguish, inferno_startburn
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -294,8 +294,8 @@ player_theta_ang | merged | none | tick_throw, player_id |
 player_weapon_code | merged | none | tick_throw, player_id |
 player_team_code | merged | none | tick_throw, player_id |
 
-
 ## player_action - multi_event
+
 Events that trigger this channel: inspect_weapon, player_decal, player_jump, silencer_detach
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -318,8 +318,8 @@ player_team_code | merged | none | player_id, tick |
 player_tick | merged | none | player_id, tick |
 player_player_id | merged | none | player_id, tick |
 
-
 ## player_blind - single_event
+
 Event that triggers this channel: player_blind
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -357,8 +357,8 @@ attacker_team_code | merged | none | attacker_id, tick |
 attacker_tick | merged | none | attacker_id, tick |
 attacker_player_id | merged | none | attacker_id, tick |
 
-
 ## player_connect - single_event
+
 Event that triggers this channel: player_connect
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -370,8 +370,8 @@ is_bot | replay | none | none |
 second | calculated | tick, tick_rate | none |
 player_id_fixed | merged | none | player_id, round, steam_id |
 
-
 ## player_death - single_event
+
 Event that triggers this channel: player_death
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -429,8 +429,8 @@ assister_team_code | merged | none | assister_id, tick |
 assister_tick | merged | none | assister_id, tick |
 assister_player_id | merged | none | assister_id, tick |
 
-
 ## player_disconnect - single_event
+
 Event that triggers this channel: player_disconnect
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -442,8 +442,8 @@ is_bot | replay | none | none |
 second | calculated | tick, tick_rate | none |
 player_id_fixed | merged | none | player_id, round, steam_id |
 
-
 ## player_fall - single_event
+
 Event that triggers this channel: player_fall
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -466,8 +466,8 @@ player_team_code | merged | none | player_id, tick |
 player_tick | merged | none | player_id, tick |
 player_player_id | merged | none | player_id, tick |
 
-
 ## player_footstep - single_event
+
 Event that triggers this channel: player_footstep
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -477,8 +477,8 @@ player_id | replay | none | none |
 second | calculated | tick, tick_rate | none |
 player_id_fixed | merged | none | player_id, round, steam_id |
 
-
 ## player_hurt - single_event
+
 Event that triggers this channel: player_hurt
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -521,8 +521,8 @@ attacker_tick | merged | none | attacker_id, tick |
 attacker_player_id | merged | none | attacker_id, tick |
 effective_health_removed | calculated | player_id, round, health | none |
 
-
 ## player_info - player_info
+
 Event that triggers this channel: round_freeze_end
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -541,8 +541,8 @@ player_id_fixed | merged | none | player_id, round, steam_id |
 rank_raw | calculated | player_info:rank | none |
 rank_platform | calculated | player_personal:rank | none |
 
-
 ## player_interaction - multi_event
+
 Events that trigger this channel: break_breakable, break_prop, door_moving, player_use
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -567,8 +567,8 @@ player_team_code | merged | none | player_id, tick |
 player_tick | merged | none | player_id, tick |
 player_player_id | merged | none | player_id, tick |
 
-
 ## player_name - single_event
+
 Event that triggers this channel: player_name
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -580,8 +580,8 @@ name_old | replay-redacted | none | none |
 second | calculated | tick, tick_rate | none |
 player_id_fixed | merged | none | player_id, round, steam_id |
 
-
 ## player_personal - player_info
+
 Event that triggers this channel: round_freeze_end
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -595,8 +595,8 @@ second | calculated-deleted | tick, tick_rate | none |
 is_bot | calculated | steam_id | none |
 player_id_fixed | calculated | steam_id, is_bot | none |
 
-
 ## player_spawn - single_event
+
 Event that triggers this channel: player_spawn
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -618,8 +618,8 @@ player_team_code | merged | none | player_id, tick |
 player_tick | merged | none | player_id, tick |
 player_player_id | merged | none | player_id, tick |
 
-
 ## player_status - telemetry
+
 Event that triggers this channel: tick_end
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -666,8 +666,8 @@ second | calculated | tick, tick_rate | none |
 player_id_fixed | merged | none | player_id, round, steam_id |
 equipment_value_calc | calculated | inv_flashbang, inv_taser, inv_hegrenade, inv_smokegrenade, inv_molotov, inv_decoy, inv_incgrenade, inv_c4, armor, has_defuser, has_helmet, inv_primary, inv_secondary | none |
 
-
 ## player_vector - telemetry
+
 Event that triggers this channel: tick_end
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -703,8 +703,8 @@ speed_2d | calculated | x_vel, y_vel | none |
 movement_angle | calculated | second, x_vel, y_vel | none |
 movement_angle_diff | calculated | second, speed_2d, theta_ang, movement_angle | none |
 
-
 ## round_end - single_event
+
 Event that triggers this channel: round_end
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -717,8 +717,8 @@ legacy_code | replay | none | none |
 player_count | replay | none | none |
 second | calculated | tick, tick_rate | none |
 
-
 ## round_mvp - single_event
+
 Event that triggers this channel: round_mvp
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -730,8 +730,8 @@ music_kit_mvps | replay | none | none |
 second | calculated | tick, tick_rate | none |
 player_id_fixed | merged | none | player_id, round, steam_id |
 
-
 ## round_start - single_event
+
 Event that triggers this channel: round_start
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -742,8 +742,8 @@ frag_limit | replay | none | none |
 objective | replay | none | none |
 second | calculated | tick, tick_rate | none |
 
-
 ## round_state - multi_event
+
 Events that trigger this channel: begin_new_match, bomb_defused, bomb_exploded, bomb_planted, buytime_ended, round_announce_match_start, round_announce_warmup, round_end, round_freeze_end, round_officially_ended, round_start, start_halftime
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -758,8 +758,8 @@ phase | replay | none | none |
 is_warmup | replay | none | none |
 second | calculated | tick, tick_rate | none |
 
-
 ## tick - single_event
+
 Event that triggers this channel: tick_end
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -769,8 +769,8 @@ second | calculated | tick, tick_rate | none |
 previous_phase | calculated | event_type, second | none |
 second_since_previous_phase | calculated | second | none |
 
-
 ## weapon_action - multi_event
+
 Events that trigger this channel: fire_on_empty, reload, zoom, zoom_rifle
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -793,8 +793,8 @@ player_team_code | merged | none | player_id, tick |
 player_tick | merged | none | player_id, tick |
 player_player_id | merged | none | player_id, tick |
 
-
 ## weapon_fire - single_event
+
 Event that triggers this channel: weapon_fire
 Col Name | Origin | Dependents | Merge Keys
 --- | --- | --- | --- |
@@ -818,4 +818,3 @@ player_team_code | merged | none | player_id, tick |
 player_tick | merged | none | player_id, tick |
 player_player_id | merged | none | player_id, tick |
 missed_molotov | calculated | event_type-molotov_state, second-molotov_state | none |
-
