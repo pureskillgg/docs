@@ -27,7 +27,7 @@ const config = {
       },
       items: [
         {
-          href: 'https://github.com/pureskill/docs',
+          href: 'https://github.com/pureskillgg/docs',
           label: 'GitHub',
           position: 'right'
         }
