@@ -8,7 +8,7 @@ Please read through the Data Subscriber Agreement. A “human-readable” summar
 
 ## Attribution
 
-As outlined in the DSA, if you publish a visualization, video, text summary, or other transformed version of the data, you must provide attribution. We ask that the shared media contain the text "Data provided by PureSkill.gg." with that exact capitalization. Please let us know if you publish content derived from the data set by sending an email to contact@pureskill.gg or contacting us on our [Discord].
+As outlined in the DSA, if you publish a visualization, video, text summary, or other transformed version of the data, you must provide attribution. We ask that the shared media contain the text "Data provided by PureSkill.gg." with that exact capitalization. Please let us know if you publish content derived from the data set by sending an email to contact@pureskill.gg or contacting us on our [Discord](https://pureskill.gg/discord).
 
 ## Pricing Information
 
