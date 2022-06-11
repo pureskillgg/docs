@@ -79,6 +79,8 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 - PII - Personally Identifiable Information.
 - channel - One of the 33 files that combine to make a csds object.
 - csds - The name given to the collection of 33 files extracted from a CS:GO demo.
+- demo - The name given to the server-recorded stream of event data from a match of CS:GO.
+  Sometimes ends in the .dem file extension.
 - [CS:GO] - Counter-Strike: Global Offensive.
   The game created by Valve that is played to generate this dataset.
 - [Valve] - The company that makes CS:GO.
@@ -188,81 +190,173 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 
 ### Collection Process
 
-- **How was the data associated with each instance acquired?** Demos were provided by users of PureSkill.gg. We can automatically acquire demos from Steam and FACEIT. Automatic demo acquisition requires a user to connect their account to PureSkill.gg. Some users may also manually upload demos into the system. For manually uploaded demos, we do not know the actual date they were played, so the match_played date is actually the uploaded date. The acquisition method is saved under providence (as user or auto) and the server provider is saved under platform (steam, faceit, or unknown). Both of these are in the header channel.
+- **How was the data associated with each instance acquired?**
+  Demos were provided by users of PureSkill.gg.
+  We automatically acquire demos from Steam and FACEIT.
+  Automatic demo acquisition requires a user to connect their account to PureSkill.gg.
+  Some users may manually upload demos into the system.
+  For manually uploaded demos, we do not know the actual date they were played,
+  so the match_played date is actually the uploaded date.
+  The acquisition method is saved under providence (as user or auto)
+  and the server provider is saved under platform (steam, faceit, or unknown).
+  Both of these are in the header channel.
+  From the [Steam help page on API connections] (requires login):
 
-From the [Steam help page on API conections](https://help.steampowered.com/en/wizard/HelpWithGameIssue/?appid=730&issueid=128) (requires login): "You can create game authentication codes to allow third-party websites and applications to manage your game without running the actual game client. Third-party websites and applications can use this authentication code to access your match history, your overall performance in those matches, download replays of your matches, and analyze your gameplay."
+  > You can create game authentication codes to allow third-party websites and applications to manage your game without running the actual game client. Third-party websites and applications can use this authentication code to access your match history, your overall performance in those matches, download replays of your matches, and analyze your gameplay.
 
-- **What mechanisms or procedures were used to collect the data ?** The CS:GO server records a stream of events from every player and game element into a demo. We then collect the demo file through the APIs described above or through manual upload.
+- **What mechanisms or procedures were used to collect the data ?**
+  The CS:GO server records a stream of events from every player and game element into a demo.
+  We then collect the demo file through the APIs described above or through manual upload.
 
-- **If the dataset is a sample from a larger set, what was the sampling strategy?** It is a full sample of data from PureSkill.gg, except for any demos with errors. This is a subset of the many, many CS:GO matches played every day. It is not guaranteed that this dataset is unbiased because all of the demos come from PureSkill.gg users which were acquired through specific advertising channels and word of mouth. This is mitigated by the fact that generally the 9 other players in a 10 player match are not PureSkill.gg users. There are thousands of PureSkill.gg users with valid API connections (required to upload data).
+- **If the dataset is a sample from a larger set, what was the sampling strategy?**
+  It is a full sample of data from PureSkill.gg, except for any demos with errors.
+  This is a subset of the many, many CS:GO matches played every day.
+  It is not guaranteed that this dataset is unbiased because all of the demos come from PureSkill.gg users.
+  This is mitigated by the fact that generally the 9 other players
+  in a 10 player match are not PureSkill.gg users.
+  There are thousands of PureSkill.gg users with valid API connections (required to upload data).
 
-- **Who was involved in the data collection process and how were they compensated?** The data was collected through users of the website PureSkill.gg which uses AWS. We paid standard rates to use AWS.
+- **Who was involved in the data collection process and how were they compensated?**
+  The data was collected through users of the website PureSkill.gg.
+  Cloud processing costs were paid by FPS Critic, Inc. who produces PureSkill.gg.
 
-- **Over what timeframe was the data collected?** 2021-12-01 to present.
+- **Over what timeframe was the data collected?**
+  2021-12-01 to present.
 
-- **Were any ethical review processes conducted?** No.
+- **Were any ethical review processes conducted?**
+  No.
 
-- **Did you collect the data from the individuals in question directly, or obtain it via third parties or other sources?** PureSkill.gg users must create an account on PureSkill.gg and connect to Steam or FACEIT APIs from which we download the CS:GO demo files. The user must either login to FACEIT or provide a unique, non-public key to connect to Steam. Both connections can be revoked at any time.
+- **Did you collect the data from the individuals in question directly, or obtain it via third parties or other sources?**
+  PureSkill.gg users must create an account on PureSkill.gg and connect to Steam or FACEIT APIs
+  from which we download the CS:GO demo files.
+  The user must either login to FACEIT or provide a unique, non-public key to connect to Steam.
+  Both connections can be revoked at any time.
 
-- **Were the individuals in question notified about the data collection?** We must collect a user's CS:GO demo files to provide our services, and they agree to this in the [Terms of Service](https://pureskill.gg/site-terms/) for PureSkill.gg. There is data for players that did not agree to our terms of service, but since the processed data we are providing here do not contain anything identifiable or that can be linked back to their Steam account, we include these player's data.
+- **Were the individuals in question notified about the data collection?**
+  We must collect a user's CS:GO demo files to provide our services,
+  and they agree to this in the PureSkill.gg [Terms of Service].
+  There is data for players that did not agree to our terms of service.
+  Since the processed data we are providing here do not contain anything identifiable
+  or that can otherwise be linked back to their Steam account, we include these player's data.
 
-- **Did the individuals in question consent to the collection and use of their data?** PureSkill.gg Users agreed to the [Terms of Service](https://pureskill.gg/site-terms/) and linked their Steam or FACEIT accounts which gives us access to their CS:GO demo files. However, people who happen to be playing on the same server did not. Since the processed data do not contain anything personally identifiable or that can be linked back to their Steam account, we include these player's data.
+- **Did the individuals in question consent to the collection and use of their data?**
+  PureSkill.gg Users agreed to the [Terms of Service] and linked their Steam or FACEIT accounts
+  which gives us access to their CS:GO demo files.
+  However, people who happen to be playing on the same server did not.
+  Since the processed data we are providing here do not contain anything identifiable
+  or that can otherwise be linked back to their Steam account, we include these player's data.
 
-- **If consent was obtained, were the consenting individuals provided with a mechanism to revoke their consent in the future or for certain uses?** PureSkill.gg users can disconnect their connections between PureSkill.gg and FACEIT or Steam. PureSkill.gg complies with GDPR as outlined in our [Privacy Policy](https://pureskill.gg/privacy-policy/) which supports entire account deletion.
+- **If consent was obtained, were the consenting individuals provided with a mechanism to revoke their consent in the future or for certain uses?**
+  PureSkill.gg users can disconnect their connections between PureSkill.gg and FACEIT or Steam.
+  PureSkill.gg complies with GDPR as outlined in our [Privacy Policy] which supports entire account deletion.
 
-- **Has an analysis of the potential impact of the dataset and its use on data subjects been conducted?** We have gone through great lengths to prevent any way to identify a person in the dataset. It should be impossible and attempts to identify people or players' Steam IDs are not permitted. Therefore it will not impact the data subjects.
+- **Has an analysis of the potential impact of the dataset and its use on data subjects been conducted?**
+  We have gone through great lengths to prevent any way to identify a person in the dataset.
+  It should be impossible.
+  Any attempts to identify people, players' Steam IDs, or online identities
+  are not permitted.
+  Therefore it will not impact the data subjects.
 
-### Preprocessing/cleaning/labeling
+### Preprocessing, Cleaning, and Labeling
 
-- **Was any preprocessing/cleaning/labeling of the data done?** Raw CS:GO demo files are event streams and the events and tables can be accessed with a [parser](https://github.com/markus-wa/demoinfocs-golang). The CS:GO demo files are first processed by our parser, and the output of the parser is what we call a replay. The replay is transformed by a Post Parser Processor (PPP) where we engineer new columns, clean up extraneous round data, and fix certain values.
+- **Was any preprocessing/cleaning/labeling of the data done?**
+  Raw CS:GO demo files are event streams.
+  The events and tables can be accessed with a [parser][demoinfocs-golang].
+  The CS:GO demo files are first processed by our parser,
+  and the output of the parser is what we call a replay.
+  The replay is transformed by a Post Parser Processor (PPP)
+  where we engineer new columns, clean up extraneous round data, and fix certain values.
 
-- **Was the "raw" data saved in addition to the preprocessed/cleaned/labeled data?** CS:GO demo files are deleted quickly after they are processed. If we need to add new features based on demos, we can update the parser or PPP and new data will contain the new information. Since new matches are streaming in automatically each day, it will be sufficient to update that step to create a new dataset with the improved feature.
+- **Was the "raw" data saved in addition to the preprocessed/cleaned/labeled data?**
+  CS:GO demo files are deleted quickly after they are processed.
+  If we need to add new features based on demos,
+  we can update the pipeline and new data will contain the new information.
+  Since new matches are streaming in automatically each day,
+  it will be sufficient to update that step to create a new dataset with the improved feature.
 
-- **Is the software used to preprocess/clean/label the instances available?** Not at present, but we may release this in the future.
+- **Is the software used to preprocess/clean/label the instances available?**
+  Not at present, but we may release this in the future.
 
 ### Uses
 
-- **Has the dataset been used for any tasks already?** A similar dataset was used to develop machine learning models and other assessments for the main service provided by PureSkill.gg which is automated coaching. An older, unavailable version of these data were used in ["Analyzing the Differences between Professional and Amateur Esports through Win Probability"](https://dl.acm.org/doi/abs/10.1145/3485447.3512277) by authors Peter Xenopoulos, William Robert Freeman, and Claudio Silva.
+- **Has the dataset been used for any tasks already?**
+  A similar dataset was used to develop machine learning models and other assessments
+  for the main service provided by PureSkill.gg, which is automated coaching.
+  An older, unavailable version of these data were used in
+  _[Analyzing the Differences between Professional and Amateur Esports through Win Probability]_ by authors Peter Xenopoulos, William Robert Freeman, and Claudio Silva.
 
-- **Is there a repository that links to any or all papers or systems that use the dataset?** Not at present, but we may add this later.
+- **Is there a repository that links to any or all papers or systems that use the dataset?**
+  Not at present, but we may add this later.
 
-- **What other tasks could the dataset be used for?** Aside from education and machine learning research, this could be used to analyze the game itself including player tendencies and how they shift over time.
+- **What other tasks could the dataset be used for?**
+  Aside from education and machine learning research,
+  this could be used to analyze the game itself,
+  including player tendencies and how they shift over time.
 
-- **Is there anything about the composition of the dataset or the way it was collected and preprocessed/cleaned/labeled that might impact future uses?** No.
+- **Is there anything about the composition of the dataset or the way it was collected and preprocessed/cleaned/labeled that might impact future uses?**
+  No.
 
-- **Are there tasks for which the dataset should not be used?** It should not be used in any manner that is against the DSA, including but not limited to commercial use and releasing transformed data without attribution. Subscribers should not attempt to identify any player's Steam ID or download the source demo file.
+- **Are there tasks for which the dataset should not be used?**
+  It should not be used in any manner that is against the DSA, including but not limited to commercial use and releasing transformed data without attribution.
+  Subscribers should not attempt to identify any player's Steam ID or online identities,
+  or to download the source demo file.
 
 ### Distribution
 
-- **Will the dataset be distributed to third parties outside of the entity on behalf of which the dataset was created?** The dataset was created using AWS tooling and it will remain there for distribution.
+- **Will the dataset be distributed to third parties outside of the entity on behalf of which the dataset was created?**
+  The dataset was created using AWS tooling and it will remain there for distribution.
 
-- **How will the dataset be distributed?** The data will be distributed on the ADX. The license permits sharing modified versions of the dataset under a specific license (see the DSA for details).
+- **How will the dataset be distributed?**
+  The data will be distributed on the ADX.
+  The license permits sharing modified versions of the dataset under a specific license.
+  See the DSA for details.
 
-- **When will the dataset be distributed?** Starting on 2022-05-17 with a one month automatically renewing subscription.
+- **When will the dataset be distributed?**
+  Starting on 2022-05-17 with a one month automatically renewing subscription.
 
-- **Will the dataset be distributed under a copyright or other intellectual property license, and/or under applicable terms of use?** Yes, under the DSA which has similar terms to the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license. A "human-readable" summary of the license is provided by [Creative Commons](https://creativecommons.org/licenses/by-nc-sa/4.0/). Note that the DSA is the license, not the Creative Commons website or their generic version of the license.
+- **Will the dataset be distributed under a copyright or other intellectual property license, and/or under applicable terms of use?**
+  Yes, under the DSA, which has similar terms to the
+  [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license][CC BY-NC-SA 4.0].
+  Note that the DSA is the license, not the Creative Commons website or their generic version of the license.
 
-- **Have any third parties imposed IP-based or other restrictions on the data associated with the instances?** We removed all PII or traces back to any Steam ID. Steam is the platform used to play CS:GO, and while a game account may be anonymous, we have taken great care to remove any possibility of scraping valid Steam IDs from the data or the ability to download the CS:GO demo file.
+- **Have any third parties imposed IP-based or other restrictions on the data associated with the instances?**
+  We removed all PII or traces back to any Steam ID or online identities.
+  Steam is the platform used to play CS:GO, and while a game account may be anonymous,
+  we have taken great care to remove any possibility of scraping valid Steam IDs or online identifiers
+  from the data or the ability to download the CS:GO demo file.
 
 - **Do any export controls or other regulatory restrictions apply to the dataset or to individual
-  instances?** No.
+  instances?**
+  No.
 
 ### Maintenance
 
-- **Who will be supporting/hosting/maintaining the dataset?** FPS Critic, Inc. who produces PureSkill.gg.
+- **Who will be supporting/hosting/maintaining the dataset?**
+  FPS Critic, Inc. who produces PureSkill.gg.
 
-- **How can the owner/curator/manager of the dataset be contacted (e.g., email address)?** contact@pureskill.gg or on [Discord](https://pureskill.gg/discord).
+- **How can the owner/curator/manager of the dataset be contacted (e.g., email address)?**
+  Email [contact@pureskill.gg][email] or reach out on [Discord].
 
-- **Is there an erratum?** Not yet.
+- **Is there an erratum?**
+  Not yet.
 
-- **Will the dataset be updated?** The dataset will be updated every day with new data.
+- **Will the dataset be updated?**
+  The dataset will be updated every day with new data.
 
 - **If the dataset relates to people, are there applicable limits on the retention of the data
-  associated with the instances?** No
+  associated with the instances?**
+  No
 
-- **Will older versions of the dataset continue to be supported/hosted/maintained?** We may delete old, unusable data at our discretion. Additionally, we may delete old data to reduce cost.
+- **Will older versions of the dataset continue to be supported/hosted/maintained?**
+  We may delete old, unusable data at our discretion.
+  Additionally, we may delete old data to reduce cost.
 
-- **If others want to extend/augment/build on/contribute to the dataset, is there a mechanism for them to do so?** Please reach out to contact@pureskill.gg or on [Discord](https://pureskill.gg/discord) if you want to extend the provided csds files in any manner. Subscribers are free to release transformations with restrictions as outlined in the DSA.
+- **If others want to extend/augment/build on/contribute to the dataset, is there a mechanism for them to do so?**
+  Please email [contact@pureskill.gg][email] or reach out on [Discord]
+  if you want to extend the provided csds files in any manner.
+  Subscribers are free to release transformations with restrictions as outlined in the DSA.
+
+[Data Dictionary]: ./assets/csds_dictionary.csv
 
 [CC BY-NC-SA 4.0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
 [Product Page]: https://us-east-1.console.aws.amazon.com/dataexchange/home?region=us-east-1#/products/prodview-v3o7zrt6okwmo
@@ -275,7 +369,6 @@ From the [Steam help page on API conections](https://help.steampowered.com/en/wi
 [Instagram]: https://www.instagram.com/itspureskillgg
 [email]: mailto:contact@pureskill.gg
 [Datasheets for Datasets]: https://arxiv.org/abs/1803.09010
-[Data Dictionary]: ./assets/csds_dictionary.csv
 [AWS]: https://aws.amazon.com/
 [ADX]: https://aws.amazon.com/data-exchange
 [CS:GO]: https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/
@@ -289,3 +382,7 @@ From the [Steam help page on API conections](https://help.steampowered.com/en/wi
 [ESRB ratings]: https://www.esrb.org/ratings-guide/
 [ESRB CS:GO]: https://www.esrb.org/ratings/100491/Counter-Strike%3A+Global+Offensive
 [pii_remover]: https://github.com/pureskillgg/csgo-dsdk/blob/master/pureskillgg_csgo_dsdk/scrubber/scrub_pii.py
+[Steam help page on API connections]: https://help.steampowered.com/en/wizard/HelpWithGameIssue/?appid=730&issueid=128
+[Terms of Service]: https://pureskill.gg/site-terms/
+[Privacy Policy]: https://pureskill.gg/privacy-policy/
+[Analyzing the Differences between Professional and Amateur Esports through Win Probability]: https://dl.acm.org/doi/abs/10.1145/3485447.3512277
