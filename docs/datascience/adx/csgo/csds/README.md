@@ -69,7 +69,7 @@ _Based on [Datasheets for Datasets]._
 
 ### Data Dictionary
 
-A [Data Dictionary] is available.
+A [Data Dictionary](./assets/csds_dictionary.csv) is available.
 This is a standardized CSV file that catalogues all tables and columns in the data set.
 
 ### Glossary
@@ -358,7 +358,6 @@ This is a standardized CSV file that catalogues all tables and columns in the da
   if you want to extend the provided csds files in any manner.
   Subscribers are free to release transformations with restrictions as outlined in the DSA.
 
-[data dictionary]: ./assets/csds_dictionary.csv
 [cc by-nc-sa 4.0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
 [product page]: https://us-east-1.console.aws.amazon.com/dataexchange/home?region=us-east-1#/products/prodview-v3o7zrt6okwmo
 [discord]: https://pureskill.gg/discord
