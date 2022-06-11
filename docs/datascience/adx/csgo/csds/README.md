@@ -1,5 +1,7 @@
 # PureSkill.gg Competitive CS:GO Gameplay
 
+**This data set is hosted as a [product on the AWS Data Exchange][product page].**
+
 Competitive Counter-Strike: Global Offensive (CS:GO)
 match data from matchmaking, FACEIT, and other third-parties.
 Contains full player telemetry and timestamped game events.
@@ -37,7 +39,7 @@ FPS Critic Inc., owner of PureSkill.gg, is not liable for any AWS costs you incu
 ## Gaining Access
 
 We want to understand your amazing project and help you get up and running with the data set.
-When you subscribe to this data product, we will need to approve your subscription request.
+When you [subscribe to this data product][product page], we will need to approve your subscription request.
 Please outline your use case in the request and allow a few days for review.
 We may send a follow up email before confirming your request.
 
