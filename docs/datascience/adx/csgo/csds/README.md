@@ -1,12 +1,16 @@
 # PureSkill.gg Competitive CS:GO Gameplay
 
-**This data set is hosted as a [product on the AWS Data Exchange][product page].**
+_This data set is hosted as a [product on the AWS Data Exchange][product page]._
 
 Competitive Counter-Strike: Global Offensive (CS:GO)
 match data from matchmaking, FACEIT, and other third-parties.
 Contains full player telemetry and timestamped game events.
 These data are extracted from CS:GO replay files called demos.
 Data for each match is split across 33 files, collectively called csds.
+
+Please visit **[docs.pureskill.gg/datascience][docs]**
+for full introduction to PureSkill.gg data science,
+additional documentation, and a copy of this document.
 
 ## License (CC BY-NC-SA 4.0)
 
@@ -386,3 +390,4 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 [terms of service]: https://pureskill.gg/site-terms/
 [privacy policy]: https://pureskill.gg/privacy-policy/
 [analyzing the differences between professional and amateur esports through win probability]: https://dl.acm.org/doi/abs/10.1145/3485447.3512277
+[docs]: https://docs.pureskill.gg/
