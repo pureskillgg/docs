@@ -13,7 +13,7 @@ The DSA is available on the [Product Page] under the Usage section.
 
 The key requirements of DSA state you may not use the data for commercial purposes,
 you must attribute PureSkill.gg, and you must use the same license for any derived work.
-A ["human-readable" summary of the license][CC BY-NC-SA 4.0] is provided by Creative Commons,
+A ["human-readable" summary of the license][cc by-nc-sa 4.0] is provided by Creative Commons,
 but this is not a substitute for the DSA.
 
 ## Attribution
@@ -120,7 +120,7 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 
 - **Does the dataset contain all possible instances or is it a sample of instances from a larger set?**
   It is a complete picture of all CS:GO demos available to PureSkill.gg.
-  There are [500,000 people playing CS:GO at any point in a day][CS:GO chart],
+  There are [500,000 people playing CS:GO at any point in a day][cs:go chart],
   and assuming a match takes 1 hour and 10 players,
   there are 1.2 million matches played every day.
   The dataset here is a subset of those matches played by the larger CS:GO community.
@@ -166,7 +166,7 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 - **Does the dataset contain data that, if viewed directly, might be offensive, insulting, threatening, or might otherwise cause anxiety?**
   Yes, but keep in mind this is all video game data.
   Out of an abundance of caution, we list these elements of the dataset that may be inappropriate for younger audiences below.
-  CS:GO has a rating by the [ESRB] of [Mature][ESRB ratings] for [Blood and Intense Violence][ESRB CS:GO].
+  CS:GO has a rating by the [ESRB] of [Mature][esrb ratings] for [Blood and Intense Violence][esrb cs:go].
   CS:GO is basically a SWAT team simulator.
   The game includes realistic weapons, bombs, hostages, terrorists, killing, death, and grenades.
   There are no player names, text chat, or voice chat data in the dataset.
@@ -316,7 +316,7 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 
 - **Will the dataset be distributed under a copyright or other intellectual property license, and/or under applicable terms of use?**
   Yes, under the DSA, which has similar terms to the
-  [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license][CC BY-NC-SA 4.0].
+  [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license][cc by-nc-sa 4.0].
   Note that the DSA is the license, not the Creative Commons website or their generic version of the license.
 
 - **Have any third parties imposed IP-based or other restrictions on the data associated with the instances?**
@@ -356,33 +356,32 @@ This is a standardized CSV file that catalogues all tables and columns in the da
   if you want to extend the provided csds files in any manner.
   Subscribers are free to release transformations with restrictions as outlined in the DSA.
 
-[Data Dictionary]: ./assets/csds_dictionary.csv
-
-[CC BY-NC-SA 4.0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
-[Product Page]: https://us-east-1.console.aws.amazon.com/dataexchange/home?region=us-east-1#/products/prodview-v3o7zrt6okwmo
-[Discord]: https://pureskill.gg/discord
-[Website]: https://pureskill.gg/
-[YouTube]: https://www.youtube.com/channel/UCmgWqRfvuX94XwbuN9CEu_A
-[LinkedIn]: https://www.linkedin.com/company/itspureskillgg
-[Twitter]: https://twitter.com/itspureskillgg
-[Facebook]: https://www.facebook.com/itspureskillgg
-[Instagram]: https://www.instagram.com/itspureskillgg
+[data dictionary]: ./assets/csds_dictionary.csv
+[cc by-nc-sa 4.0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
+[product page]: https://us-east-1.console.aws.amazon.com/dataexchange/home?region=us-east-1#/products/prodview-v3o7zrt6okwmo
+[discord]: https://pureskill.gg/discord
+[website]: https://pureskill.gg/
+[youtube]: https://www.youtube.com/channel/UCmgWqRfvuX94XwbuN9CEu_A
+[linkedin]: https://www.linkedin.com/company/itspureskillgg
+[twitter]: https://twitter.com/itspureskillgg
+[facebook]: https://www.facebook.com/itspureskillgg
+[instagram]: https://www.instagram.com/itspureskillgg
 [email]: mailto:contact@pureskill.gg
-[Datasheets for Datasets]: https://arxiv.org/abs/1803.09010
-[AWS]: https://aws.amazon.com/
-[ADX]: https://aws.amazon.com/data-exchange
-[CS:GO]: https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/
-[FACEIT]: https://www.faceit.com/
-[Steam]: https://steamcommunity.com/
-[Valve]: https://www.valvesoftware.com/
+[datasheets for datasets]: https://arxiv.org/abs/1803.09010
+[aws]: https://aws.amazon.com/
+[adx]: https://aws.amazon.com/data-exchange
+[cs:go]: https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/
+[faceit]: https://www.faceit.com/
+[steam]: https://steamcommunity.com/
+[valve]: https://www.valvesoftware.com/
 [makenew-pyskill]: https://github.com/pureskillgg/makenew-pyskill
-[CS:GO chart]: https://steamcharts.com/app/730
+[cs:go chart]: https://steamcharts.com/app/730
 [demoinfocs-golang]: https://github.com/markus-wa/demoinfocs-golang
-[ESRB]: https://www.esrb.org
-[ESRB ratings]: https://www.esrb.org/ratings-guide/
-[ESRB CS:GO]: https://www.esrb.org/ratings/100491/Counter-Strike%3A+Global+Offensive
+[esrb]: https://www.esrb.org
+[esrb ratings]: https://www.esrb.org/ratings-guide/
+[esrb cs:go]: https://www.esrb.org/ratings/100491/Counter-Strike%3A+Global+Offensive
 [pii_remover]: https://github.com/pureskillgg/csgo-dsdk/blob/master/pureskillgg_csgo_dsdk/scrubber/scrub_pii.py
-[Steam help page on API connections]: https://help.steampowered.com/en/wizard/HelpWithGameIssue/?appid=730&issueid=128
-[Terms of Service]: https://pureskill.gg/site-terms/
-[Privacy Policy]: https://pureskill.gg/privacy-policy/
-[Analyzing the Differences between Professional and Amateur Esports through Win Probability]: https://dl.acm.org/doi/abs/10.1145/3485447.3512277
+[steam help page on api connections]: https://help.steampowered.com/en/wizard/HelpWithGameIssue/?appid=730&issueid=128
+[terms of service]: https://pureskill.gg/site-terms/
+[privacy policy]: https://pureskill.gg/privacy-policy/
+[analyzing the differences between professional and amateur esports through win probability]: https://dl.acm.org/doi/abs/10.1145/3485447.3512277
