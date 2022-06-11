@@ -18,7 +18,7 @@ We want to see what amazing stuff people will do with it!
 
 ### Who can use the data?
 
-Anyone with a use case that adhears to the license.
+Anyone with a use case that adheres to the license.
 
 The full license is presented and agreed to when you subscribe to the data set,
 but it's basically the [CC BY-NC-SA 4.0] license, which means you
