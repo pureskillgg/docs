@@ -1,57 +1,89 @@
 # PureSkill.gg Competitive CS:GO Gameplay
 
-Competitive Counter-Strike: Global Offensive (CS:GO) match data from matchmaking,FACEIT, and other third-parties. Contains full player telemetry and timestamped game events. These data are extracted from CS:GO replay files called demos. Data for each match is split across 33 files called a csds.
+Competitive Counter-Strike: Global Offensive (CS:GO)
+match data from matchmaking, FACEIT, and other third-parties.
+Contains full player telemetry and timestamped game events.
+These data are extracted from CS:GO replay files called demos.
+Data for each match is split across 33 files, collectively called CSDS.
 
 ## License (CC BY-NC-SA 4.0)
 
-Please read through the Data Subscriber Agreement. A “human-readable” summary of the license is provided by [Creative Commons](https://creativecommons.org/licenses/by-nc-sa/4.0/), but this is not a substitute for the DSA.
+Please read through the Data Subscriber Agreement (DSA).
+The DSA is available on the [Product Page] under the Usage section.
+
+The key requirements of DSA state you may not use the data for commercial purposes,
+you must attribute PureSkill.gg, and you must use the same license for any derived work.
+A ["human-readable" summary of the license][CC BY-NC-SA 4.0] is provided by Creative Commons,
+but this is not a substitute for the DSA.
 
 ## Attribution
 
-As outlined in the DSA, if you publish a visualization, video, text summary, or other transformed version of the data, you must provide attribution. We ask that the shared media contain the text "Data provided by PureSkill.gg." with that exact capitalization. Please let us know if you publish content derived from the data set by sending an email to contact@pureskill.gg or contacting us on our [Discord](https://pureskill.gg/discord).
+As outlined in the DSA, if you publish a visualization,
+video, text summary, or other transformed version of the data, you must provide attribution.
+We ask that the shared media contain the text "Data provided by PureSkill.gg."
+with that exact capitalization.
+
+Please let us know if you publish content derived from the data set
+by sending an email to [contact@pureskill.gg]
+or by contacting us on our [Discord].
 
 ## Pricing Information
 
 The dataset is provided free of charge.
 
-## Getting Access to the Dataset
+Downloading the data set will incur standard AWS usage fees.
+FPS Critic Inc., owner of PureSkill.gg, is not liable for any AWS costs you incur.
 
-We want to understand your amazing project and help you get up and running with the data set. . When you subscribe to this data product, we will need to approve your subscription request. Please send an email to contact@pureskill.gg outlining your use case. Once approved, you can access the developer channels on [Discord](https://pureskill.gg/discord), just let us know your Discord username.
+## Gaining Access
+
+We want to understand your amazing project and help you get up and running with the data set.
+When you subscribe to this data product, we will need to approve your subscription request.
+Please outline your use case in the request and allow a few days for review.
+We may send a follow up email before confirming your request.
+
+Once approved, you can access the developer channels on [Discord], just let us know your Discord username.
 
 ## Need Help?
 
-- If you have questions, contact us at contact@pureskill.gg or on [Discord](https://pureskill.gg/discord).
+If you have questions, email us at contact@pureskill.gg
+or reach out on [Discord].
 
 ## About PureSkill.gg
 
-PureSkill.gg provides AI-powered coaching for CS:GO players of all ranks to hone their skills, rank up, and dominate the game.
+PureSkill.gg provides AI-powered coaching for CS:GO players of all ranks
+to hone their skills, rank up, and dominate the game.
 
-- [Website](https://pureskill.gg/)
-- [Discord](https://pureskill.gg/discord)
-- [YouTube](https://www.youtube.com/channel/UCmgWqRfvuX94XwbuN9CEu_A)
-- [LinkedIn](https://www.linkedin.com/company/itspureskillgg)
-- [Twitter](https://twitter.com/itspureskillgg)
-- [Facebook](https://www.facebook.com/itspureskillgg)
-- [Instagram](https://www.instagram.com/itspureskillgg)
+- [Website]
+- [Discord]
+- [YouTube]
+- [LinkedIn]
+- [Twitter]
+- [Facebook]
+- [Instagram]
 
 ## Datasheet
 
-_Based on [Datasheets for Datasets](https://arxiv.org/abs/1803.09010)._
+_Based on [Datasheets for Datasets]._
 
-[Data Dictionary](./assets/csds_dictionary.csv) available.
+### Data Dictionary
+
+A [Data Dictionary] is available.
+This is a standardized CSV file that catalogues all tables and columns in the data set.
 
 ### Glossary
 
-- [ADX](https://aws.amazon.com/data-exchange) - AWS Data Exchange
-- [AWS](https://aws.amazon.com/) - Amazon Web Services
-- channel - One of the 33 files that combine to make a csds object.
-- csds - the name of the collection of 33 files extracted from a CS:GO demo.
-- [CS:GO](https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/) - Counter-Strike:Global Offensive, the game being played to generate this dataset.
-- DSA - Data Subscriber Agreement. Find this in your AWS account under your ADX subscription to this data set.
-- [FACEIT](https://www.faceit.com/) - A third party platform used to play CS:GO
-- PII - Personally Identifiable Information
-- [Steam](https://steamcommunity.com/) - The platform that CS:GO players use to play the game that is made by Valve.
-- [Valve](https://www.valvesoftware.com/en/) - The company that makes CS:GO.
+- [AWS] - Amazon Web Services.
+- [ADX] - AWS Data Exchange.
+- DSA - Data Subscriber Agreement.
+  Find this in your AWS account under the ADX subscription to this data set.
+- PII - Personally Identifiable Information.
+- channel - One of the 33 files that combine to make a CSDS object.
+- csds - The name given to the collection of 33 files extracted from a CS:GO demo.
+- [CS:GO] - Counter-Strike: Global Offensive.
+  The game created by Valve that is played to generate this dataset.
+- [Valve] - The company that makes CS:GO.
+- [Steam] - The platform created by Valve that CS:GO players use to play the game online.
+- [FACEIT] - A third-party platform used to play CS:GO online.
 
 ### Motivation
 
@@ -125,7 +157,7 @@ From the [Steam help page on API conections](https://help.steampowered.com/en/wi
 
 - **Was any preprocessing/cleaning/labeling of the data done?** Raw CS:GO demo files are event streams and the events and tables can be accessed with a [parser](https://github.com/markus-wa/demoinfocs-golang). The CS:GO demo files are first processed by our parser, and the output of the parser is what we call a replay. The replay is transformed by a Post Parser Processor (PPP) where we engineer new columns, clean up extraneous round data, and fix certain values.
 
-- **Was the “raw” data saved in addition to the preprocessed/cleaned/labeled data?** CS:GO demo files are deleted quickly after they are processed. If we need to add new features based on demos, we can update the parser or PPP and new data will contain the new information. Since new matches are streaming in automatically each day, it will be sufficient to update that step to create a new dataset with the improved feature.
+- **Was the "raw" data saved in addition to the preprocessed/cleaned/labeled data?** CS:GO demo files are deleted quickly after they are processed. If we need to add new features based on demos, we can update the parser or PPP and new data will contain the new information. Since new matches are streaming in automatically each day, it will be sufficient to update that step to create a new dataset with the improved feature.
 
 - **Is the software used to preprocess/clean/label the instances available?** Not at present, but we may release this in the future.
 
@@ -149,7 +181,7 @@ From the [Steam help page on API conections](https://help.steampowered.com/en/wi
 
 - **When will the dataset be distributed?** Starting on 2022-05-17 with a one month automatically renewing subscription.
 
-- **Will the dataset be distributed under a copyright or other intellectual property license, and/or under applicable terms of use?** Yes, under the DSA which has similar terms to the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license. A “human-readable” summary of the license is provided by [Creative Commons](https://creativecommons.org/licenses/by-nc-sa/4.0/). Note that the DSA is the license, not the Creative Commons website or their generic version of the license.
+- **Will the dataset be distributed under a copyright or other intellectual property license, and/or under applicable terms of use?** Yes, under the DSA which has similar terms to the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license. A "human-readable" summary of the license is provided by [Creative Commons](https://creativecommons.org/licenses/by-nc-sa/4.0/). Note that the DSA is the license, not the Creative Commons website or their generic version of the license.
 
 - **Have any third parties imposed IP-based or other restrictions on the data associated with the instances?** We removed all PII or traces back to any Steam ID. Steam is the platform used to play CS:GO, and while a game account may be anonymous, we have taken great care to remove any possibility of scraping valid Steam IDs from the data or the ability to download the CS:GO demo file.
 
@@ -172,3 +204,22 @@ From the [Steam help page on API conections](https://help.steampowered.com/en/wi
 - **Will older versions of the dataset continue to be supported/hosted/maintained?** We may delete old, unusable data at our discretion. Additionally, we may delete old data to reduce cost.
 
 - **If others want to extend/augment/build on/contribute to the dataset, is there a mechanism for them to do so?** Please reach out to contact@pureskill.gg or on [Discord](https://pureskill.gg/discord) if you want to extend the provided csds files in any manner. Subscribers are free to release transformations with restrictions as outlined in the DSA.
+
+[CC BY-NC-SA 4.0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
+[Product Page]: https://us-east-1.console.aws.amazon.com/dataexchange/home?region=us-east-1#/products/prodview-v3o7zrt6okwmo
+[Discord]: https://pureskill.gg/discord
+[Website]: https://pureskill.gg/
+[YouTube]: https://www.youtube.com/channel/UCmgWqRfvuX94XwbuN9CEu_A
+[LinkedIn]: https://www.linkedin.com/company/itspureskillgg
+[Twitter]: https://twitter.com/itspureskillgg
+[Facebook]: https://www.facebook.com/itspureskillgg
+[Instagram]: https://www.instagram.com/itspureskillgg
+[email]: mailto:contact@pureskill.gg
+[Datasheets for Datasets]: https://arxiv.org/abs/1803.09010
+[Data Dictionary]: ./assets/csds_dictionary.csv
+[AWS]: https://aws.amazon.com/
+[ADX]: https://aws.amazon.com/data-exchange
+[CS:GO]: https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/
+[FACEIT]: https://www.faceit.com/
+[Steam]: https://steamcommunity.com/
+[Valve]: https://www.valvesoftware.com/
