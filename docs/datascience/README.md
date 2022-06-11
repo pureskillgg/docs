@@ -5,11 +5,14 @@
 ### What data is available?
 
 The [PureSkill.gg Competitive CS:GO Gameplay Data Set] contains
-Competitive Counter-Strike: Global Offensive (CS:GO) match data from matchmaking,FACEIT, and other third-parties. Contains full player telemetry and timestamped game events.
+Competitive Counter-Strike: Global Offensive (CS:GO)
+match data from matchmaking, FACEIT, and other third-parties.
+Contains full player telemetry and timestamped game events.
 
 ### How can I get started?
 
-With [the tutorial][tutorial] you will learn how to do some real CS:GO data science with data from the public data set.
+With [the tutorial][tutorial] you will learn how to do some real
+CS:GO data science with data from the public data set.
 Once you complete the tutorial, you may use the same repository to bootstrap you own project!
 
 ### Why are you doing this?
