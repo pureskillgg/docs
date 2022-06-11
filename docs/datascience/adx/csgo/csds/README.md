@@ -4,7 +4,7 @@ Competitive Counter-Strike: Global Offensive (CS:GO)
 match data from matchmaking, FACEIT, and other third-parties.
 Contains full player telemetry and timestamped game events.
 These data are extracted from CS:GO replay files called demos.
-Data for each match is split across 33 files, collectively called CSDS.
+Data for each match is split across 33 files, collectively called csds.
 
 ## License (CC BY-NC-SA 4.0)
 
@@ -24,7 +24,7 @@ We ask that the shared media contain the text "Data provided by PureSkill.gg."
 with that exact capitalization.
 
 Please let us know if you publish content derived from the data set
-by sending an email to [contact@pureskill.gg]
+by sending an email to [contact@pureskill.gg][email]
 or by contacting us on our [Discord].
 
 ## Pricing Information
@@ -77,7 +77,7 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 - DSA - Data Subscriber Agreement.
   Find this in your AWS account under the ADX subscription to this data set.
 - PII - Personally Identifiable Information.
-- channel - One of the 33 files that combine to make a CSDS object.
+- channel - One of the 33 files that combine to make a csds object.
 - csds - The name given to the collection of 33 files extracted from a CS:GO demo.
 - [CS:GO] - Counter-Strike: Global Offensive.
   The game created by Valve that is played to generate this dataset.
@@ -87,45 +87,104 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 
 ### Motivation
 
-- **For what purpose was the dataset created?** For education and machine learning research. Gameplay data from video games can provide a fun and relevant way to learn statistics, programming, and more. Though no specific machine learning problem is defined here, we provide [open source tooling](https://github.com/pureskillgg/makenew-pyskill) to create baseline datasets that can include some target for supervised learning or an objective for unsupervised learning. Some example machine learning problems include: clustering how items are used, building win probability models, analyzing player movement patterns, decision making around economic purchases, and finding optimal pathing.
+- **For what purpose was the dataset created?**
+  For education and machine learning research.
+  Gameplay data from video games provide a fun and relevant way to learn statistics, programming, and more. Though no specific machine learning problem is defined here,
+  we provide [open source tooling][makenew-pyskill] to create baseline datasets
+  that can include some target for supervised learning or an objective for unsupervised learning.
+  Some example machine learning problems include:
+  clustering how items are used, building win probability models,
+  analyzing player movement patterns, decision making around economic purchases,
+  and finding optimal pathing.
 
-- **Who created the dataset and on behalf of which entity?** Ethan Batson, William Robert Freeman, and Evan Sosenko for FPS Critic, Inc. which produces PureSkill.gg.
+- **Who created the dataset and on behalf of which entity?**
+  Ethan Batson, William Robert Freeman, and Evan Sosenko for FPS Critic, Inc.,
+  which produces PureSkill.gg.
 
-- **Who funded the creation of the dataset?** FPS Critic, Inc. who produces PureSkill.gg.
+- **Who funded the creation of the dataset?**
+  FPS Critic, Inc. who produces PureSkill.gg.
 
-- **Any other comments?** If you would like to use the dataset for a different purpose, please reach out to contact@pureskill.gg or contact us on [Discord](https://pureskill.gg/discord).
+- **Any other comments?**
+  If you would like to use the dataset for a different purpose,
+  please reach out to [contact@pureskill.gg][email] or contact us on [Discord].
 
 ### Composition
 
-- **What do the instances that comprise the dataset represent?** Parsed and processed individual matches of CS:GO.
+- **What do the instances that comprise the dataset represent?**
+  Parsed and processed individual matches of CS:GO.
 
-- **How many instances are there in total?** Approximately 60,000 matches of CS:GO with ~250 added each day.
+- **How many instances are there in total?**
+  Approximately 60,000 matches of CS:GO with ~250 added each day.
 
-- **Does the dataset contain all possible instances or is it a sample of instances from a larger set?** It is a complete picture of all CS:GO demos available to PureSkill.gg. There are [500,000 people playing CS:GO at any point in a day](https://steamcharts.com/app/730), and assuming a match takes 1 hour and 10 players, there are 1.2 million matches played every day. The dataset here is a subset of those matches played by the larger CS:GO community.
+- **Does the dataset contain all possible instances or is it a sample of instances from a larger set?**
+  It is a complete picture of all CS:GO demos available to PureSkill.gg.
+  There are [500,000 people playing CS:GO at any point in a day][CS:GO chart],
+  and assuming a match takes 1 hour and 10 players,
+  there are 1.2 million matches played every day.
+  The dataset here is a subset of those matches played by the larger CS:GO community.
 
-- **What data does each instance consist of?** CS:GO demo files are [parsed](https://github.com/markus-wa/demoinfocs-golang) and saved as 33 separate channels. The collection of these channels for a match is called a csds. We provide an open source SDK to work with the csds data, see[makenew-pyskill](https://github.com/pureskillgg/makenew-pyskill).
+- **What data does each instance consist of?**
+  CS:GO demo files are [parsed][demoinfocs-golang] and saved as 33 separate channels.
+  The collection of these channels for a match is called csds.
+  We provide an [open source SDK][makenew-pyskill] to work with the csds data.
 
-- **Is there a label or target associated with each instance?** No, however we provide an open source tool called [makenew-pyskill](https://github.com/pureskillgg/makenew-pyskill) to easily create a view of these matches with a target for machine learning prediction in mind.
+- **Is there a label or target associated with each instance?**
+  No, however we provide an open source tool called [makenew-pyskill]
+  to easily create a view of these matches with a target for machine learning prediction in mind.
 
-- **Is any information missing from individual instances?** We are always improving our processing pipeline and some matches may have been processed using older versions of certain programs. Notably, older matches from the FACEIT platform are missing information about player ranks.
+- **Is any information missing from individual instances?**
+  We are always improving our processing pipeline,
+  and some matches may have been processed using older versions of certain programs.
+  Notably, older matches from the FACEIT platform are missing information about player ranks.
 
-- **Are relationships between individual instances made explicit?** Since we have anonymized player data, it is not possible to tell if a player in one match is the same as a player in a different match. However, since all the data were uploaded by PureSkill.gg users, an individual may appear in many matches. It is not possible to tell who the PureSkill.gg user is with the data provided.
+- **Are relationships between individual instances made explicit?**
+  Since we have anonymized player data,
+  it is not possible to tell if a player in one match is the same as a player in a different match.
+  However, since all the data were uploaded by PureSkill.gg users, an individual may appear in many matches. It is not possible to tell who the PureSkill.gg user is with the data provided.
 
-- **Are there recommended data splits?** No, however we provide an open source tool called [makenew-pyskill](https://github.com/pureskillgg/makenew-pyskill) to easily create a view of these matches with a target for machine learning prediction, and can split the data however appropriate for the task at hand.
+- **Are there recommended data splits?**
+  No, however we provide an open source tool called [makenew-pyskill]
+  to easily create a view of these matches with a target for machine learning prediction.
+  One can split the data however appropriate for the task at hand.
 
-- **Are there any errors, sources of noise, or redundancies in the dataset?** There may be duplicate matches in the dataset. These can be deduplicated by comparing calculated values from the header channel. Within matches, there may be missing ticks and missing events. These are generally rare and non-disruptive, but could interfere with some calculations. Any problematic matches can be skipped for most use cases.
+- **Are there any errors, sources of noise, or redundancies in the dataset?**
+  There may be duplicate matches in the dataset.
+  These can be deduplicated by comparing calculated values from the header channel.
+  Within matches, there may be missing ticks and missing events.
+  These are generally rare and non-disruptive, but could interfere with some calculations.
+  Any problematic matches can be skipped for most use cases.
 
-- **Is the dataset self-contained, or does it link to or otherwise rely on external resources?** Within the dataset, we do not link to external resources. However, properties of game items, map backgrounds for visualizations, and much more are available online. At present, we do not maintain a current or historical version of such files.
+- **Is the dataset self-contained, or does it link to or otherwise rely on external resources?**
+  Within the dataset, we do not link to external resources.
+  However, properties of game items, map backgrounds for visualizations, and much more are available online. At present, we do not maintain a current or historical version of such files.
 
-- **Does the dataset contain data that might be considered confidential?** No.
+- **Does the dataset contain data that might be considered confidential?**
+  No.
 
-- **Does the dataset contain data that, if viewed directly, might be offensive, insulting, threatening, or might otherwise cause anxiety?** Yes, but keep in mind this is all video game data. Out of an abundance of caution, we list these elements of the dataset that may be inappropriate for younger audiences. CS:GO has a rating by the [ESRB](https://www.esrb.org) of [Mature](https://www.esrb.org/ratings-guide/) for [Blood and Intense Violence](https://www.esrb.org/ratings/100491/Counter-Strike%3A+Global+Offensive/). CS:GO is basically a SWAT team simulator. The game includes realistic weapons, bombs, hostages, terrorists, killing, death, and grenades. There are no player names, text chat, or voice chat data in the dataset. It is possible to draw offensive pictures by shooting a wall and if visualized, this may be considered offensive.
+- **Does the dataset contain data that, if viewed directly, might be offensive, insulting, threatening, or might otherwise cause anxiety?**
+  Yes, but keep in mind this is all video game data.
+  Out of an abundance of caution, we list these elements of the dataset that may be inappropriate for younger audiences below.
+  CS:GO has a rating by the [ESRB] of [Mature][ESRB ratings] for [Blood and Intense Violence][ESRB CS:GO].
+  CS:GO is basically a SWAT team simulator.
+  The game includes realistic weapons, bombs, hostages, terrorists, killing, death, and grenades.
+  There are no player names, text chat, or voice chat data in the dataset.
+  It is possible to draw offensive pictures by shooting a wall and if visualized,
+  this may be considered offensive.
 
-- **Does the dataset relate to people?** Yes, since most of the data was generated by people. Some data is generated from bots, but that is rare, and bot status is known from the `player_personal` channel. This and other channels do not contain any personal information, which has been removed using [open source tooling](https://github.com/pureskillgg/csgo-dsdk/blob/master/pureskillgg_csgo_dsdk/scrubber/scrub_pii.py)
+- **Does the dataset relate to people?**
+  Yes, since most of the data was generated by people.
+  Some data is generated from bots, but that is rare,
+  and bot status is known from the `player_personal` channel.
+  Note that this and other channels do not contain any personal information,
+  which has been removed using [open source tooling][pii_remover].
 
-- **Does the dataset identify any subpopulations?** Not directly. However, for CS:GO demos from Valve Matchmaking, the server location is in the name and one may infer player region (such as US West, South America, or India) based on this.
+- **Does the dataset identify any subpopulations?**
+  Not directly.
+  However, for CS:GO demos from Valve Matchmaking, the server location
+  is in the name, and one may infer player region (such as US West, South America, or India).
 
-- **Does the dataset contain data that might be considered sensitive in any way?** No.
+- **Does the dataset contain data that might be considered sensitive in any way?**
+  No.
 
 ### Collection Process
 
@@ -223,3 +282,10 @@ From the [Steam help page on API conections](https://help.steampowered.com/en/wi
 [FACEIT]: https://www.faceit.com/
 [Steam]: https://steamcommunity.com/
 [Valve]: https://www.valvesoftware.com/
+[makenew-pyskill]: https://github.com/pureskillgg/makenew-pyskill
+[CS:GO chart]: https://steamcharts.com/app/730
+[demoinfocs-golang]: https://github.com/markus-wa/demoinfocs-golang
+[ESRB]: https://www.esrb.org
+[ESRB ratings]: https://www.esrb.org/ratings-guide/
+[ESRB CS:GO]: https://www.esrb.org/ratings/100491/Counter-Strike%3A+Global+Offensive
+[pii_remover]: https://github.com/pureskillgg/csgo-dsdk/blob/master/pureskillgg_csgo_dsdk/scrubber/scrub_pii.py
