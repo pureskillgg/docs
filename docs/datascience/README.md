@@ -5,8 +5,8 @@
 ### What data is available?
 
 The [PureSkill.gg Competitive CS:GO Gameplay Data Set] contains
-Competitive Counter-Strike: Global Offensive (CS:GO)
-match data from matchmaking, FACEIT, and other third-parties.
+Competitive Counter-Strike: Global Offensive (CS:GO) match data
+from matchmaking, FACEIT, and other third-parties.
 Contains full player telemetry and timestamped game events.
 
 ### How can I get started?
@@ -48,7 +48,7 @@ Nope! Not from here at least.
 All player data is [thoroughly anonymized][anonymization]:
 it is impossible to determine a player's identity, virtual or otherwise.
 
-### Can I opt out?
+### Can I opt-out?
 
 Currently we do not provide a way for users of PureSkill.gg to opt-out
 of inclusion in the data set.
