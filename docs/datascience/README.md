@@ -58,8 +58,25 @@ which will stop inclusion of future matches.
 Please note that even though your match data is
 in the data set, it is **not traceable back to your player identity**.
 
+## Technical FAQ
+
+### Can I use $favorite_language?
+
+Yes! The current provided tooling is in Python, but the all underlying
+data is stored as [Apache Parquet] with additional metadata in [JSON].
+
+> Apache Parquet is an open source, column-oriented data file format designed for efficient data storage and retrieval.
+> It provides efficient data compression and encoding schemes with enhanced performance to handle complex data in bulk.
+> Parquet is available in multiple languages including Java, C++, Python, etc...
+
+If you want to use another language, we still recommend stating with the [tutorial].
+This is the easiest way to download the data and create new tomes (more Parquet and JSON file),
+which are economical views of the data tailored for specific analyses.
+
 [pureskill.gg competitive cs:go gameplay data set]: ./adx/csgo/csds/
 [tutorial]: https://github.com/pureskillgg/makenew-pyskill/blob/master/README.rst#-start-with-the-tutorial
 [cc by-nc-sa 4.0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
 [aws data exchange]: https://aws.amazon.com/data-exchange/
 [anonymization]: https://github.com/pureskillgg/csgo-dsdk/blob/master/pureskillgg_csgo_dsdk/scrubber/scrub_pii.py
+[Apache Parquet]: https://parquet.apache.org/
+[JSON]: https://www.json.org/
