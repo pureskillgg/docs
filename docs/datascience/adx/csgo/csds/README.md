@@ -363,7 +363,7 @@ This is a standardized CSV file that catalogues all tables and columns in the da
   Subscribers are free to release transformations with restrictions as outlined in the DSA.
 
 [cc by-nc-sa 4.0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
-[product page]: https://us-east-1.console.aws.amazon.com/dataexchange/home?region=us-east-1#/products/prodview-v3o7zrt6okwmo
+[product page]: https://aws.amazon.com/marketplace/pp/prodview-v3o7zrt6okwmo
 [discord]: https://pureskill.gg/discord
 [website]: https://pureskill.gg/
 [youtube]: https://www.youtube.com/channel/UCmgWqRfvuX94XwbuN9CEu_A
