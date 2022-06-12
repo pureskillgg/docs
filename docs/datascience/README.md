@@ -78,5 +78,5 @@ which are economical views of the data tailored for specific analyses.
 [cc by-nc-sa 4.0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
 [aws data exchange]: https://aws.amazon.com/data-exchange/
 [anonymization]: https://github.com/pureskillgg/csgo-dsdk/blob/master/pureskillgg_csgo_dsdk/scrubber/scrub_pii.py
-[Apache Parquet]: https://parquet.apache.org/
-[JSON]: https://www.json.org/
+[apache parquet]: https://parquet.apache.org/
+[json]: https://www.json.org/
