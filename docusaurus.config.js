@@ -10,6 +10,7 @@ const config = {
     defaultLocale: 'en',
     locales: ['en']
   },
+  plugins: ['posthog-docusaurus'],
   themeConfig: {
     posthog: {
       apiKey: process.env.POSTHOG_API_KEY ?? '',
