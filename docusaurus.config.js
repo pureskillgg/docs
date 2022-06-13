@@ -33,6 +33,16 @@ const config = {
       },
       items: [
         {
+          href: 'https://pureskill.gg',
+          label: 'Home',
+          position: 'right'
+        },
+        {
+          href: 'https://pureskill.gg/discord',
+          label: 'Discord',
+          position: 'right'
+        },
+        {
           href: 'https://github.com/pureskillgg/docs',
           label: 'GitHub',
           position: 'right'
