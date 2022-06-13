@@ -11,6 +11,11 @@ const config = {
     locales: ['en']
   },
   themeConfig: {
+    posthog: {
+      apiKey: process.env.POSTHOG_API_KEY ?? '',
+      appUrl: 'https://app.posthog.com',
+      enableInDevelopment: false
+    },
     colorMode: {
       defaultMode: 'dark',
       disableSwitch: false,

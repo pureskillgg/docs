@@ -58,6 +58,8 @@ jobs:
         uses: ./.github/actions/setup
       - name: Build
         run: npm run build
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
       - name: Publish
         uses: peaceiris/actions-gh-pages@v3
         with:
