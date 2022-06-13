@@ -16,6 +16,8 @@ jobs:
         uses: ./.github/actions/setup
       - name: Build
         run: npm run build
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
   lint:
     runs-on: ubuntu-20.04
     timeout-minutes: 30
