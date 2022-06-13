@@ -108,7 +108,8 @@ Yes! Please use [Discord] or GitHub issues.
 We will consider additional forums like GitHub Discussions
 as the community grows.
 
-To contribute code, please open a corresponding issue first before opening a pull request.
+To contribute code or documentation,
+please open a corresponding issue first before opening a pull request.
 When contributing obvious fixes, you may open a pull request directly.
 
 ### Can I use $favorite_language?
