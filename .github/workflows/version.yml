@@ -43,3 +43,5 @@ jobs:
         uses: ./.github/actions/setup
       - name: Cut ${{ github.event.inputs.version }}${{ github.event.client_payload.version }} version
         run: npm version --sign-git-tag=true ${{ github.event.inputs.version }}${{ github.event.client_payload.version }}
+        env:
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
