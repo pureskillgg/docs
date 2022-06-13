@@ -1,4 +1,4 @@
-# CSDS Documentation
+# CSDS Spec
 
 Documentation for CSDS channels built by FPS Critic, Inc.
 
