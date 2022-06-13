@@ -1,5 +1,10 @@
 # Data Science Showcase
 
+In the upcoming weeks, we'll post cool demos here, code-included.
+If you build something and want to share it here, let us know!
+
+In the meantime, here is some past work we released.
+
 ## Posts and media
 
 - [Meeting points (animation)](https://www.youtube.com/watch?v=du0CXuuaQZ8)
