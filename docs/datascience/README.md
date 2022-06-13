@@ -60,9 +60,40 @@ in the data set, it is **not traceable back to your player identity**.
 
 ## Technical FAQ
 
+### What are the developer tools?
+
+- **[PySkill][makenew-pyskill]:**
+  Project skeleton for doing PureSkill.gg data science with Python.
+- **[Data Science Developer Kit (DSDK)][dsdk]:**
+  Python library for working with the data.
+  Read csds, create tomes, access data from the ADX, and more.
+- **[CS:GO Data Science Developer Kit (CSGO DSDK)][csgo-dsdk]:**
+  Python library with tools specific to CS:GO data science.
+- **[PureSkill.gg Data Science Showcase][datascience-showcase]:**
+  Demonstrations and examples of neat applications of PureSkill.gg data.
+- **[PureSkill.gg Docs][docs]:**
+  This website.
+
+### Are the developer tools stable?
+
+Mostly.
+We don't anticipate majors changes before releasing version 1 of our libraries.
+During the initial period following the announcement, we will be working
+with early adopters to squash bugs and smooth out the APIs.
+Please report any issues on GitHub.
+
+Libraries follow the principals of [semver].
+Beta releases may see breaking API changes before their final release, while release candidates
+will avoid this unless absolutely necessary.
+
+Python projects use the [PEP 440] standard version format
+of `1.2.3` for stable releases, `1.2.3b0` for beta releases,
+and `1.2.3rc0` for release candidates.
+This is a small cosmetic difference, but otherwise, the semantic meaning will follow [semver].
+
 ### Can I use $favorite_language?
 
-Yes! The current provided tooling is in Python, but the all underlying
+Yes! The current provided tooling is in Python, but all of the underlying
 data is stored as [Apache Parquet] with additional metadata in [JSON].
 
 > Apache Parquet is an open source, column-oriented data file format designed for efficient data storage and retrieval.
@@ -70,8 +101,8 @@ data is stored as [Apache Parquet] with additional metadata in [JSON].
 > Parquet is available in multiple languages including Java, C++, Python, etc...
 
 If you want to use another language, we still recommend stating with the [tutorial].
-This is the easiest way to download the data and create new tomes (more Parquet and JSON file),
-which are economical views of the data tailored for specific analyses.
+This is the easiest way to download the data and create new tomes, which are just more Parquet and JSON files.
+Tomes are economical views of the data tailored for specific analyses.
 
 [pureskill.gg competitive cs:go gameplay data set]: ./adx/csgo/csds/
 [tutorial]: https://github.com/pureskillgg/makenew-pyskill/blob/master/README.rst#-start-with-the-tutorial
@@ -80,3 +111,10 @@ which are economical views of the data tailored for specific analyses.
 [anonymization]: https://github.com/pureskillgg/csgo-dsdk/blob/master/pureskillgg_csgo_dsdk/scrubber/scrub_pii.py
 [apache parquet]: https://parquet.apache.org/
 [json]: https://www.json.org/
+[dsdk]: https://github.com/pureskillgg/dsdk
+[csgo-dsdk]: https://github.com/pureskillgg/csgo-dsdk
+[docs]: https://github.com/pureskillgg/docs
+[makenew-pyskill]: https://github.com/pureskillgg/makenew-pyskill
+[datascience-showcase]: https://github.com/pureskillgg/datascience-showcase
+[semver]: https://semver.org/
+[pep 440]: https://peps.python.org/pep-0440/
