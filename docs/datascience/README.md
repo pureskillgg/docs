@@ -17,7 +17,12 @@ Once you complete the tutorial, you may use the same repository to bootstrap you
 
 ### Why are you doing this?
 
-We want to see what amazing stuff people will do with it!
+We want to see the amazing stuff you'll do with it!
+Working with AI researchers using CS:GO to solve really hard problems inspired us to
+contribute back and unlock this potential for anyone.
+
+We hope this work can fuel everything from one's first data science experience, to their
+next hackathon, school project—all the way to groundbreaking research.
 
 ### Who can use the data?
 
@@ -58,6 +63,12 @@ which will stop inclusion of future matches.
 Please note that even though your match data is
 in the data set, it is **not traceable back to your player identity**.
 
+### I have more questions?
+
+That wasn't a question.
+But it's ok, you can reach out in the Dojo channel on [Discord].
+We want to help you and get your feedback!
+
 ## Technical FAQ
 
 ### What are the developer tools?
@@ -91,6 +102,16 @@ of `1.2.3` for stable releases, `1.2.3b0` for beta releases,
 and `1.2.3rc0` for release candidates.
 This is a small cosmetic difference, but otherwise, the semantic meaning will follow [semver].
 
+### Can I contribute?
+
+Yes! Please use [Discord] or GitHub issues.
+We will consider additional forums like GitHub Discussions
+as the community grows.
+
+To contribute code or documentation,
+please open a corresponding issue first before opening a pull request.
+When contributing obvious fixes, you may open a pull request directly.
+
 ### Can I use $favorite_language?
 
 Yes! The current provided tooling is in Python, but all of the underlying
@@ -118,3 +139,4 @@ Tomes are economical views of the data tailored for specific analyses.
 [datascience-showcase]: https://github.com/pureskillgg/datascience-showcase
 [semver]: https://semver.org/
 [pep 440]: https://peps.python.org/pep-0440/
+[discord]: https://pureskill.gg/discord

@@ -1,4 +1,6 @@
-# Number of Matches Per Day
+# Revision Stats
+
+## Number of Matches Per Day
 
 Here is an _estimate_ of how many matches are in each day.
 
