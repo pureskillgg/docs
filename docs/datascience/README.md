@@ -39,7 +39,7 @@ The data set is released for free, however, the process
 of exporting the data will incur standard AWS fees
 for using the cloud provider's storage and bandwidth.
 
-See the [Cost FAQ][#cost-faq] for details.
+See the [Cost FAQ](#cost-faq) for details.
 
 ### Why do I need to subscribe?
 
@@ -144,19 +144,17 @@ We provide those and the estimates below for convenience,
 but we do not guarantee their accuracy or applicability to your AWS account.
 
 TL;DR: It costs about $1.50 to download a day of data, or $4-5 per 1,000 matches.
-Downloading tomes is much less expensive. Many tomes are pennies to download
-and include data from 6+ months of matches.
+Downloading tomes is much less expensive.
 
-The data set is structured to help you control and optimize your costs.
-
-- The data set is split into daily revisions which may be downloaded individually.
-- On average, a revision is 13GB, contains 350 matches,
-  and costs about $1.50 to download.
-- We maintain a companion Tome data set which is very economical
-  to work with.
-  Tomes contain slices of features across many matches.
+- Tomes contain slices of features across many matches.
 
 ### How should I optimize my costs?
+
+The data set is structured to help you control and optimize your costs.
+First, it is split into daily revisions which may be downloaded individually.
+Second, we maintain a companion tome data set which is very economical.
+
+Consider these steps:
 
 1. You probably don't need as much data as you think.
 2. AWS has a generous free tier which
