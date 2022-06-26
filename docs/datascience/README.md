@@ -33,6 +33,14 @@ but it's basically the [CC BY-NC-SA 4.0] license, which means you
 may not use the data for commercial purposes, you must attribute PureSkill.gg,
 and you must use the same license for any derived work.
 
+### Does it cost money?
+
+The data set is released for free, however, the process
+of exporting the data will incur standard AWS fees
+for using the cloud provider's storage and bandwidth.
+
+See the [Cost FAQ][#cost-faq] for details.
+
 ### Why do I need to subscribe?
 
 The [AWS Data Exchange], which is the cloud platform hosting the data set,
@@ -125,6 +133,59 @@ If you want to use another language, we still recommend stating with the [tutori
 This is the easiest way to download the data and create new tomes, which are just more Parquet and JSON files.
 Tomes are economical views of the data tailored for specific analyses.
 
+## Cost FAQ
+
+### How much will AWS charge me?
+
+_FPS Critic Inc., owner of PureSkill.gg, is not liable for any AWS costs you incur._
+
+[Step 7 of the tutorial] can help you estimate your costs,
+We provide those and the estimates below for convenience,
+but we do not guarantee their accuracy or applicability to your AWS account.
+
+TL;DR: It costs about $1.50 to download a day of data, or $4-5 per 1,000 matches.
+Downloading tomes is much less expensive. Many tomes are pennies to download
+and include data from 6+ months of matches.
+
+The data set is structured to help you control and optimize your costs.
+
+- The data set is split into daily revisions which may be downloaded individually.
+- On average, a revision is 13GB, contains 350 matches,
+  and costs about $1.50 to download.
+- We maintain a companion Tome data set which is very economical
+  to work with.
+  Tomes contain slices of features across many matches.
+
+### How should I optimize my costs?
+
+1. You probably don't need as much data as you think.
+2. AWS has a generous free tier which
+   may reduce or the eliminate the cost to get started.
+3. If you can use available tomes for your project,
+   don't bother downloading individual match data.
+   Most tomes cost pennies to download and contain
+   data for across many matches.
+4. Otherwise, start with one day of data to discover your costs.
+5. Estimate how much data you actually need to get started experimenting.
+6. Be careful when downloading a large number of revisions at once.
+   You might go over the free tier part-way though the export process
+   and have difficulty stopping the jobs.
+   We recommend you limit each export batch to one month intervals.
+7. If you share a tome generator with us, we may be able to make the tome
+   for you and share it back to the data set.
+
+### Where can I get financial support?
+
+- If you are a student, ask your department or advisor if they can support you.
+- If you are a professional data scientist, ask your organization
+  if they can fund this as a hackathon project or self-guided learning project.
+- Ask AWS for credits.
+  Your company, organization, university, or department may
+  have a relationship with AWS.
+  If not, talk to your AWS account manager and they may help you get some credits.
+- Talk to us. We can't promise financial support, but we can brainstorm a solution together.
+
+[step 7 of the tutorial]: https://github.com/pureskillgg/makenew-pyskill/blob/master/notebooks/tutorial/7%20-%20Getting%20csds%20data%20from%20the%20ADX.ipynb
 [pureskill.gg competitive cs:go gameplay data set]: ./adx/csgo/csds/
 [tutorial]: https://github.com/pureskillgg/makenew-pyskill/blob/master/README.rst#-start-with-the-tutorial
 [cc by-nc-sa 4.0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
