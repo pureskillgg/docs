@@ -156,21 +156,22 @@ Second, we maintain a companion tome data set which is very economical.
 
 Consider these steps:
 
-1. You probably don't need as much data as you think.
-2. AWS has a generous free tier which
+1. AWS has a free tier which
    may reduce or the eliminate the cost to get started.
-3. If you can use available tomes for your project,
+2. If you can use available tomes for your project,
    don't bother downloading individual match data.
    Most tomes cost pennies to download and contain
    data for across many matches.
-4. Otherwise, start with one day of data to discover your costs.
-5. Estimate how much data you actually need to get started experimenting.
-6. Be careful when downloading a large number of revisions at once.
+3. If the available tomes are not sufficient for your project, 
+   estimate how much data you actually need by starting with one day.
+   Remember that one revision is one day's worth of data.
+4. Be careful when downloading a large number of revisions at once.
    You might go over the free tier part-way though the export process
    and have difficulty stopping the jobs.
    We recommend you limit each export batch to one month intervals.
-7. If you share a tome generator with us, we may be able to make the tome
-   for you and share it back to the data set.
+5. If you share a tome generator with us, we may be able to make the tome
+   for you and share it back to the data set. This would prevent you from
+   needing to download the entire csds data set which is about 2TB.
 
 ### Where can I get financial support?
 
