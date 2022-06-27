@@ -13,7 +13,7 @@ const config = {
   plugins: ['posthog-docusaurus'],
   themeConfig: {
     posthog: {
-      apiKey: process.env.POSTHOG_API_KEY ?? '',
+      apiKey: process.env.POSTHOG_API_KEY ?? ' ',
       appUrl: 'https://app.posthog.com',
       enableInDevelopment: false
     },
