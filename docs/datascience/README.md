@@ -164,7 +164,7 @@ Consider these steps:
    data for across many matches.
 3. If the available tomes are not sufficient for your project, 
    estimate how much data you actually need by starting with one day.
-   Remember that one revision is one day's worth of data.
+   Remember that one revision is one day worth of data.
 4. Be careful when downloading a large number of revisions at once.
    You might go over the free tier part-way though the export process
    and have difficulty stopping the jobs.
