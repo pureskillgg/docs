@@ -145,8 +145,7 @@ but we do not guarantee their accuracy or applicability to your AWS account.
 
 TL;DR: It costs about $1.50 to download a day of data, or $4-5 per 1,000 matches.
 Downloading tomes is much less expensive.
-
-- Tomes contain slices of features across many matches.
+Tomes contain slices of features across many matches.
 
 ### How should I optimize my costs?
 
