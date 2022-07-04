@@ -110,6 +110,37 @@ of `1.2.3` for stable releases, `1.2.3b0` for beta releases,
 and `1.2.3rc0` for release candidates.
 This is a small cosmetic difference, but otherwise, the semantic meaning will follow [semver].
 
+### What do I need to use the developer tools?
+
+The minimum [tutorial requirements] are [Python] and [Poetry].
+
+### Can I use any version of Python?
+
+No.
+For the best experience, we recommend using the latest version of Python 3.9
+
+To install an isolated Python version,
+we recommend [pyenv] for Linux and Mac, or [pyenv-win] for Windows.
+
+Version 3.10 may work, but many libraries are still lagging behind on full support,
+which means installing dependencies may take longer, require additional build tools, or fail.
+Additionally, Python 3.10 is not yet supported by all cloud providers, including AWS Lambda.
+When 3.10 has wider adoption, we will officially support it, but for now we only test on 3.9.
+
+### Why do I need to use Poetry to install dependencies?
+
+Poetry guarantees each project runs in an isolated environment with pinned dependencies.
+This is the only way to ensure reproducible tests and builds.
+
+You can try to use an alternative Python package manager,
+but we cannot offer support.
+
+### Can I use my favorite editor or IDE?
+
+Yes.
+If your editor or IDE integrates with Python,
+ensure you refer to its documentation for using it with Python virtual environments.
+
 ### Can I contribute?
 
 Yes! Please use [Discord] or GitHub issues.
@@ -199,3 +230,9 @@ Consider these steps:
 [semver]: https://semver.org/
 [pep 440]: https://peps.python.org/pep-0440/
 [discord]: https://pureskill.gg/discord
+
+[tutorial requirements]: https://github.com/pureskillgg/makenew-pyskill#requirements
+[Python]: https://www.python.org/
+[Poetry]: https://python-poetry.org/
+[pyenv]: https://github.com/pyenv/pyenv
+[pyenv-win]: https://github.com/pyenv-win/pyenv-win
