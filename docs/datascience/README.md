@@ -230,9 +230,8 @@ Consider these steps:
 [semver]: https://semver.org/
 [pep 440]: https://peps.python.org/pep-0440/
 [discord]: https://pureskill.gg/discord
-
 [tutorial requirements]: https://github.com/pureskillgg/makenew-pyskill#requirements
-[Python]: https://www.python.org/
-[Poetry]: https://python-poetry.org/
+[python]: https://www.python.org/
+[poetry]: https://python-poetry.org/
 [pyenv]: https://github.com/pyenv/pyenv
 [pyenv-win]: https://github.com/pyenv-win/pyenv-win
