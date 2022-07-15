@@ -14,7 +14,7 @@ const config = {
   themeConfig: {
     posthog: {
       apiKey: process.env.POSTHOG_API_KEY ?? ' ',
-      appUrl: 'https://app.posthog.com',
+      appUrl: 'https://csgo.pureskill.gg/_ph',
       enableInDevelopment: false
     },
     colorMode: {
