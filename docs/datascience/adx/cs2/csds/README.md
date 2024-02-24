@@ -126,7 +126,7 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 
 - **Does the dataset contain all possible instances or is it a sample of instances from a larger set?**
   It is a complete picture of all CS2 demos available to PureSkill.gg.
-  There are [500,000 people playing CS2 at any point in a day][CS2 chart],
+  There are [500,000 people playing CS2 at any point in a day][cs2 chart],
   and assuming a match takes 1 hour and 10 players,
   there are 1.2 million matches played every day.
   The dataset here is a subset of those matches played by the larger CS2 community.
@@ -172,7 +172,7 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 - **Does the dataset contain data that, if viewed directly, might be offensive, insulting, threatening, or might otherwise cause anxiety?**
   Yes, but keep in mind this is all video game data.
   Out of an abundance of caution, we list these elements of the dataset that may be inappropriate for younger audiences below.
-  CS2 has a rating by the [ESRB] of [Mature][esrb ratings] for [Blood and Intense Violence][esrb CS2].
+  CS2 has a rating by the [ESRB] of [Mature][esrb ratings] for [Blood and Intense Violence][esrb cs2].
   CS2 is basically a SWAT team simulator.
   The game includes realistic weapons, bombs, hostages, terrorists, killing, death, and grenades.
   There are no player names, text chat, or voice chat data in the dataset.
@@ -375,16 +375,16 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 [datasheets for datasets]: https://arxiv.org/abs/1803.09010
 [aws]: https://aws.amazon.com/
 [adx]: https://aws.amazon.com/data-exchange
-[CS2]: https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/
+[cs2]: https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/
 [faceit]: https://www.faceit.com/
 [steam]: https://steamcommunity.com/
 [valve]: https://www.valvesoftware.com/
 [makenew-pyskill]: https://github.com/pureskillgg/makenew-pyskill
-[CS2 chart]: https://steamcharts.com/app/730
+[cs2 chart]: https://steamcharts.com/app/730
 [demoinfocs-golang]: https://github.com/markus-wa/demoinfocs-golang
 [esrb]: https://www.esrb.org
 [esrb ratings]: https://www.esrb.org/ratings-guide/
-[esrb CS2]: https://www.esrb.org/ratings/100491/Counter-Strike%3A+Global+Offensive
+[esrb cs2]: https://www.esrb.org/ratings/100491/Counter-Strike%3A+Global+Offensive
 [pii_remover]: https://github.com/pureskillgg/csgo-dsdk/blob/master/pureskillgg_csgo_dsdk/scrubber/scrub_pii.py
 [steam help page on api connections]: https://help.steampowered.com/en/wizard/HelpWithGameIssue/?appid=730&issueid=128
 [terms of service]: https://pureskill.gg/site-terms/
