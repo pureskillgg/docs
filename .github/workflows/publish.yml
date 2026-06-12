@@ -8,51 +8,81 @@ on:
 
 jobs:
   npm:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup
-        uses: ./.github/actions/setup
+        uses: actions/checkout@v5
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
         with:
-          node_version: '14'
-      - name: Publish
-        uses: JS-DevTools/npm-publish@v1
-        with:
-          access: public
-          token: ${{ secrets.NPM_TOKEN }}
+          node-version: '22'
+          registry-url: https://registry.npmjs.org
+      - name: Check version
+        id: version
+        shell: bash
+        run: |
+          name="$(jq -r '.name' package.json)"
+          current="$(jq -r '.version' package.json)"
+          published="$(npm view "${name}@${current}" version 2>/dev/null || true)"
+          {
+            echo "name=${name}"
+            echo "current=${current}"
+            echo "published=${published}"
+          } >> "$GITHUB_OUTPUT"
+      - name: Publish ${{ steps.version.outputs.name }}@${{ steps.version.outputs.current }}
+        if: ${{ steps.version.outputs.published != steps.version.outputs.current }}
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   github:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup
-        uses: ./.github/actions/setup
-      - name: Publish
-        uses: JS-DevTools/npm-publish@v1
+        uses: actions/checkout@v5
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
         with:
-          access: public
-          token: ${{ secrets.GITHUB_TOKEN }}
-          registry: https://npm.pkg.github.com
+          node-version: '22'
+          registry-url: https://npm.pkg.github.com
+          scope: '@${{ github.repository_owner }}'
+      - name: Check version
+        id: version
+        shell: bash
+        run: |
+          name="$(jq -r '.name' package.json)"
+          current="$(jq -r '.version' package.json)"
+          published="$(npm view "${name}@${current}" version 2>/dev/null || true)"
+          {
+            echo "name=${name}"
+            echo "current=${current}"
+            echo "published=${published}"
+          } >> "$GITHUB_OUTPUT"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Publish ${{ steps.version.outputs.name }}@${{ steps.version.outputs.current }}
+        if: ${{ steps.version.outputs.published != steps.version.outputs.current }}
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
   docs:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GH_TOKEN }}
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v3
+        uses: crazy-max/ghaction-import-gpg@v7
         id: import_gpg
         with:
-          git-user-signingkey: true
-          git-commit-gpgsign: true
-          git-committer-name: ${{ secrets.GIT_USER_NAME }}
-          git-committer-email: ${{ secrets.GIT_USER_EMAIL }}
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_committer_name: ${{ secrets.GIT_USER_NAME }}
+          git_committer_email: ${{ secrets.GIT_USER_EMAIL }}
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
       - name: Setup
         uses: ./.github/actions/setup
@@ -61,7 +91,7 @@ jobs:
         env:
           POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
       - name: Publish
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.GH_TOKEN }}
           publish_dir: build

@@ -33,8 +33,7 @@
     "postformat": "prettier --write --ignore-path .gitignore 'docs/**/*.(md)'"
   },
   "engines": {
-    "node": ">=14.15.0",
-    "npm": ">= 8.1.0"
+    "node": ">=22.0.0"
   },
   "overrides": {
     "@docusaurus/core": {
