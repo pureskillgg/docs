@@ -21,3 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   signing key actually imports.
 - Bumped the Node floor to 22 (`engines.node`, `.nvmrc`, and the setup action
   default); validated that the Docusaurus build still succeeds on Node 22.
+
+## 0.8.0 / 2024-02-24
+
+### Added
+
+- CS2 documentation pages.
