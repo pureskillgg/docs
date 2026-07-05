@@ -5,18 +5,26 @@ const config = {
   baseUrl: '/',
   favicon: 'https://csgo.cdn.pureskill.app/17.2.0/favicon.ico',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn'
+    }
+  },
   i18n: {
     defaultLocale: 'en',
     locales: ['en']
   },
-  plugins: ['posthog-docusaurus'],
+  plugins: [
+    [
+      'posthog-docusaurus',
+      {
+        apiKey: process.env.POSTHOG_API_KEY || 'phc_placeholder',
+        appUrl: 'https://csgo.pureskill.gg/_ph',
+        enableInDevelopment: false
+      }
+    ]
+  ],
   themeConfig: {
-    posthog: {
-      apiKey: process.env.POSTHOG_API_KEY ?? ' ',
-      appUrl: 'https://csgo.pureskill.gg/_ph',
-      enableInDevelopment: false
-    },
     colorMode: {
       defaultMode: 'dark',
       disableSwitch: false,
