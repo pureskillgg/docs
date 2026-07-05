@@ -8,7 +8,10 @@
   ],
   "homepage": "https://github.com/pureskillgg/docs",
   "bugs": "https://github.com/pureskillgg/docs/issues",
-  "repository": "pureskillgg/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pureskillgg/docs.git"
+  },
   "license": "MIT",
   "author": {
     "name": "PureSkill.gg",
@@ -25,26 +28,25 @@
     "prebuild": "docusaurus clear",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "lint": "prettier --check --ignore-path .gitignore '**/*.(js|cjs|mjs|json|yml|yaml|graphql)'",
-    "postlint": "prettier --check --ignore-path .gitignore 'docs/**/*.(md)'",
+    "lint": "prettier --check --ignore-path .gitignore '**/*.{js,cjs,mjs,json,yml,yaml,graphql}'",
+    "postlint": "prettier --check --ignore-path .gitignore 'docs/**/*.md'",
     "preversion": "npm-run-all --parallel lint build",
     "postversion": "git push --follow-tags",
-    "format": "prettier --write --ignore-path .gitignore '**/*.(js|cjs|mjs|json|yml|yaml|graphql)'",
-    "postformat": "prettier --write --ignore-path .gitignore 'docs/**/*.(md)'"
+    "format": "prettier --write --ignore-path .gitignore '**/*.{js,cjs,mjs,json,yml,yaml,graphql}'",
+    "postformat": "prettier --write --ignore-path .gitignore 'docs/**/*.md'"
   },
   "engines": {
     "node": ">=22.0.0"
   },
   "overrides": {
-    "@docusaurus/core": {
-      ".": "$@docusaurus/core"
-    }
+    "serialize-javascript": "^7.0.5",
+    "uuid": "^11.1.1"
   },
   "devDependencies": {
-    "@docusaurus/core": "^2.0.0-beta.20",
-    "@docusaurus/preset-classic": "^2.0.0-beta.20",
-    "npm-run-all": "^4.1.2",
-    "posthog-docusaurus": "^1.0.3",
-    "prettier": "^2.3.0"
+    "@docusaurus/core": "^3.6.0",
+    "@docusaurus/preset-classic": "^3.6.0",
+    "npm-run-all2": "^9.0.2",
+    "posthog-docusaurus": "^2.0.0",
+    "prettier": "^3.9.4"
   }
 }
