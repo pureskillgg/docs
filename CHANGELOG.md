@@ -7,18 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+## 0.8.2 / 2026-07-05
+
 ### Changed
 
-- Modernized GitHub Actions workflows so current runners can schedule them:
-  `ubuntu-20.04` runners to `ubuntu-latest`, `actions/checkout` v2 to v5,
-  `actions/setup-node` v2 to v5, `crazy-max/ghaction-import-gpg` v3/v4 to v7,
-  `stefanzweifel/git-auto-commit-action` v4 to v7, and
-  `peaceiris/actions-gh-pages` v3 to v4.
-- Replaced the deprecated `JS-DevTools/npm-publish` action with a plain
-  `npm publish` step guarded by a published-version check.
-- Fixed the kebab-case GPG inputs in the gh-pages job (e.g. `gpg-private-key`),
-  which `ghaction-import-gpg` silently ignores; they are now snake_case so the
-  signing key actually imports.
+- Upgrade Docusaurus 2-beta to 3 (MDX 3).
+- Upgrade `posthog-docusaurus` v1 to v2 and clear a Docusaurus v4 deprecation.
+- Fall back the PostHog `apiKey` to `phc_placeholder` so keyless builds succeed.
+- Upgrade the build toolchain (`prettier` 3, `npm-run-all2`) and clear its vulnerabilities.
+
+## 0.8.1 / 2026-07-05
+
+### Changed
+
+- Modernize GitHub Actions workflows for current runners.
+- Replace the deprecated `JS-DevTools/npm-publish` action with a guarded `npm publish`.
+- Fix kebab-case GPG inputs in the gh-pages job so the signing key imports.
 - Bumped the Node floor to 22 (`engines.node`, `.nvmrc`, and the setup action
   default); validated that the Docusaurus build still succeeds on Node 22.
 
