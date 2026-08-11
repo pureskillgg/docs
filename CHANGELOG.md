@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Changed
+
+- GitHub Actions updated to Node 24 runtimes: `actions/checkout` v5 to v7; `actions/setup-node` v5 to v6.
+
 ## 0.8.2 / 2026-07-05
 
 ### Changed
