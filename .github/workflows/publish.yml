@@ -98,7 +98,7 @@ jobs:
         run: npm run build
         env:
           POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
-      - name: Publish ${{ steps.version.outputs.name }}@${{ steps.version.outputs.current }}
+      - name: Publish
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.GH_TOKEN }}
