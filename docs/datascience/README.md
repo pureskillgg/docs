@@ -19,7 +19,7 @@ replaced the game in 2023. Those revisions are no longer retained. The
 
 With [the tutorial][tutorial] you will learn how to do some real
 CS2 data science with data from the public data set.
-Once you complete the tutorial, you may use the same repository to bootstrap you own project!
+Once you complete the tutorial, you may use the same repository to bootstrap your own project!
 
 ### Why are you doing this?
 
@@ -117,7 +117,7 @@ Mostly.
 We don't anticipate major changes before releasing version 1 of our libraries.
 Please report any issues on GitHub.
 
-Libraries follow the principals of [semver].
+Libraries follow the principles of [semver].
 Beta releases may see breaking API changes before their final release, while release candidates
 will avoid this unless absolutely necessary.
 
@@ -220,7 +220,7 @@ Consider these steps:
 3. Estimate how much data you actually need by starting with one day.
    Remember that one revision is one day worth of data.
 4. Be careful when exporting a large number of revisions at once.
-   You might go over the free tier part-way though the export process
+   You might go over the free tier part-way through the export process
    and have difficulty stopping the jobs.
    We recommend you limit each export batch to one month intervals.
 5. Once you have exported the data, build a [tome][dsdk] from it. A tome is a
