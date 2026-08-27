@@ -1,4 +1,18 @@
+---
+sidebar_label: CSDS Spec (CS:GO, archived)
+slug: /datascience/adx/csgo/csds/spec
+---
+
 # CSDS Spec
+
+:::warning Archived page
+
+This spec describes the CS:GO channels, which are no longer published. Several of
+them (`item_remove`, `player_action`, `player_fall`, `player_interaction`) have no
+CS2 equivalent. For the data set still being published, see
+[CSDS Spec](/datascience/adx/cs2/csds/spec).
+
+:::
 
 Documentation for CSDS channels built by FPS Critic, Inc.
 

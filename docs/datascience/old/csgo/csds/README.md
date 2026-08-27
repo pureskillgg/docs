@@ -1,18 +1,29 @@
-# PureSkill.gg Competitive CS2 Gameplay
+---
+sidebar_label: Competitive CS:GO Gameplay (archived)
+slug: /datascience/adx/csgo/csds/
+---
+
+# PureSkill.gg Competitive CS:GO Gameplay
+
+:::warning Archived page
+
+No new CS:GO data is produced. Counter-Strike: Global Offensive was replaced by
+Counter-Strike 2 in September 2023, and the pipeline stopped parsing CS:GO demos
+once the last of them had been processed. The AWS Data Exchange product this
+page describes is the same one that now carries CS2 data, and it no longer
+retains any CS:GO revisions. This page is kept for subscribers working with
+CS:GO data they already hold. The current page is
+[Competitive CS2 Gameplay](/datascience/adx/cs2/csds/).
+
+:::
 
 _This data set is hosted as a [product on the AWS Data Exchange][product page]._
 
-Competitive Counter-Strike 2 (CS2)
+Competitive Counter-Strike: Global Offensive (CS:GO)
 match data from matchmaking, FACEIT, and other third-parties.
 Contains full player telemetry and timestamped game events.
-These data are extracted from CS2 replay files called demos.
-Each match is published as 43 objects, collectively called csds:
-42 channel files plus a JSON index object, also named `csds`, that lists them.
-The [CSDS Spec](./spec.md) documents every channel and column.
-
-Revisions through 2026-07-31 carry 31 objects per match instead of 43, and the
-2026-08-02 revision holds a mix of both. The
-[archived spec](/datascience/old/cs2/csds/spec) describes the older set.
+These data are extracted from CS:GO replay files called demos.
+Data for each match is split across 33 files, collectively called csds.
 
 Please visit **[docs.pureskill.gg/datascience][datascience docs]**
 for full introduction to PureSkill.gg data science,
@@ -62,7 +73,7 @@ or reach out on [Discord].
 
 ## About PureSkill.gg
 
-PureSkill.gg provides AI-powered coaching for CS2 players of all ranks
+PureSkill.gg provides AI-powered coaching for CS:GO players of all ranks
 to hone their skills, rank up, and dominate the game.
 
 - [Website]
@@ -89,16 +100,15 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 - DSA - Data Subscriber Agreement.
   Find this in your AWS account under the ADX subscription to this data set.
 - PII - Personally Identifiable Information.
-- channel - One of the 42 data files that combine to make a csds object.
-- csds - The name given to the collection of files extracted from a CS2 demo,
-  and also the name of the JSON index object that lists them.
-- demo - The name given to the server-recorded stream of event data from a match of CS2.
+- channel - One of the 33 files that combine to make a csds object.
+- csds - The name given to the collection of 33 files extracted from a CS:GO demo.
+- demo - The name given to the server-recorded stream of event data from a match of CS:GO.
   Sometimes ends in the .dem file extension.
-- [CS2] - Counter-Strike 2.
+- [CS:GO] - Counter-Strike: Global Offensive.
   The game created by Valve that is played to generate this dataset.
-- [Valve] - The company that makes CS2.
-- [Steam] - The platform created by Valve that CS2 players use to play the game online.
-- [FACEIT] - A third-party platform used to play CS2 online.
+- [Valve] - The company that makes CS:GO.
+- [Steam] - The platform created by Valve that CS:GO players use to play the game online.
+- [FACEIT] - A third-party platform used to play CS:GO online.
 
 ### Motivation
 
@@ -126,22 +136,20 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 ### Composition
 
 - **What do the instances that comprise the dataset represent?**
-  Parsed and processed individual matches of CS2.
+  Parsed and processed individual matches of CS:GO.
 
 - **How many instances are there in total?**
-  Each daily revision holds the matches processed that day.
-  Volume has grown steadily: revisions at the start of the retained window in
-  July 2025 hold around 12 matches, and recent ones hold between 90 and 150.
-  A match takes about 35 MB across its 43 objects, so a recent day is roughly
-  3 to 5 GB.
+  Approximately 60,000 matches of CS:GO with ~250 added each day.
 
 - **Does the dataset contain all possible instances or is it a sample of instances from a larger set?**
-  It is a complete picture of all CS2 demos available to PureSkill.gg,
-  which is a small fraction of the matches the wider community plays.
-  Valve publishes concurrent player counts on the [Steam most played chart][cs2 chart].
+  It is a complete picture of all CS:GO demos available to PureSkill.gg.
+  There are [500,000 people playing CS:GO at any point in a day][cs:go chart],
+  and assuming a match takes 1 hour and 10 players,
+  there are 1.2 million matches played every day.
+  The dataset here is a subset of those matches played by the larger CS:GO community.
 
 - **What data does each instance consist of?**
-  CS2 demo files are [parsed][demoinfocs-golang] and saved as 42 separate channels.
+  CS:GO demo files are [parsed][demoinfocs-golang] and saved as 33 separate channels.
   The collection of these channels for a match is called csds.
   We provide an [open source SDK][makenew-pyskill] to work with the csds data.
 
@@ -153,16 +161,6 @@ This is a standardized CSV file that catalogues all tables and columns in the da
   We are always improving our processing pipeline,
   and some matches may have been processed using older versions of certain programs.
   Notably, older matches from the FACEIT platform are missing information about player ranks.
-
-  The channel set also changed during the retained window. Revisions through
-  2026-07-31 carry 30 channels rather than 42, and the 2026-08-02 revision holds
-  a mix. Fourteen channels were added: `bullet_damage`, `grenade_bounce`,
-  `grenade_vector`, `item_dropped`, `item_refund`, `molotov_fire`,
-  `player_chat`, `player_connect`, `player_inputs`, `player_sound`,
-  `rank_update`, `score_update`, `team_change` and `world_item_vector`.
-  Two were removed: `item_remove` and `player_action`.
-  Read each match's `csds` index object rather than assuming a fixed channel
-  list.
 
 - **Are relationships between individual instances made explicit?**
   Since we have anonymized player data,
@@ -191,8 +189,8 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 - **Does the dataset contain data that, if viewed directly, might be offensive, insulting, threatening, or might otherwise cause anxiety?**
   Yes, but keep in mind this is all video game data.
   Out of an abundance of caution, we list these elements of the dataset that may be inappropriate for younger audiences below.
-  CS2 has a rating by the [ESRB] of [Mature][esrb ratings] for Blood and Intense Violence.
-  CS2 is basically a SWAT team simulator.
+  CS:GO has a rating by the [ESRB] of [Mature][esrb ratings] for [Blood and Intense Violence][esrb cs:go].
+  CS:GO is basically a SWAT team simulator.
   The game includes realistic weapons, bombs, hostages, terrorists, killing, death, and grenades.
   There are no player names, text chat, or voice chat data in the dataset.
   It is possible to draw offensive pictures by shooting a wall and if visualized,
@@ -207,7 +205,7 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 
 - **Does the dataset identify any subpopulations?**
   Not directly.
-  However, for CS2 demos from Valve Matchmaking, the server location
+  However, for CS:GO demos from Valve Matchmaking, the server location
   is in the name, and one may infer player region (such as US West, South America, or India).
 
 - **Does the dataset contain data that might be considered sensitive in any way?**
@@ -230,12 +228,12 @@ This is a standardized CSV file that catalogues all tables and columns in the da
   > You can create game authentication codes to allow third-party websites and applications to manage your game without running the actual game client. Third-party websites and applications can use this authentication code to access your match history, your overall performance in those matches, download replays of your matches, and analyze your gameplay.
 
 - **What mechanisms or procedures were used to collect the data ?**
-  The CS2 server records a stream of events from every player and game element into a demo.
+  The CS:GO server records a stream of events from every player and game element into a demo.
   We then collect the demo file through the APIs described above or through manual upload.
 
 - **If the dataset is a sample from a larger set, what was the sampling strategy?**
   It is a full sample of data from PureSkill.gg, except for any demos with errors.
-  This is a subset of the many, many CS2 matches played every day.
+  This is a subset of the many, many CS:GO matches played every day.
   It is not guaranteed that this dataset is unbiased because all of the demos come from PureSkill.gg users.
   This is mitigated by the fact that generally the 9 other players
   in a 10 player match are not PureSkill.gg users.
@@ -246,21 +244,19 @@ This is a standardized CSV file that catalogues all tables and columns in the da
   Cloud processing costs were paid by FPS Critic, Inc. who produces PureSkill.gg.
 
 - **Over what timeframe was the data collected?**
-  Collection began 2021-12-01 and continues daily.
-  Revisions are retained for about a year, so the data available today begins
-  2025-07-18. Earlier revisions have been revoked and emptied.
+  2021-12-01 to present.
 
 - **Were any ethical review processes conducted?**
   No.
 
 - **Did you collect the data from the individuals in question directly, or obtain it via third parties or other sources?**
   PureSkill.gg users must create an account on PureSkill.gg and connect to Steam or FACEIT APIs
-  from which we download the CS2 demo files.
+  from which we download the CS:GO demo files.
   The user must either login to FACEIT or provide a unique, non-public key to connect to Steam.
   Both connections can be revoked at any time.
 
 - **Were the individuals in question notified about the data collection?**
-  We must collect a user's CS2 demo files to provide our services,
+  We must collect a user's CS:GO demo files to provide our services,
   and they agree to this in the PureSkill.gg [Terms of Service].
   There is data for players that did not agree to our terms of service.
   Since the processed data we are providing here do not contain anything identifiable
@@ -268,7 +264,7 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 
 - **Did the individuals in question consent to the collection and use of their data?**
   PureSkill.gg Users agreed to the [Terms of Service] and linked their Steam or FACEIT accounts
-  which gives us access to their CS2 demo files.
+  which gives us access to their CS:GO demo files.
   However, people who happen to be playing on the same server did not.
   Since the processed data we are providing here do not contain anything identifiable
   or that can otherwise be linked back to their Steam account, we include these player's data.
@@ -287,15 +283,15 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 ### Preprocessing, Cleaning, and Labeling
 
 - **Was any preprocessing/cleaning/labeling of the data done?**
-  Raw CS2 demo files are event streams.
+  Raw CS:GO demo files are event streams.
   The events and tables can be accessed with a [parser][demoinfocs-golang].
-  The CS2 demo files are first processed by our parser,
+  The CS:GO demo files are first processed by our parser,
   and the output of the parser is what we call a replay.
   The replay is transformed by a Post Parser Processor (PPP)
   where we engineer new columns, clean up extraneous round data, and fix certain values.
 
 - **Was the "raw" data saved in addition to the preprocessed/cleaned/labeled data?**
-  CS2 demo files are deleted quickly after they are processed.
+  CS:GO demo files are deleted quickly after they are processed.
   If we need to add new features based on demos,
   we can update the pipeline and new data will contain the new information.
   Since new matches are streaming in automatically each day,
@@ -339,10 +335,7 @@ This is a standardized CSV file that catalogues all tables and columns in the da
   See the DSA for details.
 
 - **When will the dataset be distributed?**
-  It has been distributed since 2022-05-17, with a one month automatically
-  renewing subscription and a new revision published every day.
-  Revisions carried CS:GO data until Counter-Strike 2 replaced the game in 2023;
-  every revision still retained carries CS2 data.
+  Starting on 2022-05-17 with a one month automatically renewing subscription.
 
 - **Will the dataset be distributed under a copyright or other intellectual property license, and/or under applicable terms of use?**
   Yes, under the DSA, which has similar terms to the
@@ -351,9 +344,9 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 
 - **Have any third parties imposed IP-based or other restrictions on the data associated with the instances?**
   We removed all PII or traces back to any Steam ID or online identities.
-  Steam is the platform used to play CS2, and while a game account may be anonymous,
+  Steam is the platform used to play CS:GO, and while a game account may be anonymous,
   we have taken great care to remove any possibility of scraping valid Steam IDs or online identifiers
-  from the data or the ability to download the CS2 demo file.
+  from the data or the ability to download the CS:GO demo file.
 
 - **Do any export controls or other regulatory restrictions apply to the dataset or to individual
   instances?**
@@ -378,10 +371,8 @@ This is a standardized CSV file that catalogues all tables and columns in the da
   No
 
 - **Will older versions of the dataset continue to be supported/hosted/maintained?**
-  Revisions are retained for about a year and then revoked and emptied.
-  As of 2026-08-27 the data set holds 365 daily revisions covering 2025-07-18
-  onward. Download what you need rather than assuming a revision will still be
-  there later.
+  We may delete old, unusable data at our discretion.
+  Additionally, we may delete old data to reduce cost.
 
 - **If others want to extend/augment/build on/contribute to the dataset, is there a mechanism for them to do so?**
   Please email [contact@pureskill.gg][email] or reach out on [Discord]
@@ -401,15 +392,16 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 [datasheets for datasets]: https://arxiv.org/abs/1803.09010
 [aws]: https://aws.amazon.com/
 [adx]: https://aws.amazon.com/data-exchange
-[cs2]: https://store.steampowered.com/app/730/
+[cs:go]: https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/
 [faceit]: https://www.faceit.com/
 [steam]: https://steamcommunity.com/
 [valve]: https://www.valvesoftware.com/
 [makenew-pyskill]: https://github.com/pureskillgg/makenew-pyskill
-[cs2 chart]: https://store.steampowered.com/charts/mostplayed
+[cs:go chart]: https://steamcharts.com/app/730
 [demoinfocs-golang]: https://github.com/markus-wa/demoinfocs-golang
 [esrb]: https://www.esrb.org
 [esrb ratings]: https://www.esrb.org/ratings-guide/
+[esrb cs:go]: https://www.esrb.org/ratings/100491/Counter-Strike%3A+Global+Offensive
 [pii_remover]: https://github.com/pureskillgg/csgo-dsdk/blob/master/pureskillgg_csgo_dsdk/scrubber/scrub_pii.py
 [steam help page on api connections]: https://help.steampowered.com/en/wizard/HelpWithGameIssue/?appid=730&issueid=128
 [terms of service]: https://pureskill.gg/site-terms/
