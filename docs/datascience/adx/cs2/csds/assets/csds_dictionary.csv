@@ -169,8 +169,8 @@ tick_save_rate,INTEGER,,,,,,,header,header
 rushb_version,VARCHAR,,,,,,,header,header
 ppp_version,VARCHAR,,,,,,,header,header
 match_date,VARCHAR,,,,,,,header,header
-demo_id,VARCHAR,,,,Redacted by the PII scrubber.,,,header,header
-sharecode,VARCHAR,,,,Redacted by the PII scrubber.,,,header,header
+demo_id,VARCHAR,,,,"Every value is replaced with the literal string ""redacted"".",,,header,header
+sharecode,VARCHAR,,,,"Every value is replaced with the literal string ""redacted"".",,,header,header
 platform,VARCHAR,,,,,,,header,header
 match_type,VARCHAR,,,,,,,header,header
 t_starters_avg_rank,DECIMAL,,,,,,,header,header
@@ -359,7 +359,7 @@ attacker_team_code,INTEGER,,True,,Merged from another channel. Null where no sou
 round,INTEGER,,False,,,,,player_chat,single_event
 tick,INTEGER,,False,,,,,player_chat,single_event
 player_id,INTEGER,,False,,,,,player_chat,single_event
-text,VARCHAR,,False,,Redacted by the PII scrubber.,,,player_chat,single_event
+text,VARCHAR,,False,,"Every value is replaced with the literal string ""redacted"". The chat rows themselves are kept, so you can see that a player typed in a round without seeing what they typed.",,,player_chat,single_event
 is_chat_all,BOOLEAN,,True,,,,,player_chat,single_event
 second,DECIMAL,,,,,,,player_chat,single_event
 player_id_fixed,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_chat,single_event
@@ -476,7 +476,7 @@ effective_health_removed,INTEGER,,,,,,,player_hurt,single_event
 round,INTEGER,,False,,,,,player_info,player_info
 player_id,INTEGER,,False,,,,,player_info,player_info
 team_code,INTEGER,,False,,,,,player_info,player_info
-wins,INTEGER,,False,,Capped to a maximum value.,,,player_info,player_info
+wins,INTEGER,,False,,Values above 2500 are replaced with 2501.,,,player_info,player_info
 rank,INTEGER,,False,,,,,player_info,player_info
 rank_type,INTEGER,,False,,,,,player_info,player_info
 radar_color_code,INTEGER,,False,,,,,player_info,player_info
@@ -520,17 +520,17 @@ player_team_code,INTEGER,,True,,Merged from another channel. Null where no sourc
 round,INTEGER,,False,,,,,player_name,single_event
 tick,INTEGER,,False,,,,,player_name,single_event
 player_id,INTEGER,,False,,,,,player_name,single_event
-name_new,VARCHAR,,False,,Redacted by the PII scrubber.,,,player_name,single_event
-name_old,VARCHAR,,False,,Redacted by the PII scrubber.,,,player_name,single_event
+name_new,VARCHAR,,False,,"Every value is replaced with the literal string ""redacted"".",,,player_name,single_event
+name_old,VARCHAR,,False,,"Every value is replaced with the literal string ""redacted"".",,,player_name,single_event
 second,DECIMAL,,,,,,,player_name,single_event
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_name,single_event
 round,INTEGER,,False,,,,,player_personal,player_info
 player_id,INTEGER,,False,,,,,player_personal,player_info
 player_controller_id,INTEGER,,False,,,,,player_personal,player_info
 player_id_pawn,INTEGER,,False,,,,,player_personal,player_info
-name,VARCHAR,,False,,Redacted by the PII scrubber.,,,player_personal,player_info
-clan_tag,VARCHAR,,False,,Redacted by the PII scrubber.,,,player_personal,player_info
-steam_id,VARCHAR,,False,,Redacted by the PII scrubber.,,,player_personal,player_info
+name,VARCHAR,,False,,"Every value is replaced with the literal string ""redacted"".",,,player_personal,player_info
+clan_tag,VARCHAR,,False,,"Every value is replaced with the literal string ""redacted"".",,,player_personal,player_info
+steam_id,VARCHAR,,False,,"Replaced with a per-match alias: A, B, C and so on. The alias means nothing outside its own match.",,,player_personal,player_info
 is_bot,BOOLEAN,,,,,,,player_personal,player_info
 player_id_fixed,INTEGER,,,,,,,player_personal,player_info
 round,INTEGER,,False,,,,,player_sound,single_event
@@ -586,7 +586,7 @@ inv_c4,INTEGER,,False,,,,,player_status,telemetry
 current_equipment_cost,INTEGER,,False,,,,,player_status,telemetry
 freezetime_end_equipment_cost,INTEGER,,False,,,,,player_status,telemetry
 money,INTEGER,,False,,,,,player_status,telemetry
-ping,INTEGER,,False,,Redacted by the PII scrubber.,,,player_status,telemetry
+ping,INTEGER,,False,,Replaced with 0.,,,player_status,telemetry
 round_start_equipment_cost,INTEGER,,False,,,,,player_status,telemetry
 zoom_level,INTEGER,,True,,,,,player_status,telemetry
 iron_sight_mode,INTEGER,,True,,,,,player_status,telemetry
@@ -647,7 +647,7 @@ player_id,INTEGER,,False,,,,,rank_update,single_event
 rank_old,INTEGER,,False,,,,,rank_update,single_event
 rank_new,INTEGER,,False,,,,,rank_update,single_event
 rank_change,DECIMAL,,False,,,,,rank_update,single_event
-win_count,INTEGER,,False,,Capped to a maximum value.,,,rank_update,single_event
+win_count,INTEGER,,False,,Values above 2500 are replaced with 2501.,,,rank_update,single_event
 second,DECIMAL,,,,,,,rank_update,single_event
 player_id_fixed,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,rank_update,single_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,rank_update,single_event

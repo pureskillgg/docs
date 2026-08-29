@@ -8,10 +8,13 @@ sidebar_label: Competitive CS2 Gameplay (archived)
 
 This is the CS2 data set page as it stood on 2024-02-24. It is internally
 inconsistent about how many files a match is, saying 31 above and 33 in the
-glossary; 31 was the right answer at the time. Since 2026-08-04 a match is 43
-objects, 42 channels plus the index. This page is kept as a record for anyone
-working with data downloaded before then. The current page is
-[Competitive CS2 Gameplay](/datascience/adx/cs2/csds/).
+glossary; 31 was the right answer at the time.
+
+It describes revisions through 2026-07-31, which are still retained and can
+still be exported today, so which page you need depends on the revision rather
+than on when you downloaded it. From 2026-08-04 a match is 43 objects, 42
+channels plus the index, covered by the current
+[Competitive CS2 Gameplay](/datascience/adx/cs2/csds/) page.
 
 :::
 

@@ -8,8 +8,10 @@ The [PureSkill.gg Competitive Gameplay Data Set] contains
 Counter-Strike 2 (CS2) match data from matchmaking, FACEIT, and other
 third-parties.
 Contains full player telemetry and timestamped game events.
-A new revision is published every day, and each match in it is 42 data files
-plus an index object.
+A new revision is published every day. In revisions from 2026-08-04 onward,
+each match is 42 data files plus an index object; revisions still retained from
+before then carry 30 data files per match. The
+[data set page](./adx/cs2/csds/) covers the change.
 
 The data set carried Counter-Strike: Global Offensive (CS:GO) data until CS2
 replaced the game in 2023. Those revisions are no longer retained. The

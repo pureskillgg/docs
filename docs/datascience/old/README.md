@@ -4,12 +4,14 @@ sidebar_label: About the archive
 
 # Archive
 
-Older versions of these pages, kept because subscribers hold data that matches
-them. Nothing here describes the data set as it is published today.
+Older versions of these pages, kept because the retained window still contains
+revisions they describe. Nothing here describes the data set as it is published
+today.
 
-If you downloaded a revision and want to know what its columns meant at the
-time, start here. If you want to know what is being published now, start at
-[PureSkill.gg Data Science](/datascience/).
+Which page you need depends on the revision, not on when you downloaded it: a
+revision from 2026-07-31 is still retained, still exportable today, and still
+described by the archived spec. If you want to know what is being published
+now, start at [PureSkill.gg Data Science](/datascience/).
 
 ## What is in here
 

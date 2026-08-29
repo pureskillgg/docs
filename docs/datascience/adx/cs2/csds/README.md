@@ -194,7 +194,13 @@ This is a standardized CSV file that catalogues all tables and columns in the da
   CS2 has a rating by the [ESRB] of [Mature][esrb ratings] for Blood and Intense Violence.
   CS2 is basically a SWAT team simulator.
   The game includes realistic weapons, bombs, hostages, terrorists, killing, death, and grenades.
-  There are no player names, text chat, or voice chat data in the dataset.
+  Player names and chat messages are overwritten before publication rather than
+  dropped, so the channels carrying them are present and their rows are intact.
+  `player_name.name_new`, `player_name.name_old`, `player_personal.name`,
+  `player_personal.clan_tag` and `player_chat.text` each hold the literal string
+  `redacted` in every row. `player_chat` therefore tells you that somebody typed
+  in a given round, and nothing about what they typed.
+  There is no voice chat data anywhere in the dataset.
   It is possible to draw offensive pictures by shooting a wall and if visualized,
   this may be considered offensive.
 

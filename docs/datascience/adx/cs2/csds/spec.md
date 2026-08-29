@@ -25,11 +25,20 @@ them.
 | --------------------- | --------------------------------------------------------------------------------------------------- |
 | `replay`              | Written by the demo parser, straight off the game's own event stream.                               |
 | `replay_fixed`        | A parser value the pipeline recomputed. The uncorrected value stays in the matching `*_raw` column. |
-| `replay-capped`       | A parser value clamped to a maximum.                                                                |
-| `replay-redacted`     | A parser value removed or replaced by the PII scrubber.                                             |
+| `replay-capped`       | A parser value clamped at the top, so an unusually high number cannot single a player out.          |
+| `replay-redacted`     | A parser value overwritten by the PII scrubber.                                                     |
 | `calculated`          | Derived by the pipeline from the columns named under Dependents.                                    |
-| `calculated-redacted` | Derived, then removed or replaced by the PII scrubber.                                              |
+| `calculated-redacted` | Derived, then overwritten by the PII scrubber.                                                      |
 | `merged`              | Copied in from another channel by joining on the columns named under Merge Keys.                    |
+
+Redaction is not one operation, and the redacted columns are still there. Names
+and chat text become the literal string `redacted`, `player_personal.steam_id`
+becomes a per-match alias (`A`, `B`, `C` and so on) that means nothing outside
+its own match, and `player_status.ping` becomes `0`. The rows are untouched, so
+`player_chat` still tells you that somebody typed in a given round, without
+telling you what they typed. There is no voice data anywhere in the data set.
+The [data dictionary](./assets/csds_dictionary.csv) says which treatment each
+column got.
 
 **Dependents** names the columns a calculated column is computed from. A
 `channel:column` entry points at another channel, and a `meta:` or `metademo:`
