@@ -1,4 +1,21 @@
+---
+sidebar_label: Competitive CS:GO Gameplay (archived)
+slug: /datascience/adx/csgo/csds/
+---
+
 # PureSkill.gg Competitive CS:GO Gameplay
+
+:::warning Archived page
+
+No new CS:GO data is produced. Counter-Strike: Global Offensive was replaced by
+Counter-Strike 2 in September 2023, and the pipeline stopped parsing CS:GO demos
+once the last of them had been processed. The AWS Data Exchange product this
+page describes is the same one that now carries CS2 data, and it no longer
+retains any CS:GO revisions. This page is kept for subscribers working with
+CS:GO data they already hold. The current page is
+[Competitive CS2 Gameplay](/datascience/adx/cs2/csds/).
+
+:::
 
 _This data set is hosted as a [product on the AWS Data Exchange][product page]._
 

@@ -1,36 +1,41 @@
+---
+sidebar_label: Data Science FAQ (archived)
+---
+
 # PureSkill.gg Data Science
+
+:::warning Archived page
+
+This is the Data Science FAQ as it stood on 2022-07-04. It recommends Python 3.9
+and Poetry, quotes 2022 download costs, and describes a CS:GO data set that is no
+longer published. It is kept as a record. The current FAQ is
+[PureSkill.gg Data Science](/datascience/).
+
+:::
 
 ## FAQ
 
 ### What data is available?
 
-The [PureSkill.gg Competitive Gameplay Data Set] contains
-Counter-Strike 2 (CS2) match data from matchmaking, FACEIT, and other
-third-parties.
+The [PureSkill.gg Competitive CS:GO Gameplay Data Set] contains
+Competitive Counter-Strike: Global Offensive (CS:GO) match data
+from matchmaking, FACEIT, and other third-parties.
 Contains full player telemetry and timestamped game events.
-A new revision is published every day. In revisions from 2026-08-04 onward,
-each match is 42 data files plus an index object; revisions still retained from
-before then carry 30 data files per match. The
-[data set page](./adx/cs2/csds/) covers the change.
-
-The data set carried Counter-Strike: Global Offensive (CS:GO) data until CS2
-replaced the game in 2023. Those revisions are no longer retained. The
-[archive](./old/) keeps the pages that described them.
 
 ### How can I get started?
 
 With [the tutorial][tutorial] you will learn how to do some real
-CS2 data science with data from the public data set.
-Once you complete the tutorial, you may use the same repository to bootstrap your own project!
+CS:GO data science with data from the public data set.
+Once you complete the tutorial, you may use the same repository to bootstrap you own project!
 
 ### Why are you doing this?
 
 We want to see the amazing stuff you'll do with it!
-Working with AI researchers using Counter-Strike to solve really hard problems inspired us to
-contribute back and open this up to anyone.
+Working with AI researchers using CS:GO to solve really hard problems inspired us to
+contribute back and unlock this potential for anyone.
 
 We hope this work can fuel everything from one's first data science experience, to their
-next hackathon, school project, all the way to groundbreaking research.
+next hackathon, school project—all the way to groundbreaking research.
 
 ### Who can use the data?
 
@@ -48,16 +53,6 @@ of exporting the data will incur standard AWS fees
 for using the cloud provider's storage and bandwidth.
 
 See the [Cost FAQ](#cost-faq) for details.
-
-### How long is the data kept?
-
-About a year. A revision is published each day and revoked roughly twelve
-months later, so the data set holds a rolling window rather than a growing
-archive. As of 2026-08-27 it holds 365 daily revisions covering 2025-07-18
-onward.
-
-If you need a particular stretch of time, export it rather than assuming it
-will still be there. We do not keep a copy you can ask us to restore.
 
 ### Why do I need to subscribe?
 
@@ -92,7 +87,7 @@ in the data set, it is **not traceable back to your player identity**.
 ### I have more questions?
 
 That wasn't a question.
-But it's ok, you can ask in the Dojo channel on [Discord].
+But it's ok, you can reach out in the Dojo channel on [Discord].
 We want to help you and get your feedback!
 
 ## Technical FAQ
@@ -101,13 +96,11 @@ We want to help you and get your feedback!
 
 - **[PySkill][makenew-pyskill]:**
   Project skeleton for doing PureSkill.gg data science with Python.
-  It is also the tutorial.
 - **[Data Science Developer Kit (DSDK)][dsdk]:**
   Python library for working with the data.
   Read csds, create tomes, access data from the ADX, and more.
 - **[CS:GO Data Science Developer Kit (CSGO DSDK)][csgo-dsdk]:**
-  Python library with tools specific to Counter-Strike data science.
-  The name predates CS2; it is the right library for CS2 data.
+  Python library with tools specific to CS:GO data science.
 - **[PureSkill.gg Data Science Showcase][datascience-showcase]:**
   Demonstrations and examples of neat applications of PureSkill.gg data.
 - **[PureSkill.gg Docs][docs]:**
@@ -116,10 +109,12 @@ We want to help you and get your feedback!
 ### Are the developer tools stable?
 
 Mostly.
-We don't anticipate major changes before releasing version 1 of our libraries.
+We don't anticipate majors changes before releasing version 1 of our libraries.
+During the initial period following the announcement, we will be working
+with early adopters to squash bugs and smooth out the APIs.
 Please report any issues on GitHub.
 
-Libraries follow the principles of [semver].
+Libraries follow the principals of [semver].
 Beta releases may see breaking API changes before their final release, while release candidates
 will avoid this unless absolutely necessary.
 
@@ -130,24 +125,25 @@ This is a small cosmetic difference, but otherwise, the semantic meaning will fo
 
 ### What do I need to use the developer tools?
 
-The minimum [tutorial requirements] are [Python] and [uv].
+The minimum [tutorial requirements] are [Python] and [Poetry].
 
-### Which version of Python do I need?
+### Can I use any version of Python?
 
-The tutorial skeleton requires **Python 3.14 or newer**.
-The libraries themselves, `dsdk` and `csgo-dsdk`, support 3.11 and newer, so you
-can use them from an older project if you need to.
+No.
+For the best experience, we recommend using the latest version of Python 3.9
 
-To install an isolated Python version, [uv] can do it for you with
-`uv python install`. [pyenv] for Linux and Mac, or [pyenv-win] for Windows,
-also work.
+To install an isolated Python version,
+we recommend [pyenv] for Linux and Mac, or [pyenv-win] for Windows.
 
-### Why do I need to use uv to install dependencies?
+Version 3.10 may work, but many libraries are still lagging behind on full support,
+which means installing dependencies may take longer, require additional build tools, or fail.
+Additionally, Python 3.10 is not yet supported by all cloud providers, including AWS Lambda.
+When 3.10 has wider adoption, we will officially support it, but for now we only test on 3.9.
 
-uv guarantees each project runs in an isolated environment with pinned dependencies.
+### Why do I need to use Poetry to install dependencies?
+
+Poetry guarantees each project runs in an isolated environment with pinned dependencies.
 This is the only way to ensure reproducible tests and builds.
-Earlier versions of the tutorial used [Poetry]; the projects moved to uv and the
-lock files are no longer compatible.
 
 You can try to use an alternative Python package manager,
 but we cannot offer support.
@@ -177,10 +173,9 @@ data is stored as [Apache Parquet] with additional metadata in [JSON].
 > It provides efficient data compression and encoding schemes with enhanced performance to handle complex data in bulk.
 > Parquet is available in multiple languages including Java, C++, Python, etc...
 
-If you want to use another language, we still recommend starting with the [tutorial].
+If you want to use another language, we still recommend stating with the [tutorial].
 This is the easiest way to download the data and create new tomes, which are just more Parquet and JSON files.
-Tomes are economical views of the data tailored for specific analyses, and you
-build them yourself from data you have exported.
+Tomes are economical views of the data tailored for specific analyses.
 
 ## Cost FAQ
 
@@ -188,46 +183,38 @@ build them yourself from data you have exported.
 
 _FPS Critic Inc., owner of PureSkill.gg, is not liable for any AWS costs you incur._
 
-[Step 7 of the tutorial] can help you estimate your costs.
-We provide the measurements below for convenience,
+[Step 7 of the tutorial] can help you estimate your costs,
+We provide those and the estimates below for convenience,
 but we do not guarantee their accuracy or applicability to your AWS account.
 
-Measured on the production data set on 2026-08-27:
-
-| What                      | How big                                                      |
-| ------------------------- | ------------------------------------------------------------ |
-| One match                 | about 35 MB across 43 objects                                |
-| One recent daily revision | 90 to 150 matches, roughly 3 to 5 GB, 4,000 to 6,500 objects |
-| The whole retained window | 365 daily revisions                                          |
-
-Exporting from the AWS Data Exchange writes those objects into an S3 bucket you
-own, so you pay per object written and then for storing them. Pulling them out
-of AWS afterwards adds data transfer. Check the current [S3 pricing] for your
-region before starting a large export; the object count matters as much as the
-byte count.
+TL;DR: It costs about $1.50 to download a day of data, or $4-5 per 1,000 matches.
+Downloading tomes is much less expensive.
+Tomes contain slices of features across many matches.
 
 ### How should I optimize my costs?
 
 The data set is structured to help you control and optimize your costs.
-It is split into daily revisions which may be exported individually, and within
-a match the data is split by channel, so you can take only the channels you need.
+First, it is split into daily revisions which may be downloaded individually.
+Second, we maintain a companion tome data set which is very economical.
 
 Consider these steps:
 
 1. AWS has a free tier which
-   may reduce or eliminate the cost to get started.
-2. **Skip `player_vector` and `player_status` unless you need per-tick
-   telemetry.** They are about 30 MB of a match's 35 MB. Every other channel put
-   together is under 2 MB, so a day without them costs roughly a tenth as much.
-3. Estimate how much data you actually need by starting with one day.
+   may reduce or the eliminate the cost to get started.
+2. If you can use available tomes for your project,
+   don't bother downloading individual match data.
+   Most tomes cost pennies to download and contain
+   data for across many matches.
+3. If the available tomes are not sufficient for your project,
+   estimate how much data you actually need by starting with one day.
    Remember that one revision is one day worth of data.
-4. Be careful when exporting a large number of revisions at once.
-   You might go over the free tier part-way through the export process
+4. Be careful when downloading a large number of revisions at once.
+   You might go over the free tier part-way though the export process
    and have difficulty stopping the jobs.
    We recommend you limit each export batch to one month intervals.
-5. Once you have exported the data, build a [tome][dsdk] from it. A tome is a
-   slice of features across many matches, small enough to keep around, and the
-   tutorial covers making one.
+5. If you share a tome generator with us, we may be able to make the tome
+   for you and share it back to the data set. This would prevent you from
+   needing to download the entire csds data set which is about 2TB.
 
 ### Where can I get financial support?
 
@@ -241,7 +228,7 @@ Consider these steps:
 - Talk to us. We can't promise financial support, but we can brainstorm a solution together.
 
 [step 7 of the tutorial]: https://github.com/pureskillgg/makenew-pyskill/blob/master/notebooks/tutorial/7%20-%20Getting%20csds%20data%20from%20the%20ADX.ipynb
-[pureskill.gg competitive gameplay data set]: ./adx/cs2/csds/
+[pureskill.gg competitive cs:go gameplay data set]: /datascience/adx/csgo/csds/
 [tutorial]: https://github.com/pureskillgg/makenew-pyskill/blob/master/README.rst#-start-with-the-tutorial
 [cc by-nc-sa 4.0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
 [aws data exchange]: https://aws.amazon.com/data-exchange/
@@ -258,8 +245,6 @@ Consider these steps:
 [discord]: https://pureskill.gg/discord
 [tutorial requirements]: https://github.com/pureskillgg/makenew-pyskill#requirements
 [python]: https://www.python.org/
-[uv]: https://docs.astral.sh/uv/
 [poetry]: https://python-poetry.org/
 [pyenv]: https://github.com/pyenv/pyenv
 [pyenv-win]: https://github.com/pyenv-win/pyenv-win
-[s3 pricing]: https://aws.amazon.com/s3/pricing/

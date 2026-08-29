@@ -1,4 +1,16 @@
+---
+sidebar_label: Revision Stats (CS:GO, archived)
+slug: /datascience/adx/csgo/csds/revisions
+---
+
 # Revision Stats
+
+:::warning Archived page
+
+These counts are for the CS:GO data set, which is no longer published. They were
+last measured in 2022 and are kept as a record.
+
+:::
 
 ## Number of Matches Per Day
 
