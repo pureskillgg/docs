@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - Update the dataset page and the Data Science FAQ.
   - Move the 2022 FAQ, the 2024 CS2 pages, and the CS:GO pages under `datascience/old/`.
 - Harden the deploy workflows.
-- Update GitHub Actions to Node 24 runtimes.
+- Update GitHub Actions to Node.js 24 runtimes.
 
 ## 0.8.2 / 2026-07-05
 
@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - Upgrade Docusaurus 2-beta to 3 (MDX 3).
 - Upgrade `posthog-docusaurus` v1 to v2 and clear a Docusaurus v4 deprecation.
-- Fall back the PostHog `apiKey` to `phc_placeholder`.
+- Fall back the PostHog `apiKey` to `phc_placeholder` so keyless builds succeed.
 - Upgrade the build toolchain (`prettier` 3, `npm-run-all2`) and clear its vulnerabilities.
 
 ## 0.8.1 / 2026-07-05
