@@ -31,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - Modernize GitHub Actions workflows for current runners.
 - Replace the deprecated `JS-DevTools/npm-publish` action with a guarded `npm publish`.
-- Fix kebab-case GPG inputs in the gh-pages job.
+- Fix kebab-case GPG inputs in the `gh-pages` job.
 - Bump the Node floor to 22.
 
 ## 0.8.0 / 2024-02-24
