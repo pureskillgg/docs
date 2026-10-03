@@ -1,3 +1,7 @@
+---
+sidebar_position: 1
+---
+
 # CSDS Spec
 
 Documentation for CSDS channels built by FPS Critic, Inc.
@@ -12,6 +16,23 @@ through 2026-07-31 carry an older set of 30 channels, described in the
 [archived spec](/datascience/old/cs2/csds/spec); the 2026-08-02 revision holds
 a mix of the two. Reading each match's index object rather than assuming a
 channel list will keep code working across the change.
+
+## Changes over time
+
+The data has changed many times since CS2 data began on 2023-11-05: channels
+and columns have come and gone, types have changed, and values have been fixed.
+The [changelog](./changelog.md) lists every change by date, and the
+[changelog by channel](./changelog-by-channel.md) lists them channel by channel.
+
+**Known limitation: a revision can straddle a change.** Each change is dated by
+the day (UTC) it reached production, but a match sits in the revision for the
+day it was processed, and a release can land partway through a day. So the
+revision for a change's date can hold matches from both before and after it.
+Until 2026-09-07, a revision that failed to close also carried its matches into
+the next one, so one revision could hold more than one day. To tell which side
+of a change a match is on, go by the match rather than its revision:
+`header.rushb_version` and `header.ppp_version` name the parser and converter
+releases that built it.
 
 ## How to read this
 
