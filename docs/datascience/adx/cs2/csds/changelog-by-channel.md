@@ -4,7 +4,7 @@ sidebar_position: 3
 description: Every change to the published CS2 CSDS data, channel by channel.
 ---
 
-<!-- Generated from igl-gotv-v2 scripts/csds-changelog/changes.yaml by render.py. Edit that file, not this page. -->
+{/* Generated from igl-gotv-v2 scripts/csds-changelog/changes.yaml by render.py. Edit that file, not this page. */}
 
 # CSDS Changelog by Channel
 
