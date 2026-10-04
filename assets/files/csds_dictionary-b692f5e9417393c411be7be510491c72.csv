@@ -7,7 +7,7 @@ player_id_pawn,INTEGER,,True,,,,,bomb_action,multi_event
 site_code,INTEGER,,True,,,,,bomb_action,multi_event
 entity_id,INTEGER,,True,,,,,bomb_action,multi_event
 second,DECIMAL,,,,,,,bomb_action,multi_event
-player_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,bomb_action,multi_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,bomb_action,multi_event
 player_x_pos,DECIMAL,,True,asof merge (nearby ticks),Merged from another channel. Null where no source row matches.,,,bomb_action,multi_event
 player_y_pos,DECIMAL,,True,asof merge (nearby ticks),Merged from another channel. Null where no source row matches.,,,bomb_action,multi_event
 player_z_pos,DECIMAL,,True,asof merge (nearby ticks),Merged from another channel. Null where no source row matches.,,,bomb_action,multi_event
@@ -82,7 +82,7 @@ num_penetrations,INTEGER,,False,,,,,bullet_damage,single_event
 is_no_scope,BOOLEAN,,False,,,,,bullet_damage,single_event
 is_attacker_in_air,BOOLEAN,,False,,,,,bullet_damage,single_event
 second,DECIMAL,,,,,,,bullet_damage,single_event
-player_id_fixed,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,bullet_damage,single_event
+player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,bullet_damage,single_event
 attacker_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,bullet_damage,single_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,bullet_damage,single_event
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,bullet_damage,single_event
@@ -113,7 +113,7 @@ x_pos,DECIMAL,,False,,,,,grenade_bounce,single_event
 y_pos,DECIMAL,,False,,,,,grenade_bounce,single_event
 z_pos,DECIMAL,,False,,,,,grenade_bounce,single_event
 second,DECIMAL,,,,,,,grenade_bounce,single_event
-player_id_fixed,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,grenade_bounce,single_event
+player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,grenade_bounce,single_event
 round,INTEGER,,False,,,,,grenade_state,multi_event
 tick,INTEGER,,False,,,,,grenade_state,multi_event
 event_type,VARCHAR,,False,,,,,grenade_state,multi_event
@@ -123,7 +123,7 @@ x_pos,DECIMAL,,False,,,,,grenade_state,multi_event
 y_pos,DECIMAL,,False,,,,,grenade_state,multi_event
 z_pos,DECIMAL,,False,,,,,grenade_state,multi_event
 second,DECIMAL,,,,,,,grenade_state,multi_event
-player_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,grenade_state,multi_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,grenade_state,multi_event
 entity_id_fixed,INTEGER,,,,,,,grenade_state,multi_event
 tick_throw,INTEGER,,,,,,,grenade_state,multi_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,grenade_state,multi_event
@@ -146,7 +146,7 @@ x_pos,DECIMAL,,False,,,,,grenade_vector,telemetry
 y_pos,DECIMAL,,False,,,,,grenade_vector,telemetry
 z_pos,DECIMAL,,False,,,,,grenade_vector,telemetry
 second,DECIMAL,,,,,,,grenade_vector,telemetry
-player_id_fixed,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,grenade_vector,telemetry
+player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,grenade_vector,telemetry
 magic,VARCHAR,,False,,,,,header,header
 network_protocol,INTEGER,,False,,,,,header,header
 server_name,VARCHAR,,False,,,,,header,header
@@ -193,7 +193,7 @@ y_pos,DECIMAL,,False,,,,,item_dropped,single_event
 z_pos,DECIMAL,,False,,,,,item_dropped,single_event
 reason,VARCHAR,,False,,,,,item_dropped,single_event
 second,DECIMAL,,,,,,,item_dropped,single_event
-player_id_fixed,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,item_dropped,single_event
+player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,item_dropped,single_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,item_dropped,single_event
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,item_dropped,single_event
 player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,item_dropped,single_event
@@ -216,7 +216,7 @@ has_tracers,BOOLEAN,,False,,,,,item_equip,single_event
 weapon_type_code,INTEGER,,False,,,,,item_equip,single_event
 is_painted,BOOLEAN,,False,,,,,item_equip,single_event
 second,DECIMAL,,,,,,,item_equip,single_event
-player_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,item_equip,single_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,item_equip,single_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,item_equip,single_event
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,item_equip,single_event
 player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,item_equip,single_event
@@ -234,7 +234,7 @@ item,VARCHAR,,False,,,,,item_pickup,single_event
 def_index,INTEGER,,False,,,,,item_pickup,single_event
 is_silent,BOOLEAN,,False,,,,,item_pickup,single_event
 second,DECIMAL,,,,,,,item_pickup,single_event
-player_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,item_pickup,single_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,item_pickup,single_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,item_pickup,single_event
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,item_pickup,single_event
 player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,item_pickup,single_event
@@ -251,7 +251,7 @@ player_id,INTEGER,,False,,,,,item_refund,single_event
 item,VARCHAR,,False,,,,,item_refund,single_event
 def_index,INTEGER,,False,,,,,item_refund,single_event
 second,DECIMAL,,,,,,,item_refund,single_event
-player_id_fixed,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,item_refund,single_event
+player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,item_refund,single_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,item_refund,single_event
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,item_refund,single_event
 player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,item_refund,single_event
@@ -272,7 +272,7 @@ y_pos,DECIMAL,,False,,,,,molotov_fire,telemetry
 z_pos,DECIMAL,,False,,,,,molotov_fire,telemetry
 is_burning,BOOLEAN,,False,,,,,molotov_fire,telemetry
 second,DECIMAL,,,,,,,molotov_fire,telemetry
-player_id_fixed,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,molotov_fire,telemetry
+player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,molotov_fire,telemetry
 entity_id_fixed,INTEGER,,,,,,,molotov_fire,telemetry
 round,INTEGER,,False,,,,,molotov_state,multi_event
 tick,INTEGER,,False,,,,,molotov_state,multi_event
@@ -334,7 +334,7 @@ entity_id,INTEGER,,False,,,,,player_blind,single_event
 attacker_id,INTEGER,,False,,,,,player_blind,single_event
 blind_duration,DECIMAL,,False,,,,,player_blind,single_event
 second,DECIMAL,,,,,,,player_blind,single_event
-player_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_blind,single_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_blind,single_event
 attacker_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_blind,single_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_blind,single_event
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_blind,single_event
@@ -362,7 +362,7 @@ player_id,INTEGER,,False,,,,,player_chat,single_event
 text,VARCHAR,,False,,"Every value is replaced with the literal string ""redacted"". The chat rows themselves are kept, so you can see that a player typed in a round without seeing what they typed.",,,player_chat,single_event
 is_chat_all,BOOLEAN,,True,,,,,player_chat,single_event
 second,DECIMAL,,,,,,,player_chat,single_event
-player_id_fixed,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_chat,single_event
+player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,player_chat,single_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_chat,single_event
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_chat,single_event
 player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_chat,single_event
@@ -379,7 +379,7 @@ player_index,INTEGER,,False,,,,,player_connect,single_event
 player_id,INTEGER,,False,,,,,player_connect,single_event
 is_bot,BOOLEAN,,False,,,,,player_connect,single_event
 second,DECIMAL,,,,,,,player_connect,single_event
-player_id_fixed,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_connect,single_event
+player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,player_connect,single_event
 round,INTEGER,,False,,,,,player_death,single_event
 tick,INTEGER,,False,,,,,player_death,single_event
 player_id,INTEGER,,False,,,,,player_death,single_event
@@ -394,9 +394,9 @@ is_through_smoke,BOOLEAN,,True,,,,,player_death,single_event
 is_attacker_blind,BOOLEAN,,True,,,,,player_death,single_event
 is_noscope,BOOLEAN,,True,,,,,player_death,single_event
 second,DECIMAL,,,,,,,player_death,single_event
-player_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_death,single_event
-attacker_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,"Merged from another channel. Null where no source row matches. Integer values, written as a double because the column can hold nulls.",,,player_death,single_event
-assister_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_death,single_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_death,single_event
+attacker_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_death,single_event
+assister_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_death,single_event
 player_x_pos,DECIMAL,,True,asof merge (nearby ticks),Merged from another channel. Null where no source row matches.,,,player_death,single_event
 player_y_pos,DECIMAL,,True,asof merge (nearby ticks),Merged from another channel. Null where no source row matches.,,,player_death,single_event
 player_z_pos,DECIMAL,,True,asof merge (nearby ticks),Merged from another channel. Null where no source row matches.,,,player_death,single_event
@@ -433,12 +433,12 @@ player_id,INTEGER,,False,,,,,player_disconnect,single_event
 disconnect_reason,VARCHAR,,False,,,,,player_disconnect,single_event
 is_bot,BOOLEAN,,False,,,,,player_disconnect,single_event
 second,DECIMAL,,,,,,,player_disconnect,single_event
-player_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_disconnect,single_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_disconnect,single_event
 round,INTEGER,,False,,,,,player_footstep,single_event
 tick,INTEGER,,False,,,,,player_footstep,single_event
 player_id,INTEGER,,False,,,,,player_footstep,single_event
 second,DECIMAL,,,,,,,player_footstep,single_event
-player_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_footstep,single_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_footstep,single_event
 round,INTEGER,,False,,,,,player_hurt,single_event
 tick,INTEGER,,False,,,,,player_hurt,single_event
 player_id,INTEGER,,False,,,,,player_hurt,single_event
@@ -450,8 +450,8 @@ health_removed,INTEGER,,False,,,,,player_hurt,single_event
 armor_removed,INTEGER,,False,,,,,player_hurt,single_event
 hit_box_code,INTEGER,,False,,,,,player_hurt,single_event
 second,DECIMAL,,,,,,,player_hurt,single_event
-player_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_hurt,single_event
-attacker_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,"Merged from another channel. Null where no source row matches. Integer values, written as a double because the column can hold nulls.",,,player_hurt,single_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_hurt,single_event
+attacker_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_hurt,single_event
 player_x_pos,DECIMAL,,True,asof merge (nearby ticks),Merged from another channel. Null where no source row matches.,,,player_hurt,single_event
 player_y_pos,DECIMAL,,True,asof merge (nearby ticks),Merged from another channel. Null where no source row matches.,,,player_hurt,single_event
 player_z_pos,DECIMAL,,True,asof merge (nearby ticks),Merged from another channel. Null where no source row matches.,,,player_hurt,single_event
@@ -506,7 +506,7 @@ button_zoom,BOOLEAN,,False,,,,,player_inputs,telemetry
 button_use_or_reload,BOOLEAN,,False,,,,,player_inputs,telemetry
 button_joy_auto_sprint,BOOLEAN,,False,,,,,player_inputs,telemetry
 second,DECIMAL,,,,,,,player_inputs,telemetry
-player_id_fixed,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_inputs,telemetry
+player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,player_inputs,telemetry
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_inputs,telemetry
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_inputs,telemetry
 player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_inputs,telemetry
@@ -540,7 +540,7 @@ radius,INTEGER,,False,,,,,player_sound,single_event
 duration,DECIMAL,,False,,,,,player_sound,single_event
 is_step,BOOLEAN,,False,,,,,player_sound,single_event
 second,DECIMAL,,,,,,,player_sound,single_event
-player_id_fixed,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_sound,single_event
+player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,player_sound,single_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_sound,single_event
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_sound,single_event
 player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_sound,single_event
@@ -555,7 +555,7 @@ round,INTEGER,,False,,,,,player_spawn,single_event
 tick,INTEGER,,False,,,,,player_spawn,single_event
 player_id,INTEGER,,False,,,,,player_spawn,single_event
 second,DECIMAL,,,,,,,player_spawn,single_event
-player_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_spawn,single_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_spawn,single_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_spawn,single_event
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_spawn,single_event
 player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_spawn,single_event
@@ -607,7 +607,7 @@ is_scoped,BOOLEAN,,False,,,,,player_status,telemetry
 is_spotted,BOOLEAN,,False,,,,,player_status,telemetry
 is_walking,BOOLEAN,,False,,,,,player_status,telemetry
 second,DECIMAL,,,,,,,player_status,telemetry
-player_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_status,telemetry
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_status,telemetry
 equipment_value_calc,INTEGER,,,,,,,player_status,telemetry
 tick,INTEGER,,False,,,,,player_vector,telemetry
 round,INTEGER,,False,,,,,player_vector,telemetry
@@ -630,14 +630,14 @@ fall_velocity,DECIMAL,,False,,,,,player_vector,telemetry
 view_punch_angle_tick,INTEGER,,False,,,,,player_vector,telemetry
 is_rescuing,BOOLEAN,,False,,,,,player_vector,telemetry
 second,DECIMAL,,,,,,,player_vector,telemetry
-player_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_vector,telemetry
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_vector,telemetry
 team_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,player_vector,telemetry
-theta_vel,DECIMAL,,,,,,,player_vector,telemetry
-phi_vel,DECIMAL,,,,,,,player_vector,telemetry
+theta_vel,DECIMAL,,,,Differenced per player per round: a player's first sample in each round is 0.,,,player_vector,telemetry
+phi_vel,DECIMAL,,,,Differenced per player per round: a player's first sample in each round is 0.,,,player_vector,telemetry
 ang_vel,DECIMAL,,,,,,,player_vector,telemetry
-x_vel,DECIMAL,,,,,,,player_vector,telemetry
-y_vel,DECIMAL,,,,,,,player_vector,telemetry
-z_vel,DECIMAL,,,,,,,player_vector,telemetry
+x_vel,DECIMAL,,,,Differenced per player per round: a player's first sample in each round is 0.,,,player_vector,telemetry
+y_vel,DECIMAL,,,,Differenced per player per round: a player's first sample in each round is 0.,,,player_vector,telemetry
+z_vel,DECIMAL,,,,Differenced per player per round: a player's first sample in each round is 0.,,,player_vector,telemetry
 speed_2d,DECIMAL,,,,,,,player_vector,telemetry
 movement_angle,DECIMAL,,,,,,,player_vector,telemetry
 movement_angle_diff,DECIMAL,,,,,,,player_vector,telemetry
@@ -649,7 +649,7 @@ rank_new,INTEGER,,False,,,,,rank_update,single_event
 rank_change,DECIMAL,,False,,,,,rank_update,single_event
 win_count,INTEGER,,False,,Values above 2500 are replaced with 2501.,,,rank_update,single_event
 second,DECIMAL,,,,,,,rank_update,single_event
-player_id_fixed,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,rank_update,single_event
+player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,rank_update,single_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,rank_update,single_event
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,rank_update,single_event
 player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,rank_update,single_event
@@ -700,7 +700,7 @@ new_team_code,INTEGER,,False,,,,,team_change,single_event
 is_bot,BOOLEAN,,False,,,,,team_change,single_event
 silent,BOOLEAN,,False,,,,,team_change,single_event
 second,DECIMAL,,,,,,,team_change,single_event
-player_id_fixed,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,team_change,single_event
+player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,team_change,single_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,team_change,single_event
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,team_change,single_event
 player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,team_change,single_event
@@ -721,7 +721,7 @@ tick,INTEGER,,False,,,,,weapon_action,multi_event
 event_type,VARCHAR,,False,,,,,weapon_action,multi_event
 player_id,INTEGER,,False,,,,,weapon_action,multi_event
 second,DECIMAL,,,,,,,weapon_action,multi_event
-player_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,weapon_action,multi_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,weapon_action,multi_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,weapon_action,multi_event
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,weapon_action,multi_event
 player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,weapon_action,multi_event
@@ -739,7 +739,7 @@ player_id_pawn,INTEGER,,False,,,,,weapon_fire,single_event
 weapon_name,VARCHAR,,False,,,,,weapon_fire,single_event
 is_silenced,BOOLEAN,,False,,,,,weapon_fire,single_event
 second,DECIMAL,,,,,,,weapon_fire,single_event
-player_id_fixed,DECIMAL,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,weapon_fire,single_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,weapon_fire,single_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,weapon_fire,single_event
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,weapon_fire,single_event
 player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,weapon_fire,single_event
