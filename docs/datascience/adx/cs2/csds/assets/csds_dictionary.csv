@@ -125,7 +125,7 @@ z_pos,DECIMAL,,False,,,,,grenade_state,multi_event
 second,DECIMAL,,,,,,,grenade_state,multi_event
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,grenade_state,multi_event
 entity_id_fixed,INTEGER,,,,,,,grenade_state,multi_event
-tick_throw,INTEGER,,,,,,,grenade_state,multi_event
+tick_throw,INTEGER,,True,,Null where no throw was matched (end events). Older matches: 0 or -2 or -3.,,,grenade_state,multi_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,grenade_state,multi_event
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,grenade_state,multi_event
 player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,grenade_state,multi_event
@@ -283,9 +283,9 @@ y_pos,DECIMAL,,False,,,,,molotov_state,multi_event
 z_pos,DECIMAL,,False,,,,,molotov_state,multi_event
 second,DECIMAL,,,,,,,molotov_state,multi_event
 entity_id_fixed,INTEGER,,,,,,,molotov_state,multi_event
-player_id,INTEGER,,,,,,,molotov_state,multi_event
-player_id_fixed,INTEGER,,,,,,,molotov_state,multi_event
-tick_throw,INTEGER,,,,,,,molotov_state,multi_event
+player_id,INTEGER,,True,,Null where no thrower was found (every inferno_expire row). Older matches: -1.,,,molotov_state,multi_event
+player_id_fixed,INTEGER,,True,,Null where no thrower was found (every inferno_expire row). Older matches: -1.,,,molotov_state,multi_event
+tick_throw,INTEGER,,True,,Null where no thrower was found (every inferno_expire row). Older matches: -1.,,,molotov_state,multi_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,molotov_state,multi_event
 player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,molotov_state,multi_event
 player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,molotov_state,multi_event
@@ -296,19 +296,20 @@ player_phi_ang,DECIMAL,,True,,Merged from another channel. Null where no source 
 player_theta_ang,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,molotov_state,multi_event
 player_weapon_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,molotov_state,multi_event
 player_team_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,molotov_state,multi_event
-burn_duration,DECIMAL,,,,,,,molotov_state,multi_event
+burn_duration,DECIMAL,,True,,Null on inferno_expire rows. Older matches: -1.,,,molotov_state,multi_event
 was_extinguished_by_smoke,INTEGER,,,,,,,molotov_state,multi_event
-extinguisher_id,INTEGER,,,,,,,molotov_state,multi_event
-extinguisher_id_fixed,INTEGER,,,,,,,molotov_state,multi_event
-smoke_entity_id,INTEGER,,,,,,,molotov_state,multi_event
-smoke_entity_id_fixed,INTEGER,,,,,,,molotov_state,multi_event
+extinguisher_id,INTEGER,,True,,"Null on inferno_expire rows and where nobody put the fire out. Older matches: -1 or 0, and -2 (now extinguisher_not_found). A real player 0 reads 0.",,,molotov_state,multi_event
+extinguisher_id_fixed,INTEGER,,True,,"Null on inferno_expire rows and where nobody put the fire out. Older matches: -1 or 0, and -2 (now extinguisher_not_found).",,,molotov_state,multi_event
+smoke_entity_id,INTEGER,,True,,"Null on inferno_expire rows and where nobody put the fire out. Older matches: -1 or 0, and -2 (now extinguisher_not_found).",,,molotov_state,multi_event
+smoke_entity_id_fixed,INTEGER,,True,,"Null on inferno_expire rows and where nobody put the fire out. Older matches: -1 or 0, and -2 (now extinguisher_not_found).",,,molotov_state,multi_event
 was_extinguished_by_thrown_smoke,DECIMAL,,,,,,,molotov_state,multi_event
 fraction_extinguished,DECIMAL,,,,,,,molotov_state,multi_event
 was_thrown_into_smoke,INTEGER,,,,,,,molotov_state,multi_event
+extinguisher_not_found,BOOLEAN,,,"the burn ended early, but no smoke was near enough to credit",Older matches: -2 in extinguisher_id and the three columns beside it.,,,molotov_state,multi_event
 round,INTEGER,,False,,,,,other_death,single_event
 tick,INTEGER,,False,,,,,other_death,single_event
 other_type,VARCHAR,,False,,,,,other_death,single_event
-attacker_id,INTEGER,,True,,,,,other_death,single_event
+attacker_id,INTEGER,,True,,Null for no attacker. Older matches: 65535.,,,other_death,single_event
 weapon_name,VARCHAR,,False,,,,,other_death,single_event
 is_headshot,BOOLEAN,,False,,,,,other_death,single_event
 penetration_amount,INTEGER,,False,,,,,other_death,single_event
@@ -383,8 +384,8 @@ player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source
 round,INTEGER,,False,,,,,player_death,single_event
 tick,INTEGER,,False,,,,,player_death,single_event
 player_id,INTEGER,,False,,,,,player_death,single_event
-attacker_id,INTEGER,,True,,,,,player_death,single_event
-assister_id,INTEGER,,True,,,,,player_death,single_event
+attacker_id,INTEGER,,True,,Null for no attacker. Older matches: 65535.,,,player_death,single_event
+assister_id,INTEGER,,True,,Null for no assister. Older matches: 65535.,,,player_death,single_event
 weapon_name,VARCHAR,,False,,,,,player_death,single_event
 is_headshot,BOOLEAN,,False,,,,,player_death,single_event
 penetration_amount,INTEGER,,False,,,,,player_death,single_event
@@ -442,10 +443,10 @@ player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_p
 round,INTEGER,,False,,,,,player_hurt,single_event
 tick,INTEGER,,False,,,,,player_hurt,single_event
 player_id,INTEGER,,False,,,,,player_hurt,single_event
-attacker_id,INTEGER,,False,,,,,player_hurt,single_event
+attacker_id,INTEGER,,True,,Null for no attacker (world damage). Older matches: 65535.,,,player_hurt,single_event
 health,INTEGER,,False,,,,,player_hurt,single_event
 armor,INTEGER,,False,,,,,player_hurt,single_event
-weapon_name,VARCHAR,,True,,,,,player_hurt,single_event
+weapon_name,VARCHAR,,True,,Null for damage with no weapon. Older matches: an empty string.,,,player_hurt,single_event
 health_removed,INTEGER,,False,,,,,player_hurt,single_event
 armor_removed,INTEGER,,False,,,,,player_hurt,single_event
 hit_box_code,INTEGER,,False,,,,,player_hurt,single_event
@@ -715,7 +716,7 @@ round,INTEGER,,False,,,,,tick,telemetry
 tick,INTEGER,,False,,,,,tick,telemetry
 second,DECIMAL,,,,,,,tick,telemetry
 previous_phase,VARCHAR,,,,,,,tick,telemetry
-second_since_previous_phase,DECIMAL,,,,,,,tick,telemetry
+second_since_previous_phase,DECIMAL,,True,,Null before the first phase. Older matches: -1.,,,tick,telemetry
 round,INTEGER,,False,,,,,weapon_action,multi_event
 tick,INTEGER,,False,,,,,weapon_action,multi_event
 event_type,VARCHAR,,False,,,,,weapon_action,multi_event

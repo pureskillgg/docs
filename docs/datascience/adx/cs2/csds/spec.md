@@ -74,11 +74,24 @@ at or before the event, so they are null when no source row is close enough.
 column typed `int` here that can hold nulls therefore arrives as a double, and
 the note in the [data dictionary](./assets/csds_dictionary.csv) says so.
 The merged player ids (`player_id_fixed`, `attacker_id_fixed` and
-`assister_id_fixed`) are the exception: they are written as `int64` with nulls.
+`assister_id_fixed`) and the integer columns under **Null means none** below are
+the exceptions: they are written as `int64` with nulls.
 
 **Nullable** is the value declared in the index object where there is one.
-Merged columns are always nullable. It is left blank for calculated columns,
-which the index does not declare either way.
+Merged columns are always nullable. It is left blank for a calculated column
+the index does not declare.
+
+**Null means none.** A column that can have no value holds null there, not a
+marker. Older matches wrote markers instead, and the [changelog](./changelog.md)
+dates the change: 65535 for no player in `attacker_id` and `assister_id`
+(`player_hurt`, `player_death`, `other_death`); an empty string in
+`player_hurt.weapon_name`; in `molotov_state`, -1 in `player_id`,
+`player_id_fixed`, `tick_throw` and `burn_duration`, and -1, -2 or 0 in
+`extinguisher_id`, `extinguisher_id_fixed`, `smoke_entity_id` and
+`smoke_entity_id_fixed` (an `extinguisher_id` of 0 was also the real player 0);
+0, -2 or -3 in `grenade_state.tick_throw`; and -1 in
+`tick.second_since_previous_phase`. The -2 in `molotov_state` (the burn ended
+early, but no smoke was near enough to credit) is now `extinguisher_not_found`.
 
 Four columns that older versions of this document listed are no longer
 published: `tick` and `second` on `player_info` and on `player_personal`. The
@@ -261,7 +274,7 @@ Events that trigger this channel: decoy_detonate, decoy_firing, decoy_started, f
 | second             | float64 |          | calculated | tick, tick_rate                     |                            |
 | player_id_fixed    | int     | True     | merged     |                                     | player_id, round, steam_id |
 | entity_id_fixed    | int     |          | calculated | round, entity_id, event_type, tick  |                            |
-| tick_throw         | int     |          | calculated | round, player_id, weapon_name, tick |                            |
+| tick_throw         | int     | True     | calculated | round, player_id, weapon_name, tick |                            |
 | player_x_pos       | float64 | True     | merged     |                                     | tick_throw, player_id      |
 | player_y_pos       | float64 | True     | merged     |                                     | tick_throw, player_id      |
 | player_z_pos       | float64 | True     | merged     |                                     | tick_throw, player_id      |
@@ -473,9 +486,9 @@ Events that trigger this channel: inferno_detonate, inferno_expire, inferno_exti
 | z_pos                            | float32 | False    | replay     |                                                                                      |                       |
 | second                           | float64 |          | calculated | tick, tick_rate                                                                      |                       |
 | entity_id_fixed                  | int     |          | calculated | round, entity_id, event_type, tick                                                   |                       |
-| player_id                        | int     |          | calculated | event_type, second, round                                                            |                       |
-| player_id_fixed                  | int     |          | calculated | event_type, second, round                                                            |                       |
-| tick_throw                       | int     |          | calculated | event_type, second, round                                                            |                       |
+| player_id                        | int     | True     | calculated | event_type, second, round                                                            |                       |
+| player_id_fixed                  | int     | True     | calculated | event_type, second, round                                                            |                       |
+| tick_throw                       | int     | True     | calculated | event_type, second, round                                                            |                       |
 | player_x_pos                     | float64 | True     | merged     |                                                                                      | tick_throw, player_id |
 | player_y_pos                     | float64 | True     | merged     |                                                                                      | tick_throw, player_id |
 | player_z_pos                     | float64 | True     | merged     |                                                                                      | tick_throw, player_id |
@@ -486,15 +499,16 @@ Events that trigger this channel: inferno_detonate, inferno_expire, inferno_exti
 | player_theta_ang                 | float64 | True     | merged     |                                                                                      | tick_throw, player_id |
 | player_weapon_code               | int     | True     | merged     |                                                                                      | tick_throw, player_id |
 | player_team_code                 | int     | True     | merged     |                                                                                      | tick_throw, player_id |
-| burn_duration                    | float64 |          | calculated | second, entity_id_fixed, event_type                                                  |                       |
+| burn_duration                    | float64 | True     | calculated | second, entity_id_fixed, event_type                                                  |                       |
 | was_extinguished_by_smoke        | int     |          | calculated | second, entity_id_fixed, event_type, burn_duration                                   |                       |
-| extinguisher_id                  | int     |          | calculated | second, entity_id_fixed, event_type, x_pos, y_pos, z_pos, player_id                  |                       |
-| extinguisher_id_fixed            | int     |          | calculated | second, entity_id, entity_id_fixed, event_type, x_pos, y_pos, z_pos, player_id_fixed |                       |
-| smoke_entity_id                  | int     |          | calculated | second, entity_id, entity_id_fixed, event_type, x_pos, y_pos, z_pos                  |                       |
-| smoke_entity_id_fixed            | int     |          | calculated | second, entity_id, entity_id_fixed, event_type, x_pos, y_pos, z_pos                  |                       |
+| extinguisher_id                  | int     | True     | calculated | second, entity_id_fixed, event_type, x_pos, y_pos, z_pos, player_id                  |                       |
+| extinguisher_id_fixed            | int     | True     | calculated | second, entity_id, entity_id_fixed, event_type, x_pos, y_pos, z_pos, player_id_fixed |                       |
+| smoke_entity_id                  | int     | True     | calculated | second, entity_id, entity_id_fixed, event_type, x_pos, y_pos, z_pos                  |                       |
+| smoke_entity_id_fixed            | int     | True     | calculated | second, entity_id, entity_id_fixed, event_type, x_pos, y_pos, z_pos                  |                       |
 | was_extinguished_by_thrown_smoke | float64 |          | calculated | second, entity_id, entity_id_fixed, event_type, x_pos, y_pos, z_pos                  |                       |
 | fraction_extinguished            | float64 |          | calculated | second, entity_id_fixed, event_type, x_pos, y_pos, z_pos                             |                       |
 | was_thrown_into_smoke            | int     |          | calculated | second, entity_id_fixed, event_type, x_pos, y_pos, z_pos                             |                       |
+| extinguisher_not_found           | bool    |          | calculated | extinguisher_id                                                                      |                       |
 
 ## other_death - single_event
 
@@ -688,7 +702,7 @@ Event that triggers this channel: player_hurt
 | round                    | int     | False    | replay     |                          |                              |
 | tick                     | int     | False    | replay     |                          |                              |
 | player_id                | int32   | False    | replay     |                          |                              |
-| attacker_id              | int32   | False    | replay     |                          |                              |
+| attacker_id              | int32   | True     | replay     |                          |                              |
 | health                   | int32   | False    | replay     |                          |                              |
 | armor                    | int32   | False    | replay     |                          |                              |
 | weapon_name              | string  | True     | replay     |                          |                              |
@@ -1073,7 +1087,7 @@ Event that triggers this channel: tick_end
 | tick                        | int     | False    | replay     |                    |            |
 | second                      | float64 |          | calculated | tick, tick_rate    |            |
 | previous_phase              | string  |          | calculated | event_type, second |            |
-| second_since_previous_phase | float64 |          | calculated | second             |            |
+| second_since_previous_phase | float64 | True     | calculated | second             |            |
 
 ## weapon_action - multi_event
 
