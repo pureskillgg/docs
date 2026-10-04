@@ -9,7 +9,7 @@ revisions they describe. Nothing here describes the data set as it is published
 today.
 
 Which page you need depends on the revision, not on when you downloaded it: a
-revision from 2026-07-31 is still retained, still exportable today, and still
+revision from 2026-08-02 is still retained, still exportable today, and still
 described by the archived spec. If you want to know what is being published
 now, start at [PureSkill.gg Data Science](/datascience/).
 
@@ -42,7 +42,7 @@ still resolve.
   `player_sound`, `rank_update`, `score_update`, `team_change` and
   `world_item_vector`. Two were removed: `item_remove` and `player_action`.
   Published revisions changed over during the first days of August 2026:
-  revisions through 2026-07-31 carry the old set, 2026-08-02 holds a mix, and
+  revisions through 2026-08-02 carry the old set, 2026-08-03 holds a mix, and
   2026-08-04 onward carry the new one.
 - **Two columns went away.** `player_tick` and `player_player_id` were dropped
   from every channel that merged in player position. `tick` and `second` are no

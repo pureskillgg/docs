@@ -11,9 +11,9 @@ published at the time. Fourteen channels have been added since and two removed
 (`item_remove` and `player_action`), leaving 42.
 
 Which spec you need depends on the revision, not on when you downloaded it. This
-one describes revisions through 2026-07-31, which are still retained and can
+one describes revisions through 2026-08-02, which are still retained and can
 still be exported today. Revisions from 2026-08-04 onward are described by the
-current [CSDS Spec](/datascience/adx/cs2/csds/spec). The 2026-08-02 revision
+current [CSDS Spec](/datascience/adx/cs2/csds/spec). The 2026-08-03 revision
 holds a mix of both.
 
 :::

@@ -10,8 +10,8 @@ Each match is published as 43 objects, collectively called csds:
 42 channel files plus a JSON index object, also named `csds`, that lists them.
 The [CSDS Spec](./spec.md) documents every channel and column.
 
-Revisions through 2026-07-31 carry 31 objects per match instead of 43, and the
-2026-08-02 revision holds a mix of both. The
+Revisions through 2026-08-02 carry 31 objects per match instead of 43, and the
+2026-08-03 revision holds a mix of both. The
 [archived spec](/datascience/old/cs2/csds/spec) describes the older set.
 
 Please visit **[docs.pureskill.gg/datascience][datascience docs]**
@@ -155,7 +155,7 @@ This is a standardized CSV file that catalogues all tables and columns in the da
   Notably, older matches from the FACEIT platform are missing information about player ranks.
 
   The channel set also changed during the retained window. Revisions through
-  2026-07-31 carry 30 channels rather than 42, and the 2026-08-02 revision holds
+  2026-08-02 carry 30 channels rather than 42, and the 2026-08-03 revision holds
   a mix. Fourteen channels were added: `bullet_damage`, `grenade_bounce`,
   `grenade_vector`, `item_dropped`, `item_refund`, `molotov_fire`,
   `player_chat`, `player_connect`, `player_inputs`, `player_sound`,
