@@ -12,8 +12,8 @@ where each one sits, and what columns it declares. Every channel file is
 [Apache Parquet], `header` included.
 
 This document describes the channel set published since 2026-08-04. Revisions
-through 2026-07-31 carry an older set of 30 channels, described in the
-[archived spec](/datascience/old/cs2/csds/spec); the 2026-08-02 revision holds
+through 2026-08-02 carry an older set of 30 channels, described in the
+[archived spec](/datascience/old/cs2/csds/spec); the 2026-08-03 revision holds
 a mix of the two. Reading each match's index object rather than assuming a
 channel list will keep code working across the change.
 
