@@ -93,6 +93,13 @@ dates the change: 65535 for no player in `attacker_id` and `assister_id`
 `tick.second_since_previous_phase`. The -2 in `molotov_state` (the burn ended
 early, but no smoke was near enough to credit) is now `extinguisher_not_found`.
 
+**`player_vector.movement_angle_diff`** is the angle between where a player looks
+(`theta_ang`) and where they move (`movement_angle`), in -180 to 180: 0 moving the
+way they look, ±90 sideways, ±180 backwards, and null while standing still. Older
+matches stored `theta_ang` minus `movement_angle` with 360 added once to a negative
+result, so it spanned -180 to 360 (the same angle read as 350 or -10), with -1 for
+standing still. The [changelog](./changelog.md) dates the change.
+
 Four columns that older versions of this document listed are no longer
 published: `tick` and `second` on `player_info` and on `player_personal`. The
 index still names them, marked as deleted, so a reader driven off the index
@@ -956,7 +963,7 @@ Event that triggers this channel: tick_end
 | z_vel                 | float64 |          | calculated | second, z_pos, player_id, round             |                            |
 | speed_2d              | float64 |          | calculated | x_vel, y_vel                                |                            |
 | movement_angle        | float64 |          | calculated | second, x_vel, y_vel                        |                            |
-| movement_angle_diff   | float64 |          | calculated | second, speed_2d, theta_ang, movement_angle |                            |
+| movement_angle_diff   | float64 | True     | calculated | second, speed_2d, theta_ang, movement_angle |                            |
 
 ## rank_update - single_event
 
