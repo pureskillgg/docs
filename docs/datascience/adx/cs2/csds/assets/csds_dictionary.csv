@@ -573,7 +573,7 @@ player_id,INTEGER,,False,,,,,player_status,telemetry
 player_controller_id,INTEGER,,False,,,,,player_status,telemetry
 armor,INTEGER,,False,,,,,player_status,telemetry
 health,INTEGER,,False,,,,,player_status,telemetry
-place_name,VARCHAR,,False,,,,,player_status,telemetry
+place_name,VARCHAR,,False,,Dictionary-encoded. pandas reads it as a category.,,,player_status,telemetry
 inv_primary,INTEGER,,False,,,,,player_status,telemetry
 inv_secondary,INTEGER,,False,,,,,player_status,telemetry
 inv_flashbang,INTEGER,,False,,,,,player_status,telemetry
@@ -616,7 +616,7 @@ player_id,INTEGER,,False,,,,,player_vector,telemetry
 x_pos,DECIMAL,,False,,,,,player_vector,telemetry
 y_pos,DECIMAL,,False,,,,,player_vector,telemetry
 z_pos,DECIMAL,,False,,,,,player_vector,telemetry
-current_ammo,INTEGER,,True,,,,,player_vector,telemetry
+current_ammo,INTEGER,,True,,-1 for an empty magazine. Files from converter 8.5.4 and earlier hold 4294967295 instead.,,,player_vector,telemetry
 weapon_code,INTEGER,,True,,,,,player_vector,telemetry
 inaccuracy,DECIMAL,,True,,,,,player_vector,telemetry
 last_shot_time,DECIMAL,,True,,,,,player_vector,telemetry

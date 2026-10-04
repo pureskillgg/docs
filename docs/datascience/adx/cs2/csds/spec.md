@@ -76,6 +76,8 @@ the note in the [data dictionary](./assets/csds_dictionary.csv) says so.
 The merged player ids (`player_id_fixed`, `attacker_id_fixed` and
 `assister_id_fixed`) and the integer columns under **Null means none** below are
 the exceptions: they are written as `int64` with nulls.
+`player_vector` and `player_status` are written with narrower types, which
+their sections give; see [The player tables](#the-player-tables).
 
 **Nullable** is the value declared in the index object where there is one.
 Merged columns are always nullable. It is left blank for a calculated column
@@ -99,6 +101,51 @@ index still names them, marked as deleted, so a reader driven off the index
 should skip any column whose origin ends in `-deleted`.
 
 [apache parquet]: https://parquet.apache.org/
+
+## The player tables
+
+`player_vector` and `player_status` hold one row per player per tick, nearly
+all of a match's rows. Converter releases after 8.5.4 write them compactly,
+with the same values:
+
+- **Types.** Each integer takes the smallest signed type that holds it with
+  room to spare: `int8`, `int16` or `int32`. The floats read from the demo
+  are `float32`, the type the game sends them in, so their values are
+  unchanged; `second` (tick / 64) is `float32` too, and exact. The
+  velocities and angles the pipeline computes in `player_vector` stay
+  `float64`. `place_name` is a dictionary-encoded string. Each table's
+  section gives every column's type.
+- **Row order.** Rows are sorted by `player_id`, then `tick`. Sort by `tick`
+  and `player_id` for tick order.
+- **`current_ammo`.** An empty magazine reads `-1`.
+- **pandas.** The files' pandas metadata names the narrow types, so
+  `pd.read_parquet` gives nullable `Int8`, `Int16` or `Int32` where older
+  files gave `Int64`, `int32` for `tick`, `float32`, a category for
+  `place_name`, and the nullable `boolean` for `burst_mode` and
+  `is_silenced`.
+- **Narrow integers can wrap.** pandas and polars keep `int16` in
+  element-wise arithmetic, so with `int16` `money`, `money * 5` gives 14,464
+  for 16,000. Cast to a wider type first, for example
+  `df["money"].astype("Int64")`. Sums and means widen on their own.
+
+Files written by converter 8.5.4 and earlier keep the old format: `int64`
+integers, `double` floats, plain strings, rows in tick order, and
+`4294967295` in `current_ammo` for an empty magazine. A match's `header.ppp_version` names the converter
+release that built it, and each file's own schema says which format it is.
+
+**Reading the files.** pyarrow (pandas' default engine), polars and DuckDB
+read both formats. fastparquet can't read the compact files: their floats
+use Parquet's byte stream split encoding, which it doesn't support.
+
+**Reading old and compact files together.** pandas widens on its own;
+polars and DuckDB need to be told to:
+
+- **pandas:** `pd.concat` of the frames widens each column to the wider type.
+- **polars:** `pl.concat([pl.scan_parquet(f) for f in files], how="diagonal_relaxed")`.
+  `pl.scan_parquet(files)` on a list raises a schema mismatch, and its
+  `cast_options` upcast works only when the first file holds the wider types.
+- **DuckDB:** `read_parquet([...], union_by_name = true)`. Without
+  `union_by_name`, DuckDB reads every file at the first file's types.
 
 ## bomb_action - multi_event
 
@@ -873,35 +920,37 @@ Event that triggers this channel: player_spawn
 
 Event that triggers this channel: tick_end
 
+Converter releases after 8.5.4 write this table with the types below, sorted by player, then tick; see [The player tables](#the-player-tables).
+
 | Col Name                      | Type    | Nullable | Origin          | Dependents                                                                                                                                                            | Merge Keys                 |
 | ----------------------------- | ------- | -------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| tick                          | int     | False    | replay          |                                                                                                                                                                       |                            |
-| round                         | int     | False    | replay          |                                                                                                                                                                       |                            |
-| player_id                     | int     | False    | replay          |                                                                                                                                                                       |                            |
-| player_controller_id          | int     | False    | replay          |                                                                                                                                                                       |                            |
-| armor                         | int     | False    | replay          |                                                                                                                                                                       |                            |
-| health                        | int     | False    | replay          |                                                                                                                                                                       |                            |
+| tick                          | int32   | False    | replay          |                                                                                                                                                                       |                            |
+| round                         | int16   | False    | replay          |                                                                                                                                                                       |                            |
+| player_id                     | int32   | False    | replay          |                                                                                                                                                                       |                            |
+| player_controller_id          | int8    | False    | replay          |                                                                                                                                                                       |                            |
+| armor                         | int8    | False    | replay          |                                                                                                                                                                       |                            |
+| health                        | int8    | False    | replay          |                                                                                                                                                                       |                            |
 | place_name                    | string  | False    | replay          |                                                                                                                                                                       |                            |
-| inv_primary                   | int     | False    | replay          |                                                                                                                                                                       |                            |
-| inv_secondary                 | int     | False    | replay          |                                                                                                                                                                       |                            |
-| inv_flashbang                 | int     | False    | replay          |                                                                                                                                                                       |                            |
-| inv_taser                     | int     | False    | replay          |                                                                                                                                                                       |                            |
-| inv_hegrenade                 | int     | False    | replay          |                                                                                                                                                                       |                            |
-| inv_smokegrenade              | int     | False    | replay          |                                                                                                                                                                       |                            |
-| inv_molotov                   | int     | False    | replay          |                                                                                                                                                                       |                            |
-| inv_decoy                     | int     | False    | replay          |                                                                                                                                                                       |                            |
-| inv_incgrenade                | int     | False    | replay          |                                                                                                                                                                       |                            |
-| inv_c4                        | int     | False    | replay          |                                                                                                                                                                       |                            |
-| current_equipment_cost        | int     | False    | replay          |                                                                                                                                                                       |                            |
-| freezetime_end_equipment_cost | int     | False    | replay          |                                                                                                                                                                       |                            |
-| money                         | int     | False    | replay          |                                                                                                                                                                       |                            |
-| ping                          | int     | False    | replay-redacted |                                                                                                                                                                       |                            |
-| round_start_equipment_cost    | int     | False    | replay          |                                                                                                                                                                       |                            |
-| zoom_level                    | int     | True     | replay          |                                                                                                                                                                       |                            |
-| iron_sight_mode               | int     | True     | replay          |                                                                                                                                                                       |                            |
+| inv_primary                   | int16   | False    | replay          |                                                                                                                                                                       |                            |
+| inv_secondary                 | int16   | False    | replay          |                                                                                                                                                                       |                            |
+| inv_flashbang                 | int8    | False    | replay          |                                                                                                                                                                       |                            |
+| inv_taser                     | int8    | False    | replay          |                                                                                                                                                                       |                            |
+| inv_hegrenade                 | int8    | False    | replay          |                                                                                                                                                                       |                            |
+| inv_smokegrenade              | int8    | False    | replay          |                                                                                                                                                                       |                            |
+| inv_molotov                   | int8    | False    | replay          |                                                                                                                                                                       |                            |
+| inv_decoy                     | int8    | False    | replay          |                                                                                                                                                                       |                            |
+| inv_incgrenade                | int8    | False    | replay          |                                                                                                                                                                       |                            |
+| inv_c4                        | int8    | False    | replay          |                                                                                                                                                                       |                            |
+| current_equipment_cost        | int16   | False    | replay          |                                                                                                                                                                       |                            |
+| freezetime_end_equipment_cost | int16   | False    | replay          |                                                                                                                                                                       |                            |
+| money                         | int16   | False    | replay          |                                                                                                                                                                       |                            |
+| ping                          | int16   | False    | replay-redacted |                                                                                                                                                                       |                            |
+| round_start_equipment_cost    | int16   | False    | replay          |                                                                                                                                                                       |                            |
+| zoom_level                    | int8    | True     | replay          |                                                                                                                                                                       |                            |
+| iron_sight_mode               | int8    | True     | replay          |                                                                                                                                                                       |                            |
 | burst_mode                    | bool    | True     | replay          |                                                                                                                                                                       |                            |
 | is_silenced                   | bool    | True     | replay          |                                                                                                                                                                       |                            |
-| weapon_mode                   | int     | True     | replay          |                                                                                                                                                                       |                            |
+| weapon_mode                   | int8    | True     | replay          |                                                                                                                                                                       |                            |
 | flash_duration                | float32 | False    | replay          |                                                                                                                                                                       |                            |
 | flash_max_alpha               | float32 | False    | replay          |                                                                                                                                                                       |                            |
 | has_c4                        | bool    | False    | replay          |                                                                                                                                                                       |                            |
@@ -915,24 +964,26 @@ Event that triggers this channel: tick_end
 | is_scoped                     | bool    | False    | replay          |                                                                                                                                                                       |                            |
 | is_spotted                    | bool    | False    | replay          |                                                                                                                                                                       |                            |
 | is_walking                    | bool    | False    | replay          |                                                                                                                                                                       |                            |
-| second                        | float64 |          | calculated      | tick, tick_rate                                                                                                                                                       |                            |
-| player_id_fixed               | int     | True     | merged          |                                                                                                                                                                       | player_id, round, steam_id |
-| equipment_value_calc          | int     |          | calculated      | inv_flashbang, inv_taser, inv_hegrenade, inv_smokegrenade, inv_molotov, inv_decoy, inv_incgrenade, inv_c4, armor, has_defuser, has_helmet, inv_primary, inv_secondary |                            |
+| second                        | float32 |          | calculated      | tick, tick_rate                                                                                                                                                       |                            |
+| player_id_fixed               | int8    | True     | merged          |                                                                                                                                                                       | player_id, round, steam_id |
+| equipment_value_calc          | int16   |          | calculated      | inv_flashbang, inv_taser, inv_hegrenade, inv_smokegrenade, inv_molotov, inv_decoy, inv_incgrenade, inv_c4, armor, has_defuser, has_helmet, inv_primary, inv_secondary |                            |
 
 ## player_vector - telemetry
 
 Event that triggers this channel: tick_end
 
+Converter releases after 8.5.4 write this table with the types below, sorted by player, then tick; see [The player tables](#the-player-tables).
+
 | Col Name              | Type    | Nullable | Origin     | Dependents                                  | Merge Keys                 |
 | --------------------- | ------- | -------- | ---------- | ------------------------------------------- | -------------------------- |
-| tick                  | int     | False    | replay     |                                             |                            |
-| round                 | int     | False    | replay     |                                             |                            |
-| player_id             | int     | False    | replay     |                                             |                            |
-| x_pos                 | float64 | False    | replay     |                                             |                            |
-| y_pos                 | float64 | False    | replay     |                                             |                            |
-| z_pos                 | float64 | False    | replay     |                                             |                            |
-| current_ammo          | int     | True     | replay     |                                             |                            |
-| weapon_code           | int     | True     | replay     |                                             |                            |
+| tick                  | int32   | False    | replay     |                                             |                            |
+| round                 | int16   | False    | replay     |                                             |                            |
+| player_id             | int32   | False    | replay     |                                             |                            |
+| x_pos                 | float32 | False    | replay     |                                             |                            |
+| y_pos                 | float32 | False    | replay     |                                             |                            |
+| z_pos                 | float32 | False    | replay     |                                             |                            |
+| current_ammo          | int16   | True     | replay     |                                             |                            |
+| weapon_code           | int16   | True     | replay     |                                             |                            |
 | inaccuracy            | float32 | True     | replay     |                                             |                            |
 | last_shot_time        | float32 | True     | replay     |                                             |                            |
 | recoil_index          | float32 | True     | replay     |                                             |                            |
@@ -943,11 +994,11 @@ Event that triggers this channel: tick_end
 | duck_amount           | float32 | False    | replay     |                                             |                            |
 | duck_speed            | float32 | False    | replay     |                                             |                            |
 | fall_velocity         | float32 | False    | replay     |                                             |                            |
-| view_punch_angle_tick | int     | False    | replay     |                                             |                            |
+| view_punch_angle_tick | int32   | False    | replay     |                                             |                            |
 | is_rescuing           | bool    | False    | replay     |                                             |                            |
-| second                | float64 |          | calculated | tick, tick_rate                             |                            |
-| player_id_fixed       | int     | True     | merged     |                                             | player_id, round, steam_id |
-| team_code             | int     | True     | merged     |                                             | round, player_id           |
+| second                | float32 |          | calculated | tick, tick_rate                             |                            |
+| player_id_fixed       | int8    | True     | merged     |                                             | player_id, round, steam_id |
+| team_code             | int8    | True     | merged     |                                             | round, player_id           |
 | theta_vel             | float64 |          | calculated | second, player_id, round, theta             |                            |
 | phi_vel               | float64 |          | calculated | second, player_id, round, phi               |                            |
 | ang_vel               | float64 |          | calculated | phi_vel, theta_vel                          |                            |
