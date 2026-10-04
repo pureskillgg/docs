@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - CS2 CSDS changelog pages, by date and by channel, covering every change to the published data since 2023-11-05.
 - A "Changes over time" section in the CS2 spec, linking to them and noting that a revision can straddle a change.
 - A CS2 PII Removal page listing what is removed or changed before a match is published.
+- A CS2 Revision Stats page: matches, files and size in each daily revision that can still be exported.
 
 ### Changed
 
