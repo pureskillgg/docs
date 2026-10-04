@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - Move the 2022 FAQ, the 2024 CS2 pages, and the CS:GO pages under `datascience/old/`.
 - Harden the deploy workflows.
 - Update GitHub Actions to Node.js 24 runtimes.
+- List the inputs csgo-ppp 8.5.3 declares for the CS2 spec's header rank averages and final scores.
 
 ## 0.8.2 / 2026-07-05
 

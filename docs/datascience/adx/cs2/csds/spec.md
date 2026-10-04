@@ -291,43 +291,43 @@ Event that triggers this channel: tick_end
 
 ## header - header
 
-| Col Name                   | Type    | Nullable | Origin              | Dependents                               | Merge Keys |
-| -------------------------- | ------- | -------- | ------------------- | ---------------------------------------- | ---------- |
-| magic                      | string  | False    | replay              |                                          |            |
-| network_protocol           | int32   | False    | replay              |                                          |            |
-| server_name                | string  | False    | replay              |                                          |            |
-| client_name                | string  | False    | replay              |                                          |            |
-| map_name                   | string  | False    | replay              |                                          |            |
-| game_directory             | string  | False    | replay              |                                          |            |
-| fullpackets_version        | int     | False    | replay              |                                          |            |
-| allow_clientside_entities  | bool    | False    | replay              |                                          |            |
-| allow_clientside_particles | bool    | False    | replay              |                                          |            |
-| addons                     | string  | False    | replay              |                                          |            |
-| demo_version_name          | string  | False    | replay              |                                          |            |
-| demo_version_guid          | string  | False    | replay              |                                          |            |
-| build_num                  | int32   | False    | replay              |                                          |            |
-| game                       | string  | False    | calculated          | meta:game                                |            |
-| is_gotv_recording          | bool    | False    | replay              |                                          |            |
-| is_wingman                 | bool    | False    | replay              |                                          |            |
-| max_unique_players         | int     | False    | replay              |                                          |            |
-| tick_rate                  | int     |          | calculated          |                                          |            |
-| tick_save_rate             | int     |          | calculated          |                                          |            |
-| rushb_version              | string  |          | calculated          | meta:metadata.rushbVersion               |            |
-| ppp_version                | string  |          | calculated          | meta:context.version                     |            |
-| match_date                 | string  |          | calculated          | meta:matchDate                           |            |
-| demo_id                    | string  |          | calculated-redacted | meta:demoId                              |            |
-| sharecode                  | string  |          | calculated-redacted | meta:sharecode                           |            |
-| platform                   | string  |          | calculated          | meta:platform                            |            |
-| match_type                 | string  |          | calculated          | meta:matchType                           |            |
-| t_starters_avg_rank        | float64 |          | calculated          | is_bot, round, rank, steam_id, team_code |            |
-| t_starters_avg_wins        | float64 |          | calculated          | is_bot, round, wins, steam_id, team_code |            |
-| ct_starters_avg_rank       | float64 |          | calculated          | is_bot, round, rank, steam_id, team_code |            |
-| ct_starters_avg_wins       | float64 |          | calculated          | is_bot, round, wins, steam_id, team_code |            |
-| ct_starters_score_final    | int     |          | calculated          | round_state:ct_score                     |            |
-| t_starters_score_final     | int     |          | calculated          | round_state:t_score                      |            |
-| unique_steamids            | int     |          | calculated          | player_personal:steam_id                 |            |
-| providence                 | string  |          | calculated          | metademo:providence                      |            |
-| number_of_points           | int     |          | calculated          | shape of all data frames                 |            |
+| Col Name                   | Type    | Nullable | Origin              | Dependents                                                                                       | Merge Keys |
+| -------------------------- | ------- | -------- | ------------------- | ------------------------------------------------------------------------------------------------ | ---------- |
+| magic                      | string  | False    | replay              |                                                                                                  |            |
+| network_protocol           | int32   | False    | replay              |                                                                                                  |            |
+| server_name                | string  | False    | replay              |                                                                                                  |            |
+| client_name                | string  | False    | replay              |                                                                                                  |            |
+| map_name                   | string  | False    | replay              |                                                                                                  |            |
+| game_directory             | string  | False    | replay              |                                                                                                  |            |
+| fullpackets_version        | int     | False    | replay              |                                                                                                  |            |
+| allow_clientside_entities  | bool    | False    | replay              |                                                                                                  |            |
+| allow_clientside_particles | bool    | False    | replay              |                                                                                                  |            |
+| addons                     | string  | False    | replay              |                                                                                                  |            |
+| demo_version_name          | string  | False    | replay              |                                                                                                  |            |
+| demo_version_guid          | string  | False    | replay              |                                                                                                  |            |
+| build_num                  | int32   | False    | replay              |                                                                                                  |            |
+| game                       | string  | False    | calculated          | meta:game                                                                                        |            |
+| is_gotv_recording          | bool    | False    | replay              |                                                                                                  |            |
+| is_wingman                 | bool    | False    | replay              |                                                                                                  |            |
+| max_unique_players         | int     | False    | replay              |                                                                                                  |            |
+| tick_rate                  | int     |          | calculated          |                                                                                                  |            |
+| tick_save_rate             | int     |          | calculated          |                                                                                                  |            |
+| rushb_version              | string  |          | calculated          | meta:metadata.rushbVersion                                                                       |            |
+| ppp_version                | string  |          | calculated          | meta:context.version                                                                             |            |
+| match_date                 | string  |          | calculated          | meta:matchDate                                                                                   |            |
+| demo_id                    | string  |          | calculated-redacted | meta:demoId                                                                                      |            |
+| sharecode                  | string  |          | calculated-redacted | meta:sharecode                                                                                   |            |
+| platform                   | string  |          | calculated          | meta:platform                                                                                    |            |
+| match_type                 | string  |          | calculated          | meta:matchType                                                                                   |            |
+| t_starters_avg_rank        | float64 |          | calculated          | is_bot, round, rank, steam_id, team_code, max_rounds                                             |            |
+| t_starters_avg_wins        | float64 |          | calculated          | is_bot, round, wins, steam_id, team_code, max_rounds                                             |            |
+| ct_starters_avg_rank       | float64 |          | calculated          | is_bot, round, rank, steam_id, team_code, max_rounds                                             |            |
+| ct_starters_avg_wins       | float64 |          | calculated          | is_bot, round, wins, steam_id, team_code, max_rounds                                             |            |
+| ct_starters_score_final    | int     |          | calculated          | round_state:t_score, round_state:ct_score, round_state:round, round_state:event_type, max_rounds |            |
+| t_starters_score_final     | int     |          | calculated          | round_state:t_score, round_state:ct_score, round_state:round, round_state:event_type, max_rounds |            |
+| unique_steamids            | int     |          | calculated          | player_personal:steam_id                                                                         |            |
+| providence                 | string  |          | calculated          | metademo:providence                                                                              |            |
+| number_of_points           | int     |          | calculated          | shape of all data frames                                                                         |            |
 
 ## item_dropped - single_event
 
