@@ -73,6 +73,8 @@ at or before the event, so they are null when no source row is close enough.
 `int64` and floats as `double`, because the writer goes through pandas; a
 column typed `int` here that can hold nulls therefore arrives as a double, and
 the note in the [data dictionary](./assets/csds_dictionary.csv) says so.
+The merged player ids (`player_id_fixed`, `attacker_id_fixed` and
+`assister_id_fixed`) are the exception: they are written as `int64` with nulls.
 
 **Nullable** is the value declared in the index object where there is one.
 Merged columns are always nullable. It is left blank for calculated columns,
@@ -99,7 +101,7 @@ Events that trigger this channel: bomb_abort_plant, bomb_begin_plant, bomb_dropp
 | site_code          | int32   | True     | replay     |                 |                            |
 | entity_id          | int32   | True     | replay     |                 |                            |
 | second             | float64 |          | calculated | tick, tick_rate |                            |
-| player_id_fixed    | float64 | True     | merged     |                 | player_id, round, steam_id |
+| player_id_fixed    | int     | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_y_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_z_pos       | float64 | True     | merged     |                 | player_id, tick            |
@@ -202,7 +204,7 @@ Event that triggers this channel: bullet_damage
 | is_no_scope          | bool    | False    | replay     |                 |                              |
 | is_attacker_in_air   | bool    | False    | replay     |                 |                              |
 | second               | float64 |          | calculated | tick, tick_rate |                              |
-| player_id_fixed      | float64 | True     | merged     |                 | player_id, round, steam_id   |
+| player_id_fixed      | int     | True     | merged     |                 | player_id, round, steam_id   |
 | attacker_id_fixed    | int     | True     | merged     |                 | attacker_id, round, steam_id |
 | player_x_pos         | float64 | True     | merged     |                 | player_id, tick              |
 | player_y_pos         | float64 | True     | merged     |                 | player_id, tick              |
@@ -240,7 +242,7 @@ Event that triggers this channel: grenade_bounce
 | y_pos           | float64 | False    | replay     |                 |                            |
 | z_pos           | float64 | False    | replay     |                 |                            |
 | second          | float64 |          | calculated | tick, tick_rate |                            |
-| player_id_fixed | float64 | True     | merged     |                 | player_id, round, steam_id |
+| player_id_fixed | int     | True     | merged     |                 | player_id, round, steam_id |
 
 ## grenade_state - multi_event
 
@@ -257,7 +259,7 @@ Events that trigger this channel: decoy_detonate, decoy_firing, decoy_started, f
 | y_pos              | float32 | False    | replay     |                                     |                            |
 | z_pos              | float32 | False    | replay     |                                     |                            |
 | second             | float64 |          | calculated | tick, tick_rate                     |                            |
-| player_id_fixed    | float64 | True     | merged     |                                     | player_id, round, steam_id |
+| player_id_fixed    | int     | True     | merged     |                                     | player_id, round, steam_id |
 | entity_id_fixed    | int     |          | calculated | round, entity_id, event_type, tick  |                            |
 | tick_throw         | int     |          | calculated | round, player_id, weapon_name, tick |                            |
 | player_x_pos       | float64 | True     | merged     |                                     | tick_throw, player_id      |
@@ -287,7 +289,7 @@ Event that triggers this channel: tick_end
 | y_pos             | float64 | False    | replay     |                 |                            |
 | z_pos             | float64 | False    | replay     |                 |                            |
 | second            | float64 |          | calculated | tick, tick_rate |                            |
-| player_id_fixed   | float64 | True     | merged     |                 | player_id, round, steam_id |
+| player_id_fixed   | int     | True     | merged     |                 | player_id, round, steam_id |
 
 ## header - header
 
@@ -346,7 +348,7 @@ Event that triggers this channel: item_dropped
 | z_pos              | float64 | False    | replay     |                 |                            |
 | reason             | string  | False    | replay     |                 |                            |
 | second             | float64 |          | calculated | tick, tick_rate |                            |
-| player_id_fixed    | float64 | True     | merged     |                 | player_id, round, steam_id |
+| player_id_fixed    | int     | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_y_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_z_pos       | float64 | True     | merged     |                 | player_id, tick            |
@@ -376,7 +378,7 @@ Event that triggers this channel: item_equip
 | weapon_type_code   | int32   | False    | replay     |                 |                            |
 | is_painted         | bool    | False    | replay     |                 |                            |
 | second             | float64 |          | calculated | tick, tick_rate |                            |
-| player_id_fixed    | float64 | True     | merged     |                 | player_id, round, steam_id |
+| player_id_fixed    | int     | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_y_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_z_pos       | float64 | True     | merged     |                 | player_id, tick            |
@@ -401,7 +403,7 @@ Event that triggers this channel: item_pickup
 | def_index          | int32   | False    | replay     |                 |                            |
 | is_silent          | bool    | False    | replay     |                 |                            |
 | second             | float64 |          | calculated | tick, tick_rate |                            |
-| player_id_fixed    | float64 | True     | merged     |                 | player_id, round, steam_id |
+| player_id_fixed    | int     | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_y_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_z_pos       | float64 | True     | merged     |                 | player_id, tick            |
@@ -425,7 +427,7 @@ Event that triggers this channel: item_refund
 | item               | string  | False    | replay     |                 |                            |
 | def_index          | int32   | False    | replay     |                 |                            |
 | second             | float64 |          | calculated | tick, tick_rate |                            |
-| player_id_fixed    | float64 | True     | merged     |                 | player_id, round, steam_id |
+| player_id_fixed    | int     | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_y_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_z_pos       | float64 | True     | merged     |                 | player_id, tick            |
@@ -453,7 +455,7 @@ Event that triggers this channel: tick_end
 | z_pos           | float64 | False    | replay     |                        |                            |
 | is_burning      | bool    | False    | replay     |                        |                            |
 | second          | float64 |          | calculated | tick, tick_rate        |                            |
-| player_id_fixed | float64 | True     | merged     |                        | player_id, round, steam_id |
+| player_id_fixed | int     | True     | merged     |                        | player_id, round, steam_id |
 | entity_id_fixed | int     |          | calculated | round, entity_id, tick |                            |
 
 ## molotov_state - multi_event
@@ -536,7 +538,7 @@ Event that triggers this channel: player_blind
 | attacker_id          | int32   | False    | replay     |                 |                              |
 | blind_duration       | float32 | False    | replay     |                 |                              |
 | second               | float64 |          | calculated | tick, tick_rate |                              |
-| player_id_fixed      | float64 | True     | merged     |                 | player_id, round, steam_id   |
+| player_id_fixed      | int     | True     | merged     |                 | player_id, round, steam_id   |
 | attacker_id_fixed    | int     | True     | merged     |                 | attacker_id, round, steam_id |
 | player_x_pos         | float64 | True     | merged     |                 | player_id, tick              |
 | player_y_pos         | float64 | True     | merged     |                 | player_id, tick              |
@@ -571,7 +573,7 @@ Event that triggers this channel: player_chat
 | text               | string  | False    | replay-redacted |                 |                            |
 | is_chat_all        | bool    | True     | replay          |                 |                            |
 | second             | float64 |          | calculated      | tick, tick_rate |                            |
-| player_id_fixed    | float64 | True     | merged          |                 | player_id, round, steam_id |
+| player_id_fixed    | int     | True     | merged          |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged          |                 | player_id, tick            |
 | player_y_pos       | float64 | True     | merged          |                 | player_id, tick            |
 | player_z_pos       | float64 | True     | merged          |                 | player_id, tick            |
@@ -595,7 +597,7 @@ Event that triggers this channel: player_connect
 | player_id       | int     | False    | replay     |                 |                            |
 | is_bot          | bool    | False    | replay     |                 |                            |
 | second          | float64 |          | calculated | tick, tick_rate |                            |
-| player_id_fixed | float64 | True     | merged     |                 | player_id, round, steam_id |
+| player_id_fixed | int     | True     | merged     |                 | player_id, round, steam_id |
 
 ## player_death - single_event
 
@@ -617,9 +619,9 @@ Event that triggers this channel: player_death
 | is_attacker_blind    | bool    | True     | replay     |                 |                              |
 | is_noscope           | bool    | True     | replay     |                 |                              |
 | second               | float64 |          | calculated | tick, tick_rate |                              |
-| player_id_fixed      | float64 | True     | merged     |                 | player_id, round, steam_id   |
-| attacker_id_fixed    | float64 | True     | merged     |                 | attacker_id, round, steam_id |
-| assister_id_fixed    | float64 | True     | merged     |                 | assister_id, round, steam_id |
+| player_id_fixed      | int     | True     | merged     |                 | player_id, round, steam_id   |
+| attacker_id_fixed    | int     | True     | merged     |                 | attacker_id, round, steam_id |
+| assister_id_fixed    | int     | True     | merged     |                 | assister_id, round, steam_id |
 | player_x_pos         | float64 | True     | merged     |                 | player_id, tick              |
 | player_y_pos         | float64 | True     | merged     |                 | player_id, tick              |
 | player_z_pos         | float64 | True     | merged     |                 | player_id, tick              |
@@ -663,7 +665,7 @@ Event that triggers this channel: player_disconnect
 | disconnect_reason | string  | False    | replay     |                 |                            |
 | is_bot            | bool    | False    | replay     |                 |                            |
 | second            | float64 |          | calculated | tick, tick_rate |                            |
-| player_id_fixed   | float64 | True     | merged     |                 | player_id, round, steam_id |
+| player_id_fixed   | int     | True     | merged     |                 | player_id, round, steam_id |
 
 ## player_footstep - single_event
 
@@ -675,7 +677,7 @@ Event that triggers this channel: player_footstep
 | tick            | int     | False    | replay     |                 |                            |
 | player_id       | int32   | False    | replay     |                 |                            |
 | second          | float64 |          | calculated | tick, tick_rate |                            |
-| player_id_fixed | float64 | True     | merged     |                 | player_id, round, steam_id |
+| player_id_fixed | int     | True     | merged     |                 | player_id, round, steam_id |
 
 ## player_hurt - single_event
 
@@ -694,8 +696,8 @@ Event that triggers this channel: player_hurt
 | armor_removed            | int32   | False    | replay     |                          |                              |
 | hit_box_code             | int32   | False    | replay     |                          |                              |
 | second                   | float64 |          | calculated | tick, tick_rate          |                              |
-| player_id_fixed          | float64 | True     | merged     |                          | player_id, round, steam_id   |
-| attacker_id_fixed        | float64 | True     | merged     |                          | attacker_id, round, steam_id |
+| player_id_fixed          | int     | True     | merged     |                          | player_id, round, steam_id   |
+| attacker_id_fixed        | int     | True     | merged     |                          | attacker_id, round, steam_id |
 | player_x_pos             | float64 | True     | merged     |                          | player_id, tick              |
 | player_y_pos             | float64 | True     | merged     |                          | player_id, tick              |
 | player_z_pos             | float64 | True     | merged     |                          | player_id, tick              |
@@ -764,7 +766,7 @@ Event that triggers this channel: player_buttons_state_update
 | button_use_or_reload   | bool    | False    | replay     |                 |                            |
 | button_joy_auto_sprint | bool    | False    | replay     |                 |                            |
 | second                 | float64 |          | calculated | tick, tick_rate |                            |
-| player_id_fixed        | float64 | True     | merged     |                 | player_id, round, steam_id |
+| player_id_fixed        | int     | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos           | float64 | True     | merged     |                 | player_id, tick            |
 | player_y_pos           | float64 | True     | merged     |                 | player_id, tick            |
 | player_z_pos           | float64 | True     | merged     |                 | player_id, tick            |
@@ -819,7 +821,7 @@ Event that triggers this channel: player_sound
 | duration           | float32 | False    | replay     |                 |                            |
 | is_step            | bool    | False    | replay     |                 |                            |
 | second             | float64 |          | calculated | tick, tick_rate |                            |
-| player_id_fixed    | float64 | True     | merged     |                 | player_id, round, steam_id |
+| player_id_fixed    | int     | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_y_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_z_pos       | float64 | True     | merged     |                 | player_id, tick            |
@@ -841,7 +843,7 @@ Event that triggers this channel: player_spawn
 | tick               | int     | False    | replay     |                 |                            |
 | player_id          | int32   | False    | replay     |                 |                            |
 | second             | float64 |          | calculated | tick, tick_rate |                            |
-| player_id_fixed    | float64 | True     | merged     |                 | player_id, round, steam_id |
+| player_id_fixed    | int     | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_y_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_z_pos       | float64 | True     | merged     |                 | player_id, tick            |
@@ -900,7 +902,7 @@ Event that triggers this channel: tick_end
 | is_spotted                    | bool    | False    | replay          |                                                                                                                                                                       |                            |
 | is_walking                    | bool    | False    | replay          |                                                                                                                                                                       |                            |
 | second                        | float64 |          | calculated      | tick, tick_rate                                                                                                                                                       |                            |
-| player_id_fixed               | float64 | True     | merged          |                                                                                                                                                                       | player_id, round, steam_id |
+| player_id_fixed               | int     | True     | merged          |                                                                                                                                                                       | player_id, round, steam_id |
 | equipment_value_calc          | int     |          | calculated      | inv_flashbang, inv_taser, inv_hegrenade, inv_smokegrenade, inv_molotov, inv_decoy, inv_incgrenade, inv_c4, armor, has_defuser, has_helmet, inv_primary, inv_secondary |                            |
 
 ## player_vector - telemetry
@@ -930,14 +932,14 @@ Event that triggers this channel: tick_end
 | view_punch_angle_tick | int     | False    | replay     |                                             |                            |
 | is_rescuing           | bool    | False    | replay     |                                             |                            |
 | second                | float64 |          | calculated | tick, tick_rate                             |                            |
-| player_id_fixed       | float64 | True     | merged     |                                             | player_id, round, steam_id |
+| player_id_fixed       | int     | True     | merged     |                                             | player_id, round, steam_id |
 | team_code             | int     | True     | merged     |                                             | round, player_id           |
-| theta_vel             | float64 |          | calculated | second, player_id, theta                    |                            |
-| phi_vel               | float64 |          | calculated | second, player_id, phi                      |                            |
+| theta_vel             | float64 |          | calculated | second, player_id, round, theta             |                            |
+| phi_vel               | float64 |          | calculated | second, player_id, round, phi               |                            |
 | ang_vel               | float64 |          | calculated | phi_vel, theta_vel                          |                            |
-| x_vel                 | float64 |          | calculated | second, x_pos                               |                            |
-| y_vel                 | float64 |          | calculated | second, y_pos                               |                            |
-| z_vel                 | float64 |          | calculated | second, z_pos                               |                            |
+| x_vel                 | float64 |          | calculated | second, x_pos, player_id, round             |                            |
+| y_vel                 | float64 |          | calculated | second, y_pos, player_id, round             |                            |
+| z_vel                 | float64 |          | calculated | second, z_pos, player_id, round             |                            |
 | speed_2d              | float64 |          | calculated | x_vel, y_vel                                |                            |
 | movement_angle        | float64 |          | calculated | second, x_vel, y_vel                        |                            |
 | movement_angle_diff   | float64 |          | calculated | second, speed_2d, theta_ang, movement_angle |                            |
@@ -956,7 +958,7 @@ Event that triggers this channel: rank_update
 | rank_change        | float32 | False    | replay        |                 |                            |
 | win_count          | int32   | False    | replay-capped |                 |                            |
 | second             | float64 |          | calculated    | tick, tick_rate |                            |
-| player_id_fixed    | float64 | True     | merged        |                 | player_id, round, steam_id |
+| player_id_fixed    | int     | True     | merged        |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged        |                 | player_id, tick            |
 | player_y_pos       | float64 | True     | merged        |                 | player_id, tick            |
 | player_z_pos       | float64 | True     | merged        |                 | player_id, tick            |
@@ -1049,7 +1051,7 @@ Event that triggers this channel: player_team
 | is_bot             | bool    | False    | replay     |                 |                            |
 | silent             | bool    | False    | replay     |                 |                            |
 | second             | float64 |          | calculated | tick, tick_rate |                            |
-| player_id_fixed    | float64 | True     | merged     |                 | player_id, round, steam_id |
+| player_id_fixed    | int     | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_y_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_z_pos       | float64 | True     | merged     |                 | player_id, tick            |
@@ -1084,7 +1086,7 @@ Events that trigger this channel: fire_on_empty, reload, zoom, zoom_rifle
 | event_type         | string  | False    | replay     |                 |                            |
 | player_id          | int32   | False    | replay     |                 |                            |
 | second             | float64 |          | calculated | tick, tick_rate |                            |
-| player_id_fixed    | float64 | True     | merged     |                 | player_id, round, steam_id |
+| player_id_fixed    | int     | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_y_pos       | float64 | True     | merged     |                 | player_id, tick            |
 | player_z_pos       | float64 | True     | merged     |                 | player_id, tick            |
@@ -1109,7 +1111,7 @@ Event that triggers this channel: weapon_fire
 | weapon_name        | string  | False    | replay     |                                                |                            |
 | is_silenced        | bool    | False    | replay     |                                                |                            |
 | second             | float64 |          | calculated | tick, tick_rate                                |                            |
-| player_id_fixed    | float64 | True     | merged     |                                                | player_id, round, steam_id |
+| player_id_fixed    | int     | True     | merged     |                                                | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                                                | player_id, tick            |
 | player_y_pos       | float64 | True     | merged     |                                                | player_id, tick            |
 | player_z_pos       | float64 | True     | merged     |                                                | player_id, tick            |
