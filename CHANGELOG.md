@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Harden the deploy workflows.
 - Update GitHub Actions to Node.js 24 runtimes.
 - List the inputs csgo-ppp 8.5.3 declares for the CS2 spec's header rank averages and final scores.
+- Type the CS2 spec's merged player ids (`player_id_fixed`, `attacker_id_fixed`, `assister_id_fixed`) as integers in every channel, written as `int64` with nulls, and add `player_id` and `round` to the inputs of `player_vector`'s velocity columns, now differenced per player per round.
 
 ## 0.8.2 / 2026-07-05
 
