@@ -948,30 +948,30 @@ Event that triggers this channel: tick_end
 
 Event that triggers this channel: tick_end
 
-| Col Name              | Type    | Nullable | Origin     | Dependents                                  | Merge Keys                 |
-| --------------------- | ------- | -------- | ---------- | ------------------------------------------- | -------------------------- |
-| tick                  | int     | False    | replay     |                                             |                            |
-| round                 | int     | False    | replay     |                                             |                            |
-| player_id             | int     | False    | replay     |                                             |                            |
-| x_pos                 | float64 | False    | replay     |                                             |                            |
-| y_pos                 | float64 | False    | replay     |                                             |                            |
-| z_pos                 | float64 | False    | replay     |                                             |                            |
-| current_ammo          | int     | True     | replay     |                                             |                            |
-| weapon_code           | int     | True     | replay     |                                             |                            |
-| inaccuracy            | float32 | True     | replay     |                                             |                            |
-| last_shot_time        | float32 | True     | replay     |                                             |                            |
-| recoil_index          | float32 | True     | replay     |                                             |                            |
-| phi_ang               | float32 | False    | replay     |                                             |                            |
-| theta_ang             | float32 | False    | replay     |                                             |                            |
-| is_ducked             | bool    | False    | replay     |                                             |                            |
-| is_ducking            | bool    | False    | replay     |                                             |                            |
-| duck_amount           | float32 | False    | replay     |                                             |                            |
-| duck_speed            | float32 | False    | replay     |                                             |                            |
-| fall_velocity         | float32 | False    | replay     |                                             |                            |
-| view_punch_angle_tick | int     | False    | replay     |                                             |                            |
-| is_rescuing           | bool    | False    | replay     |                                             |                            |
-| player_id_fixed       | int     | True     | merged     |                                             | player_id, round, steam_id |
-| team_code             | int     | True     | merged     |                                             | round, player_id           |
+| Col Name              | Type    | Nullable | Origin | Dependents | Merge Keys                 |
+| --------------------- | ------- | -------- | ------ | ---------- | -------------------------- |
+| tick                  | int     | False    | replay |            |                            |
+| round                 | int     | False    | replay |            |                            |
+| player_id             | int     | False    | replay |            |                            |
+| x_pos                 | float64 | False    | replay |            |                            |
+| y_pos                 | float64 | False    | replay |            |                            |
+| z_pos                 | float64 | False    | replay |            |                            |
+| current_ammo          | int     | True     | replay |            |                            |
+| weapon_code           | int     | True     | replay |            |                            |
+| inaccuracy            | float32 | True     | replay |            |                            |
+| last_shot_time        | float32 | True     | replay |            |                            |
+| recoil_index          | float32 | True     | replay |            |                            |
+| phi_ang               | float32 | False    | replay |            |                            |
+| theta_ang             | float32 | False    | replay |            |                            |
+| is_ducked             | bool    | False    | replay |            |                            |
+| is_ducking            | bool    | False    | replay |            |                            |
+| duck_amount           | float32 | False    | replay |            |                            |
+| duck_speed            | float32 | False    | replay |            |                            |
+| fall_velocity         | float32 | False    | replay |            |                            |
+| view_punch_angle_tick | int     | False    | replay |            |                            |
+| is_rescuing           | bool    | False    | replay |            |                            |
+| player_id_fixed       | int     | True     | merged |            | player_id, round, steam_id |
+| team_code             | int     | True     | merged |            | round, player_id           |
 
 ## rank_update - single_event
 
