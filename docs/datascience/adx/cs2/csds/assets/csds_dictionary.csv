@@ -630,18 +630,8 @@ duck_speed,DECIMAL,,False,,,,,player_vector,telemetry
 fall_velocity,DECIMAL,,False,,,,,player_vector,telemetry
 view_punch_angle_tick,INTEGER,,False,,,,,player_vector,telemetry
 is_rescuing,BOOLEAN,,False,,,,,player_vector,telemetry
-second,DECIMAL,,,,,,,player_vector,telemetry
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_vector,telemetry
 team_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,player_vector,telemetry
-theta_vel,DECIMAL,,,,Differenced per player per round: a player's first sample in each round is 0.,,,player_vector,telemetry
-phi_vel,DECIMAL,,,,Differenced per player per round: a player's first sample in each round is 0.,,,player_vector,telemetry
-ang_vel,DECIMAL,,,,,,,player_vector,telemetry
-x_vel,DECIMAL,,,,Differenced per player per round: a player's first sample in each round is 0.,,,player_vector,telemetry
-y_vel,DECIMAL,,,,Differenced per player per round: a player's first sample in each round is 0.,,,player_vector,telemetry
-z_vel,DECIMAL,,,,Differenced per player per round: a player's first sample in each round is 0.,,,player_vector,telemetry
-speed_2d,DECIMAL,,,,,,,player_vector,telemetry
-movement_angle,DECIMAL,,True,"The direction the player moves in, from x_vel and y_vel: 0 to 360 degrees, counterclockwise from the +x axis.","Null while standing still. Older matches: 0 while standing still, the same as moving along +x.",,,player_vector,telemetry
-movement_angle_diff,DECIMAL,,True,"The angle between where the player looks (theta_ang) and where they move (movement_angle), in -180 to 180: 0 moving the way they look, +-90 sideways, +-180 backwards.","Null while standing still. Older matches: theta_ang minus movement_angle with 360 added once to a negative result (-180 to 360), and -1 for standing still.",,,player_vector,telemetry
 round,INTEGER,,False,,,,,rank_update,single_event
 tick,INTEGER,,False,,,,,rank_update,single_event
 player_id,INTEGER,,False,,,,,rank_update,single_event
