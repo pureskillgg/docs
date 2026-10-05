@@ -117,7 +117,10 @@ with the same values:
   section gives every column's type.
 - **Row order.** Rows are sorted by `player_id`, then `tick`. Sort by `tick`
   and `player_id` for tick order.
-- **`current_ammo`.** An empty magazine reads `-1`.
+- **`current_ammo`.** Parser 5.4.0 and earlier read every magazine one
+  low, so an empty one wrapped to `4294967295`; compact files write that as
+  `-1`. Parser 5.4.1 and later read the real count, with `0` for an empty
+  magazine, so `-1` appears only where the parser was older.
 - **pandas.** The files' pandas metadata names the narrow types, so
   `pd.read_parquet` gives nullable `Int8`, `Int16` or `Int32` where older
   files gave `Int64`, `int32` for `tick`, `float32`, a category for
@@ -130,8 +133,9 @@ with the same values:
 
 Files written by converter 8.5.4 and earlier keep the old format: `int64`
 integers, `double` floats, plain strings, rows in tick order, and
-`4294967295` in `current_ammo` for an empty magazine. A match's `header.ppp_version` names the converter
-release that built it, and each file's own schema says which format it is.
+`current_ammo`'s `4294967295` as the parser wrote it. A match's
+`header.ppp_version` names the converter release that built it, and each
+file's own schema says which format it is.
 
 **Reading the files.** pyarrow (pandas' default engine), polars and DuckDB
 read both formats. fastparquet can't read the compact files: their floats
