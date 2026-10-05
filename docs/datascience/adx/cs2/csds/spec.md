@@ -105,6 +105,19 @@ standing still. The [changelog](./changelog.md) dates the change.
 while standing still. Older matches stored 0 while standing still, the same as
 moving along +x. The [changelog](./changelog.md) dates the change.
 
+**`player_vector` no longer stores its ten derived columns:** `second`,
+`x_vel`, `y_vel`, `z_vel`, `speed_2d`, `movement_angle`, `movement_angle_diff`,
+`phi_vel`, `theta_vel` and `ang_vel`. They are computed from the columns that are
+stored, and they were most of the file. Compute them on load with
+[pureskillgg-csgo-dsdk](https://pypi.org/project/pureskillgg-csgo-dsdk/) 3.3.1 or
+later: `add_player_vector_derived_columns(player_vector)` adds all ten, with the
+values the converter computes, and `player_vector_source_columns(columns)` lists
+the columns to load for some of them. Code that reads them from the file breaks
+on newer matches. Older matches still store them. The index still names all ten,
+marked as deleted, with a comment saying how to compute them. The
+[changelog](./changelog.md) dates the change. Every other channel still stores
+`second`.
+
 Four columns that older versions of this document listed are no longer
 published: `tick` and `second` on `player_info` and on `player_personal`. The
 index still names them, marked as deleted, so a reader driven off the index
@@ -935,40 +948,30 @@ Event that triggers this channel: tick_end
 
 Event that triggers this channel: tick_end
 
-| Col Name              | Type    | Nullable | Origin     | Dependents                                  | Merge Keys                 |
-| --------------------- | ------- | -------- | ---------- | ------------------------------------------- | -------------------------- |
-| tick                  | int     | False    | replay     |                                             |                            |
-| round                 | int     | False    | replay     |                                             |                            |
-| player_id             | int     | False    | replay     |                                             |                            |
-| x_pos                 | float64 | False    | replay     |                                             |                            |
-| y_pos                 | float64 | False    | replay     |                                             |                            |
-| z_pos                 | float64 | False    | replay     |                                             |                            |
-| current_ammo          | int     | True     | replay     |                                             |                            |
-| weapon_code           | int     | True     | replay     |                                             |                            |
-| inaccuracy            | float32 | True     | replay     |                                             |                            |
-| last_shot_time        | float32 | True     | replay     |                                             |                            |
-| recoil_index          | float32 | True     | replay     |                                             |                            |
-| phi_ang               | float32 | False    | replay     |                                             |                            |
-| theta_ang             | float32 | False    | replay     |                                             |                            |
-| is_ducked             | bool    | False    | replay     |                                             |                            |
-| is_ducking            | bool    | False    | replay     |                                             |                            |
-| duck_amount           | float32 | False    | replay     |                                             |                            |
-| duck_speed            | float32 | False    | replay     |                                             |                            |
-| fall_velocity         | float32 | False    | replay     |                                             |                            |
-| view_punch_angle_tick | int     | False    | replay     |                                             |                            |
-| is_rescuing           | bool    | False    | replay     |                                             |                            |
-| second                | float64 |          | calculated | tick, tick_rate                             |                            |
-| player_id_fixed       | int     | True     | merged     |                                             | player_id, round, steam_id |
-| team_code             | int     | True     | merged     |                                             | round, player_id           |
-| theta_vel             | float64 |          | calculated | second, player_id, round, theta             |                            |
-| phi_vel               | float64 |          | calculated | second, player_id, round, phi               |                            |
-| ang_vel               | float64 |          | calculated | phi_vel, theta_vel                          |                            |
-| x_vel                 | float64 |          | calculated | second, x_pos, player_id, round             |                            |
-| y_vel                 | float64 |          | calculated | second, y_pos, player_id, round             |                            |
-| z_vel                 | float64 |          | calculated | second, z_pos, player_id, round             |                            |
-| speed_2d              | float64 |          | calculated | x_vel, y_vel                                |                            |
-| movement_angle        | float64 | True     | calculated | second, x_vel, y_vel                        |                            |
-| movement_angle_diff   | float64 | True     | calculated | second, speed_2d, theta_ang, movement_angle |                            |
+| Col Name              | Type    | Nullable | Origin | Dependents | Merge Keys                 |
+| --------------------- | ------- | -------- | ------ | ---------- | -------------------------- |
+| tick                  | int     | False    | replay |            |                            |
+| round                 | int     | False    | replay |            |                            |
+| player_id             | int     | False    | replay |            |                            |
+| x_pos                 | float64 | False    | replay |            |                            |
+| y_pos                 | float64 | False    | replay |            |                            |
+| z_pos                 | float64 | False    | replay |            |                            |
+| current_ammo          | int     | True     | replay |            |                            |
+| weapon_code           | int     | True     | replay |            |                            |
+| inaccuracy            | float32 | True     | replay |            |                            |
+| last_shot_time        | float32 | True     | replay |            |                            |
+| recoil_index          | float32 | True     | replay |            |                            |
+| phi_ang               | float32 | False    | replay |            |                            |
+| theta_ang             | float32 | False    | replay |            |                            |
+| is_ducked             | bool    | False    | replay |            |                            |
+| is_ducking            | bool    | False    | replay |            |                            |
+| duck_amount           | float32 | False    | replay |            |                            |
+| duck_speed            | float32 | False    | replay |            |                            |
+| fall_velocity         | float32 | False    | replay |            |                            |
+| view_punch_angle_tick | int     | False    | replay |            |                            |
+| is_rescuing           | bool    | False    | replay |            |                            |
+| player_id_fixed       | int     | True     | merged |            | player_id, round, steam_id |
+| team_code             | int     | True     | merged |            | round, player_id           |
 
 ## rank_update - single_event
 
