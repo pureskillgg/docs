@@ -100,6 +100,11 @@ matches stored `theta_ang` minus `movement_angle` with 360 added once to a negat
 result, so it spanned -180 to 360 (the same angle read as 350 or -10), with -1 for
 standing still. The [changelog](./changelog.md) dates the change.
 
+**`player_vector.movement_angle`** is the direction a player moves in, from
+`x_vel` and `y_vel`: 0 to 360 degrees, counterclockwise from the +x axis, and null
+while standing still. Older matches stored 0 while standing still, the same as
+moving along +x. The [changelog](./changelog.md) dates the change.
+
 Four columns that older versions of this document listed are no longer
 published: `tick` and `second` on `player_info` and on `player_personal`. The
 index still names them, marked as deleted, so a reader driven off the index
@@ -962,7 +967,7 @@ Event that triggers this channel: tick_end
 | y_vel                 | float64 |          | calculated | second, y_pos, player_id, round             |                            |
 | z_vel                 | float64 |          | calculated | second, z_pos, player_id, round             |                            |
 | speed_2d              | float64 |          | calculated | x_vel, y_vel                                |                            |
-| movement_angle        | float64 |          | calculated | second, x_vel, y_vel                        |                            |
+| movement_angle        | float64 | True     | calculated | second, x_vel, y_vel                        |                            |
 | movement_angle_diff   | float64 | True     | calculated | second, speed_2d, theta_ang, movement_angle |                            |
 
 ## rank_update - single_event
