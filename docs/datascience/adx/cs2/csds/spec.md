@@ -105,7 +105,7 @@ should skip any column whose origin ends in `-deleted`.
 ## The player tables
 
 `player_vector` and `player_status` hold one row per player per tick, nearly
-all of a match's rows. Converter releases after 8.5.4 write them compactly,
+all of a match's rows. Converter 8.6.0 and later write them compactly,
 with the same values:
 
 - **Types.** Each integer takes the smallest signed type that holds it with
@@ -924,7 +924,7 @@ Event that triggers this channel: player_spawn
 
 Event that triggers this channel: tick_end
 
-Converter releases after 8.5.4 write this table with the types below, sorted by player, then tick; see [The player tables](#the-player-tables).
+Converter 8.6.0 and later write this table with the types below, sorted by player, then tick; see [The player tables](#the-player-tables).
 
 | Col Name                      | Type    | Nullable | Origin          | Dependents                                                                                                                                                            | Merge Keys                 |
 | ----------------------------- | ------- | -------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
@@ -976,7 +976,7 @@ Converter releases after 8.5.4 write this table with the types below, sorted by 
 
 Event that triggers this channel: tick_end
 
-Converter releases after 8.5.4 write this table with the types below, sorted by player, then tick; see [The player tables](#the-player-tables).
+Converter 8.6.0 and later write this table with the types below, sorted by player, then tick; see [The player tables](#the-player-tables).
 
 | Col Name              | Type    | Nullable | Origin     | Dependents                                  | Merge Keys                 |
 | --------------------- | ------- | -------- | ---------- | ------------------------------------------- | -------------------------- |

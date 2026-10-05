@@ -616,7 +616,7 @@ player_id,INTEGER,,False,,,,,player_vector,telemetry
 x_pos,DECIMAL,,False,,,,,player_vector,telemetry
 y_pos,DECIMAL,,False,,,,,player_vector,telemetry
 z_pos,DECIMAL,,False,,,,,player_vector,telemetry
-current_ammo,INTEGER,,True,,Parser 5.4.0 and earlier read one low and wrap an empty magazine to 4294967295; compact files (converter after 8.5.4) write that as -1. Parser 5.4.1 and later read the real count with 0 for empty.,,,player_vector,telemetry
+current_ammo,INTEGER,,True,,Parser 5.4.0 and earlier read one low and wrap an empty magazine to 4294967295; compact files (converter 8.6.0 and later) write that as -1. Parser 5.4.1 and later read the real count with 0 for empty.,,,player_vector,telemetry
 weapon_code,INTEGER,,True,,,,,player_vector,telemetry
 inaccuracy,DECIMAL,,True,,,,,player_vector,telemetry
 last_shot_time,DECIMAL,,True,,,,,player_vector,telemetry
