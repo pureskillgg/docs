@@ -5,8 +5,8 @@
 <meta name="generator" content="Docusaurus v3.10.1">
 <title data-rh="true">changelog-by-channel | PureSkill.gg Docs</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://docs.pureskill.gg/datascience/adx/cs2/csds/changelog-by-channel"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="changelog-by-channel | PureSkill.gg Docs"><meta data-rh="true" name="description" content="Every change to the published CS2 CSDS data, channel by channel."><meta data-rh="true" property="og:description" content="Every change to the published CS2 CSDS data, channel by channel."><link data-rh="true" rel="icon" href="https://csgo.cdn.pureskill.app/17.2.0/favicon.ico"><link data-rh="true" rel="canonical" href="https://docs.pureskill.gg/datascience/adx/cs2/csds/changelog-by-channel"><link data-rh="true" rel="alternate" href="https://docs.pureskill.gg/datascience/adx/cs2/csds/changelog-by-channel" hreflang="en"><link data-rh="true" rel="alternate" href="https://docs.pureskill.gg/datascience/adx/cs2/csds/changelog-by-channel" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Science","item":"https://docs.pureskill.gg/datascience/"},{"@type":"ListItem","position":2,"name":"Competitive Gameplay","item":"https://docs.pureskill.gg/datascience/adx/cs2/csds/"},{"@type":"ListItem","position":3,"name":"Changelog by Channel","item":"https://docs.pureskill.gg/datascience/adx/cs2/csds/changelog-by-channel"}]}</script><link rel="preconnect" href="https://csgo.pureskill.gg/_ph">
 <script>!function(t,e){var o,s,r,a;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,n,p){function c(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(r=t.createElement("script")).type="text/javascript",r.async=!0,r.src=n.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(a=t.getElementsByTagName("script")[0]).parentNode.insertBefore(r,a);var g=e;for(void 0!==p?g=e[p]=[]:p="posthog",g.people=g.people||[],g.toString=function(t){var e="posthog";return"posthog"!==p&&(e+="."+p),t||(e+=" (stub)"),e},g.people.toString=function(){return g.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "),s=0;s<o.length;s++)c(g,o[s]);e._i.push([i,n,p])},e.__SV=1)}(document,window.posthog||[]),posthog.init("phc_nvAASNi9srHopWYDZKDjWsBacjqtE270dcE0F73LnDd",{api_host:"https://csgo.pureskill.gg/_ph",id:"default"})</script><link rel="stylesheet" href="/assets/css/styles.457078b9.css">
-<script src="/assets/js/runtime~main.eea89707.js" defer="defer"></script>
-<script src="/assets/js/main.5e617c17.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.3082feb0.js" defer="defer"></script>
+<script src="/assets/js/main.3d33154f.js" defer="defer"></script>
 </head>
 <body>
 <svg style="display: none;"><defs>
@@ -41,34 +41,48 @@ Dates are the day (UTC) a change reached production.</p>
 <li class=""><strong>2026-08-03</strong>, index object. A channel entry can carry <code>available</code>. False means the demo did not carry that data, so an empty channel means &quot;not recorded&quot; rather than &quot;nothing happened&quot;. It is set on <code>bot_takeover</code>, <code>bullet_damage</code>, <code>player_inputs</code>, <code>player_sound</code>, <code>rank_update</code> and <code>round_mvp</code>.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="bomb_action">bomb_action<a href="#bomb_action" class="hash-link" aria-label="Direct link to bomb_action" title="Direct link to bomb_action" translate="no">​</a></h2>
-<p>No changes of its own since CS2 data began; see <a href="#all-channels" class="">All channels</a>.</p>
+<ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
+</ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="bomb_defuse">bomb_defuse<a href="#bomb_defuse" class="hash-link" aria-label="Direct link to bomb_defuse" title="Direct link to bomb_defuse" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
 <li class=""><strong>2026-08-22</strong>, types changed: <code>has_kit</code>. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="bomb_state">bomb_state<a href="#bomb_state" class="hash-link" aria-label="Direct link to bomb_state" title="Direct link to bomb_state" translate="no">​</a></h2>
-<p>No changes of its own since CS2 data began; see <a href="#all-channels" class="">All channels</a>.</p>
+<ul>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
+</ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="bot_takeover">bot_takeover<a href="#bot_takeover" class="hash-link" aria-label="Direct link to bot_takeover" title="Direct link to bot_takeover" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
 <li class=""><strong>2026-08-03</strong>, column added: <code>is_controlling</code>. True when a player takes over a bot, false when they give it back. <code>bot_takeover</code> has rows for the first time in CS2 data.</li>
 <li class=""><strong>2026-08-03</strong>, index object. A channel entry can carry <code>available</code>. False means the demo did not carry that data, so an empty channel means &quot;not recorded&quot; rather than &quot;nothing happened&quot;. It is set on <code>bot_takeover</code>, <code>bullet_damage</code>, <code>player_inputs</code>, <code>player_sound</code>, <code>rank_update</code> and <code>round_mvp</code>.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="bullet_damage">bullet_damage<a href="#bullet_damage" class="hash-link" aria-label="Direct link to bullet_damage" title="Direct link to bullet_damage" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
 <li class=""><strong>2026-08-03</strong>, channel added. Per-bullet detail for each <code>player_hurt</code>: distance, damage direction, penetrations, and no-scope and in-air flags. Valve matchmaking demos only.</li>
 <li class=""><strong>2026-08-03</strong>, index object. A channel entry can carry <code>available</code>. False means the demo did not carry that data, so an empty channel means &quot;not recorded&quot; rather than &quot;nothing happened&quot;. It is set on <code>bot_takeover</code>, <code>bullet_damage</code>, <code>player_inputs</code>, <code>player_sound</code>, <code>rank_update</code> and <code>round_mvp</code>.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="grenade_bounce">grenade_bounce<a href="#grenade_bounce" class="hash-link" aria-label="Direct link to grenade_bounce" title="Direct link to grenade_bounce" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
 <li class=""><strong>2026-08-03</strong>, channel added. Every surface a thrown grenade hit.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="grenade_state">grenade_state<a href="#grenade_state" class="hash-link" aria-label="Direct link to grenade_state" title="Direct link to grenade_state" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
+<li class=""><strong>2026-10-05</strong>, values changed: <code>tick_throw</code>. Null where no throw was matched, not 0, -2 or -3. Declared nullable.</li>
 <li class=""><strong>2026-10-03</strong>, fixes: <code>entity_id_fixed</code>. A decoy with no <code>decoy_started</code> event keeps its -2 instead of being overwritten.</li>
 <li class=""><strong>2026-06-05</strong>, fixes: <code>entity_id_fixed</code>. -2 for a decoy with more than one start event. Such matches used to fail processing and were not published.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="grenade_vector">grenade_vector<a href="#grenade_vector" class="hash-link" aria-label="Direct link to grenade_vector" title="Direct link to grenade_vector" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
 <li class=""><strong>2026-08-03</strong>, channel added. The flight path of each thrown grenade, a row whenever its position changed.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="header">header<a href="#header" class="hash-link" aria-label="Direct link to header" title="Direct link to header" translate="no">​</a></h2>
@@ -89,14 +103,24 @@ Dates are the day (UTC) a change reached production.</p>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="item_dropped">item_dropped<a href="#item_dropped" class="hash-link" aria-label="Direct link to item_dropped" title="Direct link to item_dropped" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
 <li class=""><strong>2026-08-03</strong>, channel added. A weapon leaving a player&#x27;s hands, with the reason (<code>death</code>, <code>replaced</code> or <code>manual</code>).</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="item_equip">item_equip<a href="#item_equip" class="hash-link" aria-label="Direct link to item_equip" title="Direct link to item_equip" translate="no">​</a></h2>
-<p>No changes of its own since CS2 data began; see <a href="#all-channels" class="">All channels</a>.</p>
+<ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
+</ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="item_pickup">item_pickup<a href="#item_pickup" class="hash-link" aria-label="Direct link to item_pickup" title="Direct link to item_pickup" translate="no">​</a></h2>
-<p>No changes of its own since CS2 data began; see <a href="#all-channels" class="">All channels</a>.</p>
+<ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
+</ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="item_refund">item_refund<a href="#item_refund" class="hash-link" aria-label="Direct link to item_refund" title="Direct link to item_refund" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
 <li class=""><strong>2026-08-03</strong>, channel added. Buy refunds.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="item_remove-removed-2026-08-03">item_remove (removed 2026-08-03)<a href="#item_remove-removed-2026-08-03" class="hash-link" aria-label="Direct link to item_remove (removed 2026-08-03)" title="Direct link to item_remove (removed 2026-08-03)" translate="no">​</a></h2>
@@ -105,11 +129,16 @@ Dates are the day (UTC) a change reached production.</p>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="molotov_fire">molotov_fire<a href="#molotov_fire" class="hash-link" aria-label="Direct link to molotov_fire" title="Direct link to molotov_fire" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
 <li class=""><strong>2026-08-22</strong>, column added: <code>entity_id_fixed</code>. The <code>molotov_state.entity_id_fixed</code> of the fire this flame belongs to, or -1 if unmatched. Join on this, not on <code>entity_id</code>, which the game reuses.</li>
 <li class=""><strong>2026-08-03</strong>, channel added. Each flame of each molotov or incendiary fire, when it ignites and when it goes out.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="molotov_state">molotov_state<a href="#molotov_state" class="hash-link" aria-label="Direct link to molotov_state" title="Direct link to molotov_state" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, column added: <code>extinguisher_not_found</code>. True where the fire ended early but no smoke was near enough to credit (bool). Before, <code>extinguisher_id</code>, <code>extinguisher_id_fixed</code>, <code>smoke_entity_id</code> and <code>smoke_entity_id_fixed</code> held -2 there.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
+<li class=""><strong>2026-10-05</strong>, values changed: <code>player_id</code>, <code>player_id_fixed</code>, <code>tick_throw</code>, <code>burn_duration</code>. Null, not -1, where no thrower was found: every <code>inferno_expire</code> row, and a round whose throws and fires don&#x27;t pair up. <code>burn_duration</code> is null on <code>inferno_expire</code> rows; every start row still has one. Declared nullable.</li>
+<li class=""><strong>2026-10-05</strong>, values changed: <code>extinguisher_id</code>, <code>extinguisher_id_fixed</code>, <code>smoke_entity_id</code>, <code>smoke_entity_id_fixed</code>. Null on <code>inferno_expire</code> rows and where nobody put the fire out, not -1 or 0; the -2 moved to <code>extinguisher_not_found</code>. A real player 0 who put a fire out keeps <code>extinguisher_id</code> 0, where before it read the same as nobody. Declared nullable.</li>
 <li class=""><strong>2026-08-22</strong>, column added: <code>smoke_entity_id_fixed</code>. Joinable id of the smoke that put the fire out, matching its <code>grenade_state.entity_id_fixed</code>. It is 0 when the fire was not put out and -2 when no smoke was found. <code>smoke_entity_id</code> is the raw id, which the game reuses within a match.</li>
 <li class=""><strong>2026-08-22</strong>, column added: <code>fraction_extinguished</code>. Share of the fire&#x27;s flames, 0 to 1, that a smoke put out.</li>
 <li class=""><strong>2026-08-22</strong>, column added: <code>was_thrown_into_smoke</code>. 1 when the molotov or incendiary landed inside a smoke that was already up.</li>
@@ -119,6 +148,8 @@ Dates are the day (UTC) a change reached production.</p>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="other_death">other_death<a href="#other_death" class="hash-link" aria-label="Direct link to other_death" title="Direct link to other_death" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
+<li class=""><strong>2026-10-05</strong>, values changed: <code>attacker_id</code>, <code>attacker_id_fixed</code>. Null where there is no attacker or assister, not 65535. Declared nullable.</li>
 <li class=""><strong>2026-08-22</strong>, types changed: <code>is_attacker_blind</code>, <code>is_noscope</code>, <code>is_through_smoke</code>. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="player_action-removed-2026-08-03">player_action (removed 2026-08-03)<a href="#player_action-removed-2026-08-03" class="hash-link" aria-label="Direct link to player_action (removed 2026-08-03)" title="Direct link to player_action (removed 2026-08-03)" translate="no">​</a></h2>
@@ -128,27 +159,44 @@ Dates are the day (UTC) a change reached production.</p>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="player_blind">player_blind<a href="#player_blind" class="hash-link" aria-label="Direct link to player_blind" title="Direct link to player_blind" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
 <li class=""><strong>2023-12-09</strong>, values changed. Keeps only flashes on players alive at that tick. CS2 also reports flashes on dead and spectating players.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="player_chat">player_chat<a href="#player_chat" class="hash-link" aria-label="Direct link to player_chat" title="Direct link to player_chat" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
 <li class=""><strong>2026-08-22</strong>, types changed: <code>is_chat_all</code>. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.</li>
 <li class=""><strong>2026-08-03</strong>, channel added. In-game chat. <code>text</code> reads <code>redacted</code> in the published data.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="player_connect">player_connect<a href="#player_connect" class="hash-link" aria-label="Direct link to player_connect" title="Direct link to player_connect" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
 <li class=""><strong>2026-08-03</strong>, channel added. Player and bot connects, warm-up included.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="player_death">player_death<a href="#player_death" class="hash-link" aria-label="Direct link to player_death" title="Direct link to player_death" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>, <code>attacker_id_fixed</code>, <code>assister_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
+<li class=""><strong>2026-10-05</strong>, values changed: <code>attacker_id</code>, <code>attacker_id_fixed</code>, <code>assister_id</code>, <code>assister_id_fixed</code>. Null where there is no attacker or assister, not 65535. Declared nullable.</li>
 <li class=""><strong>2026-08-22</strong>, types changed: <code>is_attacker_blind</code>, <code>is_flash_assist</code>, <code>is_noscope</code>, <code>is_through_smoke</code>. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="player_disconnect">player_disconnect<a href="#player_disconnect" class="hash-link" aria-label="Direct link to player_disconnect" title="Direct link to player_disconnect" translate="no">​</a></h2>
-<p>No changes of its own since CS2 data began; see <a href="#all-channels" class="">All channels</a>.</p>
+<ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+</ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="player_footstep">player_footstep<a href="#player_footstep" class="hash-link" aria-label="Direct link to player_footstep" title="Direct link to player_footstep" translate="no">​</a></h2>
-<p>No changes of its own since CS2 data began; see <a href="#all-channels" class="">All channels</a>.</p>
+<ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+</ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="player_hurt">player_hurt<a href="#player_hurt" class="hash-link" aria-label="Direct link to player_hurt" title="Direct link to player_hurt" translate="no">​</a></h2>
-<p>No changes of its own since CS2 data began; see <a href="#all-channels" class="">All channels</a>.</p>
+<ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>, <code>attacker_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
+<li class=""><strong>2026-10-05</strong>, values changed: <code>attacker_id</code>, <code>attacker_id_fixed</code>. Null where there is no attacker or assister, not 65535. Declared nullable.</li>
+<li class=""><strong>2026-10-05</strong>, values changed: <code>weapon_name</code>. Null for damage with no weapon, not an empty string.</li>
+</ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="player_info">player_info<a href="#player_info" class="hash-link" aria-label="Direct link to player_info" title="Direct link to player_info" translate="no">​</a></h2>
 <ul>
 <li class=""><strong>2026-10-03</strong>, fixes: <code>rank_platform</code>, <code>elo_platform</code>. On FACEIT matches, each player&#x27;s FACEIT level and Elo now belong to the right player. Before, they were matched by row position and could be another player&#x27;s.</li>
@@ -161,6 +209,8 @@ Dates are the day (UTC) a change reached production.</p>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="player_inputs">player_inputs<a href="#player_inputs" class="hash-link" aria-label="Direct link to player_inputs" title="Direct link to player_inputs" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
 <li class=""><strong>2026-08-03</strong>, channel added. Which buttons each player held, a row whenever that changed. Empty on Valve matchmaking demos, which do not carry it.</li>
 <li class=""><strong>2026-08-03</strong>, index object. A channel entry can carry <code>available</code>. False means the demo did not carry that data, so an empty channel means &quot;not recorded&quot; rather than &quot;nothing happened&quot;. It is set on <code>bot_takeover</code>, <code>bullet_damage</code>, <code>player_inputs</code>, <code>player_sound</code>, <code>rank_update</code> and <code>round_mvp</code>.</li>
 </ul>
@@ -175,13 +225,19 @@ Dates are the day (UTC) a change reached production.</p>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="player_sound">player_sound<a href="#player_sound" class="hash-link" aria-label="Direct link to player_sound" title="Direct link to player_sound" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
 <li class=""><strong>2026-08-03</strong>, channel added. Sounds a player made and how far they carried. Empty on Valve matchmaking demos, which do not carry it.</li>
 <li class=""><strong>2026-08-03</strong>, index object. A channel entry can carry <code>available</code>. False means the demo did not carry that data, so an empty channel means &quot;not recorded&quot; rather than &quot;nothing happened&quot;. It is set on <code>bot_takeover</code>, <code>bullet_damage</code>, <code>player_inputs</code>, <code>player_sound</code>, <code>rank_update</code> and <code>round_mvp</code>.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="player_spawn">player_spawn<a href="#player_spawn" class="hash-link" aria-label="Direct link to player_spawn" title="Direct link to player_spawn" translate="no">​</a></h2>
-<p>No changes of its own since CS2 data began; see <a href="#all-channels" class="">All channels</a>.</p>
+<ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
+</ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="player_status">player_status<a href="#player_status" class="hash-link" aria-label="Direct link to player_status" title="Direct link to player_status" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
 <li class=""><strong>2026-08-22</strong>, column added: <code>is_reloading</code>. Whether the player is reloading (bool). Replaces <code>reload_visually_complete</code>.</li>
 <li class=""><strong>2026-08-22</strong>, column removed: <code>reload_visually_complete</code>. Null on every row since 2025-08-21. Use <code>is_reloading</code>.</li>
 <li class=""><strong>2026-08-22</strong>, types changed: <code>burst_mode</code>, <code>is_silenced</code>. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.</li>
@@ -191,6 +247,10 @@ Dates are the day (UTC) a change reached production.</p>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="player_vector">player_vector<a href="#player_vector" class="hash-link" aria-label="Direct link to player_vector" title="Direct link to player_vector" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed: <code>x_vel</code>, <code>y_vel</code>, <code>z_vel</code>, <code>theta_vel</code>, <code>phi_vel</code>, <code>ang_vel</code>, <code>speed_2d</code>, <code>movement_angle</code>. Computed per player per round, so a player&#x27;s first sample in each round is 0. Before, positions and view angles were differenced across rounds, and a respawn read as a jump, as much as 365,000 units a second in our test matches. A velocity component over 3,500 within a round, the game&#x27;s <code>sv_maxvelocity</code>, is taken as a teleport and reads 0. <code>speed_2d</code>, <code>movement_angle</code> and <code>ang_vel</code> follow from these.</li>
+<li class=""><strong>2026-10-05</strong>, values changed: <code>movement_angle_diff</code>. The angle between where the player looks (<code>theta_ang</code>) and where they move, in -180 to 180: 0 moving the way they look, ±90 sideways, ±180 backwards, and null while standing still. Before, it was <code>theta_ang</code> minus <code>movement_angle</code> with 360 added once to a negative result, so it ran from -180 to 360, the same angle could read 350 or -10, and standing still read -1.</li>
+<li class=""><strong>About 2026-10-05</strong>, columns removed: <code>second</code>, <code>x_vel</code>, <code>y_vel</code>, <code>z_vel</code>, <code>speed_2d</code>, <code>movement_angle</code>, <code>movement_angle_diff</code>, <code>phi_vel</code>, <code>theta_vel</code>, <code>ang_vel</code>. <strong>Breaking:</strong> these ten columns are no longer stored, so code that reads them from <code>player_vector</code> breaks. Each was computed from other columns, and together they were most of the file, which is now under a third of its size. Compute them on load with <a href="https://pypi.org/project/pureskillgg-csgo-dsdk/" target="_blank" rel="noopener noreferrer" class="">pureskillgg-csgo-dsdk</a> 3.3.1 or later: <code>add_player_vector_derived_columns(df)</code> adds all ten, from the columns that <code>player_vector_source_columns()</code> lists (<code>tick</code>, <code>round</code>, <code>player_id</code>, the positions and the angles). The index still lists the ten, with origin <code>calculated-deleted</code>.</li>
 <li class=""><strong>2026-08-22</strong>, column removed: <code>second_diff</code>. Internal working columns that were written but never listed in the index.</li>
 <li class=""><strong>2026-08-22</strong>, column removed: <code>__index_level_0__</code>. A leftover row-number column, never listed in the index, is gone from the last two channels that still had it.</li>
 <li class=""><strong>2026-08-22</strong>, index object. The index stops listing 62 columns that were never written. They are the header&#x27;s <code>protocol</code>, <code>playback_time</code>, <code>playback_ticks</code>, <code>playback_frames</code>, <code>signon_length</code> and <code>second</code>, and the <code>player_tick</code> and <code>player_player_id</code> entries (and their <code>attacker_</code> and <code>assister_</code> forms) in 21 event channels. Duplicate entries are gone too: <code>player_vector</code>&#x27;s velocities, <code>round_state.second</code> and several header columns.</li>
@@ -200,6 +260,8 @@ Dates are the day (UTC) a change reached production.</p>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="rank_update">rank_update<a href="#rank_update" class="hash-link" aria-label="Direct link to rank_update" title="Direct link to rank_update" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
 <li class=""><strong>2026-08-03</strong>, channel added. Rank changes at the end of the match, official matchmaking only. <code>win_count</code> above 2500 is published as 2501, as <code>player_info.wins</code> is.</li>
 <li class=""><strong>2026-08-03</strong>, index object. A channel entry can carry <code>available</code>. False means the demo did not carry that data, so an empty channel means &quot;not recorded&quot; rather than &quot;nothing happened&quot;. It is set on <code>bot_takeover</code>, <code>bullet_damage</code>, <code>player_inputs</code>, <code>player_sound</code>, <code>rank_update</code> and <code>round_mvp</code>.</li>
 </ul>
@@ -225,6 +287,7 @@ Dates are the day (UTC) a change reached production.</p>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="round_state">round_state<a href="#round_state" class="hash-link" aria-label="Direct link to round_state" title="Direct link to round_state" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, fixes: <code>event_type</code>. The <code>freezetime_ended_inferred</code> row, the first tick a player moves in a round, no longer fires early on a late player&#x27;s respawn. In 8 of the 927 rounds of our 50 test matches it came 43 to 3,520 ticks before <code>round_freeze_end</code>; it now lands one tick after it.</li>
 <li class=""><strong>2026-08-22</strong>, index object. The index stops listing 62 columns that were never written. They are the header&#x27;s <code>protocol</code>, <code>playback_time</code>, <code>playback_ticks</code>, <code>playback_frames</code>, <code>signon_length</code> and <code>second</code>, and the <code>player_tick</code> and <code>player_player_id</code> entries (and their <code>attacker_</code> and <code>assister_</code> forms) in 21 event channels. Duplicate entries are gone too: <code>player_vector</code>&#x27;s velocities, <code>round_state.second</code> and several header columns.</li>
 <li class=""><strong>2026-08-03</strong>, values changed. The <code>round_start</code> and <code>round_end</code> event rows are back (missing since 2024-02-12). Each round now has two <code>round_start</code> rows: the game&#x27;s own, and the one the converter adds after <code>round_poststart</code> (since 2024-08-05).</li>
 <li class=""><strong>2026-08-03</strong>, fixes: <code>t_score</code>, <code>ct_score</code>. On <code>round_end</code> rows, the final round is no longer counted twice in 24-round matches (a CS<!-- -->:GO<!-- --> 30-round rule had been applied).</li>
@@ -239,19 +302,28 @@ Dates are the day (UTC) a change reached production.</p>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="team_change">team_change<a href="#team_change" class="hash-link" aria-label="Direct link to team_change" title="Direct link to team_change" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
 <li class=""><strong>2026-08-03</strong>, channel added. Players switching teams, including the silent half-time swap.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="tick">tick<a href="#tick" class="hash-link" aria-label="Direct link to tick" title="Direct link to tick" translate="no">​</a></h2>
 <ul>
+<li class=""><strong>2026-10-05</strong>, values changed: <code>second_since_previous_phase</code>. Null before the match&#x27;s first phase, not -1. Declared nullable.</li>
 <li class=""><strong>2026-09-07</strong>, index object. The <code>tick</code> channel&#x27;s category is now <code>telemetry</code> (was <code>single_event</code>).</li>
 <li class=""><strong>2026-08-22</strong>, columns removed: <code>next_valid_tick</code>, <code>next_valid_tick_round</code>. Internal working columns that were written but never listed in the index.</li>
 <li class=""><strong>2026-07-07</strong>, values changed: <code>previous_phase</code>, <code>second_since_previous_phase</code>. When several phase events share a tick, the phase now follows a fixed order instead of whichever event sorted last.</li>
 <li class=""><strong>2024-08-05</strong>, columns added: <code>next_valid_tick</code>, <code>next_valid_tick_round</code>. Internal working columns, written but not listed in the index. Removed on 2026-08-22.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="weapon_action">weapon_action<a href="#weapon_action" class="hash-link" aria-label="Direct link to weapon_action" title="Direct link to weapon_action" translate="no">​</a></h2>
-<p>No changes of its own since CS2 data began; see <a href="#all-channels" class="">All channels</a>.</p>
+<ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
+</ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="weapon_fire">weapon_fire<a href="#weapon_fire" class="hash-link" aria-label="Direct link to weapon_fire" title="Direct link to weapon_fire" translate="no">​</a></h2>
-<p>No changes of its own since CS2 data began; see <a href="#all-channels" class="">All channels</a>.</p>
+<ul>
+<li class=""><strong>2026-10-05</strong>, types changed: <code>player_id_fixed</code>. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.</li>
+<li class=""><strong>2026-10-05</strong>, values changed. The <code>*_x_vel</code>, <code>*_y_vel</code> and <code>*_z_vel</code> columns merged from <code>player_vector</code> take its per-round velocities, so they no longer jump on a respawn.</li>
+</ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="world_item_vector">world_item_vector<a href="#world_item_vector" class="hash-link" aria-label="Direct link to world_item_vector" title="Direct link to world_item_vector" translate="no">​</a></h2>
 <ul>
 <li class=""><strong>2026-08-03</strong>, channel added. Positions of items lying on the ground, a row whenever one moved.</li>
