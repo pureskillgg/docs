@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - A "Changes over time" section in the CS2 spec, linking to them and noting that a revision can straddle a change.
 - A CS2 PII Removal page listing what is removed or changed before a match is published.
 - A CS2 Revision Stats page: matches, files and size in each daily revision that can still be exported.
+- The CS2 CSDS changelog's 2026-10-05 entries for csgo-ppp 8.5.4 to 8.7.1: merged player ids an integer in every match, velocities computed per round, `movement_angle_diff` as the look-minus-move angle, "none" written as null, and `molotov_state.extinguisher_not_found`.
 
 ### Changed
 

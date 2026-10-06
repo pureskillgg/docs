@@ -37,37 +37,47 @@ Dates are the day (UTC) a change reached production.
 
 ## bomb_action
 
-No changes of its own since CS2 data began; see [All channels](#all-channels).
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 
 ## bomb_defuse
 
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-22**, types changed: `has_kit`. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.
 
 ## bomb_state
 
-No changes of its own since CS2 data began; see [All channels](#all-channels).
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 
 ## bot_takeover
 
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-03**, column added: `is_controlling`. True when a player takes over a bot, false when they give it back. `bot_takeover` has rows for the first time in CS2 data.
 - **2026-08-03**, index object. A channel entry can carry `available`. False means the demo did not carry that data, so an empty channel means "not recorded" rather than "nothing happened". It is set on `bot_takeover`, `bullet_damage`, `player_inputs`, `player_sound`, `rank_update` and `round_mvp`.
 
 ## bullet_damage
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-03**, channel added. Per-bullet detail for each `player_hurt`: distance, damage direction, penetrations, and no-scope and in-air flags. Valve matchmaking demos only.
 - **2026-08-03**, index object. A channel entry can carry `available`. False means the demo did not carry that data, so an empty channel means "not recorded" rather than "nothing happened". It is set on `bot_takeover`, `bullet_damage`, `player_inputs`, `player_sound`, `rank_update` and `round_mvp`.
 
 ## grenade_bounce
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-08-03**, channel added. Every surface a thrown grenade hit.
 
 ## grenade_state
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
+- **2026-10-05**, values changed: `tick_throw`. Null where no throw was matched, not 0, -2 or -3. Declared nullable.
 - **2026-10-03**, fixes: `entity_id_fixed`. A decoy with no `decoy_started` event keeps its -2 instead of being overwritten.
 - **2026-06-05**, fixes: `entity_id_fixed`. -2 for a decoy with more than one start event. Such matches used to fail processing and were not published.
 
 ## grenade_vector
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-08-03**, channel added. The flight path of each thrown grenade, a row whenever its position changed.
 
 ## header
@@ -88,18 +98,24 @@ No changes of its own since CS2 data began; see [All channels](#all-channels).
 
 ## item_dropped
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-03**, channel added. A weapon leaving a player's hands, with the reason (`death`, `replaced` or `manual`).
 
 ## item_equip
 
-No changes of its own since CS2 data began; see [All channels](#all-channels).
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 
 ## item_pickup
 
-No changes of its own since CS2 data began; see [All channels](#all-channels).
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 
 ## item_refund
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-03**, channel added. Buy refunds.
 
 ## item_remove (removed 2026-08-03)
@@ -108,11 +124,16 @@ No changes of its own since CS2 data began; see [All channels](#all-channels).
 
 ## molotov_fire
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-08-22**, column added: `entity_id_fixed`. The `molotov_state.entity_id_fixed` of the fire this flame belongs to, or -1 if unmatched. Join on this, not on `entity_id`, which the game reuses.
 - **2026-08-03**, channel added. Each flame of each molotov or incendiary fire, when it ignites and when it goes out.
 
 ## molotov_state
 
+- **2026-10-05**, column added: `extinguisher_not_found`. True where the fire ended early but no smoke was near enough to credit (bool). Before, `extinguisher_id`, `extinguisher_id_fixed`, `smoke_entity_id` and `smoke_entity_id_fixed` held -2 there.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
+- **2026-10-05**, values changed: `player_id`, `player_id_fixed`, `tick_throw`, `burn_duration`. Null, not -1, where no thrower was found: every `inferno_expire` row, and a round whose throws and fires don't pair up. `burn_duration` is null on `inferno_expire` rows; every start row still has one. Declared nullable.
+- **2026-10-05**, values changed: `extinguisher_id`, `extinguisher_id_fixed`, `smoke_entity_id`, `smoke_entity_id_fixed`. Null on `inferno_expire` rows and where nobody put the fire out, not -1 or 0; the -2 moved to `extinguisher_not_found`. A real player 0 who put a fire out keeps `extinguisher_id` 0, where before it read the same as nobody. Declared nullable.
 - **2026-08-22**, column added: `smoke_entity_id_fixed`. Joinable id of the smoke that put the fire out, matching its `grenade_state.entity_id_fixed`. It is 0 when the fire was not put out and -2 when no smoke was found. `smoke_entity_id` is the raw id, which the game reuses within a match.
 - **2026-08-22**, column added: `fraction_extinguished`. Share of the fire's flames, 0 to 1, that a smoke put out.
 - **2026-08-22**, column added: `was_thrown_into_smoke`. 1 when the molotov or incendiary landed inside a smoke that was already up.
@@ -122,6 +143,8 @@ No changes of its own since CS2 data began; see [All channels](#all-channels).
 
 ## other_death
 
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
+- **2026-10-05**, values changed: `attacker_id`, `attacker_id_fixed`. Null where there is no attacker or assister, not 65535. Declared nullable.
 - **2026-08-22**, types changed: `is_attacker_blind`, `is_noscope`, `is_through_smoke`. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.
 
 ## player_action (removed 2026-08-03)
@@ -131,32 +154,43 @@ No changes of its own since CS2 data began; see [All channels](#all-channels).
 
 ## player_blind
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2023-12-09**, values changed. Keeps only flashes on players alive at that tick. CS2 also reports flashes on dead and spectating players.
 
 ## player_chat
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-22**, types changed: `is_chat_all`. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.
 - **2026-08-03**, channel added. In-game chat. `text` reads `redacted` in the published data.
 
 ## player_connect
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-08-03**, channel added. Player and bot connects, warm-up included.
 
 ## player_death
 
+- **2026-10-05**, types changed: `player_id_fixed`, `attacker_id_fixed`, `assister_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
+- **2026-10-05**, values changed: `attacker_id`, `attacker_id_fixed`, `assister_id`, `assister_id_fixed`. Null where there is no attacker or assister, not 65535. Declared nullable.
 - **2026-08-22**, types changed: `is_attacker_blind`, `is_flash_assist`, `is_noscope`, `is_through_smoke`. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.
 
 ## player_disconnect
 
-No changes of its own since CS2 data began; see [All channels](#all-channels).
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 
 ## player_footstep
 
-No changes of its own since CS2 data began; see [All channels](#all-channels).
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 
 ## player_hurt
 
-No changes of its own since CS2 data began; see [All channels](#all-channels).
+- **2026-10-05**, types changed: `player_id_fixed`, `attacker_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
+- **2026-10-05**, values changed: `attacker_id`, `attacker_id_fixed`. Null where there is no attacker or assister, not 65535. Declared nullable.
+- **2026-10-05**, values changed: `weapon_name`. Null for damage with no weapon, not an empty string.
 
 ## player_info
 
@@ -170,6 +204,8 @@ No changes of its own since CS2 data began; see [All channels](#all-channels).
 
 ## player_inputs
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-03**, channel added. Which buttons each player held, a row whenever that changed. Empty on Valve matchmaking demos, which do not carry it.
 - **2026-08-03**, index object. A channel entry can carry `available`. False means the demo did not carry that data, so an empty channel means "not recorded" rather than "nothing happened". It is set on `bot_takeover`, `bullet_damage`, `player_inputs`, `player_sound`, `rank_update` and `round_mvp`.
 
@@ -184,15 +220,19 @@ No changes of its own since CS2 data began; see [All channels](#all-channels).
 
 ## player_sound
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-03**, channel added. Sounds a player made and how far they carried. Empty on Valve matchmaking demos, which do not carry it.
 - **2026-08-03**, index object. A channel entry can carry `available`. False means the demo did not carry that data, so an empty channel means "not recorded" rather than "nothing happened". It is set on `bot_takeover`, `bullet_damage`, `player_inputs`, `player_sound`, `rank_update` and `round_mvp`.
 
 ## player_spawn
 
-No changes of its own since CS2 data began; see [All channels](#all-channels).
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 
 ## player_status
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-08-22**, column added: `is_reloading`. Whether the player is reloading (bool). Replaces `reload_visually_complete`.
 - **2026-08-22**, column removed: `reload_visually_complete`. Null on every row since 2025-08-21. Use `is_reloading`.
 - **2026-08-22**, types changed: `burst_mode`, `is_silenced`. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.
@@ -202,6 +242,9 @@ No changes of its own since CS2 data began; see [All channels](#all-channels).
 
 ## player_vector
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed: `x_vel`, `y_vel`, `z_vel`, `theta_vel`, `phi_vel`, `ang_vel`, `speed_2d`, `movement_angle`. Computed per player per round, so a player's first sample in each round is 0. Before, positions and view angles were differenced across rounds, and a respawn read as a jump, as much as 365,000 units a second in our test matches. A velocity component over 3,500 within a round, the game's `sv_maxvelocity`, is taken as a teleport and reads 0. `speed_2d`, `movement_angle` and `ang_vel` follow from these.
+- **2026-10-05**, values changed: `movement_angle_diff`. The angle between where the player looks (`theta_ang`) and where they move, in -180 to 180: 0 moving the way they look, ±90 sideways, ±180 backwards, and null while standing still. Before, it was `theta_ang` minus `movement_angle` with 360 added once to a negative result, so it ran from -180 to 360, the same angle could read 350 or -10, and standing still read -1.
 - **2026-08-22**, column removed: `second_diff`. Internal working columns that were written but never listed in the index.
 - **2026-08-22**, column removed: `__index_level_0__`. A leftover row-number column, never listed in the index, is gone from the last two channels that still had it.
 - **2026-08-22**, index object. The index stops listing 62 columns that were never written. They are the header's `protocol`, `playback_time`, `playback_ticks`, `playback_frames`, `signon_length` and `second`, and the `player_tick` and `player_player_id` entries (and their `attacker_` and `assister_` forms) in 21 event channels. Duplicate entries are gone too: `player_vector`'s velocities, `round_state.second` and several header columns.
@@ -211,6 +254,8 @@ No changes of its own since CS2 data began; see [All channels](#all-channels).
 
 ## rank_update
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-03**, channel added. Rank changes at the end of the match, official matchmaking only. `win_count` above 2500 is published as 2501, as `player_info.wins` is.
 - **2026-08-03**, index object. A channel entry can carry `available`. False means the demo did not carry that data, so an empty channel means "not recorded" rather than "nothing happened". It is set on `bot_takeover`, `bullet_damage`, `player_inputs`, `player_sound`, `rank_update` and `round_mvp`.
 
@@ -236,6 +281,7 @@ No changes of its own since CS2 data began; see [All channels](#all-channels).
 
 ## round_state
 
+- **2026-10-05**, fixes: `event_type`. The `freezetime_ended_inferred` row, the first tick a player moves in a round, no longer fires early on a late player's respawn. In 8 of the 927 rounds of our 50 test matches it came 43 to 3,520 ticks before `round_freeze_end`; it now lands one tick after it.
 - **2026-08-22**, index object. The index stops listing 62 columns that were never written. They are the header's `protocol`, `playback_time`, `playback_ticks`, `playback_frames`, `signon_length` and `second`, and the `player_tick` and `player_player_id` entries (and their `attacker_` and `assister_` forms) in 21 event channels. Duplicate entries are gone too: `player_vector`'s velocities, `round_state.second` and several header columns.
 - **2026-08-03**, values changed. The `round_start` and `round_end` event rows are back (missing since 2024-02-12). Each round now has two `round_start` rows: the game's own, and the one the converter adds after `round_poststart` (since 2024-08-05).
 - **2026-08-03**, fixes: `t_score`, `ct_score`. On `round_end` rows, the final round is no longer counted twice in 24-round matches (a CS:GO 30-round rule had been applied).
@@ -250,10 +296,13 @@ No changes of its own since CS2 data began; see [All channels](#all-channels).
 
 ## team_change
 
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-03**, channel added. Players switching teams, including the silent half-time swap.
 
 ## tick
 
+- **2026-10-05**, values changed: `second_since_previous_phase`. Null before the match's first phase, not -1. Declared nullable.
 - **2026-09-07**, index object. The `tick` channel's category is now `telemetry` (was `single_event`).
 - **2026-08-22**, columns removed: `next_valid_tick`, `next_valid_tick_round`. Internal working columns that were written but never listed in the index.
 - **2026-07-07**, values changed: `previous_phase`, `second_since_previous_phase`. When several phase events share a tick, the phase now follows a fixed order instead of whichever event sorted last.
@@ -261,11 +310,13 @@ No changes of its own since CS2 data began; see [All channels](#all-channels).
 
 ## weapon_action
 
-No changes of its own since CS2 data began; see [All channels](#all-channels).
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 
 ## weapon_fire
 
-No changes of its own since CS2 data began; see [All channels](#all-channels).
+- **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 
 ## world_item_vector
 
