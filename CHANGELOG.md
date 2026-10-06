@@ -29,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Describe `player_vector.movement_angle_diff` as csgo-ppp now writes it: the look-minus-move angle in -180 to 180, null while standing still, with its old -180 to 360 range and -1 listed for older matches.
 - Describe `player_vector.movement_angle` as csgo-ppp now writes it: null while standing still, where older matches stored 0, the same as moving along +x.
 - Remove `player_vector`'s ten derived columns from the CS2 spec and dictionary (`second`, `x_vel`, `y_vel`, `z_vel`, `speed_2d`, `movement_angle`, `movement_angle_diff`, `phi_vel`, `theta_vel`, `ang_vel`): csgo-ppp stops storing them, and the spec says how to compute them on load with pureskillgg-csgo-dsdk.
+- Add the removal of `player_vector`'s ten derived columns to the CS2 CSDS changelog pages, marked breaking, dated by the converter 8.7.3 release.
+- Give every column in the CS2 spec the type it is written as and the nullability the index object now declares for it, the molotov flags as booleans null off burns, and rewrite the notes on types and nullability to match.
 
 ## 0.8.2 / 2026-07-05
 

@@ -27,11 +27,15 @@ The same changes are listed channel by channel on the
 
 ## 2026-10-05
 
-_Parser 5.4.1 to 5.6.0, converter 8.5.4 to 8.7.1._
+_Parser 5.4.1 to 5.6.0 and converter 8.5.4 to 8.7.1; converter 8.7.3 about the same day._
 
 **Columns added**
 
 - `molotov_state.extinguisher_not_found`: True where the fire ended early but no smoke was near enough to credit (bool). Before, `extinguisher_id`, `extinguisher_id_fixed`, `smoke_entity_id` and `smoke_entity_id_fixed` held -2 there.
+
+**Columns removed**
+
+- `player_vector.second`, `player_vector.x_vel`, `player_vector.y_vel`, `player_vector.z_vel`, `player_vector.speed_2d`, `player_vector.movement_angle`, `player_vector.movement_angle_diff`, `player_vector.phi_vel`, `player_vector.theta_vel`, `player_vector.ang_vel`: **Breaking:** these ten columns are no longer stored, so code that reads them from `player_vector` breaks. Each was computed from other columns, and together they were most of the file, which is now under a third of its size. Compute them on load with [pureskillgg-csgo-dsdk](https://pypi.org/project/pureskillgg-csgo-dsdk/) 3.3.1 or later: `add_player_vector_derived_columns(df)` adds all ten, from the columns that `player_vector_source_columns()` lists (`tick`, `round`, `player_id`, the positions and the angles). The index still lists the ten, with origin `calculated-deleted`.
 
 **Types changed**
 
