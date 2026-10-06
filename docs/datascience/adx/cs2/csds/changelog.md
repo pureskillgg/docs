@@ -25,13 +25,37 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
-## About 2026-10-05
+## 2026-10-05
 
-_Converter 8.7.3._
+_Parser 5.4.1 to 5.6.0 and converter 8.5.4 to 8.7.1; converter 8.7.3 about the same day._
+
+**Columns added**
+
+- `molotov_state.extinguisher_not_found`: True where the fire ended early but no smoke was near enough to credit (bool). Before, `extinguisher_id`, `extinguisher_id_fixed`, `smoke_entity_id` and `smoke_entity_id_fixed` held -2 there.
 
 **Columns removed**
 
 - `player_vector.second`, `player_vector.x_vel`, `player_vector.y_vel`, `player_vector.z_vel`, `player_vector.speed_2d`, `player_vector.movement_angle`, `player_vector.movement_angle_diff`, `player_vector.phi_vel`, `player_vector.theta_vel`, `player_vector.ang_vel`: **Breaking:** these ten columns are no longer stored, so code that reads them from `player_vector` breaks. Each was computed from other columns, and together they were most of the file, which is now under a third of its size. Compute them on load with [pureskillgg-csgo-dsdk](https://pypi.org/project/pureskillgg-csgo-dsdk/) 3.3.1 or later: `add_player_vector_derived_columns(df)` adds all ten, from the columns that `player_vector_source_columns()` lists (`tick`, `round`, `player_id`, the positions and the angles). The index still lists the ten, with origin `calculated-deleted`.
+
+**Types changed**
+
+- `bomb_action.player_id_fixed`, `bullet_damage.player_id_fixed`, `grenade_bounce.player_id_fixed`, `grenade_state.player_id_fixed`, `grenade_vector.player_id_fixed`, `item_dropped.player_id_fixed`, `item_equip.player_id_fixed`, `item_pickup.player_id_fixed`, `item_refund.player_id_fixed`, `molotov_fire.player_id_fixed`, `player_blind.player_id_fixed`, `player_chat.player_id_fixed`, `player_connect.player_id_fixed`, `player_death.player_id_fixed`, `player_death.attacker_id_fixed`, `player_death.assister_id_fixed`, `player_disconnect.player_id_fixed`, `player_footstep.player_id_fixed`, `player_hurt.player_id_fixed`, `player_hurt.attacker_id_fixed`, `player_inputs.player_id_fixed`, `player_sound.player_id_fixed`, `player_spawn.player_id_fixed`, `player_status.player_id_fixed`, `player_vector.player_id_fixed`, `rank_update.player_id_fixed`, `team_change.player_id_fixed`, `weapon_action.player_id_fixed`, `weapon_fire.player_id_fixed`: An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+
+**Values changed**
+
+- `player_vector.x_vel`, `player_vector.y_vel`, `player_vector.z_vel`, `player_vector.theta_vel`, `player_vector.phi_vel`, `player_vector.ang_vel`, `player_vector.speed_2d`, `player_vector.movement_angle`: Computed per player per round, so a player's first sample in each round is 0. Before, positions and view angles were differenced across rounds, and a respawn read as a jump, as much as 365,000 units a second in our test matches. A velocity component over 3,500 within a round, the game's `sv_maxvelocity`, is taken as a teleport and reads 0. `speed_2d`, `movement_angle` and `ang_vel` follow from these.
+- `bomb_action`, `bomb_defuse`, `bomb_state`, `bot_takeover`, `bullet_damage`, `grenade_state`, `item_dropped`, `item_equip`, `item_pickup`, `item_refund`, `molotov_state`, `other_death`, `player_blind`, `player_chat`, `player_death`, `player_hurt`, `player_inputs`, `player_sound`, `player_spawn`, `rank_update`, `team_change`, `weapon_action`, `weapon_fire`: The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
+- `player_vector.movement_angle_diff`: The angle between where the player looks (`theta_ang`) and where they move, in -180 to 180: 0 moving the way they look, ±90 sideways, ±180 backwards, and null while standing still. Before, it was `theta_ang` minus `movement_angle` with 360 added once to a negative result, so it ran from -180 to 360, the same angle could read 350 or -10, and standing still read -1.
+- `player_hurt.attacker_id`, `player_hurt.attacker_id_fixed`, `player_death.attacker_id`, `player_death.attacker_id_fixed`, `player_death.assister_id`, `player_death.assister_id_fixed`, `other_death.attacker_id`, `other_death.attacker_id_fixed`: Null where there is no attacker or assister, not 65535. Declared nullable.
+- `molotov_state.player_id`, `molotov_state.player_id_fixed`, `molotov_state.tick_throw`, `molotov_state.burn_duration`: Null, not -1, where no thrower was found: every `inferno_expire` row, and a round whose throws and fires don't pair up. `burn_duration` is null on `inferno_expire` rows; every start row still has one. Declared nullable.
+- `molotov_state.extinguisher_id`, `molotov_state.extinguisher_id_fixed`, `molotov_state.smoke_entity_id`, `molotov_state.smoke_entity_id_fixed`: Null on `inferno_expire` rows and where nobody put the fire out, not -1 or 0; the -2 moved to `extinguisher_not_found`. A real player 0 who put a fire out keeps `extinguisher_id` 0, where before it read the same as nobody. Declared nullable.
+- `grenade_state.tick_throw`: Null where no throw was matched, not 0, -2 or -3. Declared nullable.
+- `tick.second_since_previous_phase`: Null before the match's first phase, not -1. Declared nullable.
+- `player_hurt.weapon_name`: Null for damage with no weapon, not an empty string.
+
+**Fixes**
+
+- `round_state.event_type`: The `freezetime_ended_inferred` row, the first tick a player moves in a round, no longer fires early on a late player's respawn. In 8 of the 927 rounds of our 50 test matches it came 43 to 3,520 ticks before `round_freeze_end`; it now lands one tick after it.
 
 ## 2026-10-03
 
