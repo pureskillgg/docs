@@ -75,7 +75,11 @@ written as `int64` and floats as `float64` (Parquet `double`), with nulls where
 a column has no value. `player_vector` and `player_status` are written
 compactly, with narrower integers (`int8` to `int32`) and `float32` for the
 values read from the demo, as their tables show. A channel with no rows in a
-match keeps its column types. Older matches declared the type the replay
+match keeps its column types. The types in the tables were read from the index
+objects of 50 recent matches. Three columns none of them carries,
+`header.providence`, `player_info.rank_raw` and `player_info.rank_platform`,
+keep the types this document gave them before, so `rank_raw` still reads
+`int`, with no width. Older matches declared the type the replay
 declared, often narrower than the one written (`int32`, `float32`) or with no
 width (`int`), declared none for calculated and merged columns, and wrote an
 empty column with Parquet's null type. The [changelog](./changelog.md) dates
@@ -121,6 +125,7 @@ on newer matches. Older matches still store them. The index still names all ten,
 marked as deleted, with a comment saying how to compute them. The
 [changelog](./changelog.md) dates the change. Every other channel still stores
 `second`.
+
 **The molotov flags** `molotov_state.was_extinguished_by_smoke`,
 `was_extinguished_by_thrown_smoke` and `was_thrown_into_smoke` are booleans. They
 describe a burn, so they are true or false on `inferno_startburn` rows and null on
