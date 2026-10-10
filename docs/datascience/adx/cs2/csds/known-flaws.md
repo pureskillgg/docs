@@ -30,8 +30,9 @@ agreement.
 
 ## Item names and codes in `item_equip`
 
-- `item_equip.def_index`, the item code, is null in most rows (85% in the
-  matches published from 2026-10-01 to 10-08) and sometimes 0.
+- `item_equip` has no item code: CS2's equip event doesn't carry one.
+  `item_equip.def_index` was 0 on every row, and matches processed since
+  2026-10-05 don't have the column. `item_pickup.def_index` carries the code.
 - The short item names in `item_equip` and `item_pickup` are shared between
   weapons that use the same slot: `hkp2000` is both the P2000 and the USP-S,
   `m4a1` both the M4A4 and the M4A1-S, `mp7` both the MP7 and the MP5-SD, and
