@@ -125,6 +125,8 @@
 .tile.telemetry,
 .swatch.telemetry {
   border-color: var(--ifm-color-primary);
+  /* a thick left edge, so telemetry differs from events by shape, not only color */
+  border-left-width: 5px;
   color: var(--ifm-color-primary);
 }
 
@@ -240,7 +242,8 @@
   background: var(--ifm-color-emphasis-100);
 }
 
-.cta h3 {
+.cta h2 {
+  font-size: 1.25rem;
   margin-bottom: 0.25rem;
 }
 

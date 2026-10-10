@@ -111,7 +111,7 @@ function Hero() {
       <div className='container'>
         <div className={styles.heroText}>
           <p className={styles.eyebrow}>
-            Free · Updated daily · CC BY-NC-SA 4.0
+            Free · Updated daily · Non-commercial use
           </p>
           <h1 className={styles.title}>
             Every tick of real <span className={styles.accent}>CS2</span>{' '}
@@ -251,7 +251,7 @@ export default function Home() {
         <section className='container'>
           <div className={styles.cta}>
             <div>
-              <h3>Built something with it?</h3>
+              <h2>Built something with it?</h2>
               <p>
                 Show us on Discord; we feature community work in the Showcase.
               </p>
