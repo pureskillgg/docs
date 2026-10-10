@@ -23,7 +23,8 @@ server.
 
 A match's `id` is created each time a demo is processed, so a demo processed
 twice, for example one uploaded by two users, appears twice with different
-ids. Compare the matches' `header` entries to find them.
+ids. Find them by comparing the `header` entries that describe the match itself,
+not its processing (such as when it was processed, or by which versions).
 
 ## Empty channels
 

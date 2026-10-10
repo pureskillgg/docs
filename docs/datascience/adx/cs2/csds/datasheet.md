@@ -84,8 +84,8 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 - **Are there any errors, sources of noise, or redundancies in the dataset?**
   There may be duplicate matches. A match's `id` is created each time a demo
   is processed, so a demo processed twice, for example one uploaded by two
-  users, appears twice with different ids. Find duplicates by comparing their
-  `header` entries.
+  users, appears twice with different ids. Find duplicates by comparing the
+  `header` entries that describe the match itself, not its processing.
 
   Within matches, there may be missing events. These are generally rare and
   non-disruptive, but could interfere with some calculations.
@@ -240,7 +240,7 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 - **Has the dataset been used for any tasks already?**
   A similar dataset was used to develop machine learning models and other assessments
   for the main service provided by PureSkill.gg, which is automated coaching.
-  An older, unavailable version of these data were used in
+  An older, unavailable version of these data was used in
   _[Analyzing the Differences between Professional and Amateur Esports through Win Probability]_ by authors Peter Xenopoulos, William Robert Freeman, and Claudio Silva.
 
 - **Is there a repository that links to any or all papers or systems that use the dataset?**
