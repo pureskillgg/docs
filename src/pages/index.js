@@ -60,6 +60,16 @@ const explore = [
     to: '/datascience/adx/cs2/csds/changelog'
   },
   {
+    title: 'Known Flaws',
+    body: 'What is wrong, missing or easy to trip over, and how to work around it.',
+    to: '/datascience/adx/cs2/csds/known-flaws'
+  },
+  {
+    title: 'Datasheet',
+    body: 'Why the data set exists, how it is made, and how it is maintained.',
+    to: '/datascience/adx/cs2/csds/datasheet'
+  },
+  {
     title: 'Getting the Data',
     body: 'Daily revisions, exporting, the file layout and the index object.',
     to: '/datascience/adx/cs2/csds/getting-the-data'
