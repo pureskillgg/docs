@@ -11,9 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - A CS2 CSDS page on positions and view angles: what x, y, z, `theta_ang` and `phi_ang` measure, with figures, and the formula for the angle between a player's view and any point. The spec links to it.
 - Render LaTeX maths in the docs with `remark-math` and `rehype-katex`.
+- A CS2 Datasheet page. The Datasheets for Datasets answers move there from the data set page, which keeps its data dictionary and glossary and links to it.
+- A CS2 Known Flaws page: matches uploaded by hand, duplicates, channels that can be empty, missing values, and what changed across the retained window.
 
 ### Changed
 
+- Bring the CS2 datasheet up to date: rounds removed before publication, Revision Stats for counts, splitting by match to avoid leakage, why duplicates happen, Known Flaws for what is missing, manual uploads (which may include no PureSkill.gg user), where radar data lives, how the data is extracted and processed, how long demos are kept, the yearly prune, the changelog as the erratum, and a plain "No" on third-party restrictions.
+- Say what is removed before publication instead of calling identification impossible, on the datasheet and in the Data Science FAQ, and list on PII Removal what is published as recorded (`header.server_name`, and `header.match_date` to the second).
+- Update the Data Science FAQ's retention answer (a yearly prune; 408 revisions from 2025-07-19 on 2026-10-09) and say a pruned revision may be restored on request with a good reason.
+- Update the Cost FAQ's sizes, measured on 2026-10-09: about 10 MB per match since 2026-10-06, and `player_vector` with `player_status` about 7 MB of it.
 - Refresh the CS2 Revision Stats page through the 2026-10-09 revision: 408 revisions, 37,881 matches, 1.37 TB.
 - Add a size per match column to the CS2 Revision Stats page.
 - Add a data change column to the CS2 Revision Stats page, linking each revision to the changelog entries it is the first to carry.

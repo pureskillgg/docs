@@ -22,3 +22,8 @@ could identify a player.
 
 In the index object, each changed column's `origin` ends in `-redacted` or
 `-capped`.
+
+Everything else is published as the game and the pipeline recorded it. That
+includes `header.server_name`, as the server named itself, and
+`header.match_date`, to the second; only the index object's `matchDate` is cut
+to the minute.
