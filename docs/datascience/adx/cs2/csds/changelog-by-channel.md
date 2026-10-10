@@ -213,6 +213,7 @@ Dates are the day (UTC) a change reached production.
 
 ## player_info
 
+- **2026-10-05**, fixes. Every player who spawns in a round that reaches freeze end has a row for that round. Before, a player missing from the round's roster, such as one who joined or reconnected late, had none, so their rows in that round joined to no player.
 - **2026-10-03**, fixes: `rank_platform`, `elo_platform`. On FACEIT matches, each player's FACEIT level and Elo now belong to the right player. Before, they were matched by row position and could be another player's.
 - **2026-09-07**, column added: `player_controller_id`. The player's controller id, as already in `player_status` and `player_personal`. Tells apart two players who share a `player_id` in one round.
 - **2026-09-07**, fixes. A match in which two different players share a `round` and `player_id_fixed` now fails processing and is not published.
@@ -235,6 +236,7 @@ Dates are the day (UTC) a change reached production.
 
 ## player_personal
 
+- **2026-10-05**, fixes. Every player who spawns in a round that reaches freeze end has a row for that round. Before, a player missing from the round's roster, such as one who joined or reconnected late, had none, so their rows in that round joined to no player.
 - **2026-06-07**, fixes: `player_id`. When a round records the same `player_id` for two players, the player's controller id is used instead. A match that would still have duplicate `tick` and `player_id_fixed` rows fails processing and is not published.
 - **2023-12-09**, column added: `player_controller_id`. The player's controller id, stable for a player slot. Joins `player_status` rows to `player_personal`.
 
@@ -249,10 +251,14 @@ Dates are the day (UTC) a change reached production.
 
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
+- **2026-10-05**, fixes: `round`. The round the player spawned into. Before, every row carried the round before it.
 
 ## player_status
 
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- **2026-10-05**, types changed. Written compactly, with the same values. Each integer column is the smallest signed type that holds it, `int8`, `int16` or `int32`, where it was `int64`. The floats read from the demo are `float32`, where they were `double`. `place_name` is dictionary-encoded. The spec's tables give every column's type. pandas reads nullable `Int8`, `Int16` or `Int32` where it read `Int64`, and a category for `place_name`. Element-wise arithmetic stays narrow and can wrap (with `int16` `money`, `money * 5` gives 14,464 for 16,000), so cast to a wider type first. How to read old and new files together is in [The player tables](./spec.md#the-player-tables).
+- **2026-10-05**, file format. Rows are sorted by `player_id`, then `tick`, where they were in tick order; sort by `tick`, then `player_id`, for tick order. The floats are stored with Parquet's byte stream split encoding, which fastparquet can't read. pyarrow (pandas' default engine), polars and DuckDB read both the old and the new files.
+- **2026-10-05**, fixes: `inv_flashbang`, `equipment_value_calc`. `inv_flashbang` counts the flashbangs held, up to 2, and drops to 0 at the throw of the last one. Before, it read 1 for two flashbangs and could stay at 1 for about 0.7 seconds after the throw. `equipment_value_calc`, which counts them, follows.
 - **2026-08-22**, column added: `is_reloading`. Whether the player is reloading (bool). Replaces `reload_visually_complete`.
 - **2026-08-22**, column removed: `reload_visually_complete`. Null on every row since 2025-08-21. Use `is_reloading`.
 - **2026-08-22**, types changed: `burst_mode`, `is_silenced`. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.
@@ -266,6 +272,9 @@ Dates are the day (UTC) a change reached production.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed: `x_vel`, `y_vel`, `z_vel`, `theta_vel`, `phi_vel`, `ang_vel`, `speed_2d`, `movement_angle`. Computed per player per round, so a player's first sample in each round is 0. Before, positions and view angles were differenced across rounds, and a respawn read as a jump, as much as 365,000 units a second in our test matches. A velocity component over 3,500 within a round, the game's `sv_maxvelocity`, is taken as a teleport and reads 0. `speed_2d`, `movement_angle` and `ang_vel` follow from these.
 - **2026-10-05**, values changed: `movement_angle_diff`. The angle between where the player looks (`theta_ang`) and where they move, in -180 to 180: 0 moving the way they look, ±90 sideways, ±180 backwards, and null while standing still. Before, it was `theta_ang` minus `movement_angle` with 360 added once to a negative result, so it ran from -180 to 360, the same angle could read 350 or -10, and standing still read -1.
+- **2026-10-05**, types changed. Written compactly, with the same values. Each integer column is the smallest signed type that holds it, `int8`, `int16` or `int32`, where it was `int64`. The floats read from the demo are `float32`, where they were `double`. `place_name` is dictionary-encoded. The spec's tables give every column's type. pandas reads nullable `Int8`, `Int16` or `Int32` where it read `Int64`, and a category for `place_name`. Element-wise arithmetic stays narrow and can wrap (with `int16` `money`, `money * 5` gives 14,464 for 16,000), so cast to a wider type first. How to read old and new files together is in [The player tables](./spec.md#the-player-tables).
+- **2026-10-05**, file format. Rows are sorted by `player_id`, then `tick`, where they were in tick order; sort by `tick`, then `player_id`, for tick order. The floats are stored with Parquet's byte stream split encoding, which fastparquet can't read. pyarrow (pandas' default engine), polars and DuckDB read both the old and the new files.
+- **2026-10-05**, fixes: `current_ammo`. The number of bullets in the magazine, with 0 for an empty one. Before, every value was one low and an empty magazine read 4294967295. A replay parsed before this change and converted again after it holds -1 for an empty magazine, with the other values still one low.
 - **2026-08-22**, column removed: `second_diff`. Internal working columns that were written but never listed in the index.
 - **2026-08-22**, column removed: `__index_level_0__`. A leftover row-number column, never listed in the index, is gone from the last two channels that still had it.
 - **2026-08-22**, index object. The index stops listing 62 columns that were never written. They are the header's `protocol`, `playback_time`, `playback_ticks`, `playback_frames`, `signon_length` and `second`, and the `player_tick` and `player_player_id` entries (and their `attacker_` and `assister_` forms) in 21 event channels. Duplicate entries are gone too: `player_vector`'s velocities, `round_state.second` and several header columns.
