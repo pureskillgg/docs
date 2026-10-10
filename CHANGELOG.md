@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Add a data change column to the CS2 Revision Stats page, linking each revision to the changelog entries it is the first to carry.
 - Date the removal of `player_vector`'s ten derived columns 2026-10-06, the day converter 8.7.3 reached production, not about 2026-10-05.
 - Add converter 8.7.4's changes to the CS2 CSDS changelog pages, dated 2026-10-06: the molotov flags as booleans, empty columns written at their own type, and the index object declaring every column's written type and nullability.
+- Describe the compact `player_vector` and `player_status` in the CS2 spec, written since converter 8.6.0: rows sorted by player then tick, `current_ammo`'s `-1` where an older parser wrapped an empty magazine, the types pandas reads, narrow-integer wraparound, the old format, and how pandas, polars and DuckDB read old and compact files together. fastparquet can't read the compact files. The data dictionary notes `current_ammo` and `place_name`.
 
 ## 1.0.6
 

@@ -154,12 +154,13 @@ with the same values:
 - **Types.** Each integer takes the smallest signed type that holds it with
   room to spare: `int8`, `int16` or `int32`. The floats read from the demo
   are `float32`, the type the game sends them in, so their values are
-  unchanged; `second` (tick / 64) is `float32` too, and exact. The
-  velocities and angles the pipeline computes in `player_vector` stay
-  `float64`. `place_name` is a dictionary-encoded string. Each table's
-  section gives every column's type.
-- **Row order.** Rows are sorted by `player_id`, then `tick`. Sort by `tick`
-  and `player_id` for tick order.
+  unchanged. `player_status.second` (tick / 64) is `float32` too, and
+  exact. `place_name` is a dictionary-encoded string. Each table's section
+  gives every column's type. Converter 8.6.0 to 8.7.2 still stored
+  `player_vector`'s derived columns: `second` as `float32` and the
+  velocities and angles as `float64`.
+- **Row order.** Rows are sorted by `player_id`, then `tick`. Sort by `tick`,
+  then `player_id`, for tick order.
 - **`current_ammo`.** Parser 5.4.0 and earlier read every magazine one
   low, so an empty one wrapped to `4294967295`; compact files write that as
   `-1`. Parser 5.4.1 and later read the real count, with `0` for an empty
@@ -189,8 +190,8 @@ polars and DuckDB need to be told to:
 
 - **pandas:** `pd.concat` of the frames widens each column to the wider type.
 - **polars:** `pl.concat([pl.scan_parquet(f) for f in files], how="diagonal_relaxed")`.
-  `pl.scan_parquet(files)` on a list raises a schema mismatch, and its
-  `cast_options` upcast works only when the first file holds the wider types.
+  `pl.scan_parquet(files)` on a list raises a schema mismatch, whichever
+  file comes first.
 - **DuckDB:** `read_parquet([...], union_by_name = true)`. Without
   `union_by_name`, DuckDB reads every file at the first file's types.
 
