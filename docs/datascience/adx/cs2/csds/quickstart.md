@@ -39,26 +39,35 @@ us-east-1 first, so the export doesn't add data transfer charges, then export
 one day's revision:
 
 ```python
+from datetime import date, timedelta
+
 from pureskillgg_dsdk import export_multiple_adx_dataset_revisions_to_s3
 
 DATA_SET_ID = "paste the Data set ID here"
+DAY = date.today() - timedelta(days=7)  # any day from the past year
 
 export_multiple_adx_dataset_revisions_to_s3(
-    "your-bucket", DATA_SET_ID, start_date="2026-10-07", end_date="2026-10-08"
+    "your-bucket",
+    DATA_SET_ID,
+    start_date=DAY.isoformat(),
+    end_date=(DAY + timedelta(days=1)).isoformat(),
 )
+print("exported", DAY.strftime("csds/%Y/%m/%d"))
 ```
 
-That exports the revision created on 2026-10-07: every match processed that
-day, about 100 matches in 4,300 objects. The [Cost FAQ](../../../README.md#cost-faq)
+That exports the revision created on `DAY`: every match processed that day,
+usually 60 to 150 matches of 43 objects each. Revisions are pruned once they
+are about a year old, so pick a day from the past year. The [Cost FAQ](../../../README.md#cost-faq)
 says what that costs.
 
 ## 4. Download it
 
-Copy the day to your machine with the AWS CLI. Keep the `csds/2026/10/07`
-part of the path: the files' keys are how the libraries find them.
+Copy the day to your machine with the AWS CLI, putting in the
+`csds/YYYY/MM/DD` path that step 3 printed. Keep that part of the path: the
+files' keys are how the libraries find them.
 
 ```shell
-aws s3 sync s3://your-bucket/csds/2026/10/07/ data/csds/2026/10/07/ --exclude "*/player_vector" --exclude "*/player_status"
+aws s3 sync s3://your-bucket/csds/YYYY/MM/DD/ data/csds/YYYY/MM/DD/ --exclude "*/player_vector" --exclude "*/player_status"
 ```
 
 The two excluded channels are the per-tick telemetry, about 7 MB of each
@@ -108,8 +117,9 @@ pandas:
 ```python
 from pureskillgg_dsdk import TomeCuratorFs
 
+day = "-".join(keys[0].split("/")[1:4])  # the day you downloaded, from its key
 curator = TomeCuratorFs(
-    default_header_name="header.2026-10-07,2026-10-07",
+    default_header_name=f"header.{day},{day}",
     ds_type="csds",
     tome_collection_root_path="tomes",
     ds_collection_root_path=ROOT,

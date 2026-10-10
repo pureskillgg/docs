@@ -124,6 +124,7 @@ another channel where you can.
 |          12 | Competitive        | The skill group on that map, 0 to 18 (below).         |
 |           7 | Wingman            | The Wingman skill group, 0 to 18 (below).             |
 |          -1 | Not a Valve ladder | 0. FACEIT matches and most manual uploads.            |
+|           0 | Unknown            | Older matches use 0 instead of -1; none in October.   |
 
 Skill groups, for Competitive and Wingman: 0 unranked, 1 Silver I, 2 Silver
 II, 3 Silver III, 4 Silver IV, 5 Silver Elite, 6 Silver Elite Master, 7 Gold
