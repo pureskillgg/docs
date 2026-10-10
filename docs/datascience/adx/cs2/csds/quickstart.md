@@ -22,8 +22,8 @@ ID** from the data set overview.
 
 ## 2. Install
 
-You need Python 3.11 or newer, AWS credentials that [boto3] can find, and the
-two PureSkill.gg libraries:
+You need Python 3.11 or newer, AWS credentials that [boto3] can find, the
+[AWS CLI] for step 4, and the two PureSkill.gg libraries:
 
 ```shell
 pip install "pureskillgg-dsdk>=4.0.1" "pureskillgg-csgo-dsdk>=3.3.1"
@@ -118,11 +118,16 @@ tomes = curator.build_basic_tomes(["player_death"])
 header = tomes.header.get_dataframe()
 deaths = tomes.tomes["player_death"].get_dataframe()
 
-kills = deaths.merge(header[["key", "map_name"]], left_on="match_key", right_on="key")
+kills = deaths[
+    deaths["attacker_id"].notna() & (deaths["attacker_id"] != deaths["player_id"])
+]
+kills = kills.merge(header[["key", "map_name"]], left_on="match_key", right_on="key")
 print(kills.groupby(["map_name", "weapon_name"]).size().sort_values().tail(10))
 ```
 
-That prints the ten most common map and weapon pairs for the kills of the day.
+That keeps the deaths another player caused, dropping falls, suicides and the
+like, and prints the ten most common map and weapon pairs among the day's
+kills.
 
 ## Next
 
@@ -135,3 +140,4 @@ That prints the ten most common map and weapon pairs for the kills of the day.
 
 [product page]: https://aws.amazon.com/marketplace/pp/prodview-v3o7zrt6okwmo
 [boto3]: https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html
+[aws cli]: https://aws.amazon.com/cli/

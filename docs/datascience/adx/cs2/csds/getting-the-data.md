@@ -13,8 +13,9 @@ How the data set is delivered, from subscribing to reading the files. The
 
 The data set is a free product on AWS Data Exchange. Subscribe on the
 [product page]; we review each request, which takes a few days. Subscribing
-means agreeing to the Data Subscriber Agreement, our version of
-[CC BY-NC-SA 4.0][license].
+means agreeing to the Data Subscriber Agreement (DSA). Its terms are similar
+to [CC BY-NC-SA 4.0][license], but the DSA is the license, not the Creative
+Commons text.
 
 Once approved, the data set appears in the AWS Data Exchange console under
 **Entitled data**, in the **us-east-1** region, as

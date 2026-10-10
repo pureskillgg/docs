@@ -24,8 +24,8 @@ query over a day of matches, in Python. [Getting the Data] explains how the
 data is delivered and laid out.
 
 [The tutorial][tutorial] is a longer course and a project skeleton you can
-build on. It was written for older data, and parts of it don't work with
-today's.
+build on. It was written for older data, and parts of it don't work with the
+data published now.
 
 ### Why are you doing this?
 
