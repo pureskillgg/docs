@@ -11,6 +11,7 @@ const productPage =
   'https://aws.amazon.com/marketplace/pp/prodview-v3o7zrt6okwmo'
 const tutorial =
   'https://github.com/pureskillgg/makenew-pyskill/blob/master/README.rst#-start-with-the-tutorial'
+const quickstart = '/datascience/adx/cs2/csds/quickstart'
 const dsdk = 'https://github.com/pureskillgg/dsdk'
 const discord = 'https://pureskill.gg/discord'
 
@@ -29,16 +30,16 @@ const steps = [
     to: productPage
   },
   {
+    title: 'Follow the Quickstart',
+    body: 'Export a day to S3, load a match in Python and run a first query over the day, step by step.',
+    label: 'Quickstart',
+    to: quickstart
+  },
+  {
     title: 'Build a tome',
     body: 'Slice the features you need across many matches into a small table you can keep around.',
     label: 'DSDK',
     to: dsdk
-  },
-  {
-    title: 'Run the tutorial',
-    body: "PySkill walks you through real CS2 analysis with Python and uv, then becomes your project's skeleton.",
-    label: 'Tutorial',
-    to: tutorial
   }
 ]
 
@@ -49,9 +50,19 @@ const explore = [
     to: '/datascience/adx/cs2/csds/spec'
   },
   {
+    title: 'Enums',
+    body: 'What the codes mean: teams, win reasons, weapons, hit groups, ranks.',
+    to: '/datascience/adx/cs2/csds/enums'
+  },
+  {
     title: 'Changelog',
     body: 'Every change to the data since CS2 began, by date and by channel.',
     to: '/datascience/adx/cs2/csds/changelog'
+  },
+  {
+    title: 'Getting the Data',
+    body: 'Daily revisions, exporting, the file layout and the index object.',
+    to: '/datascience/adx/cs2/csds/getting-the-data'
   },
   {
     title: 'PII Removal',
@@ -72,6 +83,11 @@ const explore = [
     title: 'Showcase',
     body: 'Animations, heatmaps and analyses made with the data.',
     to: '/datascience/showcase/'
+  },
+  {
+    title: 'Tutorial',
+    body: "A longer course and a project skeleton. It was written for older data, and parts of it don't work with the data published now.",
+    to: tutorial
   }
 ]
 
@@ -133,9 +149,9 @@ function Hero() {
             </Link>
             <Link
               className='button button--outline button--primary button--lg'
-              to={tutorial}
+              to={quickstart}
             >
-              Start the tutorial
+              Start with the Quickstart
             </Link>
             <Link
               className='button button--outline button--secondary button--lg'

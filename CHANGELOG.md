@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - A CS2 Datasheet page. The Datasheets for Datasets answers move there from the data set page, which keeps its data dictionary and glossary and links to it.
 - A CS2 Known Flaws page: matches uploaded by hand, duplicates, channels that can be empty, missing values, and what changed across the retained window.
 - A landing page at `/` in place of the markdown homepage: what the data set is, how to get it, every object in a match linked to its section of the spec, and the docs worth reading first.
+- A CS2 Quickstart page: subscribe, export a day to S3, download it, load a match with dsdk, add `player_vector`'s derived columns, and query a day through tomes. Every Python block was run on a copy of the 2026-10-07 revision.
+- A CS2 Getting the Data page: access, daily revisions and pruning, the dsdk export functions and the permissions they need, the file layout, the index object's fields (including `available`), match identity, and which date to use.
+- A CS2 Enums page: teams, win reasons, hit groups, weapon types, weapon and item codes (with a downloadable table), ranks, round phases, every channel's event types, bombsite ids and radar colours, read from the 1,752 matches published 2026-10-01 to 10-08.
 
 ### Changed
 
@@ -22,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Say what is removed before publication instead of calling identification impossible, on the datasheet and in the Data Science FAQ, and list on PII Removal what is published as recorded (`header.server_name`, and `header.match_date` to the second).
 - Update the Data Science FAQ's retention answer (a yearly prune; 408 revisions from 2025-07-19 on 2026-10-09) and say a pruned revision may be restored on request with a good reason.
 - Update the Cost FAQ's sizes, measured on 2026-10-09: about 10 MB per match since 2026-10-06, and `player_vector` with `player_status` about 7 MB of it.
+- Point "How can I get started?" in the Data Science FAQ at the Quickstart; the tutorial stays as a longer course, noted as written for older data. The data set page links both new pages, and the landing page's "Start with the Quickstart" button and steps point at it, with the tutorial as an Explore card; Explore also gains Enums and Getting the Data.
 - Refresh the CS2 Revision Stats page through the 2026-10-09 revision: 408 revisions, 37,881 matches, 1.37 TB.
 - Add a size per match column to the CS2 Revision Stats page.
 - Add a data change column to the CS2 Revision Stats page, linking each revision to the changelog entries it is the first to carry.

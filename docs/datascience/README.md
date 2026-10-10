@@ -19,9 +19,13 @@ replaced the game in 2023. Those revisions are no longer retained. The
 
 ### How can I get started?
 
-With [the tutorial][tutorial] you will learn how to do some real
-CS2 data science with data from the public data set.
-Once you complete the tutorial, you may use the same repository to bootstrap your own project!
+Start with the [Quickstart]: it takes you from an approved subscription to a
+query over a day of matches, in Python. [Getting the Data] explains how the
+data is delivered and laid out.
+
+[The tutorial][tutorial] is a longer course and a project skeleton you can
+build on. It was written for older data, and parts of it don't work with the
+data published now.
 
 ### Why are you doing this?
 
@@ -181,10 +185,11 @@ data is stored as [Apache Parquet] with additional metadata in [JSON].
 > It provides efficient data compression and encoding schemes with enhanced performance to handle complex data in bulk.
 > Parquet is available in multiple languages including Java, C++, Python, etc...
 
-If you want to use another language, we still recommend starting with the [tutorial].
-This is the easiest way to download the data and create new tomes, which are just more Parquet and JSON files.
-Tomes are economical views of the data tailored for specific analyses, and you
-build them yourself from data you have exported.
+If you want to use another language, [Getting the Data] describes the files:
+each match's index object is gzipped JSON, and every channel is a Parquet file.
+Tomes, economical views of the data tailored for specific analyses, are more
+Parquet and JSON files, and you build them yourself from data you have
+exported.
 
 ## Cost FAQ
 
@@ -248,6 +253,8 @@ Consider these steps:
 [step 7 of the tutorial]: https://github.com/pureskillgg/makenew-pyskill/blob/master/notebooks/tutorial/7%20-%20Getting%20csds%20data%20from%20the%20ADX.ipynb
 [pureskill.gg competitive gameplay data set]: ./adx/cs2/csds/
 [tutorial]: https://github.com/pureskillgg/makenew-pyskill/blob/master/README.rst#-start-with-the-tutorial
+[quickstart]: ./adx/cs2/csds/quickstart.md
+[getting the data]: ./adx/cs2/csds/getting-the-data.md
 [cc by-nc-sa 4.0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
 [aws data exchange]: https://aws.amazon.com/data-exchange/
 [anonymization]: https://github.com/pureskillgg/csgo-dsdk/blob/master/pureskillgg_csgo_dsdk/scrubber/scrub_pii.py

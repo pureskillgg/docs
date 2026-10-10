@@ -9,6 +9,9 @@ These data are extracted from CS2 replay files called demos.
 Each match is published as 43 objects, collectively called csds:
 42 channel files plus a JSON index object, also named `csds`, that lists them.
 The [CSDS Spec](./spec.md) documents every channel and column.
+New here? The [Quickstart](./quickstart.md) goes from subscribing to a first
+query, and [Getting the Data](./getting-the-data.md) explains how the data is
+delivered.
 
 Revisions through 2026-08-02 carry 31 objects per match instead of 43, and the
 2026-08-03 revision holds a mix of both. The
