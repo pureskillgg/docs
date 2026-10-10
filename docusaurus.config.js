@@ -7,7 +7,7 @@ const createConfig = async () => {
 
 const config = ({ remarkMath, rehypeKatex }) => ({
   title: 'PureSkill.gg Docs',
-  tagline: 'Beep Boop.',
+  tagline: 'Free, tick-level Counter-Strike 2 match data for research.',
   url: 'https://docs.pureskill.gg',
   baseUrl: '/',
   favicon: 'https://csgo.cdn.pureskill.app/17.2.0/favicon.ico',
@@ -48,6 +48,21 @@ const config = ({ remarkMath, rehypeKatex }) => ({
       },
       items: [
         {
+          to: '/datascience/',
+          label: 'Data Science',
+          position: 'left'
+        },
+        {
+          to: '/datascience/adx/cs2/csds/spec',
+          label: 'CSDS Spec',
+          position: 'left'
+        },
+        {
+          to: '/datascience/adx/cs2/csds/changelog',
+          label: 'Changelog',
+          position: 'left'
+        },
+        {
           href: 'https://pureskill.gg',
           label: 'Home',
           position: 'right'
@@ -85,6 +100,26 @@ const config = ({ remarkMath, rehypeKatex }) => ({
         {
           label: 'Discord',
           to: 'https://pureskill.gg/discord'
+        },
+        {
+          label: 'YouTube',
+          to: 'https://www.youtube.com/channel/UCmgWqRfvuX94XwbuN9CEu_A'
+        },
+        {
+          label: 'LinkedIn',
+          to: 'https://www.linkedin.com/company/itspureskillgg'
+        },
+        {
+          label: 'Twitter',
+          to: 'https://twitter.com/itspureskillgg'
+        },
+        {
+          label: 'Facebook',
+          to: 'https://www.facebook.com/itspureskillgg'
+        },
+        {
+          label: 'Instagram',
+          to: 'https://www.instagram.com/itspureskillgg'
         },
         {
           label: 'Contact',
