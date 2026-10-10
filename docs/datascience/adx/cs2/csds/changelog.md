@@ -64,6 +64,7 @@ _Parser 5.4.1 to 5.6.0 and converter 8.5.4 to 8.7.1._
 
 - `rank_update.rank_change`: An integer (int64), like `rank_old` and `rank_new`. Before, a double holding whole numbers.
 - `bomb_action.player_id_fixed`, `bullet_damage.player_id_fixed`, `grenade_bounce.player_id_fixed`, `grenade_state.player_id_fixed`, `grenade_vector.player_id_fixed`, `item_dropped.player_id_fixed`, `item_equip.player_id_fixed`, `item_pickup.player_id_fixed`, `item_refund.player_id_fixed`, `molotov_fire.player_id_fixed`, `player_blind.player_id_fixed`, `player_chat.player_id_fixed`, `player_connect.player_id_fixed`, `player_death.player_id_fixed`, `player_death.attacker_id_fixed`, `player_death.assister_id_fixed`, `player_disconnect.player_id_fixed`, `player_footstep.player_id_fixed`, `player_hurt.player_id_fixed`, `player_hurt.attacker_id_fixed`, `player_inputs.player_id_fixed`, `player_sound.player_id_fixed`, `player_spawn.player_id_fixed`, `player_status.player_id_fixed`, `player_vector.player_id_fixed`, `rank_update.player_id_fixed`, `team_change.player_id_fixed`, `weapon_action.player_id_fixed`, `weapon_fire.player_id_fixed`: An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
+- `player_vector`, `player_status`: Written compactly, with the same values. Each integer column is the smallest signed type that holds it, `int8`, `int16` or `int32`, where it was `int64`. The floats read from the demo are `float32`, where they were `double`. `place_name` is dictionary-encoded. The spec's tables give every column's type. pandas reads nullable `Int8`, `Int16` or `Int32` where it read `Int64`, and a category for `place_name`. Element-wise arithmetic stays narrow and can wrap (with `int16` `money`, `money * 5` gives 14,464 for 16,000), so cast to a wider type first. How to read old and new files together is in [The player tables](./spec.md#the-player-tables).
 
 **Values changed**
 
@@ -82,6 +83,14 @@ _Parser 5.4.1 to 5.6.0 and converter 8.5.4 to 8.7.1._
 - `bomb_action.player_id`: Set on `bomb_pickup` rows. It was null on all of them, so those rows joined to no player and carried no player position.
 - `bullet_damage.num_penetrations`: Counts the surfaces the bullet went through. It was 0 on every row.
 - `round_state.event_type`: The `freezetime_ended_inferred` row, the first tick a player moves in a round, no longer fires early on a late player's respawn. In 8 of the 927 rounds of our 50 test matches it came 43 to 3,520 ticks before `round_freeze_end`; it now lands one tick after it.
+- `player_vector.current_ammo`: The number of bullets in the magazine, with 0 for an empty one. Before, every value was one low and an empty magazine read 4294967295. A replay parsed before this change and converted again after it holds -1 for an empty magazine, with the other values still one low.
+- `player_status.inv_flashbang`, `player_status.equipment_value_calc`: `inv_flashbang` counts the flashbangs held, up to 2, and drops to 0 at the throw of the last one. Before, it read 1 for two flashbangs and could stay at 1 for about 0.7 seconds after the throw. `equipment_value_calc`, which counts them, follows.
+- `player_spawn.round`: The round the player spawned into. Before, many rows carried the round before it (7,913 in our 50 test matches).
+- `player_info`, `player_personal`: Every player who spawns in a round that reaches freeze end has a row for that round. Before, a player missing from the round's roster, such as one who joined or reconnected late, had none, so their rows in that round joined to no player.
+
+**File format**
+
+- `player_vector`, `player_status`: Rows are sorted by `player_id`, then `tick`, where they were in tick order; sort by `tick`, then `player_id`, for tick order. The floats are stored with Parquet's byte stream split encoding, which fastparquet can't read. pyarrow (pandas' default engine), polars and DuckDB read both the old and the new files.
 
 ## 2026-10-03
 

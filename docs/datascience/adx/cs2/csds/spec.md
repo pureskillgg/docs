@@ -74,7 +74,7 @@ the same type. Outside `player_vector` and `player_status`, integers are
 written as `int64` and floats as `float64` (Parquet `double`), with nulls where
 a column has no value. `player_vector` and `player_status` are written
 compactly, with narrower integers (`int8` to `int32`) and `float32` for the
-values read from the demo, as their tables show. A channel with no rows in a
+values read from the demo, as their tables show; [The player tables](#the-player-tables) says how they are sorted and read. A channel with no rows in a
 match keeps its column types. The types in the tables were read from the index
 objects of 50 recent matches. Three columns none of them carries,
 `header.providence`, `player_info.rank_raw` and `player_info.rank_platform`,
@@ -144,6 +144,56 @@ index still names them, marked as deleted, so a reader driven off the index
 should skip any column whose origin ends in `-deleted`.
 
 [apache parquet]: https://parquet.apache.org/
+
+## The player tables
+
+`player_vector` and `player_status` hold one row per player per tick, nearly
+all of a match's rows. Converter 8.6.0 and later write them compactly,
+with the same values:
+
+- **Types.** Each integer takes the smallest signed type that holds it with
+  room to spare: `int8`, `int16` or `int32`. The floats read from the demo
+  are `float32`, the type the game sends them in, so their values are
+  unchanged. `player_status.second` (tick / 64) is `float32` too, and
+  exact. `place_name` is a dictionary-encoded string. Each table's section
+  gives every column's type. Converter 8.6.0 to 8.7.2 still stored
+  `player_vector`'s derived columns: `second` as `float32` and the
+  velocities and angles as `float64`.
+- **Row order.** Rows are sorted by `player_id`, then `tick`. Sort by `tick`,
+  then `player_id`, for tick order.
+- **`current_ammo`.** Parser 5.4.0 and earlier read every magazine one
+  low, so an empty one wrapped to `4294967295`; compact files write that as
+  `-1`. Parser 5.4.1 and later read the real count, with `0` for an empty
+  magazine, so `-1` appears only where the parser was older.
+- **pandas.** The files' pandas metadata names the narrow types, so
+  `pd.read_parquet` gives nullable `Int8`, `Int16` or `Int32` where older
+  files gave `Int64`, `int32` for `tick`, `float32`, a category for
+  `place_name`, and the nullable `boolean` for `burst_mode` and
+  `is_silenced`.
+- **Narrow integers can wrap.** pandas and polars keep `int16` in
+  element-wise arithmetic, so with `int16` `money`, `money * 5` gives 14,464
+  for 16,000. Cast to a wider type first, for example
+  `df["money"].astype("Int64")`. Sums and means widen on their own.
+
+Files written by converter 8.5.4 and earlier keep the old format: `int64`
+integers, `double` floats, plain strings, rows in tick order, and
+`current_ammo`'s `4294967295` as the parser wrote it. A match's
+`header.ppp_version` names the converter release that built it, and each
+file's own schema says which format it is.
+
+**Reading the files.** pyarrow (pandas' default engine), polars and DuckDB
+read both formats. fastparquet can't read the compact files: their floats
+use Parquet's byte stream split encoding, which it doesn't support.
+
+**Reading old and compact files together.** pandas widens on its own;
+polars and DuckDB need to be told to:
+
+- **pandas:** `pd.concat` of the frames widens each column to the wider type.
+- **polars:** `pl.concat([pl.scan_parquet(f) for f in files], how="diagonal_relaxed")`.
+  `pl.scan_parquet(files)` on a list raises a schema mismatch, whichever
+  file comes first.
+- **DuckDB:** `read_parquet([...], union_by_name = true)`. Without
+  `union_by_name`, DuckDB reads every file at the first file's types.
 
 ## bomb_action - multi_event
 
@@ -920,6 +970,8 @@ Event that triggers this channel: player_spawn
 
 Event that triggers this channel: tick_end
 
+Converter 8.6.0 and later write this table with the types below, sorted by player, then tick; see [The player tables](#the-player-tables).
+
 | Col Name                      | Type    | Nullable | Origin          | Dependents                                                                                                                                                            | Merge Keys                 |
 | ----------------------------- | ------- | -------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
 | tick                          | int32   | False    | replay          |                                                                                                                                                                       |                            |
@@ -969,6 +1021,8 @@ Event that triggers this channel: tick_end
 ## player_vector - telemetry
 
 Event that triggers this channel: tick_end
+
+Converter 8.6.0 and later write this table with the types below, sorted by player, then tick; see [The player tables](#the-player-tables).
 
 | Col Name              | Type    | Nullable | Origin | Dependents | Merge Keys                 |
 | --------------------- | ------- | -------- | ------ | ---------- | -------------------------- |
