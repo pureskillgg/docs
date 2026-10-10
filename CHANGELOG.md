@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- A CS2 page on how the data fits together: what a row is in each kind of channel, ticks and seconds, how rounds are numbered, following a player, sides and the half, where player state lives, and how event channels carry positions (with a tested example of joining another column), measured on the 89 matches published 2026-10-07.
 - A CS2 CSDS page on positions and view angles: what x, y, z, `theta_ang` and `phi_ang` measure, with figures, and the formula for the angle between a player's view and any point. The spec links to it.
 - Render LaTeX maths in the docs with `remark-math` and `rehype-katex`.
 - A CS2 Datasheet page. The Datasheets for Datasets answers move there from the data set page, which keeps its data dictionary and glossary and links to it.
