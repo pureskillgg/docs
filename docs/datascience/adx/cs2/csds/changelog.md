@@ -49,7 +49,14 @@ _Parser 5.4.1 to 5.6.0 and converter 8.5.4 to 8.7.1._
 
 **Columns added**
 
+- `grenade_vector.grenade_id`, `grenade_bounce.grenade_id`, `grenade_state.grenade_id`: One id per thrown grenade for the whole match (int64), numbered 1, 2, 3 in the order the parser first meets the grenades, so a match parsed again gets the same ids. Join the three grenade channels on it. `entity_id` is reused within a match, so grouping on it can merge different grenades. It can be null on `grenade_state`.
+- `grenade_vector.grenade_weapon_code`: The grenade's Valve item id (int64): 43 flashbang, 44 HE grenade, 45 smoke grenade, 46 molotov, 47 decoy and 48 incendiary. These are the same codes every other `*_weapon_code` column uses.
 - `molotov_state.extinguisher_not_found`: True where the fire ended early but no smoke was near enough to credit (bool). Before, `extinguisher_id`, `extinguisher_id_fixed`, `smoke_entity_id` and `smoke_entity_id_fixed` held -2 there.
+
+**Columns removed**
+
+- `grenade_vector.grenade_type_code`: It held the parser library's own grenade numbering, 501 to 506, which collides with the item ids of knives. Read `grenade_weapon_code` instead.
+- `item_equip.def_index`: It was 0 on every row, because CS2's equip event carries no item id. `item_pickup.def_index` carries it.
 
 **Types changed**
 

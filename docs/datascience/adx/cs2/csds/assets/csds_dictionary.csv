@@ -107,6 +107,7 @@ attacker_team_code,INTEGER,,True,,Merged from another channel. Null where no sou
 round,INTEGER,,False,,,,,grenade_bounce,single_event
 tick,INTEGER,,False,,,,,grenade_bounce,single_event
 entity_id,INTEGER,,False,,,,,grenade_bounce,single_event
+grenade_id,INTEGER,,False,,,,,grenade_bounce,single_event
 player_id,INTEGER,,False,,,,,grenade_bounce,single_event
 bounce_nr,INTEGER,,False,,,,,grenade_bounce,single_event
 x_pos,DECIMAL,,False,,,,,grenade_bounce,single_event
@@ -118,6 +119,7 @@ round,INTEGER,,False,,,,,grenade_state,multi_event
 tick,INTEGER,,False,,,,,grenade_state,multi_event
 event_type,VARCHAR,,False,,,,,grenade_state,multi_event
 entity_id,INTEGER,,False,,,,,grenade_state,multi_event
+grenade_id,INTEGER,,True,,,,,grenade_state,multi_event
 player_id,INTEGER,,False,,,,,grenade_state,multi_event
 x_pos,DECIMAL,,False,,,,,grenade_state,multi_event
 y_pos,DECIMAL,,False,,,,,grenade_state,multi_event
@@ -139,8 +141,9 @@ player_team_code,INTEGER,,True,,Merged from another channel. Null where no sourc
 round,INTEGER,,False,,,,,grenade_vector,telemetry
 tick,INTEGER,,False,,,,,grenade_vector,telemetry
 entity_id,INTEGER,,False,,,,,grenade_vector,telemetry
+grenade_id,INTEGER,,False,,,,,grenade_vector,telemetry
 player_id,INTEGER,,False,,,,,grenade_vector,telemetry
-grenade_type_code,INTEGER,,False,,,,,grenade_vector,telemetry
+grenade_weapon_code,INTEGER,,True,,,,,grenade_vector,telemetry
 grenade_type,VARCHAR,,False,,,,,grenade_vector,telemetry
 x_pos,DECIMAL,,False,,,,,grenade_vector,telemetry
 y_pos,DECIMAL,,False,,,,,grenade_vector,telemetry
@@ -208,7 +211,6 @@ round,INTEGER,,False,,,,,item_equip,single_event
 tick,INTEGER,,False,,,,,item_equip,single_event
 player_id,INTEGER,,False,,,,,item_equip,single_event
 item,VARCHAR,,False,,,,,item_equip,single_event
-def_index,INTEGER,,False,,,,,item_equip,single_event
 can_zoom,BOOLEAN,,False,,,,,item_equip,single_event
 has_silencer,BOOLEAN,,False,,,,,item_equip,single_event
 is_silenced,BOOLEAN,,False,,,,,item_equip,single_event

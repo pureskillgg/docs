@@ -68,11 +68,13 @@ Dates are the day (UTC) a change reached production.
 
 ## grenade_bounce
 
+- **2026-10-05**, column added: `grenade_id`. One id per thrown grenade for the whole match (int64), numbered 1, 2, 3 in the order the parser first meets the grenades, so a match parsed again gets the same ids. Join the three grenade channels on it. `entity_id` is reused within a match, so grouping on it can merge different grenades. It can be null on `grenade_state`.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-08-03**, channel added. Every surface a thrown grenade hit.
 
 ## grenade_state
 
+- **2026-10-05**, column added: `grenade_id`. One id per thrown grenade for the whole match (int64), numbered 1, 2, 3 in the order the parser first meets the grenades, so a match parsed again gets the same ids. Join the three grenade channels on it. `entity_id` is reused within a match, so grouping on it can merge different grenades. It can be null on `grenade_state`.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-10-05**, values changed: `tick_throw`. Null where no throw was matched, not 0, -2 or -3. Declared nullable.
@@ -81,6 +83,9 @@ Dates are the day (UTC) a change reached production.
 
 ## grenade_vector
 
+- **2026-10-05**, column added: `grenade_id`. One id per thrown grenade for the whole match (int64), numbered 1, 2, 3 in the order the parser first meets the grenades, so a match parsed again gets the same ids. Join the three grenade channels on it. `entity_id` is reused within a match, so grouping on it can merge different grenades. It can be null on `grenade_state`.
+- **2026-10-05**, column added: `grenade_weapon_code`. The grenade's Valve item id (int64): 43 flashbang, 44 HE grenade, 45 smoke grenade, 46 molotov, 47 decoy and 48 incendiary. These are the same codes every other `*_weapon_code` column uses.
+- **2026-10-05**, column removed: `grenade_type_code`. It held the parser library's own grenade numbering, 501 to 506, which collides with the item ids of knives. Read `grenade_weapon_code` instead.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-08-03**, channel added. The flight path of each thrown grenade, a row whenever its position changed.
 
@@ -109,6 +114,7 @@ Dates are the day (UTC) a change reached production.
 
 ## item_equip
 
+- **2026-10-05**, column removed: `def_index`. It was 0 on every row, because CS2's equip event carries no item id. `item_pickup.def_index` carries it.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 
