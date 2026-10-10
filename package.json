@@ -45,8 +45,11 @@
   "devDependencies": {
     "@docusaurus/core": "^3.6.0",
     "@docusaurus/preset-classic": "^3.6.0",
+    "katex": "^0.16.47",
     "npm-run-all2": "^9.0.2",
     "posthog-docusaurus": "^2.0.0",
-    "prettier": "^3.9.4"
+    "prettier": "^3.9.4",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0"
   }
 }

@@ -1,4 +1,11 @@
-const config = {
+// remark-math and rehype-katex are ESM only, so the config is built in an async function
+const createConfig = async () => {
+  const remarkMath = (await import('remark-math')).default
+  const rehypeKatex = (await import('rehype-katex')).default
+  return config({ remarkMath, rehypeKatex })
+}
+
+const config = ({ remarkMath, rehypeKatex }) => ({
   title: 'PureSkill.gg Docs',
   tagline: 'Beep Boop.',
   url: 'https://docs.pureskill.gg',
@@ -92,15 +99,20 @@ const config = {
       {
         docs: {
           routeBasePath: '/',
-          editUrl: 'https://github.com/pureskillgg/docs/tree/master/'
+          editUrl: 'https://github.com/pureskillgg/docs/tree/master/',
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex]
         },
         blog: false,
         theme: {
-          customCss: [require.resolve('./src/css/custom.css')]
+          customCss: [
+            require.resolve('./src/css/custom.css'),
+            require.resolve('katex/dist/katex.min.css')
+          ]
         }
       }
     ]
   ]
-}
+})
 
-module.exports = config
+module.exports = createConfig
