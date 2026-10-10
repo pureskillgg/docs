@@ -49,10 +49,20 @@ _Parser 5.4.1 to 5.6.0 and converter 8.5.4 to 8.7.1._
 
 **Columns added**
 
+- `grenade_vector.grenade_id`, `grenade_bounce.grenade_id`, `grenade_state.grenade_id`: One id per thrown grenade for the whole match (int64). Join the three grenade channels on it. From parser 5.6.0 the grenades are numbered 1, 2, 3 in the order the parser first meets them, so a match parsed again gets the same ids; parser 5.5.0, in production for part of 2026-10-05, drew them at random on each parse. `entity_id` is reused within a match, so grouping on it can merge different grenades. It can be null on `grenade_state`.
+- `grenade_vector.grenade_weapon_code`: The grenade's Valve item id (int64): 43 flashbang, 44 HE grenade, 45 smoke grenade, 46 molotov, 47 decoy and 48 incendiary. These are the same codes every other `*_weapon_code` column uses.
+- `header.rank_type`: The ladder the match was played on (int64), the rank type its players carry: 7 Wingman, 11 Premier, 12 Competitive; 0 when nobody is ranked; -1 off Valve's ladders, as on FACEIT. Null when the demo has no player information.
 - `molotov_state.extinguisher_not_found`: True where the fire ended early but no smoke was near enough to credit (bool). Before, `extinguisher_id`, `extinguisher_id_fixed`, `smoke_entity_id` and `smoke_entity_id_fixed` held -2 there.
+
+**Columns removed**
+
+- `grenade_vector.grenade_type_code`: It held the parser library's own grenade numbering, 501 to 506, which collides with the item ids of knives. Read `grenade_weapon_code` instead.
+- `header.network_protocol`: It was 1234 in every match, a fixed value rather than the demo's.
+- `item_equip.def_index`: It was 0 on every row, because CS2's equip event carries no item id. `item_pickup.def_index` carries it.
 
 **Types changed**
 
+- `rank_update.rank_change`: An integer (int64), like `rank_old` and `rank_new`. Before, a double holding whole numbers.
 - `bomb_action.player_id_fixed`, `bullet_damage.player_id_fixed`, `grenade_bounce.player_id_fixed`, `grenade_state.player_id_fixed`, `grenade_vector.player_id_fixed`, `item_dropped.player_id_fixed`, `item_equip.player_id_fixed`, `item_pickup.player_id_fixed`, `item_refund.player_id_fixed`, `molotov_fire.player_id_fixed`, `player_blind.player_id_fixed`, `player_chat.player_id_fixed`, `player_connect.player_id_fixed`, `player_death.player_id_fixed`, `player_death.attacker_id_fixed`, `player_death.assister_id_fixed`, `player_disconnect.player_id_fixed`, `player_footstep.player_id_fixed`, `player_hurt.player_id_fixed`, `player_hurt.attacker_id_fixed`, `player_inputs.player_id_fixed`, `player_sound.player_id_fixed`, `player_spawn.player_id_fixed`, `player_status.player_id_fixed`, `player_vector.player_id_fixed`, `rank_update.player_id_fixed`, `team_change.player_id_fixed`, `weapon_action.player_id_fixed`, `weapon_fire.player_id_fixed`: An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 
 **Values changed**
@@ -69,6 +79,8 @@ _Parser 5.4.1 to 5.6.0 and converter 8.5.4 to 8.7.1._
 
 **Fixes**
 
+- `bomb_action.player_id`: Set on `bomb_pickup` rows. It was null on all of them, so those rows joined to no player and carried no player position.
+- `bullet_damage.num_penetrations`: Counts the surfaces the bullet went through. It was 0 on every row.
 - `round_state.event_type`: The `freezetime_ended_inferred` row, the first tick a player moves in a round, no longer fires early on a late player's respawn. In 8 of the 927 rounds of our 50 test matches it came 43 to 3,520 ticks before `round_freeze_end`; it now lands one tick after it.
 
 ## 2026-10-03

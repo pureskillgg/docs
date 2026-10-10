@@ -294,6 +294,7 @@ Event that triggers this channel: grenade_bounce
 | round           | int64   | False    | replay     |                 |                            |
 | tick            | int64   | False    | replay     |                 |                            |
 | entity_id       | int64   | False    | replay     |                 |                            |
+| grenade_id      | int64   | False    | replay     |                 |                            |
 | player_id       | int64   | False    | replay     |                 |                            |
 | bounce_nr       | int64   | False    | replay     |                 |                            |
 | x_pos           | float64 | False    | replay     |                 |                            |
@@ -312,6 +313,7 @@ Events that trigger this channel: decoy_detonate, decoy_firing, decoy_started, f
 | tick               | int64   | False    | replay     |                                     |                            |
 | event_type         | string  | False    | replay     |                                     |                            |
 | entity_id          | int64   | False    | replay     |                                     |                            |
+| grenade_id         | int64   | True     | replay     |                                     |                            |
 | player_id          | int64   | False    | replay     |                                     |                            |
 | x_pos              | float64 | False    | replay     |                                     |                            |
 | y_pos              | float64 | False    | replay     |                                     |                            |
@@ -335,26 +337,26 @@ Events that trigger this channel: decoy_detonate, decoy_firing, decoy_started, f
 
 Event that triggers this channel: tick_end
 
-| Col Name          | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
-| ----------------- | ------- | -------- | ---------- | --------------- | -------------------------- |
-| round             | int64   | False    | replay     |                 |                            |
-| tick              | int64   | False    | replay     |                 |                            |
-| entity_id         | int64   | False    | replay     |                 |                            |
-| player_id         | int64   | False    | replay     |                 |                            |
-| grenade_type_code | int64   | False    | replay     |                 |                            |
-| grenade_type      | string  | False    | replay     |                 |                            |
-| x_pos             | float64 | False    | replay     |                 |                            |
-| y_pos             | float64 | False    | replay     |                 |                            |
-| z_pos             | float64 | False    | replay     |                 |                            |
-| second            | float64 | True     | calculated | tick, tick_rate |                            |
-| player_id_fixed   | int64   | True     | merged     |                 | player_id, round, steam_id |
+| Col Name            | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
+| ------------------- | ------- | -------- | ---------- | --------------- | -------------------------- |
+| round               | int64   | False    | replay     |                 |                            |
+| tick                | int64   | False    | replay     |                 |                            |
+| entity_id           | int64   | False    | replay     |                 |                            |
+| grenade_id          | int64   | False    | replay     |                 |                            |
+| player_id           | int64   | False    | replay     |                 |                            |
+| grenade_weapon_code | int64   | True     | replay     |                 |                            |
+| grenade_type        | string  | False    | replay     |                 |                            |
+| x_pos               | float64 | False    | replay     |                 |                            |
+| y_pos               | float64 | False    | replay     |                 |                            |
+| z_pos               | float64 | False    | replay     |                 |                            |
+| second              | float64 | True     | calculated | tick, tick_rate |                            |
+| player_id_fixed     | int64   | True     | merged     |                 | player_id, round, steam_id |
 
 ## header - header
 
 | Col Name                   | Type    | Nullable | Origin              | Dependents                                                                                       | Merge Keys |
 | -------------------------- | ------- | -------- | ------------------- | ------------------------------------------------------------------------------------------------ | ---------- |
 | magic                      | string  | False    | replay              |                                                                                                  |            |
-| network_protocol           | int64   | False    | replay              |                                                                                                  |            |
 | server_name                | string  | False    | replay              |                                                                                                  |            |
 | client_name                | string  | False    | replay              |                                                                                                  |            |
 | map_name                   | string  | False    | replay              |                                                                                                  |            |
@@ -370,6 +372,7 @@ Event that triggers this channel: tick_end
 | is_gotv_recording          | bool    | False    | replay              |                                                                                                  |            |
 | is_wingman                 | bool    | False    | replay              |                                                                                                  |            |
 | max_unique_players         | int64   | False    | replay              |                                                                                                  |            |
+| rank_type                  | int64   | True     | replay              |                                                                                                  |            |
 | tick_rate                  | int64   | True     | calculated          |                                                                                                  |            |
 | tick_save_rate             | int64   | True     | calculated          |                                                                                                  |            |
 | rushb_version              | string  | True     | calculated          | meta:metadata.rushbVersion                                                                       |            |
@@ -428,7 +431,6 @@ Event that triggers this channel: item_equip
 | tick               | int64   | False    | replay     |                 |                            |
 | player_id          | int64   | False    | replay     |                 |                            |
 | item               | string  | False    | replay     |                 |                            |
-| def_index          | int64   | False    | replay     |                 |                            |
 | can_zoom           | bool    | False    | replay     |                 |                            |
 | has_silencer       | bool    | False    | replay     |                 |                            |
 | is_silenced        | bool    | False    | replay     |                 |                            |
@@ -1004,7 +1006,7 @@ Event that triggers this channel: rank_update
 | player_id          | int64   | False    | replay        |                 |                            |
 | rank_old           | int64   | False    | replay        |                 |                            |
 | rank_new           | int64   | False    | replay        |                 |                            |
-| rank_change        | float64 | False    | replay        |                 |                            |
+| rank_change        | int64   | False    | replay        |                 |                            |
 | win_count          | int64   | False    | replay-capped |                 |                            |
 | second             | float64 | True     | calculated    | tick, tick_rate |                            |
 | player_id_fixed    | int64   | True     | merged        |                 | player_id, round, steam_id |
