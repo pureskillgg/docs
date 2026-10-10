@@ -41,7 +41,7 @@ before publication. Nobody was identified in any test.
 For some players, enough of the published data carries over from one match to
 the next that their matches can be linked to each other. Following a player
 like this is not the same as knowing who they are: the data holds no names,
-account ids or chat, and nobody was identified. We have decided to leave this
+account ids or chat text, and nobody was identified. We have decided to leave this
 as a [known flaw](./known-flaws.md) rather than remove more data. Trying to
 identify anyone is not permitted by the license agreement.
 
@@ -78,9 +78,10 @@ until it is pruned, and subscribers keep the copies they export.
 
 ### Misuse: cheat development
 
-This is the most serious concern we found. The data set records, for every
-tick, which buttons each player pressed and where they were aiming. That is
-the kind of data someone could use to train a cheat that imitates human play.
+This is the most serious concern we found. The data set records where each
+player was aiming on every tick and, in matches whose demos carry them, which
+buttons they pressed. That is the kind of data someone could use to train a
+cheat that imitates human play.
 The data set may not be used to develop, train or test cheats. We approve each
 subscription by hand, ask what it is for, and turn down any we think could
 serve cheating.
