@@ -76,6 +76,12 @@ The data set carries no names or account ids, so it can't be searched for a
 particular person. A published revision is never edited; it stays as published
 until it is pruned, and subscribers keep the copies they export.
 
+### Our internal copy
+
+Separately from the published data set, we keep an internal copy of a few
+channels from each match as they were before PII removal, including names,
+Steam IDs and chat text. Nobody uses it, and it is not for public use.
+
 ### Misuse: cheat development
 
 This is the most serious concern we found. The data set records where each
