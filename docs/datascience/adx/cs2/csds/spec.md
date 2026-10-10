@@ -113,6 +113,11 @@ standing still. The [changelog](./changelog.md) dates the change.
 while standing still. Older matches stored 0 while standing still, the same as
 moving along +x. The [changelog](./changelog.md) dates the change.
 
+**Positions and view angles.** What `x_pos`, `y_pos`, `z_pos`, `theta_ang` and
+`phi_ang` measure, with figures, and how to compute the angle between a
+player's view and any point, are on
+[Positions and View Angles](./coordinates.md).
+
 **`player_vector` no longer stores its ten derived columns:** `second`,
 `x_vel`, `y_vel`, `z_vel`, `speed_2d`, `movement_angle`, `movement_angle_diff`,
 `phi_vel`, `theta_vel` and `ang_vel`. They are computed from the columns that are
