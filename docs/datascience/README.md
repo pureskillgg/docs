@@ -51,10 +51,11 @@ See the [Cost FAQ](#cost-faq) for details.
 
 ### How long is the data kept?
 
-About a year. A revision is published each day, and old revisions are revoked
-and emptied in a batch about once a year, most recently in July 2026. So the
-data set holds a window of a little over a year rather than a growing archive.
-On 2026-10-09 it held 408 daily revisions covering 2025-07-19 onward.
+At least a year. A revision is published each day, and revisions more than
+about a year old are revoked and emptied in a batch about once a year, most
+recently in July 2026. So the data set holds a window of one to two years
+rather than a growing archive: about a year just after a prune, growing until
+the next. On 2026-10-09 it held 408 daily revisions covering 2025-07-19 onward.
 
 If you need a particular stretch of time, export it rather than assuming it
 will still be there. Pruned revisions are archived for our own records. If you

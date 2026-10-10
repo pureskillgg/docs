@@ -175,7 +175,7 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 
   > You can create game authentication codes to allow third-party websites and applications to manage your game without running the actual game client. Third-party websites and applications can use this authentication code to access your match history, your overall performance in those matches, download replays of your matches, and analyze your gameplay.
 
-- **What mechanisms or procedures were used to collect the data ?**
+- **What mechanisms or procedures were used to collect the data?**
   The CS2 server records a stream of events from every player and game element into a demo.
   We then collect the demo file through the APIs described above or through manual upload.
 
@@ -192,9 +192,10 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 
 - **Over what timeframe was the data collected?**
   Collection began 2021-12-01 and continues daily.
-  Old revisions are revoked and emptied in a batch about once a year, most
-  recently in July 2026, so the data you can export reaches back a little over
-  a year: on 2026-10-09 the oldest exportable revision was from 2025-07-19.
+  Revisions more than about a year old are revoked and emptied in a batch about
+  once a year, most recently in July 2026, so the data you can export reaches
+  back between one and two years: on 2026-10-09 the oldest exportable revision
+  was from 2025-07-19.
 
 - **Were any ethical review processes conducted?**
   No.
@@ -202,7 +203,7 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 - **Did you collect the data from the individuals in question directly, or obtain it via third parties or other sources?**
   PureSkill.gg users must create an account on PureSkill.gg and connect to Steam or FACEIT APIs
   from which we download the CS2 demo files.
-  The user must either login to FACEIT or provide a unique, non-public key to connect to Steam.
+  The user must either log in to FACEIT or provide a unique, non-public key to connect to Steam.
   Both connections can be revoked at any time.
 
 - **Were the individuals in question notified about the data collection?**
@@ -288,8 +289,8 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   See the DSA for details.
 
 - **When will the dataset be distributed?**
-  It has been distributed since 2022-05-17, with a one month automatically
-  renewing subscription and a new revision published every day.
+  It has been distributed since 2022-05-17, through a one-month subscription
+  that renews automatically, with a new revision published every day.
   Revisions carried CS:GO data until Counter-Strike 2 replaced the game in 2023;
   every revision still retained carries CS2 data.
 
@@ -322,12 +323,15 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 
 - **If the dataset relates to people, are there applicable limits on the retention of the data
   associated with the instances?**
-  Yes. Revisions are revoked and emptied about a year after they are
-  published; the next answer has the details.
+  Yes. Revisions are revoked and emptied once they are more than about a year
+  old. Pruning runs in a batch about once a year, so a revision stays
+  exportable for one to two years; the next answer has the details.
 
 - **Will older versions of the dataset continue to be supported/hosted/maintained?**
-  Revisions are kept for about a year, then revoked and emptied in a batch
-  about once a year, most recently in July 2026. On 2026-10-09 the 408
+  Revisions are kept for at least about a year. Those older than that are
+  revoked and emptied in a batch about once a year, most recently in July
+  2026, so a revision can stay exportable for up to about two years. On
+  2026-10-09 the 408
   exportable revisions covered 2025-07-19 onward. Download what you need
   rather than assuming a revision will still be there later.
   Pruned revisions are archived for our own records. If you have a good reason
