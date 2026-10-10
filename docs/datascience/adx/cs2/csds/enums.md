@@ -79,8 +79,8 @@ hit groups; the data holds the codes 0 to 8.
 ## Weapons and items
 
 `player_vector.weapon_code`, every `*_weapon_code` column,
-`grenade_vector.grenade_weapon_code`, and `def_index` in `item_equip`,
-`item_pickup`, `item_dropped`, `item_refund` and `world_item_vector` are all
+`grenade_vector.grenade_weapon_code`, and `def_index` in `item_pickup`,
+`item_dropped`, `item_refund` and `world_item_vector` are all
 Valve's item definition index. [weapon_codes.csv](./assets/weapon_codes.csv)
 lists every code seen in the data except 0, with the game's name for it and its type.
 
@@ -111,8 +111,8 @@ Prefer the code to the item name. The short names in `item_equip` and
 both the P2000 and the USP-S, `m4a1` both the M4A4 and the M4A1-S, `mp7` both
 the MP7 and the MP5-SD, and `deagle` both the Desert Eagle and the R8 Revolver.
 `item_dropped` and `world_item_vector` use display names such as `AK-47`
-instead. `item_equip.def_index` is often null or 0, so take the code from
-another channel where you can.
+instead. `item_equip` has no item code: CS2's equip event doesn't carry one,
+and its `def_index` column, always 0, was removed on 2026-10-05.
 
 ## Ranks
 
