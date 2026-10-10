@@ -13,9 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Render LaTeX maths in the docs with `remark-math` and `rehype-katex`.
 - A CS2 Datasheet page. The Datasheets for Datasets answers move there from the data set page, which keeps its data dictionary and glossary and links to it.
 - A CS2 Known Flaws page: matches uploaded by hand, duplicates, channels that can be empty, missing values, and what changed across the retained window.
+- A landing page at `/` in place of the markdown homepage: what the data set is, how to get it, every object in a match linked to its section of the spec, and the docs worth reading first.
 
 ### Changed
 
+- Link Data Science, the CSDS Spec and the Changelog from the navbar, move the social links into the footer, and replace the "Beep Boop." tagline.
 - Bring the CS2 datasheet up to date: rounds removed before publication, Revision Stats for counts, splitting by match to avoid leakage, why duplicates happen, Known Flaws for what is missing, manual uploads (which may include no PureSkill.gg user), where radar data lives, how the data is extracted and processed, how long demos are kept, the yearly prune, the changelog as the erratum, and a plain "No" on third-party restrictions.
 - Say what is removed before publication instead of calling identification impossible, on the datasheet and in the Data Science FAQ, and list on PII Removal what is published as recorded (`header.server_name`, and `header.match_date` to the second).
 - Update the Data Science FAQ's retention answer (a yearly prune; 408 revisions from 2025-07-19 on 2026-10-09) and say a pruned revision may be restored on request with a good reason.
