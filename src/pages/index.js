@@ -16,7 +16,7 @@ const discord = 'https://pureskill.gg/discord'
 
 const stats = [
   ['Daily', 'a new revision every day'],
-  ['~1 year', 'rolling window of matches'],
+  ['1 to 2 years', 'of daily revisions kept'],
   ['42', 'channels per match, all Parquet'],
   ['$0', 'for the data; you pay AWS for storage']
 ]
@@ -55,7 +55,7 @@ const explore = [
   },
   {
     title: 'PII Removal',
-    body: 'How players are anonymized before anything is published.',
+    body: 'What is removed or replaced before a match is published.',
     to: '/datascience/adx/cs2/csds/pii-removal'
   },
   {
@@ -121,7 +121,8 @@ function Hero() {
             Competitive Counter-Strike 2 matches from matchmaking and FACEIT,
             parsed from the demos into Parquet: every player&apos;s position and
             view angle, every kill, grenade and round event. A new revision
-            lands on AWS Data Exchange every day, fully anonymized.
+            lands on AWS Data Exchange every day, with names, Steam IDs and chat
+            removed or replaced.
           </p>
           <div className={styles.buttons}>
             <Link
