@@ -15,9 +15,9 @@
 <text x="250" y="367" font-family="KaTeX_Main, 'Times New Roman', serif" font-size="16" fill="currentColor" text-anchor="start">−90°</text>
 <path d="M179,100.2 L175,102.4 L171.1,104.8 L167.3,107.2 L163.6,109.8 L160,112.6 L156.4,115.4 L153,118.4 L149.7,121.5 L146.5,124.7 L143.4,128 L140.4,131.4 L137.6,135" stroke="currentColor" stroke-width="1.5"/><path d="M137.6,135 L140.9,125.5 L146.3,130.1 Z" fill="currentColor"/>
 <path d="M292,215 L292,213.2 L291.9,211.4 L291.7,209.6 L291.5,207.8 L291.2,206 L290.9,204.2 L290.5,202.4 L290,200.7 L289.5,198.9 L288.9,197.2 L288.2,195.5 L287.5,193.8 L286.7,192.2 L285.9,190.6 L285,189 L284.1,187.4 L283.1,185.9 L282.1,184.4 L281,183 L279.8,181.6 L278.6,180.2 L277.4,178.9 L276.1,177.6 L274.8,176.4 L273.4,175.2" stroke="#d1495b" stroke-width="1.8"/>
-<text x="305.4" y="193.4" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="22" fill="#d1495b" text-anchor="start">θ</text>
+<text x="305.4" y="193.4" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="22" fill="currentColor" text-anchor="start">θ</text>
 <line x1="240" y1="215" x2="346.1" y2="88.6" stroke="#3874d8" stroke-width="2.4"/><path d="M346.1,88.6 L342.1,99.9 L335.6,94.5 Z" fill="#3874d8"/>
-<text x="354.1" y="84.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-size="16" fill="#3874d8" text-anchor="start">view</text>
+<text x="354.1" y="84.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-size="16" fill="currentColor" text-anchor="start">view</text>
 <circle cx="240" cy="215" r="4" fill="currentColor"/>
 <text x="230" y="241" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="18" fill="currentColor" text-anchor="end">(x, y)</text>
 </svg>

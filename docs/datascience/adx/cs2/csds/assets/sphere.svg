@@ -10,11 +10,11 @@
 <line x1="190" y1="212" x2="329.7" y2="184.3" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4" stroke-opacity="0.7"/>
 <line x1="329.7" y1="184.3" x2="329.7" y2="95.3" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4" stroke-opacity="0.7"/>
 <path d="M236.5,212 L237.3,211.4 L238.1,210.9 L238.8,210.3 L239.4,209.8 L240,209.3 L240.5,208.7 L241,208.2 L241.4,207.6 L241.7,207.1 L242,206.6 L242.2,206.1 L242.3,205.6 L242.4,205.1 L242.4,204.6 L242.4,204.1 L242.2,203.6 L242.1,203.2 L241.8,202.7 L241.5,202.3 L241.2,201.8" stroke="#d1495b" stroke-width="1.8"/>
-<text x="257.8" y="217.2" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="22" fill="#d1495b" text-anchor="start">θ</text>
+<text x="257.8" y="217.2" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="22" fill="currentColor" text-anchor="start">θ</text>
 <path d="M190,168.6 L191.7,168.3 L193.3,168 L195,167.8 L196.6,167.7 L198.3,167.6 L199.9,167.6 L201.6,167.6 L203.2,167.7 L204.8,167.8 L206.3,168 L207.9,168.2 L209.4,168.5 L210.9,168.8 L212.4,169.2 L213.9,169.7 L215.3,170.2 L216.7,170.7 L218.1,171.3 L219.4,172 L220.7,172.7 L222,173.4 L223.2,174.2 L224.4,175 L225.5,175.9 L226.6,176.8 L227.6,177.8 L228.6,178.8" stroke="#d1495b" stroke-width="1.8"/>
-<text x="216.3" y="160.9" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="22" fill="#d1495b" text-anchor="start">φ</text>
+<text x="216.3" y="160.9" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="22" fill="currentColor" text-anchor="start">φ</text>
 <line x1="190" y1="212" x2="329.7" y2="95.3" stroke="#3874d8" stroke-width="2.4"/><path d="M329.7,95.3 L323.8,105.8 L318.4,99.3 Z" fill="#3874d8"/>
-<text x="339.7" y="93.3" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="21" fill="#3874d8" text-anchor="start">v</text>
-<path d="M341.2,80.3 L345.2,76.3 L349.2,80.3" stroke="#3874d8" stroke-width="1.3"/>
+<text x="339.7" y="93.3" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="21" fill="currentColor" text-anchor="start">v</text>
+<path d="M341.2,80.3 L345.2,76.3 L349.2,80.3" stroke="currentColor" stroke-width="1.3"/>
 <circle cx="190" cy="212" r="3.5" fill="currentColor"/>
 </svg>

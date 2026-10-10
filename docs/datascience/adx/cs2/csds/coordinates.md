@@ -75,6 +75,11 @@ $$
 and the angles come back from it as $\theta = \operatorname{atan2}(v_y, v_x)$ and
 $\phi = \arccos v_z$.
 
+The angles in the data, and in every formula on this page, are in degrees. Most
+code's trigonometric functions work in radians: convert the angles to radians
+before taking sines and cosines (`np.radians`), and convert what `atan2` and
+`arccos` return back to degrees (`np.degrees`), as the Python below does.
+
 ## The angle from a view to a point
 
 <Angle style={{ maxWidth: '100%', height: 'auto' }} />
