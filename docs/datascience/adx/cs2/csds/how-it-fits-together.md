@@ -86,16 +86,19 @@ had no rows in it.
 
 ## Joining events to positions
 
-Event channels already carry where their players were. A channel with a
-`player_id` has `player_x_pos`, `player_theta_ang`, `player_weapon_code`,
-`player_team_code` and the like, copied from `player_vector`; one with an
-`attacker_id` or `assister_id` has the same columns for those players.
+Most event channels already carry where their players were. A channel with a
+`player_id` usually has `player_x_pos`, `player_theta_ang`,
+`player_weapon_code`, `player_team_code` and the like, copied from
+`player_vector`; an `attacker_id` or `assister_id` brings the same columns for
+that player. `grenade_bounce`, `player_connect`, `player_disconnect`,
+`player_footstep` and `round_mvp` carry none, so check a channel's columns in
+the [CSDS Spec](./spec.md).
 
 - **Most channels** copy from the row on the event's own tick.
 - **`player_death`, `player_hurt`, `bullet_damage`, `bomb_action`,
-  `item_dropped`, `player_chat`, `player_disconnect` and `rank_update`**
-  copy from the latest row up to 3 ticks before the event, because the player
-  may already be dead on the event's tick.
+  `item_dropped`, `player_chat` and `rank_update`** copy from the latest row
+  up to 3 ticks before the event, because the player may already be dead on
+  the event's tick.
 - **Where no row is close enough, the columns are null.** On 2026-10-07 that
   was 0.2% of victims and 0.3% of attackers in `player_death`, 0.3% of
   `weapon_fire` rows, and 63% of assisters, who are often dead by the time of
