@@ -79,7 +79,8 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   shows. A link like that ties matches to the same unknown player; finding that
   player's actual profile or identity would still be hard, and trying is not
   permitted by the license agreement. Nothing in the data says which player is
-  the PureSkill.gg user.
+  the PureSkill.gg user. See
+  [Known Flaws](./known-flaws.md).
 
 - **Are there recommended data splits?**
   Yes: we strongly recommend splitting by match. Rows from one match share
@@ -137,7 +138,9 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   is in `header.server_name`, and one may infer player region (such as US West, South America, or India).
 
 - **Does the dataset contain data that might be considered sensitive in any way?**
-  No.
+  Not directly, but it almost certainly includes players under 18: Steam and
+  PureSkill.gg allow players from 13 years old. See the
+  [AI Ethics Review](./ethics-review.md).
 
 ## Collection Process
 
@@ -185,7 +188,9 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   was from 2025-07-19.
 
 - **Were any ethical review processes conducted?**
-  No.
+  Yes. In October 2026 an AI agent reviewed the data set's ethics and FPS
+  Critic, Inc. signed off on its findings. It was an internal review, not an
+  institutional review board. See the [AI Ethics Review](./ethics-review.md).
 
 - **Did you collect the data from the individuals in question directly, or obtain it via third parties or other sources?**
   PureSkill.gg users must create an account on PureSkill.gg and connect to Steam or FACEIT APIs
@@ -194,8 +199,10 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   Both connections can be revoked at any time.
 
 - **Were the individuals in question notified about the data collection?**
-  We must collect a user's CS2 demo files to provide our services,
-  and they agree to this in the PureSkill.gg [Terms of Service].
+  We must collect a user's CS2 demo files to provide our services, and our
+  [Privacy Policy] says we analyze users' replay files. Neither it nor our
+  [Terms of Service] mentions this data set yet; we are updating the Privacy
+  Policy to name it.
   There is data for players that did not agree to our terms of service.
   Since names, Steam IDs and the other values listed on [PII Removal](./pii-removal.md)
   are removed or replaced before publication, we include these players' data.
@@ -217,6 +224,8 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   before publication.
   Any attempts to identify people, players' Steam IDs, or online identities
   are not permitted by the license agreement.
+  The [AI Ethics Review](./ethics-review.md) covers the impact on the people in
+  the data.
 
 ## Preprocessing, Cleaning, and Labeling
 
@@ -267,6 +276,7 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   It should not be used in any manner that is against the DSA, including but not limited to commercial use and releasing transformed data without attribution.
   Subscribers should not attempt to identify any player's Steam ID or online identities,
   or to download the source demo file.
+  It may not be used to develop, train or test cheats.
 
 ## Distribution
 
