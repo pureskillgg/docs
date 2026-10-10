@@ -141,6 +141,8 @@ kills.
 
 ## Next
 
+- [How the Data Fits Together](./how-it-fits-together.md): ticks, rounds,
+  players and sides, and how to join events to positions.
 - [CSDS Spec](./spec.md): every channel and column.
 - [Enums](./enums.md): what the codes mean, from win reasons to weapons.
 - [Positions and View Angles](./coordinates.md): what `x`, `y`, `z`,
