@@ -40,8 +40,7 @@ next hackathon, school project, all the way to groundbreaking research.
 
 Anyone with a use case that adheres to the license.
 
-The full license is presented and agreed to when you subscribe to the data set,
-but it's basically the [CC BY-NC-SA 4.0] license, which means you
+The data is licensed under [CC BY-NC-SA 4.0], which means you
 may not use the data for commercial purposes, you must attribute PureSkill.gg,
 and you must use the same license for any derived work.
 
@@ -70,7 +69,8 @@ restore it.
 
 The [AWS Data Exchange], which is the cloud platform hosting the data set,
 requires users to subscribe for access to hosted data products.
-On subscribing, you must agree to our version of the [CC BY-NC-SA 4.0] license.
+On subscribing, you accept AWS's Data Subscriber Agreement; the data itself is
+licensed under [CC BY-NC-SA 4.0].
 The subscription to PureSkill.gg data is always free.
 
 ### Are you selling my data?
