@@ -1,6 +1,13 @@
-const config = {
+// remark-math and rehype-katex are ESM only, so the config is built in an async function
+const createConfig = async () => {
+  const remarkMath = (await import('remark-math')).default
+  const rehypeKatex = (await import('rehype-katex')).default
+  return config({ remarkMath, rehypeKatex })
+}
+
+const config = ({ remarkMath, rehypeKatex }) => ({
   title: 'PureSkill.gg Docs',
-  tagline: 'Beep Boop.',
+  tagline: 'Free, tick-level Counter-Strike 2 match data for research.',
   url: 'https://docs.pureskill.gg',
   baseUrl: '/',
   favicon: 'https://csgo.cdn.pureskill.app/17.2.0/favicon.ico',
@@ -41,6 +48,21 @@ const config = {
       },
       items: [
         {
+          to: '/datascience/',
+          label: 'Data Science',
+          position: 'left'
+        },
+        {
+          to: '/datascience/adx/cs2/csds/spec',
+          label: 'CSDS Spec',
+          position: 'left'
+        },
+        {
+          to: '/datascience/adx/cs2/csds/changelog',
+          label: 'Changelog',
+          position: 'left'
+        },
+        {
           href: 'https://pureskill.gg',
           label: 'Home',
           position: 'right'
@@ -80,6 +102,26 @@ const config = {
           to: 'https://pureskill.gg/discord'
         },
         {
+          label: 'YouTube',
+          to: 'https://www.youtube.com/channel/UCmgWqRfvuX94XwbuN9CEu_A'
+        },
+        {
+          label: 'LinkedIn',
+          to: 'https://www.linkedin.com/company/itspureskillgg'
+        },
+        {
+          label: 'Twitter',
+          to: 'https://twitter.com/itspureskillgg'
+        },
+        {
+          label: 'Facebook',
+          to: 'https://www.facebook.com/itspureskillgg'
+        },
+        {
+          label: 'Instagram',
+          to: 'https://www.instagram.com/itspureskillgg'
+        },
+        {
           label: 'Contact',
           to: 'mailto:contact@pureskill.gg'
         }
@@ -92,15 +134,20 @@ const config = {
       {
         docs: {
           routeBasePath: '/',
-          editUrl: 'https://github.com/pureskillgg/docs/tree/master/'
+          editUrl: 'https://github.com/pureskillgg/docs/tree/master/',
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex]
         },
         blog: false,
         theme: {
-          customCss: [require.resolve('./src/css/custom.css')]
+          customCss: [
+            require.resolve('./src/css/custom.css'),
+            require.resolve('katex/dist/katex.min.css')
+          ]
         }
       }
     ]
   ]
-}
+})
 
-module.exports = config
+module.exports = createConfig

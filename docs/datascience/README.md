@@ -19,9 +19,13 @@ replaced the game in 2023. Those revisions are no longer retained. The
 
 ### How can I get started?
 
-With [the tutorial][tutorial] you will learn how to do some real
-CS2 data science with data from the public data set.
-Once you complete the tutorial, you may use the same repository to bootstrap your own project!
+Start with the [Quickstart]: it takes you from an approved subscription to a
+query over a day of matches, in Python. [Getting the Data] explains how the
+data is delivered and laid out.
+
+[The tutorial][tutorial] is a longer course and a project skeleton you can
+build on. It was written for older data, and parts of it don't work with the
+data published now.
 
 ### Why are you doing this?
 
@@ -51,13 +55,16 @@ See the [Cost FAQ](#cost-faq) for details.
 
 ### How long is the data kept?
 
-About a year. A revision is published each day and revoked roughly twelve
-months later, so the data set holds a rolling window rather than a growing
-archive. As of 2026-08-27 it holds 365 daily revisions covering 2025-07-18
-onward.
+At least a year. A revision is published each day, and revisions more than
+about a year old are revoked and emptied in a batch about once a year, most
+recently in July 2026. So the data set holds a window of one to two years
+rather than a growing archive: about a year just after a prune, growing until
+the next. On 2026-10-09 it held 408 daily revisions covering 2025-07-19 onward.
 
 If you need a particular stretch of time, export it rather than assuming it
-will still be there. We do not keep a copy you can ask us to restore.
+will still be there. Pruned revisions are archived for our own records. If you
+have a good reason to need one back, [contact us][email] and we may be able to
+restore it.
 
 ### Why do I need to subscribe?
 
@@ -76,8 +83,9 @@ and for future improvements to Coach!
 ### Does this mean everyone will know how n00b I am?
 
 Nope! Not from here at least.
-All player data is [thoroughly anonymized][anonymization]:
-it is impossible to determine a player's identity, virtual or otherwise.
+Before a match is published, we remove or replace names, Steam IDs, chat and
+the other values listed on [PII Removal][pii removal], using
+[open source tooling][anonymization].
 
 ### Can I opt-out?
 
@@ -87,7 +95,7 @@ You may, however, ask for your account to be deleted,
 which will stop inclusion of future matches.
 
 Please note that even though your match data is
-in the data set, it is **not traceable back to your player identity**.
+in the data set, it carries **no name or account id** of yours.
 
 ### I have more questions?
 
@@ -177,10 +185,11 @@ data is stored as [Apache Parquet] with additional metadata in [JSON].
 > It provides efficient data compression and encoding schemes with enhanced performance to handle complex data in bulk.
 > Parquet is available in multiple languages including Java, C++, Python, etc...
 
-If you want to use another language, we still recommend starting with the [tutorial].
-This is the easiest way to download the data and create new tomes, which are just more Parquet and JSON files.
-Tomes are economical views of the data tailored for specific analyses, and you
-build them yourself from data you have exported.
+If you want to use another language, [Getting the Data] describes the files:
+each match's index object is gzipped JSON, and every channel is a Parquet file.
+Tomes, economical views of the data tailored for specific analyses, are more
+Parquet and JSON files, and you build them yourself from data you have
+exported.
 
 ## Cost FAQ
 
@@ -192,13 +201,13 @@ _FPS Critic Inc., owner of PureSkill.gg, is not liable for any AWS costs you inc
 We provide the measurements below for convenience,
 but we do not guarantee their accuracy or applicability to your AWS account.
 
-Measured on the production data set on 2026-08-27:
+Measured on the production data set on 2026-10-09:
 
-| What                      | How big                                                      |
-| ------------------------- | ------------------------------------------------------------ |
-| One match                 | about 35 MB across 43 objects                                |
-| One recent daily revision | 90 to 150 matches, roughly 3 to 5 GB, 4,000 to 6,500 objects |
-| The whole retained window | 365 daily revisions                                          |
+| What                      | How big                                                                                                                      |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| One match                 | about 10 MB across 43 objects if processed since 2026-10-06; 30 to 40 MB before 2026-10-05; about 26 MB on 2026-10-05, a mix |
+| One recent daily revision | usually 60 to 150 matches, roughly 0.6 to 1.5 GB in 2,500 to 6,500 objects; a few days hold over 1,000                       |
+| The whole retained window | 408 daily revisions, 37,881 matches, 1.37 TB; [Revision Stats][revision stats] has each day's size and count                 |
 
 Exporting from the AWS Data Exchange writes those objects into an S3 bucket you
 own, so you pay per object written and then for storing them. Pulling them out
@@ -217,8 +226,9 @@ Consider these steps:
 1. AWS has a free tier which
    may reduce or eliminate the cost to get started.
 2. **Skip `player_vector` and `player_status` unless you need per-tick
-   telemetry.** They are about 30 MB of a match's 35 MB. Every other channel put
-   together is under 2 MB, so a day without them costs roughly a tenth as much.
+   telemetry.** They are about 7 MB of a recent match's 10 MB. Every other
+   channel put together is under 3 MB, so leaving them out cuts the bytes by
+   about two thirds, though the object count barely changes.
 3. Estimate how much data you actually need by starting with one day.
    Remember that one revision is one day worth of data.
 4. Be careful when exporting a large number of revisions at once.
@@ -243,9 +253,14 @@ Consider these steps:
 [step 7 of the tutorial]: https://github.com/pureskillgg/makenew-pyskill/blob/master/notebooks/tutorial/7%20-%20Getting%20csds%20data%20from%20the%20ADX.ipynb
 [pureskill.gg competitive gameplay data set]: ./adx/cs2/csds/
 [tutorial]: https://github.com/pureskillgg/makenew-pyskill/blob/master/README.rst#-start-with-the-tutorial
+[quickstart]: ./adx/cs2/csds/quickstart.md
+[getting the data]: ./adx/cs2/csds/getting-the-data.md
 [cc by-nc-sa 4.0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
 [aws data exchange]: https://aws.amazon.com/data-exchange/
 [anonymization]: https://github.com/pureskillgg/csgo-dsdk/blob/master/pureskillgg_csgo_dsdk/scrubber/scrub_pii.py
+[pii removal]: ./adx/cs2/csds/pii-removal.md
+[revision stats]: ./adx/cs2/csds/revision-stats.md
+[email]: mailto:contact@pureskill.gg
 [apache parquet]: https://parquet.apache.org/
 [json]: https://www.json.org/
 [dsdk]: https://github.com/pureskillgg/dsdk
