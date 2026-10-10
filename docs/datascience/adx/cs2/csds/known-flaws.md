@@ -19,6 +19,15 @@ Since 2026-10-08 that includes many FACEIT matches. Tell them apart by
 `header.server_name`, which begins `FACEIT.com` for a match played on a FACEIT
 server.
 
+## Linking players across matches
+
+Player identities are replaced in each match, but player fingerprinting can
+link some players across matches, as a
+[master's thesis on fingerprinting CS2 players from demos][fingerprinting]
+shows. Such a link ties matches to the same unknown player; it doesn't reveal
+who they are, and trying to find out is not permitted by the license
+agreement.
+
 ## Duplicate matches
 
 A match's `id` is created each time a demo is processed, so a demo processed
@@ -58,3 +67,5 @@ not its processing (such as when it was processed, or by which versions).
 - **Older matches were processed by older versions of the pipeline.** The
   [changelog](./changelog.md) lists every change, and `header.rushb_version`
   and `header.ppp_version` say which versions built a match.
+
+[fingerprinting]: https://www.dexerto.com/counter-strike-2/cs2-player-writes-masters-thesis-on-how-to-ban-cheaters-forever-instead-of-just-accounts-3416037/

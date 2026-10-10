@@ -12,11 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - A CS2 CSDS page on positions and view angles: what x, y, z, `theta_ang` and `phi_ang` measure, with figures, and the formula for the angle between a player's view and any point. The spec links to it.
 - Render LaTeX maths in the docs with `remark-math` and `rehype-katex`.
 - A CS2 Datasheet page. The Datasheets for Datasets answers move there from the data set page, which keeps its data dictionary and glossary and links to it.
-- A CS2 Known Flaws page: matches uploaded by hand, duplicates, channels that can be empty, missing values, and what changed across the retained window.
 - A landing page at `/` in place of the markdown homepage: what the data set is, how to get it, every object in a match linked to its section of the spec, and the docs worth reading first.
 - A CS2 Quickstart page: subscribe, export a day to S3, download it, load a match with dsdk, add `player_vector`'s derived columns, and query a day through tomes. Every Python block was run on a copy of the 2026-10-07 revision.
 - A CS2 Getting the Data page: access, daily revisions and pruning, the dsdk export functions and the permissions they need, the file layout, the index object's fields (including `available`), match identity, and which date to use.
 - A CS2 Enums page: teams, win reasons, hit groups, weapon types, weapon and item codes (with a downloadable table), ranks, round phases, every channel's event types, bombsite ids and radar colours, read from the 1,752 matches published 2026-10-01 to 10-08.
+- A CS2 Known Flaws page: matches uploaded by hand, linking players across matches by fingerprinting, duplicates, channels that can be empty, missing values, and what changed across the retained window.
 
 ### Changed
 
