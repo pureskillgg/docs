@@ -41,7 +41,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Bring the CS2 spec, data dictionary and changelog pages up to date with parser 5.5.0 and 5.6.0 (2026-10-05): `grenade_id` in `grenade_vector`, `grenade_bounce` and `grenade_state`, and `grenade_vector.grenade_weapon_code` added; `grenade_vector.grenade_type_code` and `item_equip.def_index` removed.
 - Pin workflow runners to `ubuntu-24.04`.
 - Remove `player_vector`'s ten derived columns from the CS2 spec and dictionary (`second`, `x_vel`, `y_vel`, `z_vel`, `speed_2d`, `movement_angle`, `movement_angle_diff`, `phi_vel`, `theta_vel`, `ang_vel`): csgo-ppp stops storing them, and the spec says how to compute them on load with pureskillgg-csgo-dsdk.
 - Add the removal of `player_vector`'s ten derived columns to the CS2 CSDS changelog pages, marked breaking, dated by the converter 8.7.3 release.
@@ -51,21 +50,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Bring the CS2 spec, data dictionary and changelog pages up to date with parser 5.5.0 and 5.6.0 (2026-10-05): `grenade_id` in `grenade_vector`, `grenade_bounce` and `grenade_state`, and `grenade_vector.grenade_weapon_code` added; `grenade_vector.grenade_type_code` and `item_equip.def_index` removed.
 - Describe `player_vector.movement_angle` as csgo-ppp now writes it: null while standing still, where older matches stored 0, the same as moving along +x.
 
 ## 1.0.4 / 2026-10-05
 
 ### Changed
 
-- Bring the CS2 spec, data dictionary and changelog pages up to date with parser 5.5.0 and 5.6.0 (2026-10-05): `grenade_id` in `grenade_vector`, `grenade_bounce` and `grenade_state`, and `grenade_vector.grenade_weapon_code` added; `grenade_vector.grenade_type_code` and `item_equip.def_index` removed.
 - Describe `player_vector.movement_angle_diff` as csgo-ppp now writes it: the look-minus-move angle in -180 to 180, null while standing still, with its old -180 to 360 range and -1 listed for older matches.
 
 ## 1.0.3 / 2026-10-05
 
 ### Changed
 
-- Bring the CS2 spec, data dictionary and changelog pages up to date with parser 5.5.0 and 5.6.0 (2026-10-05): `grenade_id` in `grenade_vector`, `grenade_bounce` and `grenade_state`, and `grenade_vector.grenade_weapon_code` added; `grenade_vector.grenade_type_code` and `item_equip.def_index` removed.
 - Write "none" as null in the CS2 spec: the columns csgo-ppp now writes as null rather than a marker are nullable, with the old markers listed for readers of older matches, and `molotov_state.extinguisher_not_found` takes the place of the -2.
 
 ## 1.0.2 / 2026-10-04
@@ -76,7 +72,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Bring the CS2 spec, data dictionary and changelog pages up to date with parser 5.5.0 and 5.6.0 (2026-10-05): `grenade_id` in `grenade_vector`, `grenade_bounce` and `grenade_state`, and `grenade_vector.grenade_weapon_code` added; `grenade_vector.grenade_type_code` and `item_equip.def_index` removed.
 - Type the CS2 spec's merged player ids (`player_id_fixed`, `attacker_id_fixed`, `assister_id_fixed`) as integers in every channel, written as `int64` with nulls, and add `player_id` and `round` to the inputs of `player_vector`'s velocity columns, now differenced per player per round.
 
 ## 1.0.1 / 2026-10-04
@@ -89,7 +84,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Bring the CS2 spec, data dictionary and changelog pages up to date with parser 5.5.0 and 5.6.0 (2026-10-05): `grenade_id` in `grenade_vector`, `grenade_bounce` and `grenade_state`, and `grenade_vector.grenade_weapon_code` added; `grenade_vector.grenade_type_code` and `item_equip.def_index` removed.
 - Refresh the data science documentation and archive the pages it replaces.
   - Regenerate the CS2 `spec.md` and `csds_dictionary.csv`.
   - Update the dataset page and the Data Science FAQ.
@@ -100,7 +94,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Bring the CS2 spec, data dictionary and changelog pages up to date with parser 5.5.0 and 5.6.0 (2026-10-05): `grenade_id` in `grenade_vector`, `grenade_bounce` and `grenade_state`, and `grenade_vector.grenade_weapon_code` added; `grenade_vector.grenade_type_code` and `item_equip.def_index` removed.
 - Harden the deploy workflows.
 - Update GitHub Actions to Node.js 24 runtimes.
 
@@ -108,7 +101,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Bring the CS2 spec, data dictionary and changelog pages up to date with parser 5.5.0 and 5.6.0 (2026-10-05): `grenade_id` in `grenade_vector`, `grenade_bounce` and `grenade_state`, and `grenade_vector.grenade_weapon_code` added; `grenade_vector.grenade_type_code` and `item_equip.def_index` removed.
 - Upgrade Docusaurus 2-beta to 3 (MDX 3).
 - Upgrade `posthog-docusaurus` v1 to v2 and clear a Docusaurus v4 deprecation.
 - Fall back the PostHog `apiKey` to `phc_placeholder` so keyless builds succeed.
@@ -118,7 +110,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Bring the CS2 spec, data dictionary and changelog pages up to date with parser 5.5.0 and 5.6.0 (2026-10-05): `grenade_id` in `grenade_vector`, `grenade_bounce` and `grenade_state`, and `grenade_vector.grenade_weapon_code` added; `grenade_vector.grenade_type_code` and `item_equip.def_index` removed.
 - Modernize GitHub Actions workflows for current runners.
 - Replace the deprecated `JS-DevTools/npm-publish` action with a guarded `npm publish`.
 - Fix kebab-case GPG inputs in the `gh-pages` job.
