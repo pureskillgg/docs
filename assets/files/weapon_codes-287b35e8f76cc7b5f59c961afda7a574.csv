@@ -1,0 +1,68 @@
+code,name,type
+1,Desert Eagle,pistol
+2,Dual Berettas,pistol
+3,Five-SeveN,pistol
+4,Glock-18,pistol
+7,AK-47,rifle
+8,AUG,rifle
+9,AWP,sniper rifle
+10,FAMAS,rifle
+11,G3SG1,sniper rifle
+13,Galil AR,rifle
+14,M249,machine gun
+16,M4A4,rifle
+17,MAC-10,SMG
+19,P90,SMG
+23,MP5-SD,SMG
+24,UMP-45,SMG
+25,XM1014,shotgun
+26,PP-Bizon,SMG
+27,MAG-7,shotgun
+28,Negev,machine gun
+29,Sawed-Off,shotgun
+30,Tec-9,pistol
+31,Zeus x27,taser
+32,P2000,pistol
+33,MP7,SMG
+34,MP9,SMG
+35,Nova,shotgun
+36,P250,pistol
+38,SCAR-20,sniper rifle
+39,SG 553,rifle
+40,SSG 08,sniper rifle
+42,Knife (CT default),knife
+43,Flashbang,grenade
+44,HE Grenade,grenade
+45,Smoke Grenade,grenade
+46,Molotov,grenade
+47,Decoy Grenade,grenade
+48,Incendiary Grenade,grenade
+49,C4,C4
+50,Kevlar Vest,equipment
+51,Kevlar + Helmet,equipment
+55,Defuse Kit,equipment
+59,Knife (T default),knife
+60,M4A1-S,rifle
+61,USP-S,pistol
+63,CZ75-Auto,pistol
+64,R8 Revolver,pistol
+500,Bayonet,knife
+503,Classic Knife,knife
+505,Flip Knife,knife
+506,Gut Knife,knife
+507,Karambit,knife
+508,M9 Bayonet,knife
+509,Huntsman Knife,knife
+512,Falchion Knife,knife
+514,Bowie Knife,knife
+515,Butterfly Knife,knife
+516,Shadow Daggers,knife
+517,Paracord Knife,knife
+518,Survival Knife,knife
+519,Ursus Knife,knife
+520,Navaja Knife,knife
+521,Nomad Knife,knife
+522,Stiletto Knife,knife
+523,Talon Knife,knife
+525,Skeleton Knife,knife
+526,Kukri Knife,knife

@@ -107,6 +107,7 @@ attacker_team_code,INTEGER,,True,,Merged from another channel. Null where no sou
 round,INTEGER,,False,,,,,grenade_bounce,single_event
 tick,INTEGER,,False,,,,,grenade_bounce,single_event
 entity_id,INTEGER,,False,,,,,grenade_bounce,single_event
+grenade_id,INTEGER,,False,,,,,grenade_bounce,single_event
 player_id,INTEGER,,False,,,,,grenade_bounce,single_event
 bounce_nr,INTEGER,,False,,,,,grenade_bounce,single_event
 x_pos,DECIMAL,,False,,,,,grenade_bounce,single_event
@@ -118,6 +119,7 @@ round,INTEGER,,False,,,,,grenade_state,multi_event
 tick,INTEGER,,False,,,,,grenade_state,multi_event
 event_type,VARCHAR,,False,,,,,grenade_state,multi_event
 entity_id,INTEGER,,False,,,,,grenade_state,multi_event
+grenade_id,INTEGER,,True,,,,,grenade_state,multi_event
 player_id,INTEGER,,False,,,,,grenade_state,multi_event
 x_pos,DECIMAL,,False,,,,,grenade_state,multi_event
 y_pos,DECIMAL,,False,,,,,grenade_state,multi_event
@@ -139,8 +141,9 @@ player_team_code,INTEGER,,True,,Merged from another channel. Null where no sourc
 round,INTEGER,,False,,,,,grenade_vector,telemetry
 tick,INTEGER,,False,,,,,grenade_vector,telemetry
 entity_id,INTEGER,,False,,,,,grenade_vector,telemetry
+grenade_id,INTEGER,,False,,,,,grenade_vector,telemetry
 player_id,INTEGER,,False,,,,,grenade_vector,telemetry
-grenade_type_code,INTEGER,,False,,,,,grenade_vector,telemetry
+grenade_weapon_code,INTEGER,,True,,,,,grenade_vector,telemetry
 grenade_type,VARCHAR,,False,,,,,grenade_vector,telemetry
 x_pos,DECIMAL,,False,,,,,grenade_vector,telemetry
 y_pos,DECIMAL,,False,,,,,grenade_vector,telemetry
@@ -148,7 +151,6 @@ z_pos,DECIMAL,,False,,,,,grenade_vector,telemetry
 second,DECIMAL,,True,,,,,grenade_vector,telemetry
 player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,grenade_vector,telemetry
 magic,VARCHAR,,False,,,,,header,header
-network_protocol,INTEGER,,False,,,,,header,header
 server_name,VARCHAR,,False,,,,,header,header
 client_name,VARCHAR,,False,,,,,header,header
 map_name,VARCHAR,,False,,,,,header,header
@@ -164,6 +166,7 @@ game,VARCHAR,,True,,,,,header,header
 is_gotv_recording,BOOLEAN,,False,,,,,header,header
 is_wingman,BOOLEAN,,False,,,,,header,header
 max_unique_players,INTEGER,,False,,,,,header,header
+rank_type,INTEGER,,True,,,,,header,header
 tick_rate,INTEGER,,True,,,,,header,header
 tick_save_rate,INTEGER,,True,,,,,header,header
 rushb_version,VARCHAR,,True,,,,,header,header
@@ -208,7 +211,6 @@ round,INTEGER,,False,,,,,item_equip,single_event
 tick,INTEGER,,False,,,,,item_equip,single_event
 player_id,INTEGER,,False,,,,,item_equip,single_event
 item,VARCHAR,,False,,,,,item_equip,single_event
-def_index,INTEGER,,False,,,,,item_equip,single_event
 can_zoom,BOOLEAN,,False,,,,,item_equip,single_event
 has_silencer,BOOLEAN,,False,,,,,item_equip,single_event
 is_silenced,BOOLEAN,,False,,,,,item_equip,single_event
@@ -637,7 +639,7 @@ tick,INTEGER,,False,,,,,rank_update,single_event
 player_id,INTEGER,,False,,,,,rank_update,single_event
 rank_old,INTEGER,,False,,,,,rank_update,single_event
 rank_new,INTEGER,,False,,,,,rank_update,single_event
-rank_change,DECIMAL,,False,,,,,rank_update,single_event
+rank_change,INTEGER,,False,,,,,rank_update,single_event
 win_count,INTEGER,,False,,Values above 2500 are replaced with 2501.,,,rank_update,single_event
 second,DECIMAL,,True,,,,,rank_update,single_event
 player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,rank_update,single_event
