@@ -357,7 +357,6 @@ Event that triggers this channel: tick_end
 | Col Name                   | Type    | Nullable | Origin              | Dependents                                                                                       | Merge Keys |
 | -------------------------- | ------- | -------- | ------------------- | ------------------------------------------------------------------------------------------------ | ---------- |
 | magic                      | string  | False    | replay              |                                                                                                  |            |
-| network_protocol           | int64   | False    | replay              |                                                                                                  |            |
 | server_name                | string  | False    | replay              |                                                                                                  |            |
 | client_name                | string  | False    | replay              |                                                                                                  |            |
 | map_name                   | string  | False    | replay              |                                                                                                  |            |
@@ -373,6 +372,7 @@ Event that triggers this channel: tick_end
 | is_gotv_recording          | bool    | False    | replay              |                                                                                                  |            |
 | is_wingman                 | bool    | False    | replay              |                                                                                                  |            |
 | max_unique_players         | int64   | False    | replay              |                                                                                                  |            |
+| rank_type                  | int64   | True     | replay              |                                                                                                  |            |
 | tick_rate                  | int64   | True     | calculated          |                                                                                                  |            |
 | tick_save_rate             | int64   | True     | calculated          |                                                                                                  |            |
 | rushb_version              | string  | True     | calculated          | meta:metadata.rushbVersion                                                                       |            |
@@ -1006,7 +1006,7 @@ Event that triggers this channel: rank_update
 | player_id          | int64   | False    | replay        |                 |                            |
 | rank_old           | int64   | False    | replay        |                 |                            |
 | rank_new           | int64   | False    | replay        |                 |                            |
-| rank_change        | float64 | False    | replay        |                 |                            |
+| rank_change        | int64   | False    | replay        |                 |                            |
 | win_count          | int64   | False    | replay-capped |                 |                            |
 | second             | float64 | True     | calculated    | tick, tick_rate |                            |
 | player_id_fixed    | int64   | True     | merged        |                 | player_id, round, steam_id |

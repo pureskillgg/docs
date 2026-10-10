@@ -151,7 +151,6 @@ z_pos,DECIMAL,,False,,,,,grenade_vector,telemetry
 second,DECIMAL,,True,,,,,grenade_vector,telemetry
 player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,grenade_vector,telemetry
 magic,VARCHAR,,False,,,,,header,header
-network_protocol,INTEGER,,False,,,,,header,header
 server_name,VARCHAR,,False,,,,,header,header
 client_name,VARCHAR,,False,,,,,header,header
 map_name,VARCHAR,,False,,,,,header,header
@@ -167,6 +166,7 @@ game,VARCHAR,,True,,,,,header,header
 is_gotv_recording,BOOLEAN,,False,,,,,header,header
 is_wingman,BOOLEAN,,False,,,,,header,header
 max_unique_players,INTEGER,,False,,,,,header,header
+rank_type,INTEGER,,True,,,,,header,header
 tick_rate,INTEGER,,True,,,,,header,header
 tick_save_rate,INTEGER,,True,,,,,header,header
 rushb_version,VARCHAR,,True,,,,,header,header
@@ -639,7 +639,7 @@ tick,INTEGER,,False,,,,,rank_update,single_event
 player_id,INTEGER,,False,,,,,rank_update,single_event
 rank_old,INTEGER,,False,,,,,rank_update,single_event
 rank_new,INTEGER,,False,,,,,rank_update,single_event
-rank_change,DECIMAL,,False,,,,,rank_update,single_event
+rank_change,INTEGER,,False,,,,,rank_update,single_event
 win_count,INTEGER,,False,,Values above 2500 are replaced with 2501.,,,rank_update,single_event
 second,DECIMAL,,True,,,,,rank_update,single_event
 player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,rank_update,single_event

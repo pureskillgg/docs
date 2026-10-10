@@ -39,6 +39,7 @@ Dates are the day (UTC) a change reached production.
 ## bomb_action
 
 - **2026-10-06**, types changed: `event_type`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
+- **2026-10-05**, fixes: `player_id`. Set on `bomb_pickup` rows. It was null on all of them, so those rows joined to no player and carried no player position.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 
@@ -61,6 +62,7 @@ Dates are the day (UTC) a change reached production.
 
 ## bullet_damage
 
+- **2026-10-05**, fixes: `num_penetrations`. Counts the surfaces the bullet went through. It was 0 on every row.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-03**, channel added. Per-bullet detail for each `player_hurt`: distance, damage direction, penetrations, and no-scope and in-air flags. Valve matchmaking demos only.
@@ -92,6 +94,8 @@ Dates are the day (UTC) a change reached production.
 ## header
 
 - **2026-10-06**, types changed: `bomb_time`, `ppp_version`, `rushb_version`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
+- **2026-10-05**, column added: `rank_type`. The ladder the match was played on (int64), the rank type its players carry: 7 Wingman, 11 Premier, 12 Competitive; 0 when nobody is ranked; -1 off Valve's ladders, as on FACEIT. Null when the demo has no player information.
+- **2026-10-05**, column removed: `network_protocol`. It was 1234 in every match, a fixed value rather than the demo's.
 - **2026-10-03**, values changed: `t_starters_avg_rank`, `ct_starters_avg_rank`, `t_starters_avg_wins`, `ct_starters_avg_wins`. Averaged over the first half's players only, rounds up to `max_rounds / 2` (12, or 8 in Wingman). Before, CS:GO's 15-round half was used, which mixed in the other team's players, so both teams often got the same average. A team with no players is now null instead of -1.
 - **2026-10-03**, values changed: `t_starters_score_final`, `ct_starters_score_final`. Each starting team's own final score, followed through the half-time and overtime side swaps. Before, it was the larger of the side scores, which could give a team the other team's score.
 - **2026-10-03**, values changed: `tick_save_rate`. Now 64, since every tick is kept. It was a fixed 21 that did not describe the data.
@@ -271,6 +275,7 @@ Dates are the day (UTC) a change reached production.
 
 ## rank_update
 
+- **2026-10-05**, types changed: `rank_change`. An integer (int64), like `rank_old` and `rank_new`. Before, a double holding whole numbers.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-03**, channel added. Rank changes at the end of the match, official matchmaking only. `win_count` above 2500 is published as 2501, as `player_info.wins` is.
