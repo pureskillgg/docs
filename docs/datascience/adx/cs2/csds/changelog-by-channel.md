@@ -135,7 +135,7 @@ Dates are the day (UTC) a change reached production.
 
 ## molotov_state
 
-- **2026-10-06**, types changed: `was_extinguished_by_smoke`, `was_extinguished_by_thrown_smoke`, `was_thrown_into_smoke`. Booleans, not 0 and 1. The three `molotov_state` flags describe a burn, so they are null, not 0, on every row but `inferno_startburn`.
+- **2026-10-06**, types changed: `was_extinguished_by_smoke`, `was_extinguished_by_thrown_smoke`, `was_thrown_into_smoke`. Booleans, not 0 and 1. They describe a burn, so they are null, not 0, on every row but `inferno_startburn`.
 - **2026-10-05**, column added: `extinguisher_not_found`. True where the fire ended early but no smoke was near enough to credit (bool). Before, `extinguisher_id`, `extinguisher_id_fixed`, `smoke_entity_id` and `smoke_entity_id_fixed` held -2 there.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-10-05**, values changed: `player_id`, `player_id_fixed`, `tick_throw`, `burn_duration`. Null, not -1, where no thrower was found: every `inferno_expire` row, and a round whose throws and fires don't pair up. `burn_duration` is null on `inferno_expire` rows; every start row still has one. Declared nullable.
@@ -326,7 +326,7 @@ Dates are the day (UTC) a change reached production.
 
 ## weapon_fire
 
-- **2026-10-06**, types changed: `missed_molotov`. Booleans, not 0 and 1. The three `molotov_state` flags describe a burn, so they are null, not 0, on every row but `inferno_startburn`.
+- **2026-10-06**, types changed: `missed_molotov`. A boolean, not 0 and 1.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 

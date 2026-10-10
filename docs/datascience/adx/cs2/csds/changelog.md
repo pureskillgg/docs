@@ -35,7 +35,8 @@ _Converter 8.7.3 and 8.7.4._
 
 **Types changed**
 
-- `weapon_fire.missed_molotov`, `molotov_state.was_extinguished_by_smoke`, `molotov_state.was_extinguished_by_thrown_smoke`, `molotov_state.was_thrown_into_smoke`: Booleans, not 0 and 1. The three `molotov_state` flags describe a burn, so they are null, not 0, on every row but `inferno_startburn`.
+- `weapon_fire.missed_molotov`: A boolean, not 0 and 1.
+- `molotov_state.was_extinguished_by_smoke`, `molotov_state.was_extinguished_by_thrown_smoke`, `molotov_state.was_thrown_into_smoke`: Booleans, not 0 and 1. They describe a burn, so they are null, not 0, on every row but `inferno_startburn`.
 - `player_name.name_new`, `player_name.name_old`, `other_death.other_type`, `other_death.weapon_name`, `player_chat.text`, `player_disconnect.disconnect_reason`, `bomb_action.event_type`, `bomb_defuse.event_type`, `bomb_state.event_type`, `header.bomb_time`, `header.ppp_version`, `header.rushb_version`: Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 
 **Index object**
