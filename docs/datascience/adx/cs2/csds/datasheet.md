@@ -75,7 +75,7 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   Player identities are replaced in each match, so telling whether a player
   in one match is the same as a player in another is very difficult. It is
   possible with player fingerprinting, as a
-  [master's thesis on fingerprinting CS2 players from demos][fingerprinting]
+  [thesis on identifying Counter-Strike players by their mouse movement in demos][fingerprinting]
   shows. A link like that ties matches to the same unknown player; finding that
   player's actual profile or identity would still be hard, and trying is not
   permitted by the license agreement. Nothing in the data says which player is
@@ -350,4 +350,4 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 [terms of service]: https://pureskill.gg/site-terms/
 [privacy policy]: https://pureskill.gg/privacy-policy/
 [analyzing the differences between professional and amateur esports through win probability]: https://dl.acm.org/doi/abs/10.1145/3485447.3512277
-[fingerprinting]: https://www.dexerto.com/counter-strike-2/cs2-player-writes-masters-thesis-on-how-to-ban-cheaters-forever-instead-of-just-accounts-3416037/
+[fingerprinting]: https://digital.ub.uni-paderborn.de/hs/content/titleinfo/8205986/full.pdf
