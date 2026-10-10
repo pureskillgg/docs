@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - A CS2 Known Flaws page: matches uploaded by hand, linking players across matches by fingerprinting, `item_equip` item names and codes, duplicates, channels that can be empty, missing values, and what changed across the retained window.
 - A CS2 Quickstart page: subscribe, export a day to S3, download it, load a match with dsdk, add `player_vector`'s derived columns, and query a day through tomes. Every Python block was run on a copy of the 2026-10-07 revision.
 - A CS2 Getting the Data page: access, daily revisions and pruning, the dsdk export functions and the permissions they need, the file layout, the index object's fields (including `available`), match identity, and which date to use.
+- A CS2 Enums page: teams, win reasons, hit groups, weapon types, weapon and item codes (with a downloadable table), ranks, round phases, every channel's event types, bombsite ids and radar colours, read from the 1,752 matches published 2026-10-01 to 10-08.
 
 ### Changed
 

@@ -132,6 +132,7 @@ kills.
 ## Next
 
 - [CSDS Spec](./spec.md): every channel and column.
+- [Enums](./enums.md): what the codes mean, from win reasons to weapons.
 - [Positions and View Angles](./coordinates.md): what `x`, `y`, `z`,
   `theta_ang` and `phi_ang` measure.
 - [Changelog](./changelog.md): what changed in the data, and when.
