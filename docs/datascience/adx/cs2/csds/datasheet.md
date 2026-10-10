@@ -14,7 +14,7 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 - **For what purpose was the dataset created?**
   For education and machine learning research.
   Gameplay data from video games provide a fun and relevant way to learn statistics, programming, and more. Though no specific machine learning problem is defined here,
-  we provide [open source tooling][makenew-pyskill] to create baseline datasets
+  we provide [open source tooling][pureskillgg github] to create baseline datasets
   that can include some target for supervised learning or an objective for unsupervised learning.
   Some example machine learning problems include:
   clustering how items are used, building win probability models,
@@ -22,33 +22,27 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   and finding optimal pathing.
 
 - **Who created the dataset and on behalf of which entity?**
-  Ethan Batson, William Robert Freeman, and Evan Sosenko for FPS Critic, Inc.,
-  which produces PureSkill.gg.
+  The [PureSkill.gg team][team], for FPS Critic, Inc., which produces
+  PureSkill.gg.
 
 - **Who funded the creation of the dataset?**
   FPS Critic, Inc. who produces PureSkill.gg.
 
 - **Any other comments?**
-  If you would like to use the dataset for a different purpose,
-  please reach out to [contact@pureskill.gg][email] or contact us on [Discord].
+  No.
 
 ## Composition
 
 - **What do the instances that comprise the dataset represent?**
   Parsed and processed individual matches of CS2.
   Warmup, knife and drawn rounds are removed, so round 1 is the first live
-  round.
+  round. Personal information is removed as well as we can; see
+  [PII Removal](./pii-removal.md).
 
 - **How many instances are there in total?**
-  Each daily revision holds the matches processed that day. On 2026-10-09 the
-  408 revisions that could still be exported held 37,881 matches.
-  Most recent revisions hold 60 to 150 matches. A few hold far more: the day
-  after a pipeline outage, or a day when many matches were uploaded at once
-  (more than 1,100 on 2026-10-08 and on 2026-10-09).
-  [Revision Stats](./revision-stats.md) counts every revision.
-  A match processed since 2026-10-06 takes about 10 MB across its 43 objects,
-  so a typical day is around 1 GB. Matches processed before 2026-10-05 take 30
-  to 40 MB.
+  Each daily revision holds the matches processed that day.
+  [Revision Stats](./revision-stats.md) gives the matches, files and size of
+  every revision.
 
 - **Does the dataset contain all possible instances or is it a sample of instances from a larger set?**
   It holds every match PureSkill.gg processed successfully; matches that failed
@@ -57,67 +51,48 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   Valve publishes concurrent player counts on the [Steam most played chart][cs2 chart].
 
 - **What data does each instance consist of?**
-  CS2 demo files are [parsed][demoinfocs-golang] and saved as 42 separate channels.
+  We extract the data from CS2 demo files with our own processing, and save it
+  as 42 separate channels.
   The collection of these channels for a match is called csds.
   Our open source libraries [dsdk] and [csgo-dsdk] read and work with the csds
   data.
 
 - **Is there a label or target associated with each instance?**
-  No, however we provide an open source tool called [makenew-pyskill]
-  to easily create a view of these matches with a target for machine learning prediction in mind.
+  No. There are many possible machine learning projects with the data, and a
+  target is whatever the user defines for theirs. We note that player rank is
+  available and often useful, including for unsupervised tasks.
 
 - **Is any information missing from individual instances?**
-  We are always improving our processing pipeline,
-  and some matches may have been processed using older versions of certain programs.
-  Notably, older matches from the FACEIT platform are missing information about player ranks.
-
-  The channel set also changed during the retained window. Revisions through
-  2026-08-02 carry 30 channels rather than 42, and the 2026-08-03 revision holds
-  a mix. Fourteen channels were added: `bullet_damage`, `grenade_bounce`,
-  `grenade_vector`, `item_dropped`, `item_refund`, `molotov_fire`,
-  `player_chat`, `player_connect`, `player_inputs`, `player_sound`,
-  `rank_update`, `score_update`, `team_change` and `world_item_vector`.
-  Two were removed: `item_remove` and `player_action`.
-  Read each match's `csds` index object rather than assuming a fixed channel
-  list.
-
-  Some channels are empty in some matches:
-
-  - Servers that restrict what their recording broadcasts, as tournament
-    servers do, leave `player_blind`, `player_footstep`, `item_equip` and
-    `weapon_action` empty; the rest of the match is complete.
-  - `player_inputs` is empty on servers that don't send button states.
-  - `player_vector` and `player_status` have rows only for living players.
-
-  Since 2026-10-06, `player_vector` no longer stores its ten derived columns;
-  they are computed on load, as the [spec](./spec.md) describes.
+  Sometimes. We are always improving our processing pipeline, so older matches
+  were processed by older versions of it, and some channels are empty in some
+  matches. [Known Flaws](./known-flaws.md) lists what to watch for, and the
+  [changelog](./changelog.md) lists every change to the data and when it
+  reached production.
 
 - **Are relationships between individual instances made explicit?**
-  Since we have anonymized player data,
-  it is not possible to tell if a player in one match is the same as a player in a different match.
-  However, since all the data were uploaded by PureSkill.gg users, an individual may appear in many matches. It is not possible to tell who the PureSkill.gg user is with the data provided.
+  Not explicitly, but they exist: many matches come from the same player, or
+  the same group of players queueing together.
+  Player identities are replaced in each match, so it is not possible to tell
+  whether a player in one match is the same as a player in another, or which
+  player is the PureSkill.gg user.
 
 - **Are there recommended data splits?**
-  No, however we provide an open source tool called [makenew-pyskill]
-  to easily create a view of these matches with a target for machine learning prediction.
-  One can split the data however appropriate for the task at hand.
+  Yes: we strongly recommend splitting by match. Rows from one match share
+  players, rounds and moments, so a match with rows in both the training and
+  the test data leaks information between them.
 
 - **Are there any errors, sources of noise, or redundancies in the dataset?**
   There may be duplicate matches. A match's `id` is created each time a demo
   is processed, so a demo processed twice, for example one uploaded by two
-  users, appears twice with different ids. Find duplicates by comparing
-  `header` columns such as `map_name`, `server_name`, `build_num` and the
-  final scores (`t_starters_score_final`, `ct_starters_score_final`).
-
-  A match uploaded by hand has `platform` `unknown`, and its `match_date` is
-  when it was processed, not when it was played. Since 2026-10-08 that
-  includes many FACEIT matches; their `server_name` begins `FACEIT.com`.
+  users, appears twice with different ids. Find duplicates by comparing their
+  `header` entries.
 
   Within matches, there may be missing events. These are generally rare and
   non-disruptive, but could interfere with some calculations.
   Any problematic matches can be skipped for most use cases.
-  Values the pipeline got wrong and later fixed are listed, with the date of
-  each fix, in the [changelog](./changelog.md).
+  [Known Flaws](./known-flaws.md) lists the others we know of. Values the
+  pipeline got wrong and later fixed are listed, with the date of each fix, in
+  the [changelog](./changelog.md).
 
 - **Is the dataset self-contained, or does it link to or otherwise rely on external resources?**
   Within the dataset, we do not link to external resources.
@@ -171,20 +146,27 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   `providence` (`auto`, `user` or `adhoc`, which is a manual upload).
   A manual upload has `platform` `unknown`, and since we don't know when it was
   played, its `match_date` is when it was processed.
-  From the [Steam help page on API connections] (requires login):
+  A manually uploaded match may include no PureSkill.gg user at all: users
+  often upload professional matches they are curious about.
+
+  Valve built this access for third-party services like ours. Steam's own
+  [help page on API connections][steam help page on api connections] (requires
+  login) says:
 
   > You can create game authentication codes to allow third-party websites and applications to manage your game without running the actual game client. Third-party websites and applications can use this authentication code to access your match history, your overall performance in those matches, download replays of your matches, and analyze your gameplay.
 
 - **What mechanisms or procedures were used to collect the data?**
   The CS2 server records a stream of events from every player and game element into a demo.
   We then collect the demo file through the APIs described above or through manual upload.
+  We read the demo with the open source [demoinfocs-golang] library as a first
+  step, then run our own processing steps on what it reads.
 
 - **If the dataset is a sample from a larger set, what was the sampling strategy?**
   It is every match we processed successfully. Matches come from PureSkill.gg
   users who connect their accounts or upload demos, and ingestion limits
   apply, so it is not guaranteed to be an unbiased sample of CS2 matches.
-  This is mitigated by the fact that generally the 9 other players
-  in a 10 player match are not PureSkill.gg users.
+  The bias is smaller than it sounds: a match usually has one PureSkill.gg
+  user in it, and the other nine players are not users.
 
 - **Who was involved in the data collection process and how were they compensated?**
   The data was collected through users of the website PureSkill.gg.
@@ -229,16 +211,19 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   values listed on [PII Removal](./pii-removal.md) are removed or replaced
   before publication.
   Any attempts to identify people, players' Steam IDs, or online identities
-  are not permitted.
+  are not permitted by the license agreement.
 
 ## Preprocessing, Cleaning, and Labeling
 
 - **Was any preprocessing/cleaning/labeling of the data done?**
   Raw CS2 demo files are event streams.
-  Our [parser][demoinfocs-golang] turns a demo into what we call a replay, and a
-  converter builds the channels from it. The converter removes warmup, knife
-  and drawn rounds, drops duplicate rows, merges each event's player positions
-  in from `player_vector`, computes derived columns, and fixes known errors.
+  The open source [demoinfocs-golang] library is the tool we read them with: it
+  listens to a demo's events and hands each one on. Which events we listen
+  to, and what we extract from each, is our own proprietary extraction, and it
+  turns a demo into what we call a replay. A converter then builds the channels
+  from the replay: it removes warmup, knife and drawn rounds, drops duplicate
+  rows, merges each event's player positions in from `player_vector`, computes
+  derived columns, and fixes known errors.
   The [changelog](./changelog.md) lists every change to these steps.
 
 - **Was the "raw" data saved in addition to the preprocessed/cleaned/labeled data?**
@@ -248,7 +233,7 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 
 - **Is the software used to preprocess/clean/label the instances available?**
   The scrubber that removes personal information is open source, in
-  [csgo-dsdk][pii_remover]. The parser and converter are not public.
+  [csgo-dsdk][pii_remover]. Our extraction and processing code is proprietary.
 
 ## Uses
 
@@ -346,7 +331,8 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 [discord]: https://pureskill.gg/discord
 [email]: mailto:contact@pureskill.gg
 [datasheets for datasets]: https://arxiv.org/abs/1803.09010
-[makenew-pyskill]: https://github.com/pureskillgg/makenew-pyskill
+[pureskillgg github]: https://github.com/pureskillgg
+[team]: https://pureskill.gg/our-team/
 [dsdk]: https://github.com/pureskillgg/dsdk
 [csgo-dsdk]: https://github.com/pureskillgg/csgo-dsdk
 [datascience-showcase]: https://github.com/pureskillgg/datascience-showcase
