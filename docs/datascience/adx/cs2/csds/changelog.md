@@ -25,17 +25,31 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
-## 2026-10-05
+## 2026-10-06
 
-_Parser 5.4.1 to 5.6.0 and converter 8.5.4 to 8.7.1; converter 8.7.3 about the same day._
-
-**Columns added**
-
-- `molotov_state.extinguisher_not_found`: True where the fire ended early but no smoke was near enough to credit (bool). Before, `extinguisher_id`, `extinguisher_id_fixed`, `smoke_entity_id` and `smoke_entity_id_fixed` held -2 there.
+_Converter 8.7.3 and 8.7.4._
 
 **Columns removed**
 
 - `player_vector.second`, `player_vector.x_vel`, `player_vector.y_vel`, `player_vector.z_vel`, `player_vector.speed_2d`, `player_vector.movement_angle`, `player_vector.movement_angle_diff`, `player_vector.phi_vel`, `player_vector.theta_vel`, `player_vector.ang_vel`: **Breaking:** these ten columns are no longer stored, so code that reads them from `player_vector` breaks. Each was computed from other columns, and together they were most of the file, which is now under a third of its size. Compute them on load with [pureskillgg-csgo-dsdk](https://pypi.org/project/pureskillgg-csgo-dsdk/) 3.3.1 or later: `add_player_vector_derived_columns(df)` adds all ten, from the columns that `player_vector_source_columns()` lists (`tick`, `round`, `player_id`, the positions and the angles). The index still lists the ten, with origin `calculated-deleted`.
+
+**Types changed**
+
+- `weapon_fire.missed_molotov`: A boolean, not 0 and 1.
+- `molotov_state.was_extinguished_by_smoke`, `molotov_state.was_extinguished_by_thrown_smoke`, `molotov_state.was_thrown_into_smoke`: Booleans, not 0 and 1. They describe a burn, so they are null, not 0, on every row but `inferno_startburn`.
+- `player_name.name_new`, `player_name.name_old`, `other_death.other_type`, `other_death.weapon_name`, `player_chat.text`, `player_disconnect.disconnect_reason`, `bomb_action.event_type`, `bomb_defuse.event_type`, `bomb_state.event_type`, `header.bomb_time`, `header.ppp_version`, `header.rushb_version`: Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
+
+**Index object**
+
+- Every column's entry gives the type it is written as and whether it can be null, and every merged and calculated column is declared nullable. Before, most columns declared a narrower type than the one written (`int32`, `float32`) or one with no width (`int`), and merged and calculated columns declared neither.
+
+## 2026-10-05
+
+_Parser 5.4.1 to 5.6.0 and converter 8.5.4 to 8.7.1._
+
+**Columns added**
+
+- `molotov_state.extinguisher_not_found`: True where the fire ended early but no smoke was near enough to credit (bool). Before, `extinguisher_id`, `extinguisher_id_fixed`, `smoke_entity_id` and `smoke_entity_id_fixed` held -2 there.
 
 **Types changed**
 

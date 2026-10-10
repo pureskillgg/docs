@@ -31,22 +31,26 @@ Dates are the day (UTC) a change reached production.
 
 ## Index object
 
+- **2026-10-06**, index object. Every column's entry gives the type it is written as and whether it can be null, and every merged and calculated column is declared nullable. Before, most columns declared a narrower type than the one written (`int32`, `float32`) or one with no width (`int`), and merged and calculated columns declared neither.
 - **2026-09-07**, index object. The `tick` channel's category is now `telemetry` (was `single_event`).
 - **2026-08-22**, index object. The index stops listing 62 columns that were never written. They are the header's `protocol`, `playback_time`, `playback_ticks`, `playback_frames`, `signon_length` and `second`, and the `player_tick` and `player_player_id` entries (and their `attacker_` and `assister_` forms) in 21 event channels. Duplicate entries are gone too: `player_vector`'s velocities, `round_state.second` and several header columns.
 - **2026-08-03**, index object. A channel entry can carry `available`. False means the demo did not carry that data, so an empty channel means "not recorded" rather than "nothing happened". It is set on `bot_takeover`, `bullet_damage`, `player_inputs`, `player_sound`, `rank_update` and `round_mvp`.
 
 ## bomb_action
 
+- **2026-10-06**, types changed: `event_type`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 
 ## bomb_defuse
 
+- **2026-10-06**, types changed: `event_type`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-22**, types changed: `has_kit`. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.
 
 ## bomb_state
 
+- **2026-10-06**, types changed: `event_type`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 
 ## bot_takeover
@@ -82,6 +86,7 @@ Dates are the day (UTC) a change reached production.
 
 ## header
 
+- **2026-10-06**, types changed: `bomb_time`, `ppp_version`, `rushb_version`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 - **2026-10-03**, values changed: `t_starters_avg_rank`, `ct_starters_avg_rank`, `t_starters_avg_wins`, `ct_starters_avg_wins`. Averaged over the first half's players only, rounds up to `max_rounds / 2` (12, or 8 in Wingman). Before, CS:GO's 15-round half was used, which mixed in the other team's players, so both teams often got the same average. A team with no players is now null instead of -1.
 - **2026-10-03**, values changed: `t_starters_score_final`, `ct_starters_score_final`. Each starting team's own final score, followed through the half-time and overtime side swaps. Before, it was the larger of the side scores, which could give a team the other team's score.
 - **2026-10-03**, values changed: `tick_save_rate`. Now 64, since every tick is kept. It was a fixed 21 that did not describe the data.
@@ -130,6 +135,7 @@ Dates are the day (UTC) a change reached production.
 
 ## molotov_state
 
+- **2026-10-06**, types changed: `was_extinguished_by_smoke`, `was_extinguished_by_thrown_smoke`, `was_thrown_into_smoke`. Booleans, not 0 and 1. They describe a burn, so they are null, not 0, on every row but `inferno_startburn`.
 - **2026-10-05**, column added: `extinguisher_not_found`. True where the fire ended early but no smoke was near enough to credit (bool). Before, `extinguisher_id`, `extinguisher_id_fixed`, `smoke_entity_id` and `smoke_entity_id_fixed` held -2 there.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-10-05**, values changed: `player_id`, `player_id_fixed`, `tick_throw`, `burn_duration`. Null, not -1, where no thrower was found: every `inferno_expire` row, and a round whose throws and fires don't pair up. `burn_duration` is null on `inferno_expire` rows; every start row still has one. Declared nullable.
@@ -143,6 +149,7 @@ Dates are the day (UTC) a change reached production.
 
 ## other_death
 
+- **2026-10-06**, types changed: `other_type`, `weapon_name`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-10-05**, values changed: `attacker_id`, `attacker_id_fixed`. Null where there is no attacker or assister, not 65535. Declared nullable.
 - **2026-08-22**, types changed: `is_attacker_blind`, `is_noscope`, `is_through_smoke`. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.
@@ -160,6 +167,7 @@ Dates are the day (UTC) a change reached production.
 
 ## player_chat
 
+- **2026-10-06**, types changed: `text`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-22**, types changed: `is_chat_all`. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.
@@ -179,6 +187,7 @@ Dates are the day (UTC) a change reached production.
 
 ## player_disconnect
 
+- **2026-10-06**, types changed: `disconnect_reason`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 
 ## player_footstep
@@ -211,6 +220,7 @@ Dates are the day (UTC) a change reached production.
 
 ## player_name
 
+- **2026-10-06**, types changed: `name_new`, `name_old`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 - **2026-08-03**, values changed. Records name changes. It had no rows in any CS2 data before.
 
 ## player_personal
@@ -242,10 +252,10 @@ Dates are the day (UTC) a change reached production.
 
 ## player_vector
 
+- **2026-10-06**, columns removed: `second`, `x_vel`, `y_vel`, `z_vel`, `speed_2d`, `movement_angle`, `movement_angle_diff`, `phi_vel`, `theta_vel`, `ang_vel`. **Breaking:** these ten columns are no longer stored, so code that reads them from `player_vector` breaks. Each was computed from other columns, and together they were most of the file, which is now under a third of its size. Compute them on load with [pureskillgg-csgo-dsdk](https://pypi.org/project/pureskillgg-csgo-dsdk/) 3.3.1 or later: `add_player_vector_derived_columns(df)` adds all ten, from the columns that `player_vector_source_columns()` lists (`tick`, `round`, `player_id`, the positions and the angles). The index still lists the ten, with origin `calculated-deleted`.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed: `x_vel`, `y_vel`, `z_vel`, `theta_vel`, `phi_vel`, `ang_vel`, `speed_2d`, `movement_angle`. Computed per player per round, so a player's first sample in each round is 0. Before, positions and view angles were differenced across rounds, and a respawn read as a jump, as much as 365,000 units a second in our test matches. A velocity component over 3,500 within a round, the game's `sv_maxvelocity`, is taken as a teleport and reads 0. `speed_2d`, `movement_angle` and `ang_vel` follow from these.
 - **2026-10-05**, values changed: `movement_angle_diff`. The angle between where the player looks (`theta_ang`) and where they move, in -180 to 180: 0 moving the way they look, ±90 sideways, ±180 backwards, and null while standing still. Before, it was `theta_ang` minus `movement_angle` with 360 added once to a negative result, so it ran from -180 to 360, the same angle could read 350 or -10, and standing still read -1.
-- **About 2026-10-05**, columns removed: `second`, `x_vel`, `y_vel`, `z_vel`, `speed_2d`, `movement_angle`, `movement_angle_diff`, `phi_vel`, `theta_vel`, `ang_vel`. **Breaking:** these ten columns are no longer stored, so code that reads them from `player_vector` breaks. Each was computed from other columns, and together they were most of the file, which is now under a third of its size. Compute them on load with [pureskillgg-csgo-dsdk](https://pypi.org/project/pureskillgg-csgo-dsdk/) 3.3.1 or later: `add_player_vector_derived_columns(df)` adds all ten, from the columns that `player_vector_source_columns()` lists (`tick`, `round`, `player_id`, the positions and the angles). The index still lists the ten, with origin `calculated-deleted`.
 - **2026-08-22**, column removed: `second_diff`. Internal working columns that were written but never listed in the index.
 - **2026-08-22**, column removed: `__index_level_0__`. A leftover row-number column, never listed in the index, is gone from the last two channels that still had it.
 - **2026-08-22**, index object. The index stops listing 62 columns that were never written. They are the header's `protocol`, `playback_time`, `playback_ticks`, `playback_frames`, `signon_length` and `second`, and the `player_tick` and `player_player_id` entries (and their `attacker_` and `assister_` forms) in 21 event channels. Duplicate entries are gone too: `player_vector`'s velocities, `round_state.second` and several header columns.
@@ -316,6 +326,7 @@ Dates are the day (UTC) a change reached production.
 
 ## weapon_fire
 
+- **2026-10-06**, types changed: `missed_molotov`. A boolean, not 0 and 1.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 

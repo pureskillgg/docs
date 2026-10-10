@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - Refresh the CS2 Revision Stats page through the 2026-10-09 revision: 408 revisions, 37,881 matches, 1.37 TB.
 - Add a size per match column to the CS2 Revision Stats page.
+- Add a data change column to the CS2 Revision Stats page, linking each revision to the changelog entries it is the first to carry.
+- Date the removal of `player_vector`'s ten derived columns 2026-10-06, the day converter 8.7.3 reached production, not about 2026-10-05.
+- Add converter 8.7.4's changes to the CS2 CSDS changelog pages, dated 2026-10-06: the molotov flags as booleans, empty columns written at their own type, and the index object declaring every column's written type and nullability.
 
 ## 1.0.6
 
