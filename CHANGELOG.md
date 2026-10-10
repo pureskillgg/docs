@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- The data is licensed under CC BY-NC-SA 4.0. The CS2 data set page, datasheet, Getting the Data and the FAQ no longer call the Data Subscriber Agreement the license.
 - CS2 datasheet, from the ethics review: some players can be linked across matches, the data almost certainly includes players under 18, the Terms of Service don't mention the data set, and it may not be used for cheats.
 - Link Data Science, the CSDS Spec and the Changelog from the navbar, move the social links into the footer, and replace the "Beep Boop." tagline.
 - Link the Known Flaws and Datasheet pages from the homepage's Explore the docs cards.

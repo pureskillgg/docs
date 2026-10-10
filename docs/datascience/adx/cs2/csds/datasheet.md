@@ -270,7 +270,7 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   rather than assuming one schema.
 
 - **Are there tasks for which the dataset should not be used?**
-  It should not be used in any manner that is against the DSA, including but not limited to commercial use and releasing transformed data without attribution.
+  It should not be used in any manner that is against the license, including but not limited to commercial use and releasing transformed data without attribution.
   Subscribers should not attempt to identify any player's Steam ID or online identities,
   or to download the source demo file.
   It may not be used to develop, train or test cheats.
@@ -282,8 +282,7 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 
 - **How will the dataset be distributed?**
   The data will be distributed on the ADX.
-  The license permits sharing modified versions of the dataset under a specific license.
-  See the DSA for details.
+  The license, [CC BY-NC-SA 4.0][cc by-nc-sa 4.0], permits sharing modified versions of the dataset under the same license.
 
 - **When will the dataset be distributed?**
   It has been distributed since 2022-05-17, through a one-month subscription
@@ -292,9 +291,8 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   every revision still retained carries CS2 data.
 
 - **Will the dataset be distributed under a copyright or other intellectual property license, and/or under applicable terms of use?**
-  Yes, under the DSA, which has similar terms to the
+  Yes, under the
   [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license][cc by-nc-sa 4.0].
-  Note that the DSA is the license, not the Creative Commons website or their generic version of the license.
 
 - **Have any third parties imposed IP-based or other restrictions on the data associated with the instances?**
   No.
@@ -337,7 +335,7 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 - **If others want to extend/augment/build on/contribute to the dataset, is there a mechanism for them to do so?**
   Please email [contact@pureskill.gg][email] or reach out on [Discord]
   if you want to extend the provided csds files in any manner.
-  Subscribers are free to release transformations with restrictions as outlined in the DSA.
+  Subscribers are free to release transformations under the license's terms.
 
 [cc by-nc-sa 4.0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
 [discord]: https://pureskill.gg/discord

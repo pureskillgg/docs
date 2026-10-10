@@ -23,17 +23,16 @@ additional documentation, and a copy of this document.
 
 ## License (CC BY-NC-SA 4.0)
 
-Please read through the Data Subscriber Agreement (DSA).
-The DSA is available on the [Product Page] under the Usage section.
+The data is licensed under [CC BY-NC-SA 4.0][cc by-nc-sa 4.0]:
+you may not use it for commercial purposes, you must attribute PureSkill.gg,
+and you must share any derived work under the same license.
 
-The key requirements of DSA state you may not use the data for commercial purposes,
-you must attribute PureSkill.gg, and you must use the same license for any derived work.
-A ["human-readable" summary of the license][cc by-nc-sa 4.0] is provided by Creative Commons,
-but this is not a substitute for the DSA.
+Subscribing on AWS Data Exchange also means accepting the Data Subscriber Agreement (DSA),
+which is on the [Product Page] under the Usage section.
 
 ## Attribution
 
-As outlined in the DSA, if you publish a visualization,
+As the license requires, if you publish a visualization,
 video, text summary, or other transformed version of the data, you must provide attribution.
 We ask that the shared media contain the text "Data provided by PureSkill.gg."
 with that exact capitalization.
