@@ -19,6 +19,27 @@ Since 2026-10-08 that includes many FACEIT matches. Tell them apart by
 `header.server_name`, which begins `FACEIT.com` for a match played on a FACEIT
 server.
 
+## Linking players across matches
+
+Player identities are replaced in each match, but player fingerprinting can
+link some players across matches, as a
+[thesis on identifying Counter-Strike players by their mouse movement in demos][fingerprinting]
+shows. Such a link ties matches to the same unknown player; it doesn't reveal
+who they are, and trying to find out is not permitted by the license
+agreement.
+
+## Item names and codes in `item_equip`
+
+- `item_equip` has no item code: CS2's equip event doesn't carry one.
+  `item_equip.def_index` was 0 on every row, and matches processed since
+  2026-10-05 don't have the column. `item_pickup.def_index` carries the code.
+- The short item names in `item_equip` and `item_pickup` are shared between
+  weapons that use the same slot: `hkp2000` is both the P2000 and the USP-S,
+  `m4a1` both the M4A4 and the M4A1-S, `mp7` both the MP7 and the MP5-SD, and
+  `deagle` both the Desert Eagle and the R8 Revolver. Use an item code where
+  the row has one. `item_dropped` and `world_item_vector` use display names
+  such as `AK-47` instead.
+
 ## Duplicate matches
 
 A match's `id` is created each time a demo is processed, so a demo processed
@@ -58,3 +79,5 @@ not its processing (such as when it was processed, or by which versions).
 - **Older matches were processed by older versions of the pipeline.** The
   [changelog](./changelog.md) lists every change, and `header.rushb_version`
   and `header.ppp_version` say which versions built a match.
+
+[fingerprinting]: https://digital.ub.uni-paderborn.de/hs/content/titleinfo/8205986/full.pdf

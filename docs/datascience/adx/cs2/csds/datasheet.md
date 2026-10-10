@@ -72,9 +72,14 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 - **Are relationships between individual instances made explicit?**
   Not explicitly, but they exist: many matches come from the same player, or
   the same group of players queueing together.
-  Player identities are replaced in each match, so it is not possible to tell
-  whether a player in one match is the same as a player in another, or which
-  player is the PureSkill.gg user.
+  Player identities are replaced in each match, so telling whether a player
+  in one match is the same as a player in another is very difficult. It is
+  possible with player fingerprinting, as a
+  [thesis on identifying Counter-Strike players by their mouse movement in demos][fingerprinting]
+  shows. A link like that ties matches to the same unknown player; finding that
+  player's actual profile or identity would still be hard, and trying is not
+  permitted by the license agreement. Nothing in the data says which player is
+  the PureSkill.gg user.
 
 - **Are there recommended data splits?**
   Yes: we strongly recommend splitting by match. Rows from one match share
@@ -345,3 +350,4 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 [terms of service]: https://pureskill.gg/site-terms/
 [privacy policy]: https://pureskill.gg/privacy-policy/
 [analyzing the differences between professional and amateur esports through win probability]: https://dl.acm.org/doi/abs/10.1145/3485447.3512277
+[fingerprinting]: https://digital.ub.uni-paderborn.de/hs/content/titleinfo/8205986/full.pdf
