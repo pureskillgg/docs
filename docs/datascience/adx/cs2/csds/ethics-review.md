@@ -14,7 +14,7 @@ FPS Critic, Inc. went through every finding and made the final call on each.
 This is an internal review. No institutional review board or other independent
 body was involved.
 
-Reviewer of record: **[name, role]**, FPS Critic, Inc., 2026-10-09.
+Reviewer of record: FPS Critic, Inc., 2026-10-09.
 
 ## How we checked
 

@@ -139,8 +139,7 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 
 - **Does the dataset contain data that might be considered sensitive in any way?**
   Not directly, but it almost certainly includes players under 18: Steam and
-  PureSkill.gg allow players from 13 years old. See the
-  [AI Ethics Review](./ethics-review.md).
+  PureSkill.gg allow players from 13 years old.
 
 ## Collection Process
 
@@ -224,8 +223,6 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   before publication.
   Any attempts to identify people, players' Steam IDs, or online identities
   are not permitted by the license agreement.
-  The [AI Ethics Review](./ethics-review.md) covers the impact on the people in
-  the data.
 
 ## Preprocessing, Cleaning, and Labeling
 
