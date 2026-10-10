@@ -17,10 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - A CS2 Quickstart page: subscribe, export a day to S3, download it, load a match with dsdk, add `player_vector`'s derived columns, and query a day through tomes. Every Python block was run on a copy of the 2026-10-07 revision.
 - A CS2 Getting the Data page: access, daily revisions and pruning, the dsdk export functions and the permissions they need, the file layout, the index object's fields (including `available`), match identity, and which date to use.
 - A CS2 Enums page: teams, win reasons, hit groups, weapon types, weapon and item codes (with a downloadable table), ranks, round phases, every channel's event types, bombsite ids and radar colours, read from the 1,752 matches published 2026-10-01 to 10-08.
+- An unlisted CS2 AI Ethics Review page: an internal review of the data set's ethics, carried out by an AI agent and signed off by FPS Critic, Inc. The datasheet's ethical-review answer links to it.
 - A CS2 Known Flaws page: matches uploaded by hand, linking players across matches by fingerprinting, `item_equip` item names and codes, duplicates, channels that can be empty, missing values, and what changed across the retained window.
 
 ### Changed
 
+- CS2 datasheet, from the ethics review: some players can be linked across matches, the data almost certainly includes players under 18, the Terms of Service don't mention the data set, and it may not be used for cheats.
 - Link Data Science, the CSDS Spec and the Changelog from the navbar, move the social links into the footer, and replace the "Beep Boop." tagline.
 - Bring the CS2 spec, data dictionary and changelog pages up to date with parser 5.5.0 and 5.6.0 (2026-10-05): `grenade_id` in `grenade_vector`, `grenade_bounce` and `grenade_state`, and `grenade_vector.grenade_weapon_code` added; `grenade_vector.grenade_type_code` and `item_equip.def_index` removed; `header.rank_type` added and `header.network_protocol` removed; `rank_update.rank_change` an integer; `bomb_action.player_id` set on pickups and `bullet_damage.num_penetrations` counted.
 - Bring the CS2 datasheet up to date: rounds removed before publication, Revision Stats for counts, splitting by match to avoid leakage, why duplicates happen, Known Flaws for what is missing, manual uploads (which may include no PureSkill.gg user), where radar data lives, how the data is extracted and processed, how long demos are kept, the yearly prune, the changelog as the erratum, and a plain "No" on third-party restrictions.
