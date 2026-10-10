@@ -85,7 +85,7 @@ _Parser 5.4.1 to 5.6.0 and converter 8.5.4 to 8.7.1._
 - `round_state.event_type`: The `freezetime_ended_inferred` row, the first tick a player moves in a round, no longer fires early on a late player's respawn. In 8 of the 927 rounds of our 50 test matches it came 43 to 3,520 ticks before `round_freeze_end`; it now lands one tick after it.
 - `player_vector.current_ammo`: The number of bullets in the magazine, with 0 for an empty one. Before, every value was one low and an empty magazine read 4294967295. A replay parsed before this change and converted again after it holds -1 for an empty magazine, with the other values still one low.
 - `player_status.inv_flashbang`, `player_status.equipment_value_calc`: `inv_flashbang` counts the flashbangs held, up to 2, and drops to 0 at the throw of the last one. Before, it read 1 for two flashbangs and could stay at 1 for about 0.7 seconds after the throw. `equipment_value_calc`, which counts them, follows.
-- `player_spawn.round`: The round the player spawned into. Before, every row carried the round before it.
+- `player_spawn.round`: The round the player spawned into. Before, many rows carried the round before it (7,913 in our 50 test matches).
 - `player_info`, `player_personal`: Every player who spawns in a round that reaches freeze end has a row for that round. Before, a player missing from the round's roster, such as one who joined or reconnected late, had none, so their rows in that round joined to no player.
 
 **File format**
