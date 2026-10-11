@@ -52,9 +52,14 @@ not its processing (such as when it was processed, or by which versions).
 - Servers that restrict what their recording broadcasts, as tournament
   servers do, leave `player_blind`, `player_footstep`, `item_equip` and
   `weapon_action` empty; the rest of the match is complete.
-- `player_inputs` and `player_sound` are empty in most matches, because most
-  demos don't carry those events. The index object marks a channel whose events
-  the demo didn't carry with `available: false`.
+- `player_sound` is empty in most matches, because most demos don't carry
+  that event. The index object marks a channel whose events the demo didn't
+  carry with `available: false`.
+- `player_inputs` is empty in every match parsed between the CS2 update of
+  2026-07-09 and parser 5.7.0 (2026-10-11), whatever the demo's source: the
+  update removed the property the parser read the buttons from. From 5.7.0 the
+  channel is filled on every kind of demo. Matches parsed before then keep
+  their empty channel.
 - `player_vector` and `player_status` have rows only for living players.
 
 ## Missing values
