@@ -5,8 +5,8 @@
 <meta name="generator" content="Docusaurus v3.10.1">
 <title data-rh="true">PureSkill.gg Competitive CS2 Gameplay | PureSkill.gg Docs</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://docs.pureskill.gg/datascience/adx/cs2/csds/"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="PureSkill.gg Competitive CS2 Gameplay | PureSkill.gg Docs"><meta data-rh="true" name="description" content="This data set is hosted as a product on the AWS Data Exchange."><meta data-rh="true" property="og:description" content="This data set is hosted as a product on the AWS Data Exchange."><link data-rh="true" rel="icon" href="https://csgo.cdn.pureskill.app/17.2.0/favicon.ico"><link data-rh="true" rel="canonical" href="https://docs.pureskill.gg/datascience/adx/cs2/csds/"><link data-rh="true" rel="alternate" href="https://docs.pureskill.gg/datascience/adx/cs2/csds/" hreflang="en"><link data-rh="true" rel="alternate" href="https://docs.pureskill.gg/datascience/adx/cs2/csds/" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Science","item":"https://docs.pureskill.gg/datascience/"},{"@type":"ListItem","position":2,"name":"Competitive Gameplay","item":"https://docs.pureskill.gg/datascience/adx/cs2/csds/"}]}</script><link rel="preconnect" href="https://csgo.pureskill.gg/_ph">
 <script>!function(t,e){var o,s,r,a;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,n,p){function c(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(r=t.createElement("script")).type="text/javascript",r.async=!0,r.src=n.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(a=t.getElementsByTagName("script")[0]).parentNode.insertBefore(r,a);var g=e;for(void 0!==p?g=e[p]=[]:p="posthog",g.people=g.people||[],g.toString=function(t){var e="posthog";return"posthog"!==p&&(e+="."+p),t||(e+=" (stub)"),e},g.people.toString=function(){return g.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "),s=0;s<o.length;s++)c(g,o[s]);e._i.push([i,n,p])},e.__SV=1)}(document,window.posthog||[]),posthog.init("phc_nvAASNi9srHopWYDZKDjWsBacjqtE270dcE0F73LnDd",{api_host:"https://csgo.pureskill.gg/_ph",id:"default"})</script><link rel="stylesheet" href="/assets/css/styles.3cdb69fe.css">
-<script src="/assets/js/runtime~main.ba0cfc75.js" defer="defer"></script>
-<script src="/assets/js/main.3b32697c.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.25bb0000.js" defer="defer"></script>
+<script src="/assets/js/main.7c87290b.js" defer="defer"></script>
 </head>
 <body>
 <svg style="display: none;"><defs>
@@ -31,14 +31,13 @@ delivered.</p>
 for full introduction to PureSkill.gg data science,
 additional documentation, and a copy of this document.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="license-cc-by-nc-sa-40">License (CC BY-NC-SA 4.0)<a href="#license-cc-by-nc-sa-40" class="hash-link" aria-label="Direct link to License (CC BY-NC-SA 4.0)" title="Direct link to License (CC BY-NC-SA 4.0)" translate="no">​</a></h2>
-<p>Please read through the Data Subscriber Agreement (DSA).
-The DSA is available on the <a href="https://aws.amazon.com/marketplace/pp/prodview-v3o7zrt6okwmo" target="_blank" rel="noopener noreferrer" class="">Product Page</a> under the Usage section.</p>
-<p>The key requirements of DSA state you may not use the data for commercial purposes,
-you must attribute PureSkill.gg, and you must use the same license for any derived work.
-A <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" class="">&quot;human-readable&quot; summary of the license</a> is provided by Creative Commons,
-but this is not a substitute for the DSA.</p>
+<p>The data is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" class="">CC BY-NC-SA 4.0</a>:
+you may not use it for commercial purposes, you must attribute PureSkill.gg,
+and you must share any derived work under the same license.</p>
+<p>Subscribing on AWS Data Exchange also means accepting the Data Subscriber Agreement (DSA),
+which is on the <a href="https://aws.amazon.com/marketplace/pp/prodview-v3o7zrt6okwmo" target="_blank" rel="noopener noreferrer" class="">Product Page</a> under the Usage section.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="attribution">Attribution<a href="#attribution" class="hash-link" aria-label="Direct link to Attribution" title="Direct link to Attribution" translate="no">​</a></h2>
-<p>As outlined in the DSA, if you publish a visualization,
+<p>As the license requires, if you publish a visualization,
 video, text summary, or other transformed version of the data, you must provide attribution.
 We ask that the shared media contain the text &quot;Data provided by PureSkill.gg.&quot;
 with that exact capitalization.</p>
@@ -71,7 +70,7 @@ to hone their skills, rank up, and dominate the game.</p>
 <li class=""><a href="https://www.instagram.com/itspureskillgg" target="_blank" rel="noopener noreferrer" class="">Instagram</a></li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="data-dictionary">Data Dictionary<a href="#data-dictionary" class="hash-link" aria-label="Direct link to Data Dictionary" title="Direct link to Data Dictionary" translate="no">​</a></h2>
-<p>A <a href="/assets/files/csds_dictionary-98b2685f6f4f673cdad910722a68b108.csv" target="_blank" class="">Data Dictionary</a> is available.
+<p>A <a href="/assets/files/csds_dictionary-02e6fb29983117ce857fa022aa096b6c.csv" target="_blank" class="">Data Dictionary</a> is available.
 This is a standardized CSV file that catalogues all tables and columns in the data set.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="glossary">Glossary<a href="#glossary" class="hash-link" aria-label="Direct link to Glossary" title="Direct link to Glossary" translate="no">​</a></h2>
 <ul>
