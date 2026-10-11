@@ -25,6 +25,15 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
+## 2026-10-11
+
+_Parser 5.7.0._
+
+**Fixes**
+
+- `player_inputs`: Has rows again, on every kind of demo: which buttons each player held, a row whenever that changed (6,600 to 82,000 rows a match across a 50-match sample). The CS2 update of 2026-07-09 removed the player property the parser read them from, so the channel, added on 2026-08-03, has been empty on every match recorded since that update, whatever its source; the 2026-08-03 entry's "empty on Valve matchmaking demos" understated it. Parser 5.7.0 (demoinfocs-golang v6) rebuilds the button state from the user commands the demo carries. Matches parsed before this date keep their empty channel.
+- `world_item_vector.prev_owner_id`: The same on every parse of a demo. Before, on some matches (seen on FACEIT demos) about twenty rows a match could name a different previous owner from one parse to the next. A match is parsed once, so a published match was self-consistent, but processing the same demo again could change this column.
+
 ## 2026-10-06
 
 _Converter 8.7.3 and 8.7.4._

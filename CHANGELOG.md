@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Bring the CS2 changelog pages up to date with parser 5.7.0 (2026-10-11): `player_inputs` has rows again on every kind of demo, after being empty on every match recorded since the CS2 update of 2026-07-09 (the channel itself dates from 2026-08-03), and `world_item_vector.prev_owner_id` is the same on every parse. Known Flaws no longer lists `player_inputs` among the channels most demos leave empty.
 - The data is licensed under CC BY-NC-SA 4.0. The CS2 data set page, datasheet, Getting the Data and the FAQ no longer call the Data Subscriber Agreement the license.
 - CS2 datasheet, from the ethics review: some players can be linked across matches, the data almost certainly includes players under 18, the Terms of Service don't mention the data set, and it may not be used for cheats.
 - Link Data Science, the CSDS Spec and the Changelog from the navbar, move the social links into the footer, and replace the "Beep Boop." tagline.
