@@ -230,7 +230,9 @@ of the box: the feet.
 ### Movement speed
 
 Top speed on the ground, in units per second, as `player_vector.speed_2d`
-reaches it. It depends on the weapon in hand:
+reaches it. `speed_2d` is a derived column that newer matches don't store:
+compute it on load with `add_player_vector_derived_columns`, as the
+[spec](./spec.md) explains. Top speed depends on the weapon in hand:
 
 | Speed | Weapon in hand                                                                                   |
 | ----: | ------------------------------------------------------------------------------------------------ |
