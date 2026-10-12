@@ -5,8 +5,8 @@
 <meta name="generator" content="Docusaurus v3.10.1">
 <title data-rh="true">PureSkill.gg Data Science | PureSkill.gg Docs</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://docs.pureskill.gg/datascience/"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="PureSkill.gg Data Science | PureSkill.gg Docs"><meta data-rh="true" name="description" content="FAQ"><meta data-rh="true" property="og:description" content="FAQ"><link data-rh="true" rel="icon" href="https://csgo.cdn.pureskill.app/17.2.0/favicon.ico"><link data-rh="true" rel="canonical" href="https://docs.pureskill.gg/datascience/"><link data-rh="true" rel="alternate" href="https://docs.pureskill.gg/datascience/" hreflang="en"><link data-rh="true" rel="alternate" href="https://docs.pureskill.gg/datascience/" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Data Science","item":"https://docs.pureskill.gg/datascience/"}]}</script><link rel="preconnect" href="https://csgo.pureskill.gg/_ph">
 <script>!function(t,e){var o,s,r,a;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,n,p){function c(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(r=t.createElement("script")).type="text/javascript",r.async=!0,r.src=n.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(a=t.getElementsByTagName("script")[0]).parentNode.insertBefore(r,a);var g=e;for(void 0!==p?g=e[p]=[]:p="posthog",g.people=g.people||[],g.toString=function(t){var e="posthog";return"posthog"!==p&&(e+="."+p),t||(e+=" (stub)"),e},g.people.toString=function(){return g.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "),s=0;s<o.length;s++)c(g,o[s]);e._i.push([i,n,p])},e.__SV=1)}(document,window.posthog||[]),posthog.init("phc_nvAASNi9srHopWYDZKDjWsBacjqtE270dcE0F73LnDd",{api_host:"https://csgo.pureskill.gg/_ph",id:"default"})</script><link rel="stylesheet" href="/assets/css/styles.3cdb69fe.css">
-<script src="/assets/js/runtime~main.4e588831.js" defer="defer"></script>
-<script src="/assets/js/main.dfaf563b.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.a7bacae8.js" defer="defer"></script>
+<script src="/assets/js/main.a7e2f0c9.js" defer="defer"></script>
 </head>
 <body>
 <svg style="display: none;"><defs>
@@ -21,8 +21,9 @@ third-parties.
 Contains full player telemetry and timestamped game events.
 A new revision is published every day. In revisions from 2026-08-04 onward,
 each match is 42 data files plus an index object; revisions still retained from
-before then carry 30 data files per match. The
-<a class="" href="/datascience/adx/cs2/csds/">data set page</a> covers the change.</p>
+before then carry 30 data files per match. Newer revisions deliver each match
+as one zip of its files. The <a class="" href="/datascience/adx/cs2/csds/">data set page</a> covers both
+changes.</p>
 <p>The data set carried Counter-Strike: Global Offensive (CS<!-- -->:GO<!-- -->) data until CS2
 replaced the game in 2023. Those revisions are no longer retained. The
 <a class="" href="/datascience/old/">archive</a> keeps the pages that described them.</p>
@@ -150,7 +151,8 @@ It provides efficient data compression and encoding schemes with enhanced perfor
 Parquet is available in multiple languages including Java, C++, Python, etc...</p>
 </blockquote>
 <p>If you want to use another language, <a class="" href="/datascience/adx/cs2/csds/getting-the-data">Getting the Data</a> describes the files:
-each match&#x27;s index object is gzipped JSON, and every channel is a Parquet file.
+each match&#x27;s index object is gzipped JSON, every channel is a Parquet file, and
+newer revisions deliver each match as a plain zip of them.
 Tomes, economical views of the data tailored for specific analyses, are more
 Parquet and JSON files, and you build them yourself from data you have
 exported.</p>
@@ -166,11 +168,15 @@ but we do not guarantee their accuracy or applicability to your AWS account.</p>
 own, so you pay per object written and then for storing them. Pulling them out
 of AWS afterwards adds data transfer. Check the current <a href="https://aws.amazon.com/s3/pricing/" target="_blank" rel="noopener noreferrer" class="">S3 pricing</a> for your
 region before starting a large export; the object count matters as much as the
-byte count.</p>
+byte count. Newer revisions deliver each match as one zip, so a match is one
+object instead of 43; the bytes are about the same, since the zip stores its
+files as they are and adds only a few KB of headers.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-should-i-optimize-my-costs">How should I optimize my costs?<a href="#how-should-i-optimize-my-costs" class="hash-link" aria-label="Direct link to How should I optimize my costs?" title="Direct link to How should I optimize my costs?" translate="no">​</a></h3>
 <p>The data set is structured to help you control and optimize your costs.
-It is split into daily revisions which may be exported individually, and within
-a match the data is split by channel, so you can take only the channels you need.</p>
+It is split into daily revisions which may be exported individually. In older
+revisions the data within a match is split by channel, so you can take only the
+channels you need; in newer ones a match is one zip, which cuts the objects you
+pay for 43-fold but comes whole.</p>
 <p>Consider these steps:</p>
 <ol>
 <li class="">AWS has a free tier which
@@ -178,7 +184,9 @@ may reduce or eliminate the cost to get started.</li>
 <li class=""><strong>Skip <code>player_vector</code> and <code>player_status</code> unless you need per-tick
 telemetry.</strong> They are about 7 MB of a recent match&#x27;s 10 MB. Every other
 channel put together is under 3 MB, so leaving them out cuts the bytes by
-about two thirds, though the object count barely changes.</li>
+about two thirds, though the object count barely changes. That works on
+revisions of loose files; a zipped match carries them, and you can delete
+them after unzipping.</li>
 <li class="">Estimate how much data you actually need by starting with one day.
 Remember that one revision is one day worth of data.</li>
 <li class="">Be careful when exporting a large number of revisions at once.
