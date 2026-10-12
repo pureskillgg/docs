@@ -399,6 +399,15 @@ Event that triggers this channel: tick_end
 | x_pos               | float64 | False    | replay     |                 |                            |
 | y_pos               | float64 | False    | replay     |                 |                            |
 | z_pos               | float64 | False    | replay     |                 |                            |
+| vel_x               | float64 | True     | replay     |                 |                            |
+| vel_y               | float64 | True     | replay     |                 |                            |
+| vel_z               | float64 | True     | replay     |                 |                            |
+| origin_x            | float64 | True     | replay     |                 |                            |
+| origin_y            | float64 | True     | replay     |                 |                            |
+| origin_z            | float64 | True     | replay     |                 |                            |
+| thrower_vel_x       | float64 | True     | replay     |                 |                            |
+| thrower_vel_y       | float64 | True     | replay     |                 |                            |
+| thrower_vel_z       | float64 | True     | replay     |                 |                            |
 | second              | float64 | True     | calculated | tick, tick_rate |                            |
 | player_id_fixed     | int64   | True     | merged     |                 | player_id, round, steam_id |
 
