@@ -216,7 +216,8 @@ own, so you pay per object written and then for storing them. Pulling them out
 of AWS afterwards adds data transfer. Check the current [S3 pricing] for your
 region before starting a large export; the object count matters as much as the
 byte count. Newer revisions deliver each match as one zip, so a match is one
-object instead of 43; the bytes are the same.
+object instead of 43; the bytes are about the same, since the zip stores its
+files as they are and adds only a few KB of headers.
 
 ### How should I optimize my costs?
 

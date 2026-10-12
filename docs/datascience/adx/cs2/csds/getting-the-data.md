@@ -87,8 +87,8 @@ regions.
 ## File layout
 
 Newer revisions deliver each match as **one zip**; older ones deliver its files
-loose. The [Changelog](./changelog.md) gives the first revision of zips. Both
-unpack to the same layout:
+loose. The [Changelog](./changelog.md) records the first revision with zips
+once they start. Both unpack to the same layout:
 
 ```text
 csds/
