@@ -8,9 +8,9 @@ description: Matches, files and size in each daily revision of the CS2 data set.
 
 # Revision Stats
 
-What each daily revision holds, counted from its own file list on 2026-10-09, for
-every revision that can still be exported: 408 revisions from 2025-07-19 to
-2026-10-09, with 37,881 matches in 1,284,163 files (1.37 TB).
+What each daily revision holds, counted from its own file list on 2026-10-12, for
+every revision that can still be exported: 410 revisions from 2025-07-19 to
+2026-10-11, with 40,205 matches in 1,384,095 files (1.39 TB).
 
 A revision is dated by the day (UTC) it opened. A match is one `csds` index
 object plus one file per channel. After a pipeline outage, the backlog was
@@ -24,6 +24,8 @@ matches from both before and after it.
 
 | Date       | Matches |  Files | Size (GB) | Size per match (MB) | Data change                                         |
 | ---------- | ------: | -----: | --------: | ------------------: | --------------------------------------------------- |
+| 2026-10-11 |   1,162 | 49,966 |     11.82 |                10.2 | [2026-10-11](./changelog.md#2026-10-11)             |
+| 2026-10-10 |   1,162 | 49,966 |     11.68 |                10.0 |                                                     |
 | 2026-10-09 |   1,162 | 49,966 |     11.85 |                10.2 |                                                     |
 | 2026-10-08 |   1,135 | 48,805 |     11.39 |                10.0 |                                                     |
 | 2026-10-07 |      89 |  3,827 |      0.60 |                 6.8 |                                                     |
