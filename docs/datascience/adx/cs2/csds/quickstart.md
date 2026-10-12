@@ -26,7 +26,7 @@ You need Python 3.11 or newer, AWS credentials that [boto3] can find, the
 [AWS CLI] for step 4, and the two PureSkill.gg libraries:
 
 ```shell
-pip install "pureskillgg-dsdk>=4.0.1" "pureskillgg-csgo-dsdk>=3.3.1"
+pip install "pureskillgg-dsdk>=4.0.3" "pureskillgg-csgo-dsdk>=3.3.1"
 ```
 
 The data set lives in us-east-1, so point boto3 there, for example with the
@@ -56,7 +56,8 @@ print("exported", DAY.strftime("csds/%Y/%m/%d"))
 ```
 
 That exports the revision created on `DAY`: every match processed that day,
-usually 60 to 150 matches of 43 objects each. Revisions are pruned once they
+usually 60 to 150 matches. In newer revisions each match is one zip; in older
+ones it is 43 loose objects. Revisions are pruned once they
 are about a year old, so pick a day from the past year. The [Cost FAQ](../../../README.md#cost-faq)
 says what that costs.
 
@@ -67,12 +68,22 @@ Copy the day to your machine with the AWS CLI, putting in the
 files' keys are how the libraries find them.
 
 ```shell
-aws s3 sync s3://your-bucket/csds/YYYY/MM/DD/ data/csds/YYYY/MM/DD/ --exclude "*/player_vector" --exclude "*/player_status"
+aws s3 sync s3://your-bucket/csds/YYYY/MM/DD/ data/csds/YYYY/MM/DD/
 ```
 
-The two excluded channels are the per-tick telemetry, about 7 MB of each
-match's 10 MB. Leave the `--exclude` options out if you want player positions
-every tick.
+Then unzip the matches into the layout the libraries read. A day of loose
+files has no zips, and this does nothing:
+
+```python
+from pureskillgg_dsdk import extract_adx_zips
+
+extract_adx_zips("data", delete_zips=True)
+```
+
+For a day of loose files you can skip the per-tick telemetry, about 7 MB of
+each match's 10 MB, by adding `--exclude "*/player_vector" --exclude
+"*/player_status"` to the sync. A zip holds the whole match, so those options
+don't apply to it.
 
 ## 5. Load one match
 

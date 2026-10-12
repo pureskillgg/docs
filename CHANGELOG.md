@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Changed
+
+- CS2 delivery: newer revisions deliver each match as one zip, `csds/YYYY/MM/DD/<id>.zip`, instead of 43 objects. Getting the Data, the Quickstart, the data set page and the FAQ's cost answers say how to unzip them (dsdk's `extract_adx_zips`) and what it changes for cost.
+
 ### Added
 
 - Game constants on the CS2 Enums page: tick rate, rounds, freeze, buy and round time, money and health limits, overtime, the bomb and utility timers, player size, jump heights and eye height, and top movement speed by weapon, walking, crouched, scoped and carrying a hostage. All but the eye heights, which are the game's values, were measured on the 50-match regression corpus.

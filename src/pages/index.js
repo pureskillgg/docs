@@ -183,7 +183,7 @@ function MatchObjects() {
     <section className={styles.match} aria-labelledby='match-objects'>
       <div className={styles.matchHead}>
         <h2 id='match-objects' className={styles.matchTitle}>
-          One match = {tiles.length} objects
+          One match = {tiles.length} files
         </h2>
         <ul className={styles.legend}>
           {legend.map(([kind, label]) => (
