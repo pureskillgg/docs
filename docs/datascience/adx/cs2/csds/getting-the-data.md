@@ -46,7 +46,8 @@ own. The [dsdk] library wraps the calls:
 | `export_multiple_adx_dataset_revisions_to_s3(bucket, data_set_id, start_date=…, end_date=…)` | Exports every revision created from `start_date` up to, not including, `end_date`.                                     |
 | `export_single_adx_dataset_revision_to_s3(bucket, data_set_id, revision_id)`                 | Exports one revision; the latest one if `revision_id` is left out.                                                     |
 | `enable_auto_exporting_adx_dataset_revisions_to_s3(bucket, data_set_id)`                     | Exports each new revision as it is published, until `disable_auto_exporting_adx_dataset_revisions_to_s3(data_set_id)`. |
-| `download_adx_dataset_revision(root_path, data_set_id, revision_id)`                         | Downloads a revision straight to disk, one object at a time. A day is thousands of objects, so this is slow.           |
+| `download_adx_dataset_revision(root_path, data_set_id, revision_id)`                         | Downloads a revision straight to disk, one object at a time, and unzips zipped matches. Slow for a whole day.          |
+| `extract_adx_zips(root_path, delete_zips=False)`                                             | Unzips every match zip under a folder into the loose layout, for revisions you exported to S3 and synced down.         |
 | `get_adx_dataset_revisions(data_set_id, start_date=…, end_date=…)`                           | Lists the revisions created in a date range.                                                                           |
 
 They use [boto3]'s credentials and default region, so set the region to
@@ -85,9 +86,14 @@ regions.
 
 ## File layout
 
+Newer revisions deliver each match as **one zip**; older ones deliver its files
+loose. The [Changelog](./changelog.md) gives the first revision of zips. Both
+unpack to the same layout:
+
 ```text
 csds/
   2026/10/07/            the UTC day the match was processed
+    <id>.zip             newer revisions: the whole match, one object
     <id>/                one folder per match, named by its public id
       csds               the index object: gzipped JSON
       bomb_action        one Parquet file per channel
@@ -95,17 +101,26 @@ csds/
       …                  42 channels in all
 ```
 
-- **Keys** are `csds/YYYY/MM/DD/<id>/<channel>`, with no file extensions.
-  Keep the whole key when you download: the libraries find a match's files
-  by it.
+- **A match zip** is `csds/YYYY/MM/DD/<id>.zip`. Its entries are the match's
+  files under their full keys (`csds/YYYY/MM/DD/<id>/csds`,
+  `csds/YYYY/MM/DD/<id>/bomb_action`, …), stored without recompression, so
+  each is byte for byte the loose file. Unzipping it in the folder that holds
+  `csds/` rebuilds the layout above. dsdk's `extract_adx_zips(root_path)` does
+  that for every zip under a folder, and `download_adx_dataset_revision` does
+  it for you. Any zip tool or Python's `zipfile` opens one, and a single
+  channel can be read without unpacking the rest.
+- **Keys** of the loose files are `csds/YYYY/MM/DD/<id>/<channel>`, with no
+  file extensions. Keep the whole key when you download or unzip: the
+  libraries find a match's files by it.
 - **Channel files** are [Apache Parquet], compressed with ZSTD since
   2026-07-08 (GZIP before). Any Parquet reader opens them, for example
   `pandas.read_parquet(path)`.
 - **The index object** is JSON compressed with gzip:
   `json.loads(gzip.decompress(open(path, "rb").read()))`.
-- **Object counts.** A match is 43 objects since 2026-08-04 and 31 before;
-  the 2026-08-03 revision holds both. Read the index rather than assuming a
-  channel list.
+- **Object counts.** A zipped match is one object holding 43 files. A loose
+  match is 43 objects since 2026-08-04 and 31 before; the 2026-08-03 revision
+  holds both, and so does the revision in which zips start. Read the index
+  rather than assuming a channel list.
 
 ### The index object
 

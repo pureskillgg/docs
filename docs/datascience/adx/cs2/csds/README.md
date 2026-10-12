@@ -6,8 +6,11 @@ Competitive Counter-Strike 2 (CS2)
 match data from matchmaking, FACEIT, and other third-parties.
 Contains full player telemetry and timestamped game events.
 These data are extracted from CS2 replay files called demos.
-Each match is published as 43 objects, collectively called csds:
+Each match is 43 files, collectively called csds:
 42 channel files plus a JSON index object, also named `csds`, that lists them.
+Newer revisions deliver each match as one zip of those files; older ones
+deliver them as separate objects. [Getting the Data](./getting-the-data.md#file-layout)
+shows both.
 The [CSDS Spec](./spec.md) documents every channel and column.
 New here? The [Quickstart](./quickstart.md) goes from subscribing to a first
 query, and [Getting the Data](./getting-the-data.md) explains how the data is

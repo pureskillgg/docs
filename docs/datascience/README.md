@@ -10,8 +10,9 @@ third-parties.
 Contains full player telemetry and timestamped game events.
 A new revision is published every day. In revisions from 2026-08-04 onward,
 each match is 42 data files plus an index object; revisions still retained from
-before then carry 30 data files per match. The
-[data set page](./adx/cs2/csds/) covers the change.
+before then carry 30 data files per match. Newer revisions deliver each match
+as one zip of its files. The [data set page](./adx/cs2/csds/) covers both
+changes.
 
 The data set carried Counter-Strike: Global Offensive (CS:GO) data until CS2
 replaced the game in 2023. Those revisions are no longer retained. The
@@ -186,7 +187,8 @@ data is stored as [Apache Parquet] with additional metadata in [JSON].
 > Parquet is available in multiple languages including Java, C++, Python, etc...
 
 If you want to use another language, [Getting the Data] describes the files:
-each match's index object is gzipped JSON, and every channel is a Parquet file.
+each match's index object is gzipped JSON, every channel is a Parquet file, and
+newer revisions deliver each match as a plain zip of them.
 Tomes, economical views of the data tailored for specific analyses, are more
 Parquet and JSON files, and you build them yourself from data you have
 exported.
@@ -213,13 +215,16 @@ Exporting from the AWS Data Exchange writes those objects into an S3 bucket you
 own, so you pay per object written and then for storing them. Pulling them out
 of AWS afterwards adds data transfer. Check the current [S3 pricing] for your
 region before starting a large export; the object count matters as much as the
-byte count.
+byte count. Newer revisions deliver each match as one zip, so a match is one
+object instead of 43; the bytes are the same.
 
 ### How should I optimize my costs?
 
 The data set is structured to help you control and optimize your costs.
-It is split into daily revisions which may be exported individually, and within
-a match the data is split by channel, so you can take only the channels you need.
+It is split into daily revisions which may be exported individually. In older
+revisions the data within a match is split by channel, so you can take only the
+channels you need; in newer ones a match is one zip, which cuts the objects you
+pay for 43-fold but comes whole.
 
 Consider these steps:
 
@@ -228,7 +233,9 @@ Consider these steps:
 2. **Skip `player_vector` and `player_status` unless you need per-tick
    telemetry.** They are about 7 MB of a recent match's 10 MB. Every other
    channel put together is under 3 MB, so leaving them out cuts the bytes by
-   about two thirds, though the object count barely changes.
+   about two thirds, though the object count barely changes. That works on
+   revisions of loose files; a zipped match carries them, and you can delete
+   them after unzipping.
 3. Estimate how much data you actually need by starting with one day.
    Remember that one revision is one day worth of data.
 4. Be careful when exporting a large number of revisions at once.

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Changed
+
+- CS2 delivery: newer revisions deliver each match as one zip, `csds/YYYY/MM/DD/<id>.zip`, instead of 43 objects. Getting the Data, the Quickstart, the data set page and the FAQ's cost answers say how to unzip them (dsdk's `extract_adx_zips`) and what it changes for cost.
+
 ### Added
 
 - A CS2 page on how the data fits together: what a row is in each kind of channel, ticks and seconds, how rounds are numbered, following a player, sides and the half, where player state lives, and how event channels carry positions (with a tested example of joining another column), measured on the 89 matches published 2026-10-07.
