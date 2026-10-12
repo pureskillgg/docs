@@ -1,7 +1,7 @@
 ---
 sidebar_label: Enums
 sidebar_position: 1.2
-description: What the codes in the data mean, from team and win reason to weapon, hit group and rank.
+description: What the codes in the data mean, from team and win reason to weapon, hit group and rank, and the game's fixed numbers, from round time to player size and speed.
 ---
 
 # Enums
@@ -167,3 +167,98 @@ position, or by the callout in `player_status.place_name`.
 
 `player_info.radar_color_code`: 0 to 4 are the five teammate colours on the
 radar, and -1 means none. The data doesn't say which colour each number is.
+
+## Game constants
+
+The game's fixed numbers: timers, sizes and speeds. They are not codes, but
+they come up whenever you work with the data. Each value below was measured
+on 50 production matches from September and October 2026 (Premier,
+Competitive, Wingman and FACEIT, hostage maps included); a row says when a
+value is the game's rather than measured. Distances are in game units; a unit
+is about an inch, so a standing player is about 6 feet tall.
+
+### Match and round
+
+|                           | Premier, FACEIT |  Competitive |     Wingman | Where to see it                                     |
+| ------------------------- | --------------: | -----------: | ----------: | --------------------------------------------------- |
+| Tick rate                 |              64 |           64 |          64 | `header.tick_rate`                                  |
+| Rounds in regulation      |              24 |           24 |          16 | `header.max_rounds`                                 |
+| Rounds to win             |              13 |           13 |           9 |                                                     |
+| Freeze time               |            20 s |         15 s |        10 s | `header.freeze_time`                                |
+| Buy time after freeze     |            20 s |         20 s |        20 s | `round_freeze_end` to `buytime_ended`               |
+| Round time                |    1:55 (115 s) | 1:55 (115 s) | 1:30 (90 s) | `header.round_time_defuse`, in minutes (1.92, 1.50) |
+| Starting money            |            $800 |         $800 |        $800 | `player_status.money` in round 1                    |
+| Most money a player holds |         $16,000 |      $16,000 |      $8,000 | `player_status.money`                               |
+| Health, armour at most    |             100 |          100 |         100 | `player_status.health`, `armor`                     |
+
+Round time runs from the end of freeze time. Hostage maps use the same 1:55.
+A few rounds have a longer freeze time than the setting.
+
+At 12–12, Premier and FACEIT play overtime: six more rounds, first to 16.
+Premier ends a 15–15 overtime as a draw; two matches here did. Competitive and
+Wingman have no overtime and can end level, 12–12 or 8–8.
+
+### Bomb and utility
+
+| Timer               | Value       | Measured as                                                   |
+| ------------------- | ----------- | ------------------------------------------------------------- |
+| Planting the bomb   | 3.125 s     | `bomb_begin_plant` to `bomb_planted`: 200 ticks               |
+| Bomb timer          | 41 s        | `bomb_planted` to `bomb_exploded`; the game's setting is 40 s |
+| Defusing, no kit    | 10 s        | `bomb_begin_defuse` to `bomb_defused`, `has_kit` false        |
+| Defusing with a kit | 5 s         | the same, `has_kit` true                                      |
+| Smoke               | 22.06 s     | `smokegrenade_detonate` to `smokegrenade_expired`             |
+| Molotov fire        | 7.03 s      | `inferno_startburn` to `inferno_expire`, not put out by smoke |
+| Incendiary fire     | 5.5 s       | the same                                                      |
+| Flash blindness     | up to 5.3 s | `player_status.flash_duration`                                |
+
+### Player size and jumps
+
+| Measure              | Units | Measured as                                                       |
+| -------------------- | ----: | ----------------------------------------------------------------- |
+| Height, standing     |    72 | a player standing on a standing teammate is 72 units higher       |
+| Height, crouched     |    54 | on a crouched teammate, 54 units higher                           |
+| Width                |    32 | two players side by side are never closer than 32 units in x or y |
+| Jump height          | 55.83 | rise of `z_pos` from take-off to the top of a jump on flat ground |
+| Crouch-jump height   | 64.83 | the same, crouching in the air                                    |
+| Eye height, standing |    64 | the game's value; the data holds the feet, not the eyes           |
+| Eye height, crouched |    46 | the game's value                                                  |
+
+A player is a box 32 units wide and deep, which doesn't turn with the
+player. Its position (`x_pos`, `y_pos`, `z_pos`) is the middle of the bottom
+of the box: the feet.
+
+### Movement speed
+
+Top speed on the ground, in units per second, as `player_vector.speed_2d`
+reaches it. `speed_2d` is a derived column that newer matches don't store:
+compute it on load with `add_player_vector_derived_columns`, as the
+[spec](./spec.md) explains. Top speed depends on the weapon in hand:
+
+| Speed | Weapon in hand                                                                                   |
+| ----: | ------------------------------------------------------------------------------------------------ |
+|   250 | Every knife, C4                                                                                  |
+|   245 | Every grenade                                                                                    |
+|   240 | Glock-18, USP-S, P2000, P250, Five-SeveN, Tec-9, CZ75-Auto, Dual Berettas, MAC-10, MP9, PP-Bizon |
+|   235 | MP5-SD                                                                                           |
+|   230 | Desert Eagle, Zeus x27, UMP-45, P90, SSG 08                                                      |
+|   225 | M4A4, M4A1-S, MAG-7                                                                              |
+|   220 | R8 Revolver, MP7, FAMAS, AUG, Nova                                                               |
+|   215 | AK-47, Galil AR, XM1014, G3SG1, SCAR-20                                                          |
+|   210 | SG 553, Sawed-Off                                                                                |
+|   200 | AWP                                                                                              |
+|   195 | M249                                                                                             |
+|   150 | Negev                                                                                            |
+
+Other ways of moving change that:
+
+| Moving                 | Top speed                                                      | Where to see it             |
+| ---------------------- | -------------------------------------------------------------- | --------------------------- |
+| Walking (shift)        | 52% of the weapon's speed: 130 with a knife, 112 with an AK-47 | `player_status.is_walking`  |
+| Crouched               | 34% of the weapon's speed: 85 with a knife, 73 with an AK-47   | `player_vector.is_ducked`   |
+| Scoped, AWP            | 100                                                            | `player_status.is_scoped`   |
+| Scoped, G3SG1, SCAR-20 | 120                                                            |                             |
+| Scoped, AUG, SG 553    | 150                                                            |                             |
+| Scoped, SSG 08         | 230: scoping doesn't slow it                                   |                             |
+| Carrying a hostage     | 200, whatever the weapon: even a knife is held to 200          | `player_vector.is_rescuing` |
+
+These are speeds on the ground. Players can go faster in the air.
