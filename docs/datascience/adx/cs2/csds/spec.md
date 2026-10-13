@@ -1146,21 +1146,21 @@ overtime, one number for every row of a round; `phase` still says "first" or
 side's run of round losses as the game counts it for the loss bonus. They
 climb by one per loss and step down on a win rather than resetting to 0.
 
-| Col Name     | Type    | Nullable | Origin       | Dependents      | Merge Keys |
-| ------------ | ------- | -------- | ------------ | --------------- | ---------- |
-| round        | int64   | False    | replay       |                 |            |
-| tick         | int64   | False    | replay       |                 |            |
-| event_type   | string  | False    | replay       |                 |            |
-| t_score      | int64   | False    | replay_fixed |                 |            |
-| ct_score     | int64   | False    | replay_fixed |                 |            |
-| t_score_raw  | int64   | False    | replay       |                 |            |
-| ct_score_raw | int64   | False    | replay       |                 |            |
-| phase        | string  | False    | replay       |                 |            |
-| is_warmup    | bool    | False    | replay       |                 |            |
-| overtime | int64 | False | replay | | |
-| t_loss_streak | int64 | False | replay | | |
-| ct_loss_streak | int64 | False | replay | | |
-| second       | float64 | True     | calculated   | tick, tick_rate |            |
+| Col Name       | Type    | Nullable | Origin       | Dependents      | Merge Keys |
+| -------------- | ------- | -------- | ------------ | --------------- | ---------- |
+| round          | int64   | False    | replay       |                 |            |
+| tick           | int64   | False    | replay       |                 |            |
+| event_type     | string  | False    | replay       |                 |            |
+| t_score        | int64   | False    | replay_fixed |                 |            |
+| ct_score       | int64   | False    | replay_fixed |                 |            |
+| t_score_raw    | int64   | False    | replay       |                 |            |
+| ct_score_raw   | int64   | False    | replay       |                 |            |
+| phase          | string  | False    | replay       |                 |            |
+| is_warmup      | bool    | False    | replay       |                 |            |
+| overtime       | int64   | False    | replay       |                 |            |
+| t_loss_streak  | int64   | False    | replay       |                 |            |
+| ct_loss_streak | int64   | False    | replay       |                 |            |
+| second         | float64 | True     | calculated   | tick, tick_rate |            |
 
 ## score_update - single_event
 

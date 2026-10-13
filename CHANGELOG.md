@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- CSDS spec: the `team_info` and `pause_state` channels, and `round_state.overtime`, `t_loss_streak` and `ct_loss_streak`, with short notes on what each means; their homepage tiles and data dictionary rows. They come with csgo-rushb#114 and csgo-ppp#206.
 - Game constants on the CS2 Enums page: tick rate, rounds, freeze, buy and round time, money and health limits, overtime, the bomb and utility timers, player size, jump heights and eye height, and top movement speed by weapon, walking, crouched, scoped and carrying a hostage. All but the eye heights, which are the game's values, were measured on the 50-match regression corpus.
 - A CS2 page on how the data fits together: what a row is in each kind of channel, ticks and seconds, how rounds are numbered, following a player, sides and the half, where player state lives, and how event channels carry positions (with a tested example of joining another column), measured on the 89 matches published 2026-10-07.
 - A CS2 CSDS page on positions and view angles: what x, y, z, `theta_ang` and `phi_ang` measure, with figures, and the formula for the angle between a player's view and any point. The spec links to it.
