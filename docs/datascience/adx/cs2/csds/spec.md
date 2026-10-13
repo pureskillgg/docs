@@ -11,7 +11,9 @@ channel, 43 in all, for 44 objects per match. The index lists the channels,
 where each one sits, and what columns it declares. Every channel file is
 [Apache Parquet], `header` included.
 
-This document describes the channel set published since 2026-08-04. Revisions
+This document describes the channel set published since 2026-08-04, plus the
+`convar` channel added after it; the [changelog](./changelog.md) dates that,
+and matches processed before it have 42 channels and no `convar`. Revisions
 through 2026-08-02 carry an older set of 30 channels, described in the
 [archived spec](/datascience/old/cs2/csds/spec); the 2026-08-03 revision holds
 a mix of the two. Reading each match's index object rather than assuming a
