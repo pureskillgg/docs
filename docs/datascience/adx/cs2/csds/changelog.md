@@ -25,6 +25,14 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
+## 2026-10-12
+
+_Publisher 4.0.4._
+
+**Delivery**
+
+- Each match is delivered as one zip, `csds/YYYY/MM/DD/<id>.zip`, instead of 43 separate objects. Its entries are the same files under their full keys, stored without recompression, so unzipping it where `csds/` sits rebuilds the old layout; dsdk 4.1.0's `extract_adx_zips` does that, and `download_adx_dataset_revision` unzips for you. Matches processed after 21:22 UTC are zipped, so the 2026-10-12 revision holds both kinds. See [Getting the Data](./getting-the-data.md#file-layout).
+
 ## 2026-10-11
 
 _Parser 5.7.0._
