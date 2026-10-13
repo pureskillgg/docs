@@ -77,7 +77,8 @@ not its processing (such as when it was processed, or by which versions).
   `item_dropped`, `item_refund`, `molotov_fire`, `player_chat`,
   `player_connect`, `player_inputs`, `player_sound`, `rank_update`,
   `score_update`, `team_change` and `world_item_vector`. Two were removed:
-  `item_remove` and `player_action`. Read each match's `csds` index object
+  `item_remove` and `player_action`. Parser 5.8.0 later added a 43rd,
+  `smoke_voxel`; matches processed before it have none. Read each match's `csds` index object
   rather than assuming a fixed channel list.
 - **`player_vector` stores fewer columns.** Since 2026-10-06 it no longer
   stores its ten derived columns; compute them on load, as the

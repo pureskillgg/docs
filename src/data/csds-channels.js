@@ -23,6 +23,7 @@ export const channels = [
   channel('grenade_vector', 'telemetry', 'telemetry'),
   channel('molotov_fire', 'telemetry', 'telemetry'),
   channel('world_item_vector', 'telemetry', 'telemetry'),
+  channel('smoke_voxel', 'telemetry', 'telemetry'),
   channel('bomb_action', 'multi_event', 'event'),
   channel('bomb_defuse', 'multi_event', 'event'),
   channel('bomb_state', 'multi_event', 'event'),
