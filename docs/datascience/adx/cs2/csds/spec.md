@@ -213,6 +213,7 @@ Events that trigger this channel: bomb_abort_plant, bomb_begin_plant, bomb_dropp
 | player_id_pawn     | int64   | True     | replay     |                 |                            |
 | site_code          | int64   | True     | replay     |                 |                            |
 | entity_id          | int64   | True     | replay     |                 |                            |
+| site               | string  | True     | replay     |                 |                            |
 | second             | float64 | True     | calculated | tick, tick_rate |                            |
 | player_id_fixed    | int64   | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
@@ -261,6 +262,7 @@ Events that trigger this channel: bomb_defused, bomb_exploded, bomb_planted
 | event_type         | string  | False    | replay     |                 |                            |
 | player_id          | int64   | False    | replay     |                 |                            |
 | site_code          | int64   | True     | replay     |                 |                            |
+| site               | string  | True     | replay     |                 |                            |
 | x_pos              | float64 | True     | replay     |                 |                            |
 | y_pos              | float64 | True     | replay     |                 |                            |
 | z_pos              | float64 | True     | replay     |                 |                            |
