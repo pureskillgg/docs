@@ -7,7 +7,7 @@ sidebar_position: 1
 Documentation for CSDS channels built by FPS Critic, Inc.
 
 One match is published as a JSON index object named `csds` plus one file per
-channel, 42 in all, for 43 objects per match. The index lists the channels,
+channel, 43 in all, for 44 objects per match. The index lists the channels,
 where each one sits, and what columns it declares. Every channel file is
 [Apache Parquet], `header` included.
 
@@ -1141,6 +1141,46 @@ Event that triggers this channel: score_update
 | old_score | int64   | False    | replay     |                 |            |
 | new_score | int64   | False    | replay     |                 |            |
 | second    | float64 | True     | calculated | tick, tick_rate |            |
+
+## smoke_voxel - telemetry
+
+Event that triggers this channel: tick_end
+
+A smoke's volume as the game sends it. The rows are not the smoke itself: they
+are the cells the smoke's fill starts from (`kind` `seed`) and the map's
+surfaces around the smoke (`kind` `block`), from which each player's game fills
+the smoke in.
+
+- Cells are 20 units on a world grid: cell n spans 20n to 20n + 20 on each axis,
+  so a point is in cell `floor(x / 20)`, `floor(y / 20)`, `floor(z / 20)`.
+- A `block` row covers the 4 × 4 × 4 cells from its corner `cell_x`, `cell_y`,
+  `cell_z`. Bit x + 4y + 16z of `mask` is set where the cell at corner + (x, y,
+  z) is part of the map. A later row for the same block and `grenade_id`
+  replaces it.
+- A `seed` row is one cell the fill starts from. `seed_value` is a byte the game
+  sends with each seed (5 or 0; its meaning is unknown).
+- To get the smoke's shape, fill outward from the seed cells to the six face
+  neighbours, through cells that lie in a received block and are not set, for 4
+  steps. Checked against the smoke CS2 draws, about three quarters of that shape
+  is smoke, and it covers about three quarters of the smoke.
+- The smoke is gone at its `smokegrenade_expired` row in `grenade_state`, even
+  if rows for it came later. Demos from builds before the voxel data have no
+  rows.
+
+| Col Name   | Type    | Nullable | Origin     | Dependents      | Merge Keys |
+| ---------- | ------- | -------- | ---------- | --------------- | ---------- |
+| round      | int64   | False    | replay     |                 |            |
+| tick       | int64   | False    | replay     |                 |            |
+| entity_id  | int64   | False    | replay     |                 |            |
+| grenade_id | int64   | False    | replay     |                 |            |
+| update_nr  | int64   | False    | replay     |                 |            |
+| kind       | string  | False    | replay     |                 |            |
+| cell_x     | int64   | False    | replay     |                 |            |
+| cell_y     | int64   | False    | replay     |                 |            |
+| cell_z     | int64   | False    | replay     |                 |            |
+| mask       | int64   | True     | replay     |                 |            |
+| seed_value | int64   | True     | replay     |                 |            |
+| second     | float64 | True     | calculated | tick, tick_rate |            |
 
 ## team_change - single_event
 
