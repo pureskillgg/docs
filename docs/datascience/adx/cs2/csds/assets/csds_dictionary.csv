@@ -330,6 +330,14 @@ attacker_phi_ang,DECIMAL,,True,,Merged from another channel. Null where no sourc
 attacker_theta_ang,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,other_death,single_event
 attacker_weapon_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,other_death,single_event
 attacker_team_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,other_death,single_event
+round,INTEGER,,False,,,,,pause_state,multi_event
+tick,INTEGER,,False,,,,,pause_state,multi_event
+event_type,VARCHAR,,False,"timeout_start, timeout_end, technical_pause_start, technical_pause_end, pause_start or pause_end.",A pause still in force when the demo ends has no end row.,,,pause_state,multi_event
+team_code,INTEGER,,True,The side that called the pause.,Null for a pause no side called.,,,pause_state,multi_event
+t_timeouts_left,INTEGER,,False,The terrorists' tactical timeouts left.,,,,pause_state,multi_event
+ct_timeouts_left,INTEGER,,False,The counter-terrorists' tactical timeouts left.,,,,pause_state,multi_event
+remaining_seconds,DECIMAL,,True,Seconds left on the calling side's timeout clock.,Null for a pause no side called.,,,pause_state,multi_event
+second,DECIMAL,,True,,,,,pause_state,multi_event
 round,INTEGER,,False,,,,,player_blind,single_event
 tick,INTEGER,,False,,,,,player_blind,single_event
 player_id,INTEGER,,False,,,,,player_blind,single_event
@@ -678,6 +686,9 @@ t_score_raw,INTEGER,,False,,,,,round_state,multi_event
 ct_score_raw,INTEGER,,False,,,,,round_state,multi_event
 phase,VARCHAR,,False,,,,,round_state,multi_event
 is_warmup,BOOLEAN,,False,,,,,round_state,multi_event
+overtime,INTEGER,,False,"The overtime period: 0 in regulation, 1 in the first overtime. One number for every row of a round.",,,,round_state,multi_event
+t_loss_streak,INTEGER,,False,"The terrorists' run of round losses, as the game counts it for the loss bonus.",Steps down on a win rather than resetting to 0.,,,round_state,multi_event
+ct_loss_streak,INTEGER,,False,"The counter-terrorists' run of round losses, as the game counts it for the loss bonus.",Steps down on a win rather than resetting to 0.,,,round_state,multi_event
 second,DECIMAL,,True,,,,,round_state,multi_event
 round,INTEGER,,False,,,,,score_update,single_event
 tick,INTEGER,,False,,,,,score_update,single_event
@@ -704,6 +715,15 @@ player_phi_ang,DECIMAL,,True,,Merged from another channel. Null where no source 
 player_theta_ang,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,team_change,single_event
 player_weapon_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,team_change,single_event
 player_team_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,team_change,single_event
+round,INTEGER,,False,,,,,team_info,single_event
+tick,INTEGER,,False,,,,,team_info,single_event
+team_code,INTEGER,,False,"The side, not the team.",At halftime the names and half scores move to the other side.,,,team_info,single_event
+clan_name,VARCHAR,,False,The team's name.,Empty on matchmaking and Premier matches.,,,team_info,single_event
+flag,VARCHAR,,False,The team's flag code.,Empty on matchmaking and Premier matches.,,,team_info,single_event
+surrendered,BOOLEAN,,False,True once this side has surrendered.,,,,team_info,single_event
+score_first_half,INTEGER,,False,This side's rounds won in the first half.,,,,team_info,single_event
+score_second_half,INTEGER,,False,This side's rounds won in the second half.,Overtime rounds are not counted here.,,,team_info,single_event
+second,DECIMAL,,True,,,,,team_info,single_event
 round,INTEGER,,False,,,,,tick,telemetry
 tick,INTEGER,,False,,,,,tick,telemetry
 second,DECIMAL,,True,,,,,tick,telemetry
