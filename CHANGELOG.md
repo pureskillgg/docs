@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - `grenade_vector`'s throw columns in the CS2 spec and data dictionary.
+- `weapon_fire`'s per-shot columns in the CS2 spec and data dictionary: the shot's real inaccuracy, its seed, origin and angles, and, from Valve's servers, the movement and air parts, the aim punch and the click's tick.
 - A 2026-10-12 entry on the CS2 changelog pages: each match is delivered as one zip from that day.
 - Game constants on the CS2 Enums page: tick rate, rounds, freeze, buy and round time, money and health limits, overtime, the bomb and utility timers, player size, jump heights and eye height, and top movement speed by weapon, walking, crouched, scoped and carrying a hostage. All but the eye heights, which are the game's values, were measured on the 50-match regression corpus.
 - A CS2 page on how the data fits together: what a row is in each kind of channel, ticks and seconds, how rounds are numbered, following a player, sides and the half, where player state lives, and how event channels carry positions (with a tested example of joining another column), measured on the 89 matches published 2026-10-07.

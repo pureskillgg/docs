@@ -1241,6 +1241,21 @@ Events that trigger this channel: fire_on_empty, reload, zoom, zoom_rifle
 
 Event that triggers this channel: weapon_fire
 
+Each row a gun fired also carries the server's own record of the shot.
+`inaccuracy_total` is the inaccuracy the game applied to it, including the
+movement and jumping part that `player_vector.inaccuracy` (the firing penalty
+only) leaves out; on about a quarter of shots the total is more than 10% higher.
+`seed` is the random seed for the shot's spread, `origin_x`, `origin_y` and
+`origin_z` are where it was fired from, and `angle_pitch` and `angle_yaw` its
+direction in degrees. Valve's matchmaking servers also send `inaccuracy_move`
+and `inaccuracy_air` (the movement and air parts of the total),
+`aim_punch_pitch` and `aim_punch_yaw` (the recoil kick on the view at the shot,
+in degrees), and `attack_tick` and `attack_tick_frac` (the tick, and the
+fraction of it, when the player clicked: almost always 3 ticks before to 1
+after the row's `tick`). These columns are null on grenade, knife and other
+rows that fire no bullet, and the Valve-only ones are null on FACEIT and league
+matches. Older matches don't have them.
+
 | Col Name           | Type    | Nullable | Origin     | Dependents                                     | Merge Keys                 |
 | ------------------ | ------- | -------- | ---------- | ---------------------------------------------- | -------------------------- |
 | round              | int64   | False    | replay     |                                                |                            |
@@ -1249,6 +1264,19 @@ Event that triggers this channel: weapon_fire
 | player_id_pawn     | int64   | False    | replay     |                                                |                            |
 | weapon_name        | string  | False    | replay     |                                                |                            |
 | is_silenced        | bool    | False    | replay     |                                                |                            |
+| inaccuracy_total   | float64 | True     | replay     |                                                |                            |
+| seed               | int64   | True     | replay     |                                                |                            |
+| origin_x           | float64 | True     | replay     |                                                |                            |
+| origin_y           | float64 | True     | replay     |                                                |                            |
+| origin_z           | float64 | True     | replay     |                                                |                            |
+| angle_pitch        | float64 | True     | replay     |                                                |                            |
+| angle_yaw          | float64 | True     | replay     |                                                |                            |
+| inaccuracy_move    | float64 | True     | replay     |                                                |                            |
+| inaccuracy_air     | float64 | True     | replay     |                                                |                            |
+| aim_punch_pitch    | float64 | True     | replay     |                                                |                            |
+| aim_punch_yaw      | float64 | True     | replay     |                                                |                            |
+| attack_tick        | int64   | True     | replay     |                                                |                            |
+| attack_tick_frac   | float64 | True     | replay     |                                                |                            |
 | second             | float64 | True     | calculated | tick, tick_rate                                |                            |
 | player_id_fixed    | int64   | True     | merged     |                                                | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                                                | player_id, tick            |
