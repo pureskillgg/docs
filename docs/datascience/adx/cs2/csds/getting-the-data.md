@@ -155,8 +155,9 @@ Each entry in `channels` has:
   event, so the channel is empty for that reason; `true` means it did, though
   the channel can still be empty when nothing happened. In the revision of
   2026-10-07, `player_inputs` and `player_sound` were `false` in 88 of 89
-  matches. From parser 5.7.0 (2026-10-11), `player_inputs` is `true` on every
-  kind of demo (see [Known Flaws](./known-flaws.md#empty-channels)).
+  matches. From parser 5.7.0 (2026-10-12), `player_inputs` is `true` on every
+  kind of demo, and `player_sound` on every demo that carries the game's sound
+  messages (see [Known Flaws](./known-flaws.md#empty-channels)).
 
 ## Match identity and dates
 

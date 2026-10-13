@@ -850,11 +850,24 @@ Event that triggers this channel: player_disconnect
 
 Event that triggers this channel: player_footstep
 
+Every step, jump and landing a player was heard making, one row each, from the
+sounds the game played. `kind` is `step`, `jump` or `land`. `surface` is what
+was stepped or landed on (`Concrete`, `Sand`, `Wood` and so on), and empty for
+a jump. Every jump also plays a step at takeoff, so a jump row comes with a
+step row at about the same tick. Walking and crouching make no sound, so they
+make no steps, and small drops make no landing. A step the game played twice on
+one tick, at a jump or a landing, is two rows (about 1 step in 300). Matches
+parsed before parser 5.7.0 (2026-10-12) hold a different channel: jumps and
+landings only, with no `kind` or `surface`; see the
+[changelog](./changelog.md).
+
 | Col Name        | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
 | --------------- | ------- | -------- | ---------- | --------------- | -------------------------- |
 | round           | int64   | False    | replay     |                 |                            |
 | tick            | int64   | False    | replay     |                 |                            |
 | player_id       | int64   | False    | replay     |                 |                            |
+| kind            | string  | False    | replay     |                 |                            |
+| surface         | string  | False    | replay     |                 |                            |
 | second          | float64 | True     | calculated | tick, tick_rate |                            |
 | player_id_fixed | int64   | True     | merged     |                 | player_id, round, steam_id |
 
@@ -991,14 +1004,33 @@ Event that triggers this channel: round_freeze_end
 
 Event that triggers this channel: player_sound
 
+Every sound the game played, one row per sound. That covers each player's
+steps, jumps and landings (the ones `player_footstep` has), pickups and damage
+heard by others, and the world's and the grenades' sounds: dropped items
+landing, molotovs catching fire, bounces, explosions. Gunshots and reloads
+aren't in it; `weapon_fire` has the shots. `sound` is the game's name for the
+sound (`Player.PickupWeapon`), or its hash as 8 hex digits when the parser's
+list of names lacks it, which is under 1 sound in 1,000 on recent matches.
+`source` says what made it: `player`, `weapon` (one a player carries),
+`grenade`, `world` or `other`. `player_id` is the player, the carrier of the
+weapon or the thrower of the grenade, and null when no player is known: world
+sounds, and about 3% of sounds whose source had not reached the recording when
+the sound did (`source` `other`), among them weapon and armor purchases. The
+merged position columns are that player's, and null when `player_id` is. A
+sound the game played twice on one tick, such as a grenade bouncing off two
+surfaces, is two rows. A demo with no sound messages falls back to the
+`player_sound` game event, one row per event with `sound` `player_sound`.
+Matches parsed before parser 5.7.0 (2026-10-12) took the channel from that
+event alone, which most demos don't carry, and had `radius`, `duration` and
+`is_step`; see the [changelog](./changelog.md).
+
 | Col Name           | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
 | ------------------ | ------- | -------- | ---------- | --------------- | -------------------------- |
 | round              | int64   | False    | replay     |                 |                            |
 | tick               | int64   | False    | replay     |                 |                            |
-| player_id          | int64   | False    | replay     |                 |                            |
-| radius             | int64   | False    | replay     |                 |                            |
-| duration           | float64 | False    | replay     |                 |                            |
-| is_step            | bool    | False    | replay     |                 |                            |
+| player_id          | int64   | True     | replay     |                 |                            |
+| sound              | string  | False    | replay     |                 |                            |
+| source             | string  | False    | replay     |                 |                            |
 | second             | float64 | True     | calculated | tick, tick_rate |                            |
 | player_id_fixed    | int64   | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |

@@ -203,6 +203,8 @@ Dates are the day (UTC) a change reached production.
 
 ## player_footstep
 
+- **2026-10-12**, values changed. **Breaking:** Holds every step, jump and landing a player was heard making, about 10,000 rows a match instead of about 560. The rows now come from the sounds the game played. Before, the channel came from a game event that CS2 fires almost only on jumps and landings: of 28,080 such rows on a 50-match sample, 1 was a running step. Code that read every row as a jump or a landing must now filter on the new `kind` column. A step the game played twice on one tick, at a jump or a landing, is two rows (about 1 step in 300). Matches parsed before this date keep the old channel.
+- **2026-10-12**, columns added: `kind`, `surface`. Strings. `kind` is `step`, `jump` or `land`. `surface` is what was stepped or landed on (`Concrete`, `Sand`, `Wood` and so on), and empty for a jump.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 
 ## player_hurt
@@ -225,7 +227,7 @@ Dates are the day (UTC) a change reached production.
 
 ## player_inputs
 
-- **2026-10-11**, fixes. Has rows again, on every kind of demo: which buttons each player held, a row whenever that changed (6,600 to 82,000 rows a match across a 50-match sample). The CS2 update of 2026-07-09 removed the player property the parser read them from, so the channel, added on 2026-08-03, has been empty on every match recorded since that update, whatever its source; the 2026-08-03 entry's "empty on Valve matchmaking demos" understated it. Parser 5.7.0 (demoinfocs-golang v6) rebuilds the button state from the user commands the demo carries. Matches parsed before this date keep their empty channel.
+- **2026-10-12**, fixes. Has rows again, on every kind of demo: which buttons each player held, a row whenever that changed (6,600 to 82,000 rows a match across a 50-match sample). The CS2 update of 2026-07-09 removed the player property the parser read them from, so the channel, added on 2026-08-03, has been empty on every match recorded since that update, whatever its source; the 2026-08-03 entry's "empty on Valve matchmaking demos" understated it. Parser 5.7.0 (demoinfocs-golang v6) rebuilds the button state from the user commands the demo carries. Matches parsed before this date keep their empty channel.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-03**, channel added. Which buttons each player held, a row whenever that changed. Empty on Valve matchmaking demos, which do not carry it.
@@ -244,6 +246,10 @@ Dates are the day (UTC) a change reached production.
 
 ## player_sound
 
+- **2026-10-12**, values changed. Holds every sound the game played, about 16,000 rows a match: each player's steps, jumps and landings, pickups and damage heard by others, and the world's and the grenades' sounds. Before, it came from the `player_sound` game event, which most demos don't carry, so the channel was empty on most matches. Its `available` flag in the index object is now true on every demo that carries the game's sound messages. A demo with none falls back to the game event, one row per event with `sound` `player_sound`. A sound the game played twice on one tick is two rows.
+- **2026-10-12**, columns added: `sound`, `source`. Strings. `sound` is the game's name for the sound (`Player.PickupWeapon`), or its hash as 8 hex digits when the parser's list of names lacks it. `source` says what made it: `player`, `weapon` (one a player carries), `grenade`, `world` or `other`.
+- **2026-10-12**, columns removed: `radius`, `duration`, `is_step`. **Breaking:** no longer written, so code that reads them breaks. They came from the `player_sound` game event, which most demos don't carry.
+- **2026-10-12**, types changed: `player_id`. Now nullable, and null when no player is known, as for world sounds and about 3% of sounds whose source had not reached the recording when the sound did. The merged position columns are null with it.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-03**, channel added. Sounds a player made and how far they carried. Empty on Valve matchmaking demos, which do not carry it.
@@ -354,5 +360,5 @@ Dates are the day (UTC) a change reached production.
 
 ## world_item_vector
 
-- **2026-10-11**, fixes: `prev_owner_id`. The same on every parse of a demo. Before, on some matches (seen on FACEIT demos) about twenty rows a match could name a different previous owner from one parse to the next. A match is parsed once, so a published match was self-consistent, but processing the same demo again could change this column.
+- **2026-10-12**, fixes: `prev_owner_id`. The same on every parse of a demo. Before, on some matches (seen on FACEIT demos) about twenty rows a match could name a different previous owner from one parse to the next. A match is parsed once, so a published match was self-consistent, but processing the same demo again could change this column.
 - **2026-08-03**, channel added. Positions of items lying on the ground, a row whenever one moved.

@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - `weapon_fire`'s per-shot columns in the CS2 spec and data dictionary: the shot's real inaccuracy, its seed, origin and angles, and, from Valve's servers, the movement and air parts, the aim punch and the click's tick.
 - `team_info` and `pause_state`, and `round_state`'s overtime and loss-streak columns, in the CS2 spec and data dictionary.
 - `site`, the bomb site letter, on `bomb_action` and `bomb_state` in the CS2 spec, data dictionary and Enums page.
+- `player_footstep` and `player_sound` from parser 5.7.0 in the CS2 spec, data dictionary, Known Flaws and Getting the Data: every step, jump and landing with its `kind` and `surface`, and every sound the game played with its `sound` and `source`. Changelog entries for 2026-10-12, which now also holds parser 5.7.0's earlier `player_inputs` and `prev_owner_id` entries (5.7.0 reached production on 2026-10-12 UTC, not 2026-10-11).
 - A 2026-10-12 entry on the CS2 changelog pages: each match is delivered as one zip from that day.
 - Game constants on the CS2 Enums page: tick rate, rounds, freeze, buy and round time, money and health limits, overtime, the bomb and utility timers, player size, jump heights and eye height, and top movement speed by weapon, walking, crouched, scoped and carrying a hostage. All but the eye heights, which are the game's values, were measured on the 50-match regression corpus.
 - A CS2 page on how the data fits together: what a row is in each kind of channel, ticks and seconds, how rounds are numbered, following a player, sides and the half, where player state lives, and how event channels carry positions (with a tested example of joining another column), measured on the 89 matches published 2026-10-07.
@@ -33,7 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Bring the CS2 changelog pages up to date with parser 5.7.0 (2026-10-11): `player_inputs` has rows again on every kind of demo, after being empty on every match recorded since the CS2 update of 2026-07-09 (the channel itself dates from 2026-08-03), and `world_item_vector.prev_owner_id` is the same on every parse. Known Flaws no longer lists `player_inputs` among the channels most demos leave empty.
+- Bring the CS2 changelog pages up to date with parser 5.7.0 (2026-10-12): `player_inputs` has rows again on every kind of demo, after being empty on every match recorded since the CS2 update of 2026-07-09 (the channel itself dates from 2026-08-03), and `world_item_vector.prev_owner_id` is the same on every parse. Known Flaws no longer lists `player_inputs` among the channels most demos leave empty.
 - The data is licensed under CC BY-NC-SA 4.0. The CS2 data set page, datasheet, Getting the Data and the FAQ no longer call the Data Subscriber Agreement the license.
 - CS2 datasheet, from the ethics review: some players can be linked across matches, the data almost certainly includes players under 18, the Terms of Service don't mention the data set, and it may not be used for cheats.
 - Link Data Science, the CSDS Spec and the Changelog from the navbar, move the social links into the footer, and replace the "Beep Boop." tagline.
