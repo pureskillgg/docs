@@ -6,10 +6,10 @@ Competitive Counter-Strike 2 (CS2)
 match data from matchmaking, FACEIT, and other third-parties.
 Contains full player telemetry and timestamped game events.
 These data are extracted from CS2 replay files called demos.
-Each match is 46 files, collectively called csds:
-45 channel files plus a JSON index object, also named `csds`, that lists them
-(43 channel files in matches from before the `team_info` and `pause_state`
-channels were added, and 42 from before the `convar` channel).
+Each match is 47 files, collectively called csds:
+46 channel files plus a JSON index object, also named `csds`, that lists them
+(fewer in matches from before the newer channels: `convar`, `team_info`,
+`pause_state` and `smoke_voxel`).
 Newer revisions deliver each match as one zip of those files; older ones
 deliver them as separate objects. [Getting the Data](./getting-the-data.md#file-layout)
 shows both.
@@ -18,7 +18,7 @@ New here? The [Quickstart](./quickstart.md) goes from subscribing to a first
 query, and [Getting the Data](./getting-the-data.md) explains how the data is
 delivered.
 
-Revisions through 2026-08-02 carry 31 objects per match instead of 43, and the
+Revisions through 2026-08-02 carry 31 objects per match rather than 47, and the
 2026-08-03 revision holds a mix of both. The
 [archived spec](/datascience/old/cs2/csds/spec) describes the older set.
 
@@ -92,7 +92,7 @@ This is a standardized CSV file that catalogues all tables and columns in the da
 - DSA - Data Subscriber Agreement.
   Find this in your AWS account under the ADX subscription to this data set.
 - PII - Personally Identifiable Information.
-- channel - One of the 42 data files that combine to make a csds object.
+- channel - One of the 46 data files that combine to make a csds object.
 - csds - The name given to the collection of files extracted from a CS2 demo,
   and also the name of the JSON index object that lists them.
 - demo - The name given to the server-recorded stream of event data from a match of CS2.
