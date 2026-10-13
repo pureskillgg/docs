@@ -6,7 +6,7 @@ player_id,INTEGER,,True,,,,,bomb_action,multi_event
 player_id_pawn,INTEGER,,True,,,,,bomb_action,multi_event
 site_code,INTEGER,,True,,,,,bomb_action,multi_event
 entity_id,INTEGER,,True,,,,,bomb_action,multi_event
-site,VARCHAR,,True,The letter of the bomb site site_code names: A or B.,Null where site_code is. A map with one bomb site (wingman) calls it A.,,,bomb_action,multi_event
+site,VARCHAR,,True,The letter of the bomb site site_code names: A or B.,Null when site_code is null. A map with one bomb site (wingman) calls it A.,,,bomb_action,multi_event
 second,DECIMAL,,True,,,,,bomb_action,multi_event
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,bomb_action,multi_event
 player_x_pos,DECIMAL,,True,asof merge (nearby ticks),Merged from another channel. Null where no source row matches.,,,bomb_action,multi_event
@@ -41,7 +41,7 @@ tick,INTEGER,,False,,,,,bomb_state,multi_event
 event_type,VARCHAR,,False,,,,,bomb_state,multi_event
 player_id,INTEGER,,False,,,,,bomb_state,multi_event
 site_code,INTEGER,,True,,,,,bomb_state,multi_event
-site,VARCHAR,,True,The letter of the bomb site site_code names: A or B.,Null where site_code is. A map with one bomb site (wingman) calls it A.,,,bomb_state,multi_event
+site,VARCHAR,,True,The letter of the bomb site site_code names: A or B.,Null when site_code is null. A map with one bomb site (wingman) calls it A.,,,bomb_state,multi_event
 x_pos,DECIMAL,,True,x of the planted bomb.,bomb_planted rows only; null on bomb_defused and bomb_exploded.,,,bomb_state,multi_event
 y_pos,DECIMAL,,True,y of the planted bomb.,bomb_planted rows only; null on bomb_defused and bomb_exploded.,,,bomb_state,multi_event
 z_pos,DECIMAL,,True,z of the planted bomb.,bomb_planted rows only; null on bomb_defused and bomb_exploded.,,,bomb_state,multi_event
