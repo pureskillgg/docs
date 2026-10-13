@@ -7,14 +7,15 @@ sidebar_position: 1
 Documentation for CSDS channels built by FPS Critic, Inc.
 
 One match is published as a JSON index object named `csds` plus one file per
-channel, 44 in all, for 45 objects per match. The index lists the channels,
+channel, 46 in all, for 47 objects per match. The index lists the channels,
 where each one sits, and what columns it declares. Every channel file is
 [Apache Parquet], `header` included.
 
 This document describes the channel set published since 2026-08-04, plus the
-`convar` and `smoke_voxel` channels added after it; the [changelog](./changelog.md)
-dates them, and matches processed before them lack them (42 channels with
-neither). Revisions
+`convar`, `team_info`, `pause_state` and `smoke_voxel` channels added after it;
+the [changelog](./changelog.md) dates them. Matches processed before `convar`
+have 42 channels, those processed before `team_info` and `pause_state` have 43,
+and those processed before `smoke_voxel` lack it. Revisions
 through 2026-08-02 carry an older set of 30 channels, described in the
 [archived spec](/datascience/old/cs2/csds/spec); the 2026-08-03 revision holds
 a mix of the two. Reading each match's index object rather than assuming a
@@ -212,6 +213,7 @@ Events that trigger this channel: bomb_abort_plant, bomb_begin_plant, bomb_dropp
 | player_id_pawn     | int64   | True     | replay     |                 |                            |
 | site_code          | int64   | True     | replay     |                 |                            |
 | entity_id          | int64   | True     | replay     |                 |                            |
+| site               | string  | True     | replay     |                 |                            |
 | second             | float64 | True     | calculated | tick, tick_rate |                            |
 | player_id_fixed    | int64   | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
@@ -260,6 +262,13 @@ Events that trigger this channel: bomb_defused, bomb_exploded, bomb_planted
 | event_type         | string  | False    | replay     |                 |                            |
 | player_id          | int64   | False    | replay     |                 |                            |
 | site_code          | int64   | True     | replay     |                 |                            |
+| site               | string  | True     | replay     |                 |                            |
+| x_pos              | float64 | True     | replay     |                 |                            |
+| y_pos              | float64 | True     | replay     |                 |                            |
+| z_pos              | float64 | True     | replay     |                 |                            |
+| timer_seconds      | float64 | True     | replay     |                 |                            |
+| timer_ends_at_tick | int64   | True     | replay     |                 |                            |
+| explode_at_tick    | int64   | True     | replay     |                 |                            |
 | second             | float64 | True     | calculated | tick, tick_rate |                            |
 | player_id_fixed    | int64   | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
@@ -670,6 +679,30 @@ Event that triggers this channel: other_death
 | attacker_theta_ang   | float64 | True     | merged     |                 | attacker_id, tick            |
 | attacker_weapon_code | int64   | True     | merged     |                 | attacker_id, tick            |
 | attacker_team_code   | int64   | True     | merged     |                 | attacker_id, tick            |
+
+## pause_state - multi_event
+
+Events that trigger this channel: pause_end, pause_start, technical_pause_end, technical_pause_start, timeout_end, timeout_start
+
+One start row and one end row per pause. `timeout_*` is a tactical timeout,
+`technical_pause_*` a technical pause, and `pause_*` any other pause, such as
+an admin pausing the match. `team_code` is the side that called it, null for a
+plain pause. `t_timeouts_left` and `ct_timeouts_left` count each side's
+tactical timeouts left; a technical pause leaves them alone.
+`remaining_seconds` is the calling side's timeout clock. A pause still in
+force when the demo ends has a start row and no end row. Most matchmaking
+matches have no rows.
+
+| Col Name          | Type    | Nullable | Origin     | Dependents      | Merge Keys |
+| ----------------- | ------- | -------- | ---------- | --------------- | ---------- |
+| round             | int64   | False    | replay     |                 |            |
+| tick              | int64   | False    | replay     |                 |            |
+| event_type        | string  | False    | replay     |                 |            |
+| team_code         | int64   | True     | replay     |                 |            |
+| t_timeouts_left   | int64   | False    | replay     |                 |            |
+| ct_timeouts_left  | int64   | False    | replay     |                 |            |
+| remaining_seconds | float64 | True     | replay     |                 |            |
+| second            | float64 | True     | calculated | tick, tick_rate |            |
 
 ## player_blind - single_event
 
@@ -1151,18 +1184,27 @@ Event that triggers this channel: round_start
 
 Events that trigger this channel: begin_new_match, bomb_defused, bomb_exploded, bomb_planted, buytime_ended, round_announce_match_start, round_announce_warmup, round_end, round_freeze_end, round_officially_ended, round_start, start_halftime
 
-| Col Name     | Type    | Nullable | Origin       | Dependents      | Merge Keys |
-| ------------ | ------- | -------- | ------------ | --------------- | ---------- |
-| round        | int64   | False    | replay       |                 |            |
-| tick         | int64   | False    | replay       |                 |            |
-| event_type   | string  | False    | replay       |                 |            |
-| t_score      | int64   | False    | replay_fixed |                 |            |
-| ct_score     | int64   | False    | replay_fixed |                 |            |
-| t_score_raw  | int64   | False    | replay       |                 |            |
-| ct_score_raw | int64   | False    | replay       |                 |            |
-| phase        | string  | False    | replay       |                 |            |
-| is_warmup    | bool    | False    | replay       |                 |            |
-| second       | float64 | True     | calculated   | tick, tick_rate |            |
+`overtime` is the overtime period, 0 in regulation and 1 in the first
+overtime, one number for every row of a round; `phase` still says "first" or
+"second" within each overtime. `t_loss_streak` and `ct_loss_streak` are each
+side's run of round losses as the game counts it for the loss bonus. They
+climb by one per loss and step down on a win rather than resetting to 0.
+
+| Col Name       | Type    | Nullable | Origin       | Dependents      | Merge Keys |
+| -------------- | ------- | -------- | ------------ | --------------- | ---------- |
+| round          | int64   | False    | replay       |                 |            |
+| tick           | int64   | False    | replay       |                 |            |
+| event_type     | string  | False    | replay       |                 |            |
+| t_score        | int64   | False    | replay_fixed |                 |            |
+| ct_score       | int64   | False    | replay_fixed |                 |            |
+| t_score_raw    | int64   | False    | replay       |                 |            |
+| ct_score_raw   | int64   | False    | replay       |                 |            |
+| phase          | string  | False    | replay       |                 |            |
+| is_warmup      | bool    | False    | replay       |                 |            |
+| overtime       | int64   | False    | replay       |                 |            |
+| t_loss_streak  | int64   | False    | replay       |                 |            |
+| ct_loss_streak | int64   | False    | replay       |                 |            |
+| second         | float64 | True     | calculated   | tick, tick_rate |            |
 
 ## score_update - single_event
 
@@ -1248,6 +1290,29 @@ Event that triggers this channel: player_team
 | player_weapon_code | int64   | True     | merged     |                 | player_id, tick            |
 | player_team_code   | int64   | True     | merged     |                 | player_id, tick            |
 
+## team_info - single_event
+
+Event that triggers this channel: team_info
+
+Each side's team name (`clan_name`), `flag`, surrender flag and score in each
+half, one row whenever any of them changes. `team_code` is the side, not the
+team: at halftime the names and half scores move to the other side's rows,
+the scores a moment before the names. Overtime rounds don't change the half
+scores. Matchmaking and Premier matches have empty names; FACEIT and league
+matches name both teams.
+
+| Col Name          | Type    | Nullable | Origin     | Dependents      | Merge Keys |
+| ----------------- | ------- | -------- | ---------- | --------------- | ---------- |
+| round             | int64   | False    | replay     |                 |            |
+| tick              | int64   | False    | replay     |                 |            |
+| team_code         | int64   | False    | replay     |                 |            |
+| clan_name         | string  | False    | replay     |                 |            |
+| flag              | string  | False    | replay     |                 |            |
+| surrendered       | bool    | False    | replay     |                 |            |
+| score_first_half  | int64   | False    | replay     |                 |            |
+| score_second_half | int64   | False    | replay     |                 |            |
+| second            | float64 | True     | calculated | tick, tick_rate |            |
+
 ## tick - telemetry
 
 Event that triggers this channel: tick_end
@@ -1287,6 +1352,21 @@ Events that trigger this channel: fire_on_empty, reload, zoom, zoom_rifle
 
 Event that triggers this channel: weapon_fire
 
+Rows where a gun fired a bullet also carry the server's own record of the
+shot. `inaccuracy_total` is the inaccuracy the game applied to it, including the
+movement and jumping part that `player_vector.inaccuracy` (the firing penalty
+only) leaves out; on about a quarter of shots the total is more than 10% higher.
+`seed` is the random seed for the shot's spread, `origin_x`, `origin_y` and
+`origin_z` are where it was fired from, and `angle_pitch` and `angle_yaw` its
+direction in degrees. Valve's matchmaking servers also send `inaccuracy_move`
+and `inaccuracy_air` (the movement and air parts of the total),
+`aim_punch_pitch` and `aim_punch_yaw` (the recoil kick on the view at the shot,
+in degrees), and `attack_tick` and `attack_tick_frac` (the tick, and the
+fraction of it, when the player clicked: almost always 3 ticks before to 1
+after the row's `tick`). These columns are null on grenade, knife and other
+rows that fire no bullet, and the Valve-only ones are null on FACEIT and league
+matches. Older matches don't have them.
+
 | Col Name           | Type    | Nullable | Origin     | Dependents                                     | Merge Keys                 |
 | ------------------ | ------- | -------- | ---------- | ---------------------------------------------- | -------------------------- |
 | round              | int64   | False    | replay     |                                                |                            |
@@ -1295,6 +1375,19 @@ Event that triggers this channel: weapon_fire
 | player_id_pawn     | int64   | False    | replay     |                                                |                            |
 | weapon_name        | string  | False    | replay     |                                                |                            |
 | is_silenced        | bool    | False    | replay     |                                                |                            |
+| inaccuracy_total   | float64 | True     | replay     |                                                |                            |
+| seed               | int64   | True     | replay     |                                                |                            |
+| origin_x           | float64 | True     | replay     |                                                |                            |
+| origin_y           | float64 | True     | replay     |                                                |                            |
+| origin_z           | float64 | True     | replay     |                                                |                            |
+| angle_pitch        | float64 | True     | replay     |                                                |                            |
+| angle_yaw          | float64 | True     | replay     |                                                |                            |
+| inaccuracy_move    | float64 | True     | replay     |                                                |                            |
+| inaccuracy_air     | float64 | True     | replay     |                                                |                            |
+| aim_punch_pitch    | float64 | True     | replay     |                                                |                            |
+| aim_punch_yaw      | float64 | True     | replay     |                                                |                            |
+| attack_tick        | int64   | True     | replay     |                                                |                            |
+| attack_tick_frac   | float64 | True     | replay     |                                                |                            |
 | second             | float64 | True     | calculated | tick, tick_rate                                |                            |
 | player_id_fixed    | int64   | True     | merged     |                                                | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                                                | player_id, tick            |

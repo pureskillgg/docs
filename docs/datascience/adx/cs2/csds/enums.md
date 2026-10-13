@@ -158,10 +158,15 @@ The spec lists a few more event types for some channels, such as
 
 ## Bombsites
 
-`site_code` in `bomb_action` and `bomb_state` is not A or B. It is the game's
-id for the bombsite's trigger, and it differs from match to match: Mirage
-alone had 325 different values in these matches. Tell the sites apart by
-position, or by the callout in `player_status.place_name`.
+Use `site` in `bomb_action` and `bomb_state` for the bombsite: it is `A` or
+`B`, and null when `site_code` is null. A map with one bombsite (wingman)
+calls it `A`.
+
+`site_code` beside it is not A or B. It is the game's id for the bombsite's
+trigger, and it differs from match to match: Mirage alone had 325 different
+values in these matches. Matches parsed before `site` was added have only
+`site_code`; tell their sites apart by position, or by the callout in
+`player_status.place_name`.
 
 ## Radar colours
 
