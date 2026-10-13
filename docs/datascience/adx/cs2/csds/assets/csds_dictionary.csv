@@ -333,10 +333,10 @@ attacker_team_code,INTEGER,,True,,Merged from another channel. Null where no sou
 round,INTEGER,,False,,,,,pause_state,multi_event
 tick,INTEGER,,False,,,,,pause_state,multi_event
 event_type,VARCHAR,,False,"timeout_start, timeout_end, technical_pause_start, technical_pause_end, pause_start or pause_end.",A pause still in force when the demo ends has no end row.,,,pause_state,multi_event
-team_code,INTEGER,,True,The side that called the pause.,Null for a pause no side called.,,,pause_state,multi_event
+team_code,INTEGER,,True,The side that called the pause.,Null for a pause that no side called.,,,pause_state,multi_event
 t_timeouts_left,INTEGER,,False,The terrorists' tactical timeouts left.,,,,pause_state,multi_event
 ct_timeouts_left,INTEGER,,False,The counter-terrorists' tactical timeouts left.,,,,pause_state,multi_event
-remaining_seconds,DECIMAL,,True,Seconds left on the calling side's timeout clock.,Null for a pause no side called.,,,pause_state,multi_event
+remaining_seconds,DECIMAL,,True,Seconds left on the calling side's timeout clock.,Null for a pause that no side called.,,,pause_state,multi_event
 second,DECIMAL,,True,,,,,pause_state,multi_event
 round,INTEGER,,False,,,,,player_blind,single_event
 tick,INTEGER,,False,,,,,player_blind,single_event

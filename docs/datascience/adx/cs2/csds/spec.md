@@ -7,7 +7,7 @@ sidebar_position: 1
 Documentation for CSDS channels built by FPS Critic, Inc.
 
 One match is published as a JSON index object named `csds` plus one file per
-channel, 42 in all, for 43 objects per match. The index lists the channels,
+channel, 44 in all, for 45 objects per match. The index lists the channels,
 where each one sits, and what columns it declares. Every channel file is
 [Apache Parquet], `header` included.
 

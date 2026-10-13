@@ -98,7 +98,7 @@ csds/
       csds               the index object: gzipped JSON
       bomb_action        one Parquet file per channel
       bomb_defuse
-      …                  42 channels in all
+      …                  44 channels in all
 ```
 
 - **A match zip** is `csds/YYYY/MM/DD/<id>.zip`. Its entries are the match's
