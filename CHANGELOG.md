@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - `grenade_vector`'s throw columns in the CS2 spec and data dictionary.
 - `bomb_state`'s plant columns in the CS2 spec and data dictionary.
+- `team_info` and `pause_state`, and `round_state`'s overtime and loss-streak columns, in the CS2 spec and data dictionary.
 - `site`, the bomb site letter, on `bomb_action` and `bomb_state` in the CS2 spec, data dictionary and Enums page.
 - A 2026-10-12 entry on the CS2 changelog pages: each match is delivered as one zip from that day.
 - Game constants on the CS2 Enums page: tick rate, rounds, freeze, buy and round time, money and health limits, overtime, the bomb and utility timers, player size, jump heights and eye height, and top movement speed by weapon, walking, crouched, scoped and carrying a hostage. All but the eye heights, which are the game's values, were measured on the 50-match regression corpus.

@@ -98,7 +98,7 @@ csds/
       csds               the index object: gzipped JSON
       bomb_action        one Parquet file per channel
       bomb_defuse
-      …                  43 channels in all
+      …                  45 channels in all
 ```
 
 - **A match zip** is `csds/YYYY/MM/DD/<id>.zip`. Its entries are the match's
@@ -117,8 +117,9 @@ csds/
   `pandas.read_parquet(path)`.
 - **The index object** is JSON compressed with gzip:
   `json.loads(gzip.decompress(open(path, "rb").read()))`.
-- **Object counts.** A zipped match is one object holding 44 files, or 43 in
-  matches from before the `convar` channel was added. A loose match is 43
+- **Object counts.** A zipped match is one object holding 46 files: 45 in
+  matches from before the `team_info` and `pause_state` channels were added,
+  and 44 from before the `convar` channel. A loose match is 43
   objects since 2026-08-04 and 31 before; the 2026-08-03 revision
   holds both, and so does the revision in which zips start. Read the index
   rather than assuming a channel list.

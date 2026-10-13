@@ -7,13 +7,15 @@ sidebar_position: 1
 Documentation for CSDS channels built by FPS Critic, Inc.
 
 One match is published as a JSON index object named `csds` plus one file per
-channel, 43 in all, for 44 objects per match. The index lists the channels,
+channel, 45 in all, for 46 objects per match. The index lists the channels,
 where each one sits, and what columns it declares. Every channel file is
 [Apache Parquet], `header` included.
 
 This document describes the channel set published since 2026-08-04, plus the
-`convar` channel added after it; the [changelog](./changelog.md) dates that,
-and matches processed before it have 42 channels and no `convar`. Revisions
+`convar`, `team_info` and `pause_state` channels added after it; the
+[changelog](./changelog.md) dates those. Matches processed before `convar`
+have 42 channels, and those processed before `team_info` and `pause_state`
+have 43. Revisions
 through 2026-08-02 carry an older set of 30 channels, described in the
 [archived spec](/datascience/old/cs2/csds/spec); the 2026-08-03 revision holds
 a mix of the two. Reading each match's index object rather than assuming a
@@ -678,6 +680,30 @@ Event that triggers this channel: other_death
 | attacker_weapon_code | int64   | True     | merged     |                 | attacker_id, tick            |
 | attacker_team_code   | int64   | True     | merged     |                 | attacker_id, tick            |
 
+## pause_state - multi_event
+
+Events that trigger this channel: pause_end, pause_start, technical_pause_end, technical_pause_start, timeout_end, timeout_start
+
+One start row and one end row per pause. `timeout_*` is a tactical timeout,
+`technical_pause_*` a technical pause, and `pause_*` any other pause, such as
+an admin pausing the match. `team_code` is the side that called it, null for a
+plain pause. `t_timeouts_left` and `ct_timeouts_left` count each side's
+tactical timeouts left; a technical pause leaves them alone.
+`remaining_seconds` is the calling side's timeout clock. A pause still in
+force when the demo ends has a start row and no end row. Most matchmaking
+matches have no rows.
+
+| Col Name          | Type    | Nullable | Origin     | Dependents      | Merge Keys |
+| ----------------- | ------- | -------- | ---------- | --------------- | ---------- |
+| round             | int64   | False    | replay     |                 |            |
+| tick              | int64   | False    | replay     |                 |            |
+| event_type        | string  | False    | replay     |                 |            |
+| team_code         | int64   | True     | replay     |                 |            |
+| t_timeouts_left   | int64   | False    | replay     |                 |            |
+| ct_timeouts_left  | int64   | False    | replay     |                 |            |
+| remaining_seconds | float64 | True     | replay     |                 |            |
+| second            | float64 | True     | calculated | tick, tick_rate |            |
+
 ## player_blind - single_event
 
 Event that triggers this channel: player_blind
@@ -1158,18 +1184,27 @@ Event that triggers this channel: round_start
 
 Events that trigger this channel: begin_new_match, bomb_defused, bomb_exploded, bomb_planted, buytime_ended, round_announce_match_start, round_announce_warmup, round_end, round_freeze_end, round_officially_ended, round_start, start_halftime
 
-| Col Name     | Type    | Nullable | Origin       | Dependents      | Merge Keys |
-| ------------ | ------- | -------- | ------------ | --------------- | ---------- |
-| round        | int64   | False    | replay       |                 |            |
-| tick         | int64   | False    | replay       |                 |            |
-| event_type   | string  | False    | replay       |                 |            |
-| t_score      | int64   | False    | replay_fixed |                 |            |
-| ct_score     | int64   | False    | replay_fixed |                 |            |
-| t_score_raw  | int64   | False    | replay       |                 |            |
-| ct_score_raw | int64   | False    | replay       |                 |            |
-| phase        | string  | False    | replay       |                 |            |
-| is_warmup    | bool    | False    | replay       |                 |            |
-| second       | float64 | True     | calculated   | tick, tick_rate |            |
+`overtime` is the overtime period, 0 in regulation and 1 in the first
+overtime, one number for every row of a round; `phase` still says "first" or
+"second" within each overtime. `t_loss_streak` and `ct_loss_streak` are each
+side's run of round losses as the game counts it for the loss bonus. They
+climb by one per loss and step down on a win rather than resetting to 0.
+
+| Col Name       | Type    | Nullable | Origin       | Dependents      | Merge Keys |
+| -------------- | ------- | -------- | ------------ | --------------- | ---------- |
+| round          | int64   | False    | replay       |                 |            |
+| tick           | int64   | False    | replay       |                 |            |
+| event_type     | string  | False    | replay       |                 |            |
+| t_score        | int64   | False    | replay_fixed |                 |            |
+| ct_score       | int64   | False    | replay_fixed |                 |            |
+| t_score_raw    | int64   | False    | replay       |                 |            |
+| ct_score_raw   | int64   | False    | replay       |                 |            |
+| phase          | string  | False    | replay       |                 |            |
+| is_warmup      | bool    | False    | replay       |                 |            |
+| overtime       | int64   | False    | replay       |                 |            |
+| t_loss_streak  | int64   | False    | replay       |                 |            |
+| ct_loss_streak | int64   | False    | replay       |                 |            |
+| second         | float64 | True     | calculated   | tick, tick_rate |            |
 
 ## score_update - single_event
 
@@ -1209,6 +1244,29 @@ Event that triggers this channel: player_team
 | player_theta_ang   | float64 | True     | merged     |                 | player_id, tick            |
 | player_weapon_code | int64   | True     | merged     |                 | player_id, tick            |
 | player_team_code   | int64   | True     | merged     |                 | player_id, tick            |
+
+## team_info - single_event
+
+Event that triggers this channel: team_info
+
+Each side's team name (`clan_name`), `flag`, surrender flag and score in each
+half, one row whenever any of them changes. `team_code` is the side, not the
+team: at halftime the names and half scores move to the other side's rows,
+the scores a moment before the names. Overtime rounds don't change the half
+scores. Matchmaking and Premier matches have empty names; FACEIT and league
+matches name both teams.
+
+| Col Name          | Type    | Nullable | Origin     | Dependents      | Merge Keys |
+| ----------------- | ------- | -------- | ---------- | --------------- | ---------- |
+| round             | int64   | False    | replay     |                 |            |
+| tick              | int64   | False    | replay     |                 |            |
+| team_code         | int64   | False    | replay     |                 |            |
+| clan_name         | string  | False    | replay     |                 |            |
+| flag              | string  | False    | replay     |                 |            |
+| surrendered       | bool    | False    | replay     |                 |            |
+| score_first_half  | int64   | False    | replay     |                 |            |
+| score_second_half | int64   | False    | replay     |                 |            |
+| second            | float64 | True     | calculated | tick, tick_rate |            |
 
 ## tick - telemetry
 
