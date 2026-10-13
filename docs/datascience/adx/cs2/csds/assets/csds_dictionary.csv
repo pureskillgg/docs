@@ -104,6 +104,11 @@ attacker_phi_ang,DECIMAL,,True,,Merged from another channel. Null where no sourc
 attacker_theta_ang,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,bullet_damage,single_event
 attacker_weapon_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,bullet_damage,single_event
 attacker_team_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,bullet_damage,single_event
+round,INTEGER,,False,,,,,convar,single_event
+tick,INTEGER,,False,,,,,convar,single_event
+name,VARCHAR,,False,,The server setting's name.,,,convar,single_event
+value,VARCHAR,,False,,"The setting's value as the server sent it, a string to parse per setting. For steamworks_sessionid_server it is replaced with the literal string ""redacted"".",,,convar,single_event
+second,DECIMAL,,True,,,,,convar,single_event
 round,INTEGER,,False,,,,,grenade_bounce,single_event
 tick,INTEGER,,False,,,,,grenade_bounce,single_event
 entity_id,INTEGER,,False,,,,,grenade_bounce,single_event
@@ -167,6 +172,8 @@ is_gotv_recording,BOOLEAN,,False,,,,,header,header
 is_wingman,BOOLEAN,,False,,,,,header,header
 max_unique_players,INTEGER,,False,,,,,header,header
 rank_type,INTEGER,,True,,,,,header,header
+is_queued_matchmaking,BOOLEAN,,True,,"Whether Valve's matchmaker queued the lobby, read from the game rules. Null when the demo does not carry it.",,,header,header
+queued_matchmaking_mode,INTEGER,,True,,"The matchmaker's mode number from the game rules: 1 on Premier, 0 otherwise in the matches checked. Null when the demo does not carry it.",,,header,header
 tick_rate,INTEGER,,True,,,,,header,header
 tick_save_rate,INTEGER,,True,,,,,header,header
 rushb_version,VARCHAR,,True,,,,,header,header
