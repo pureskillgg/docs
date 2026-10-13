@@ -710,7 +710,8 @@ kind,VARCHAR,,False,,,,,smoke_voxel,telemetry
 cell_x,INTEGER,,False,,,,,smoke_voxel,telemetry
 cell_y,INTEGER,,False,,,,,smoke_voxel,telemetry
 cell_z,INTEGER,,False,,,,,smoke_voxel,telemetry
-mask,INTEGER,,True,,,,,smoke_voxel,telemetry
+mask_lo,INTEGER,,True,,,,,smoke_voxel,telemetry
+mask_hi,INTEGER,,True,,,,,smoke_voxel,telemetry
 seed_value,INTEGER,,True,,,,,smoke_voxel,telemetry
 second,DECIMAL,,True,,,,,smoke_voxel,telemetry
 round,INTEGER,,False,,,,,team_change,single_event

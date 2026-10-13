@@ -1189,9 +1189,13 @@ the smoke in.
 - Cells are 20 units on a world grid: cell n spans 20n to 20n + 20 on each axis,
   so a point is in cell `floor(x / 20)`, `floor(y / 20)`, `floor(z / 20)`.
 - A `block` row covers the 4 × 4 × 4 cells from its corner `cell_x`, `cell_y`,
-  `cell_z`. Bit x + 4y + 16z of `mask` is set where the cell at corner + (x, y,
-  z) is part of the map. A later row for the same block and `grenade_id`
-  replaces it.
+  `cell_z`. The cell at corner + (x, y, z) is part of the map where bit x + 4y +
+  16z of the block's mask is set. The mask comes in two halves, each 0 to
+  2^32 - 1: `mask_lo` holds bits 0 to 31 (layers z = 0 and 1) and `mask_hi` bits
+  32 to 63 (z = 2 and 3), so the whole mask is `mask_lo | mask_hi << 32`. They
+  are split because a reader such as pandas loads a nullable 64-bit integer as a
+  float, which would round the mask. A later row for the same block and
+  `grenade_id` replaces it.
 - A `seed` row is one cell the fill starts from. `seed_value` is a byte the game
   sends with each seed (5 or 0; its meaning is unknown).
 - To get the smoke's shape, fill outward from the seed cells to the six face
@@ -1213,7 +1217,8 @@ the smoke in.
 | cell_x     | int64   | False    | replay     |                 |            |
 | cell_y     | int64   | False    | replay     |                 |            |
 | cell_z     | int64   | False    | replay     |                 |            |
-| mask       | int64   | True     | replay     |                 |            |
+| mask_lo    | int64   | True     | replay     |                 |            |
+| mask_hi    | int64   | True     | replay     |                 |            |
 | seed_value | int64   | True     | replay     |                 |            |
 | second     | float64 | True     | calculated | tick, tick_rate |            |
 
