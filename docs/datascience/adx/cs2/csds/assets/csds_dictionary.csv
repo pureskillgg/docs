@@ -464,6 +464,8 @@ player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_p
 round,INTEGER,,False,,,,,player_footstep,single_event
 tick,INTEGER,,False,,,,,player_footstep,single_event
 player_id,INTEGER,,False,,,,,player_footstep,single_event
+kind,VARCHAR,,False,"What the player did: step, jump or land.","From parser 5.7.0. Older matches hold jumps and landings only, with no kind.",,,player_footstep,single_event
+surface,VARCHAR,,False,"What was stepped or landed on, such as Concrete, Sand or Wood.",Empty for a jump. From parser 5.7.0.,,,player_footstep,single_event
 second,DECIMAL,,True,,,,,player_footstep,single_event
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_footstep,single_event
 round,INTEGER,,False,,,,,player_hurt,single_event
@@ -562,10 +564,9 @@ is_bot,BOOLEAN,,True,,,,,player_personal,player_info
 player_id_fixed,INTEGER,,True,,,,,player_personal,player_info
 round,INTEGER,,False,,,,,player_sound,single_event
 tick,INTEGER,,False,,,,,player_sound,single_event
-player_id,INTEGER,,False,,,,,player_sound,single_event
-radius,INTEGER,,False,,,,,player_sound,single_event
-duration,DECIMAL,,False,,,,,player_sound,single_event
-is_step,BOOLEAN,,False,,,,,player_sound,single_event
+player_id,INTEGER,,True,,"The player, the carrier of the weapon or the thrower of the grenade. Null when no player is known: world sounds, and sounds whose source had not reached the recording when the sound did.",,,player_sound,single_event
+sound,VARCHAR,,False,"The game's name for the sound, such as Player.PickupWeapon or T_Concrete.StepLeft.","Its hash as 8 hex digits when the parser's list of names lacks it. ""player_sound"" on a row from the game-event fallback. From parser 5.7.0.",,,player_sound,single_event
+source,VARCHAR,,False,"What made the sound: player, weapon, grenade, world or other.",weapon is one a player carries; other is a source the parser could not find. From parser 5.7.0.,,,player_sound,single_event
 second,DECIMAL,,True,,,,,player_sound,single_event
 player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,player_sound,single_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_sound,single_event
