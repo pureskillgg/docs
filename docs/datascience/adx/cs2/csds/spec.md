@@ -7,15 +7,17 @@ sidebar_position: 1
 Documentation for CSDS channels built by FPS Critic, Inc.
 
 One match is published as a JSON index object named `csds` plus one file per
-channel, 46 in all, for 47 objects per match. The index lists the channels,
+channel, 49 in all, for 50 objects per match. The index lists the channels,
 where each one sits, and what columns it declares. Every channel file is
 [Apache Parquet], `header` included.
 
 This document describes the channel set published since 2026-08-04, plus the
-`convar`, `team_info`, `pause_state` and `smoke_voxel` channels added after it;
+`convar`, `team_info`, `pause_state`, `smoke_voxel`, `world_object`,
+`hostage_vector` and `hostage_state` channels added after it;
 the [changelog](./changelog.md) dates them. Matches processed before `convar`
 have 42 channels, those processed before `team_info` and `pause_state` have 43,
-and those processed before `smoke_voxel` lack it. Revisions
+those processed before `smoke_voxel` lack it, and those processed before
+`world_object`, `hostage_vector` and `hostage_state` lack them. Revisions
 through 2026-08-02 carry an older set of 30 channels, described in the
 [archived spec](/datascience/old/cs2/csds/spec); the 2026-08-03 revision holds
 a mix of the two. Reading each match's index object rather than assuming a
@@ -485,6 +487,56 @@ Event that triggers this channel: tick_end
 | unique_steamids            | int64   | True     | calculated          | player_personal:steam_id                                                                         |            |
 | providence                 | string  | True     | calculated          | metademo:providence                                                                              |            |
 | number_of_points           | int64   | True     | calculated          | shape of all data frames                                                                         |            |
+
+## hostage_state - multi_event
+
+Events that trigger this channel: being_carried, being_untied, dead, following_player, getting_dropped, getting_picked_up, hurt, idle, rescued
+
+One row each time a hostage changes state, plus a `hurt` row each time it takes damage. `event_type` is the state it moved into, or `hurt`; `old_state` is the state it left, null for `hurt`. A pick-up goes `being_untied`, `getting_picked_up`, `being_carried`; a drop goes `getting_dropped`, then `idle`. `player_id` is the player carrying or leading the hostage, the rescuer for `rescued`, the killer for `dead` and the attacker for `hurt`, null when there is none. The position and `health` are the hostage's at that moment. Hostages are created again each round, so `entity_id` names a hostage within one round. Empty on bomb maps.
+
+| Col Name           | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
+| ------------------ | ------- | -------- | ---------- | --------------- | -------------------------- |
+| round              | int64   | False    | replay     |                 |                            |
+| tick               | int64   | False    | replay     |                 |                            |
+| entity_id          | int64   | False    | replay     |                 |                            |
+| event_type         | string  | False    | replay     |                 |                            |
+| old_state          | string  | True     | replay     |                 |                            |
+| player_id          | int64   | True     | replay     |                 |                            |
+| x_pos              | float64 | False    | replay     |                 |                            |
+| y_pos              | float64 | False    | replay     |                 |                            |
+| z_pos              | float64 | False    | replay     |                 |                            |
+| health             | int64   | False    | replay     |                 |                            |
+| second             | float64 | True     | calculated | tick, tick_rate |                            |
+| player_id_fixed    | int64   | True     | merged     |                 | player_id, round, steam_id |
+| player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
+| player_y_pos       | float64 | True     | merged     |                 | player_id, tick            |
+| player_z_pos       | float64 | True     | merged     |                 | player_id, tick            |
+| player_x_vel       | float64 | True     | merged     |                 | player_id, tick            |
+| player_y_vel       | float64 | True     | merged     |                 | player_id, tick            |
+| player_z_vel       | float64 | True     | merged     |                 | player_id, tick            |
+| player_phi_ang     | float64 | True     | merged     |                 | player_id, tick            |
+| player_theta_ang   | float64 | True     | merged     |                 | player_id, tick            |
+| player_weapon_code | int64   | True     | merged     |                 | player_id, tick            |
+| player_team_code   | int64   | True     | merged     |                 | player_id, tick            |
+
+## hostage_vector - telemetry
+
+Event that triggers this channel: tick_end
+
+Each hostage every tick, on hostage maps: where it is, its `state`, `health` and `carrier_id`, the player leading or carrying it (null when none). `state` is one of idle, being_untied, getting_picked_up, being_carried, following_player, getting_dropped, rescued and dead. Hostages are created again each round, so `entity_id` names a hostage within one round. Empty on bomb maps.
+
+| Col Name   | Type    | Nullable | Origin     | Dependents      | Merge Keys |
+| ---------- | ------- | -------- | ---------- | --------------- | ---------- |
+| round      | int64   | False    | replay     |                 |            |
+| tick       | int64   | False    | replay     |                 |            |
+| entity_id  | int64   | False    | replay     |                 |            |
+| x_pos      | float64 | False    | replay     |                 |            |
+| y_pos      | float64 | False    | replay     |                 |            |
+| z_pos      | float64 | False    | replay     |                 |            |
+| state      | string  | False    | replay     |                 |            |
+| health     | int64   | False    | replay     |                 |            |
+| carrier_id | int64   | True     | replay     |                 |            |
+| second     | float64 | True     | calculated | tick, tick_rate |            |
 
 ## item_dropped - single_event
 
@@ -1450,3 +1502,27 @@ Event that triggers this channel: tick_end
 | y_pos         | float64 | False    | replay     |                 |            |
 | z_pos         | float64 | False    | replay     |                 |            |
 | second        | float64 | True     | calculated | tick, tick_rate |            |
+
+## world_object - multi_event
+
+Events that trigger this channel: broken, cleanup, closed, closing, moving, open, opening, spawned
+
+The map's doors and breakable parts, one row per change. `class` is what the object is: `door`, a door that swings open; `brush_door`, a door built into the map itself (cs_office's garage door, Vertigo's port-o-potty doors); `prop`, a breakable prop; `breakable`, a vent (Nuke, Mirage); and `brush`, a pane of Nuke's glass.
+
+A `door` gets a `spawned` row when it is created, then `opening`, `open`, `closing` and `closed` as it moves; every door is created again, closed, at each round start. A `brush_door` gets `spawned` and then one `moving` row for each tick it moves, with its position and angle. `broken` is an object destroyed during a round. `by_player_id` is the player who broke it, null when no player did: the bomb, props knocked into each other, and Nuke's glass, which never names one. `cleanup` rows are the map being reset for the next round, not breaks. Maps with no doors or breakables have no rows.
+
+| Col Name     | Type    | Nullable | Origin     | Dependents      | Merge Keys |
+| ------------ | ------- | -------- | ---------- | --------------- | ---------- |
+| round        | int64   | False    | replay     |                 |            |
+| tick         | int64   | False    | replay     |                 |            |
+| entity_id    | int64   | False    | replay     |                 |            |
+| class        | string  | False    | replay     |                 |            |
+| event_type   | string  | False    | replay     |                 |            |
+| x_pos        | float64 | False    | replay     |                 |            |
+| y_pos        | float64 | False    | replay     |                 |            |
+| z_pos        | float64 | False    | replay     |                 |            |
+| pitch        | float64 | False    | replay     |                 |            |
+| yaw          | float64 | False    | replay     |                 |            |
+| roll         | float64 | False    | replay     |                 |            |
+| by_player_id | int64   | True     | replay     |                 |            |
+| second       | float64 | True     | calculated | tick, tick_rate |            |
