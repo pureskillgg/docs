@@ -259,6 +259,12 @@ Events that trigger this channel: bomb_defused, bomb_exploded, bomb_planted
 | event_type         | string  | False    | replay     |                 |                            |
 | player_id          | int64   | False    | replay     |                 |                            |
 | site_code          | int64   | True     | replay     |                 |                            |
+| x_pos              | float64 | True     | replay     |                 |                            |
+| y_pos              | float64 | True     | replay     |                 |                            |
+| z_pos              | float64 | True     | replay     |                 |                            |
+| timer_seconds      | float64 | True     | replay     |                 |                            |
+| timer_ends_at_tick | int64   | True     | replay     |                 |                            |
+| explode_at_tick    | int64   | True     | replay     |                 |                            |
 | second             | float64 | True     | calculated | tick, tick_rate |                            |
 | player_id_fixed    | int64   | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |

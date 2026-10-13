@@ -40,6 +40,12 @@ tick,INTEGER,,False,,,,,bomb_state,multi_event
 event_type,VARCHAR,,False,,,,,bomb_state,multi_event
 player_id,INTEGER,,False,,,,,bomb_state,multi_event
 site_code,INTEGER,,True,,,,,bomb_state,multi_event
+x_pos,DECIMAL,,True,x of the planted bomb.,bomb_planted rows only; null on bomb_defused and bomb_exploded.,,,bomb_state,multi_event
+y_pos,DECIMAL,,True,y of the planted bomb.,bomb_planted rows only; null on bomb_defused and bomb_exploded.,,,bomb_state,multi_event
+z_pos,DECIMAL,,True,z of the planted bomb.,bomb_planted rows only; null on bomb_defused and bomb_exploded.,,,bomb_state,multi_event
+timer_seconds,DECIMAL,,True,The bomb's timer in seconds (40 in competitive and premier).,bomb_planted rows only; null on bomb_defused and bomb_exploded.,,,bomb_state,multi_event
+timer_ends_at_tick,INTEGER,,True,The tick the bomb's timer runs out: the plant tick plus timer_seconds × header.tick_rate (40 s is 2560 ticks at 64).,bomb_planted rows only; null on bomb_defused and bomb_exploded.,,,bomb_state,multi_event
+explode_at_tick,INTEGER,,True,The tick the bomb explodes if nobody defuses it: timer_ends_at_tick plus one second (header.tick_rate ticks). bomb_exploded fires on it.,bomb_planted rows only; null on bomb_defused and bomb_exploded.,,,bomb_state,multi_event
 second,DECIMAL,,True,,,,,bomb_state,multi_event
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,bomb_state,multi_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,bomb_state,multi_event
