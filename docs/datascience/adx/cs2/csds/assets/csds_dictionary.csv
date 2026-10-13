@@ -775,6 +775,19 @@ player_id,INTEGER,,False,,,,,weapon_fire,single_event
 player_id_pawn,INTEGER,,False,,,,,weapon_fire,single_event
 weapon_name,VARCHAR,,False,,,,,weapon_fire,single_event
 is_silenced,BOOLEAN,,False,,,,,weapon_fire,single_event
+inaccuracy_total,DECIMAL,,True,The inaccuracy the game applied to the shot including its movement and air parts,Null on rows that fire no bullet.,,,weapon_fire,single_event
+seed,INTEGER,,True,Random seed for the shot's spread,Null on rows that fire no bullet.,,,weapon_fire,single_event
+origin_x,DECIMAL,,True,X of where the shot was fired from,Null on rows that fire no bullet.,,,weapon_fire,single_event
+origin_y,DECIMAL,,True,Y of where the shot was fired from,Null on rows that fire no bullet.,,,weapon_fire,single_event
+origin_z,DECIMAL,,True,Z of where the shot was fired from,Null on rows that fire no bullet.,,,weapon_fire,single_event
+angle_pitch,DECIMAL,,True,Pitch of the shot in degrees,Null on rows that fire no bullet.,,,weapon_fire,single_event
+angle_yaw,DECIMAL,,True,Yaw of the shot in degrees,Null on rows that fire no bullet.,,,weapon_fire,single_event
+inaccuracy_move,DECIMAL,,True,Movement part of inaccuracy_total,Valve matchmaking servers only; null on FACEIT and league matches and on rows that fire no bullet.,,,weapon_fire,single_event
+inaccuracy_air,DECIMAL,,True,Air (jumping) part of inaccuracy_total,Valve matchmaking servers only; null on FACEIT and league matches and on rows that fire no bullet.,,,weapon_fire,single_event
+aim_punch_pitch,DECIMAL,,True,Recoil kick on the view's pitch at the shot in degrees,Valve matchmaking servers only; null on FACEIT and league matches and on rows that fire no bullet.,,,weapon_fire,single_event
+aim_punch_yaw,DECIMAL,,True,Recoil kick on the view's yaw at the shot in degrees,Valve matchmaking servers only; null on FACEIT and league matches and on rows that fire no bullet.,,,weapon_fire,single_event
+attack_tick,INTEGER,,True,Tick when the player clicked,Valve matchmaking servers only; null on FACEIT and league matches and on rows that fire no bullet.,,,weapon_fire,single_event
+attack_tick_frac,DECIMAL,,True,How far into attack_tick the player clicked (0 to 1),Valve matchmaking servers only; null on FACEIT and league matches and on rows that fire no bullet.,,,weapon_fire,single_event
 second,DECIMAL,,True,,,,,weapon_fire,single_event
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,weapon_fire,single_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,weapon_fire,single_event

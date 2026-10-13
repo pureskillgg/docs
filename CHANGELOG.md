@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - `grenade_vector`'s throw columns in the CS2 spec and data dictionary.
 - `bomb_state`'s plant columns in the CS2 spec and data dictionary.
+- `weapon_fire`'s per-shot columns in the CS2 spec and data dictionary: the shot's real inaccuracy, its seed, origin and angles, and, from Valve's servers, the movement and air parts, the aim punch and the click's tick.
 - `team_info` and `pause_state`, and `round_state`'s overtime and loss-streak columns, in the CS2 spec and data dictionary.
 - `site`, the bomb site letter, on `bomb_action` and `bomb_state` in the CS2 spec, data dictionary and Enums page.
 - A 2026-10-12 entry on the CS2 changelog pages: each match is delivered as one zip from that day.
