@@ -209,6 +209,38 @@ t_starters_score_final,INTEGER,,True,,,,,header,header
 unique_steamids,INTEGER,,True,,,,,header,header
 providence,VARCHAR,,True,,,,,header,header
 number_of_points,INTEGER,,True,,,,,header,header
+round,INTEGER,,False,,,,,hostage_state,multi_event
+tick,INTEGER,,False,,,,,hostage_state,multi_event
+entity_id,INTEGER,,False,The hostage.,Names a hostage within one round; hostages are created again each round.,,,hostage_state,multi_event
+event_type,VARCHAR,,False,"idle, being_untied, getting_picked_up, being_carried, following_player, getting_dropped, rescued, dead, or hurt.",,,,hostage_state,multi_event
+old_state,VARCHAR,,True,The state the hostage left.,Null for hurt.,,,hostage_state,multi_event
+player_id,INTEGER,,True,"The carrier or leader; the rescuer for rescued, the killer for dead, the attacker for hurt.",Null when there is none.,,,hostage_state,multi_event
+x_pos,DECIMAL,,False,,,,,hostage_state,multi_event
+y_pos,DECIMAL,,False,,,,,hostage_state,multi_event
+z_pos,DECIMAL,,False,,,,,hostage_state,multi_event
+health,INTEGER,,False,The hostage's health.,,,,hostage_state,multi_event
+second,DECIMAL,,True,,,,,hostage_state,multi_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,hostage_state,multi_event
+player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,hostage_state,multi_event
+player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,hostage_state,multi_event
+player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,hostage_state,multi_event
+player_x_vel,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,hostage_state,multi_event
+player_y_vel,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,hostage_state,multi_event
+player_z_vel,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,hostage_state,multi_event
+player_phi_ang,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,hostage_state,multi_event
+player_theta_ang,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,hostage_state,multi_event
+player_weapon_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,hostage_state,multi_event
+player_team_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,hostage_state,multi_event
+round,INTEGER,,False,,,,,hostage_vector,telemetry
+tick,INTEGER,,False,,,,,hostage_vector,telemetry
+entity_id,INTEGER,,False,The hostage.,Names a hostage within one round; hostages are created again each round.,,,hostage_vector,telemetry
+x_pos,DECIMAL,,False,,,,,hostage_vector,telemetry
+y_pos,DECIMAL,,False,,,,,hostage_vector,telemetry
+z_pos,DECIMAL,,False,,,,,hostage_vector,telemetry
+state,VARCHAR,,False,"idle, being_untied, getting_picked_up, being_carried, following_player, getting_dropped, rescued or dead.",,,,hostage_vector,telemetry
+health,INTEGER,,False,The hostage's health.,,,,hostage_vector,telemetry
+carrier_id,INTEGER,,True,The player leading or carrying the hostage.,Null when none.,,,hostage_vector,telemetry
+second,DECIMAL,,True,,,,,hostage_vector,telemetry
 round,INTEGER,,False,,,,,item_dropped,single_event
 tick,INTEGER,,False,,,,,item_dropped,single_event
 player_id,INTEGER,,False,,,,,item_dropped,single_event
@@ -825,3 +857,16 @@ x_pos,DECIMAL,,False,,,,,world_item_vector,telemetry
 y_pos,DECIMAL,,False,,,,,world_item_vector,telemetry
 z_pos,DECIMAL,,False,,,,,world_item_vector,telemetry
 second,DECIMAL,,True,,,,,world_item_vector,telemetry
+round,INTEGER,,False,,,,,world_object,multi_event
+tick,INTEGER,,False,,,,,world_object,multi_event
+entity_id,INTEGER,,False,The door or breakable object.,Entity ids are reused; a door is created again at each round start.,,,world_object,multi_event
+class,VARCHAR,,False,"door, brush_door, prop, breakable (a vent) or brush (a glass pane).",,,,world_object,multi_event
+event_type,VARCHAR,,False,"spawned, opening, open, closing, closed, moving, broken or cleanup.","cleanup is the map being reset for a new round, not a break.",,,world_object,multi_event
+x_pos,DECIMAL,,False,,,,,world_object,multi_event
+y_pos,DECIMAL,,False,,,,,world_object,multi_event
+z_pos,DECIMAL,,False,,,,,world_object,multi_event
+pitch,DECIMAL,,False,The object's angle.,,,,world_object,multi_event
+yaw,DECIMAL,,False,The object's angle.,,,,world_object,multi_event
+roll,DECIMAL,,False,The object's angle.,,,,world_object,multi_event
+by_player_id,INTEGER,,True,"The player who broke the object, on broken rows.","Null when no player did: the bomb, props knocked into each other, and glass.",,,world_object,multi_event
+second,DECIMAL,,True,,,,,world_object,multi_event

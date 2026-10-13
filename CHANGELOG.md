@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - `bomb_state`'s plant columns in the CS2 spec and data dictionary.
 - `weapon_fire`'s per-shot columns in the CS2 spec and data dictionary: the shot's real inaccuracy, its seed, origin and angles, and, from Valve's servers, the movement and air parts, the aim punch and the click's tick.
 - `team_info` and `pause_state`, and `round_state`'s overtime and loss-streak columns, in the CS2 spec and data dictionary.
+- `world_object`, `hostage_vector` and `hostage_state` in the CS2 spec, data dictionary and Enums page, with the channel counts (49 channels, 50 objects per match) on every page that gives them and the homepage tiles.
 - `site`, the bomb site letter, on `bomb_action` and `bomb_state` in the CS2 spec, data dictionary and Enums page.
 - `player_footstep` and `player_sound` from parser 5.7.0 in the CS2 spec, data dictionary, Known Flaws and Getting the Data: every step, jump and landing with its `kind` and `surface`, and every sound the game played with its `sound` and `source`. Changelog entries for 2026-10-12, which now also holds parser 5.7.0's earlier `player_inputs` and `prev_owner_id` entries (5.7.0 reached production on 2026-10-12 UTC, not 2026-10-11).
 - A 2026-10-12 entry on the CS2 changelog pages: each match is delivered as one zip from that day.
