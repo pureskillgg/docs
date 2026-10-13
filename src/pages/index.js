@@ -18,7 +18,7 @@ const discord = 'https://pureskill.gg/discord'
 const stats = [
   ['Daily', 'a new revision every day'],
   ['1 to 2 years', 'of daily revisions kept'],
-  ['44', 'channels per match, all Parquet'],
+  ['45', 'channels per match, all Parquet'],
   ['$0', 'for the data; you pay AWS for storage']
 ]
 

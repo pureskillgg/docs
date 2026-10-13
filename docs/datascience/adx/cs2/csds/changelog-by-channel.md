@@ -15,6 +15,7 @@ Dates are the day (UTC) a change reached production.
 
 ## All channels
 
+- **2026-10-12**, delivery. Each match is delivered as one zip, `csds/YYYY/MM/DD/<id>.zip`, instead of 43 separate objects. Its entries are the same files under their full keys, stored without recompression, so unzipping it where `csds/` sits rebuilds the old layout; dsdk 4.1.0's `extract_adx_zips` does that, and `download_adx_dataset_revision` unzips for you. Matches processed after 21:22 UTC are zipped, so the 2026-10-12 revision holds both kinds. See [Getting the Data](./getting-the-data.md#file-layout).
 - **2026-09-07**, delivery. The daily revision now closes reliably. Before, when a close failed, that day's matches were published in the next revision, so one revision could hold more than one day.
 - **2026-07-08**, file format. Parquet files are compressed with ZSTD instead of GZIP. Values are unchanged; your Parquet reader needs ZSTD support.
 - **2026-07-07**, columns removed. The leftover row-number column `__index_level_0__`, never listed in the index, is no longer written in most channels. `header` and `player_vector` kept it until 2026-08-22.

@@ -40,6 +40,12 @@ tick,INTEGER,,False,,,,,bomb_state,multi_event
 event_type,VARCHAR,,False,,,,,bomb_state,multi_event
 player_id,INTEGER,,False,,,,,bomb_state,multi_event
 site_code,INTEGER,,True,,,,,bomb_state,multi_event
+x_pos,DECIMAL,,True,x of the planted bomb.,bomb_planted rows only; null on bomb_defused and bomb_exploded.,,,bomb_state,multi_event
+y_pos,DECIMAL,,True,y of the planted bomb.,bomb_planted rows only; null on bomb_defused and bomb_exploded.,,,bomb_state,multi_event
+z_pos,DECIMAL,,True,z of the planted bomb.,bomb_planted rows only; null on bomb_defused and bomb_exploded.,,,bomb_state,multi_event
+timer_seconds,DECIMAL,,True,The bomb's timer in seconds (40 in competitive and premier).,bomb_planted rows only; null on bomb_defused and bomb_exploded.,,,bomb_state,multi_event
+timer_ends_at_tick,INTEGER,,True,The tick the bomb's timer runs out: the plant tick plus timer_seconds × header.tick_rate (40 s is 2560 ticks at 64).,bomb_planted rows only; null on bomb_defused and bomb_exploded.,,,bomb_state,multi_event
+explode_at_tick,INTEGER,,True,The tick the bomb explodes if nobody defuses it: timer_ends_at_tick plus one second (header.tick_rate ticks). bomb_exploded fires on it.,bomb_planted rows only; null on bomb_defused and bomb_exploded.,,,bomb_state,multi_event
 second,DECIMAL,,True,,,,,bomb_state,multi_event
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,bomb_state,multi_event
 player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,bomb_state,multi_event
@@ -104,6 +110,11 @@ attacker_phi_ang,DECIMAL,,True,,Merged from another channel. Null where no sourc
 attacker_theta_ang,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,bullet_damage,single_event
 attacker_weapon_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,bullet_damage,single_event
 attacker_team_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,bullet_damage,single_event
+round,INTEGER,,False,,,,,convar,single_event
+tick,INTEGER,,False,,,,,convar,single_event
+name,VARCHAR,,False,,The server setting's name.,,,convar,single_event
+value,VARCHAR,,False,,"The setting's value as the server sent it, a string to parse per setting. For steamworks_sessionid_server it is replaced with the literal string ""redacted"".",,,convar,single_event
+second,DECIMAL,,True,,,,,convar,single_event
 round,INTEGER,,False,,,,,grenade_bounce,single_event
 tick,INTEGER,,False,,,,,grenade_bounce,single_event
 entity_id,INTEGER,,False,,,,,grenade_bounce,single_event
@@ -148,6 +159,15 @@ grenade_type,VARCHAR,,False,,,,,grenade_vector,telemetry
 x_pos,DECIMAL,,False,,,,,grenade_vector,telemetry
 y_pos,DECIMAL,,False,,,,,grenade_vector,telemetry
 z_pos,DECIMAL,,False,,,,,grenade_vector,telemetry
+vel_x,DECIMAL,,True,Release velocity of the grenade along x in units per second.,First row of each grenade only; null on later rows.,,,grenade_vector,telemetry
+vel_y,DECIMAL,,True,Release velocity of the grenade along y in units per second.,First row of each grenade only; null on later rows.,,,grenade_vector,telemetry
+vel_z,DECIMAL,,True,Release velocity of the grenade along z in units per second. A grenade dropped by a dying player leaves at almost no speed.,First row of each grenade only; null on later rows.,,,grenade_vector,telemetry
+origin_x,DECIMAL,,True,x of the point the grenade was released from.,First row of each grenade only; null on later rows.,,,grenade_vector,telemetry
+origin_y,DECIMAL,,True,y of the point the grenade was released from.,First row of each grenade only; null on later rows.,,,grenade_vector,telemetry
+origin_z,DECIMAL,,True,z of the point the grenade was released from; near the thrower's eye height.,First row of each grenade only; null on later rows.,,,grenade_vector,telemetry
+thrower_vel_x,DECIMAL,,True,The thrower's own velocity along x when the grenade was released in units per second (a running throw).,First row of each grenade only; null on later rows.,,,grenade_vector,telemetry
+thrower_vel_y,DECIMAL,,True,The thrower's own velocity along y when the grenade was released in units per second (a running throw).,First row of each grenade only; null on later rows.,,,grenade_vector,telemetry
+thrower_vel_z,DECIMAL,,True,The thrower's own vertical velocity when the grenade was released in units per second; above 0 is a jump-throw.,First row of each grenade only; null on later rows.,,,grenade_vector,telemetry
 second,DECIMAL,,True,,,,,grenade_vector,telemetry
 player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,grenade_vector,telemetry
 magic,VARCHAR,,False,,,,,header,header
@@ -167,6 +187,8 @@ is_gotv_recording,BOOLEAN,,False,,,,,header,header
 is_wingman,BOOLEAN,,False,,,,,header,header
 max_unique_players,INTEGER,,False,,,,,header,header
 rank_type,INTEGER,,True,,,,,header,header
+is_queued_matchmaking,BOOLEAN,,True,,"Whether Valve's matchmaker queued the lobby, read from the game rules. Null when the demo does not carry it.",,,header,header
+queued_matchmaking_mode,INTEGER,,True,,"The matchmaker's mode number from the game rules: 1 on Premier, 0 otherwise in the matches checked. Null when the demo does not carry it.",,,header,header
 tick_rate,INTEGER,,True,,,,,header,header
 tick_save_rate,INTEGER,,True,,,,,header,header
 rushb_version,VARCHAR,,True,,,,,header,header
