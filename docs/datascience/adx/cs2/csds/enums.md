@@ -203,13 +203,16 @@ Wingman have no overtime and can end level, 12–12 or 8–8.
 | Timer               | Value       | Measured as                                                   |
 | ------------------- | ----------- | ------------------------------------------------------------- |
 | Planting the bomb   | 3.125 s     | `bomb_begin_plant` to `bomb_planted`: 200 ticks               |
-| Bomb timer          | 41 s        | `bomb_planted` to `bomb_exploded`; the game's setting is 40 s |
+| Bomb timer          | 41 s        | `bomb_planted` to `bomb_exploded`; see below                  |
 | Defusing, no kit    | 10 s        | `bomb_begin_defuse` to `bomb_defused`, `has_kit` false        |
 | Defusing with a kit | 5 s         | the same, `has_kit` true                                      |
 | Smoke               | 22.06 s     | `smokegrenade_detonate` to `smokegrenade_expired`             |
 | Molotov fire        | 7.03 s      | `inferno_startburn` to `inferno_expire`, not put out by smoke |
 | Incendiary fire     | 5.5 s       | the same                                                      |
 | Flash blindness     | up to 5.3 s | `player_status.flash_duration`                                |
+
+The bomb can be defused for 40 s after it is planted. The last second is the
+explosion itself: defusing stops, and `bomb_exploded` comes at 41 s.
 
 ### Player size and jumps
 

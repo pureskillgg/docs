@@ -57,6 +57,7 @@ export const channels = [
   channel('weapon_action', 'multi_event', 'event'),
   channel('weapon_fire', 'single_event', 'event'),
   channel('header', 'header', 'info'),
+  channel('convar', 'single_event', 'info'),
   channel('player_info', 'player_info', 'info'),
   channel('player_personal', 'player_info', 'info')
 ]

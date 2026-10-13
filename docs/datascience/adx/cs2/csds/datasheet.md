@@ -52,7 +52,8 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 
 - **What data does each instance consist of?**
   We extract the data from CS2 demo files with our own processing, and save it
-  as 43 separate channels.
+  as 44 separate channels (fewer before the `convar` and `smoke_voxel` channels
+  were added).
   The collection of these channels for a match is called csds.
   Our open source libraries [dsdk] and [csgo-dsdk] read and work with the csds
   data.

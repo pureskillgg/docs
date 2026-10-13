@@ -7,11 +7,14 @@ sidebar_position: 1
 Documentation for CSDS channels built by FPS Critic, Inc.
 
 One match is published as a JSON index object named `csds` plus one file per
-channel, 43 in all, for 44 objects per match. The index lists the channels,
+channel, 44 in all, for 45 objects per match. The index lists the channels,
 where each one sits, and what columns it declares. Every channel file is
 [Apache Parquet], `header` included.
 
-This document describes the channel set published since 2026-08-04. Revisions
+This document describes the channel set published since 2026-08-04, plus the
+`convar` and `smoke_voxel` channels added after it; the [changelog](./changelog.md)
+dates them, and matches processed before them lack them (42 channels with
+neither). Revisions
 through 2026-08-02 carry an older set of 30 channels, described in the
 [archived spec](/datascience/old/cs2/csds/spec); the 2026-08-03 revision holds
 a mix of the two. Reading each match's index object rather than assuming a
@@ -55,7 +58,8 @@ them.
 Redaction is not one operation, and the redacted columns are still there. Names
 and chat text become the literal string `redacted`, `player_personal.steam_id`
 becomes a per-match alias (`A`, `B`, `C` and so on) that means nothing outside
-its own match, and `player_status.ping` becomes `0`. The rows are untouched, so
+its own match, `player_status.ping` becomes `0`, and in `convar` only the
+`steamworks_sessionid_server` row's value becomes `redacted`. The rows are untouched, so
 `player_chat` still tells you that somebody typed in a given round, without
 telling you what they typed. There is no voice data anywhere in the data set.
 The [data dictionary](./assets/csds_dictionary.csv) says which treatment each
@@ -335,6 +339,26 @@ Event that triggers this channel: bullet_damage
 | attacker_weapon_code | int64   | True     | merged     |                 | attacker_id, tick            |
 | attacker_team_code   | int64   | True     | merged     |                 | attacker_id, tick            |
 
+## convar - single_event
+
+Event that triggers this channel: none
+
+Every server setting the demo carried, one row per setting each time the server
+sent it, in the order sent. `value` is the server's own string; parse it per
+setting. Valve matchmaking servers send their settings once, at tick 0. FACEIT
+and league servers send a warmup configuration first and the match rules later,
+so the setting in effect at a tick is the last row for that name at or before
+it. `steamworks_sessionid_server`, the server's Steam session, has its `value`
+replaced with the literal string `redacted`.
+
+| Col Name | Type    | Nullable | Origin          | Dependents      | Merge Keys |
+| -------- | ------- | -------- | --------------- | --------------- | ---------- |
+| round    | int64   | False    | replay          |                 |            |
+| tick     | int64   | False    | replay          |                 |            |
+| name     | string  | False    | replay          |                 |            |
+| value    | string  | False    | replay-redacted |                 |            |
+| second   | float64 | True     | calculated      | tick, tick_rate |            |
+
 ## grenade_bounce - single_event
 
 Event that triggers this channel: grenade_bounce
@@ -399,6 +423,15 @@ Event that triggers this channel: tick_end
 | x_pos               | float64 | False    | replay     |                 |                            |
 | y_pos               | float64 | False    | replay     |                 |                            |
 | z_pos               | float64 | False    | replay     |                 |                            |
+| vel_x               | float64 | True     | replay     |                 |                            |
+| vel_y               | float64 | True     | replay     |                 |                            |
+| vel_z               | float64 | True     | replay     |                 |                            |
+| origin_x            | float64 | True     | replay     |                 |                            |
+| origin_y            | float64 | True     | replay     |                 |                            |
+| origin_z            | float64 | True     | replay     |                 |                            |
+| thrower_vel_x       | float64 | True     | replay     |                 |                            |
+| thrower_vel_y       | float64 | True     | replay     |                 |                            |
+| thrower_vel_z       | float64 | True     | replay     |                 |                            |
 | second              | float64 | True     | calculated | tick, tick_rate |                            |
 | player_id_fixed     | int64   | True     | merged     |                 | player_id, round, steam_id |
 
@@ -423,6 +456,8 @@ Event that triggers this channel: tick_end
 | is_wingman                 | bool    | False    | replay              |                                                                                                  |            |
 | max_unique_players         | int64   | False    | replay              |                                                                                                  |            |
 | rank_type                  | int64   | True     | replay              |                                                                                                  |            |
+| is_queued_matchmaking      | bool    | True     | replay              |                                                                                                  |            |
+| queued_matchmaking_mode    | int64   | True     | replay              |                                                                                                  |            |
 | tick_rate                  | int64   | True     | calculated          |                                                                                                  |            |
 | tick_save_rate             | int64   | True     | calculated          |                                                                                                  |            |
 | rushb_version              | string  | True     | calculated          | meta:metadata.rushbVersion                                                                       |            |
