@@ -1241,8 +1241,8 @@ Events that trigger this channel: fire_on_empty, reload, zoom, zoom_rifle
 
 Event that triggers this channel: weapon_fire
 
-Each row a gun fired also carries the server's own record of the shot.
-`inaccuracy_total` is the inaccuracy the game applied to it, including the
+Rows where a gun fired a bullet also carry the server's own record of the
+shot. `inaccuracy_total` is the inaccuracy the game applied to it, including the
 movement and jumping part that `player_vector.inaccuracy` (the firing penalty
 only) leaves out; on about a quarter of shots the total is more than 10% higher.
 `seed` is the random seed for the shot's spread, `origin_x`, `origin_y` and
