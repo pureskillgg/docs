@@ -25,9 +25,9 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
-## About 2026-10-13
+## 2026-10-13
 
-_Parser 6.0.0, released 2026-10-13; the day it reaches production follows._
+_Parser 6.0.0 and converter 8.8.0._
 
 **Columns added**
 
