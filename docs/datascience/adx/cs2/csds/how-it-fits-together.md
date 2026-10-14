@@ -90,9 +90,10 @@ Most event channels already carry where their players were. A channel with a
 `player_id` usually has `player_x_pos`, `player_theta_ang`,
 `player_weapon_code`, `player_team_code` and the like, copied from
 `player_vector`; an `attacker_id` or `assister_id` brings the same columns for
-that player. `grenade_bounce`, `player_connect`, `player_disconnect`,
-`player_footstep` and `round_mvp` carry none, so check a channel's columns in
-the [CSDS Spec](./spec.md).
+that player. `grenade_bounce`, `player_connect`, `player_disconnect` and
+`round_mvp` carry none, nor does `player_footstep` before converter 8.8.0
+(2026-10-14), so check a channel's columns in the
+[CSDS Spec](./spec.md).
 
 - **Most channels** copy from the row on the event's own tick.
 - **`player_death`, `player_hurt`, `bullet_damage`, `bomb_action`,
