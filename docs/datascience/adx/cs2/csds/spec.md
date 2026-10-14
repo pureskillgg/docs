@@ -48,15 +48,15 @@ them.
 
 **Origin** says where a column comes from:
 
-| Origin                | Meaning                                                                                             |
-| --------------------- | --------------------------------------------------------------------------------------------------- |
-| `replay`              | Written by the demo parser, straight off the game's own event stream.                               |
-| `replay_fixed`        | A parser value the pipeline recomputed. The uncorrected value stays in the matching `*_raw` column. |
-| `replay-capped`       | A parser value clamped at the top, so an unusually high number cannot single a player out.          |
-| `replay-redacted`     | A parser value overwritten by the PII scrubber.                                                     |
-| `calculated`          | Derived by the pipeline from the columns named under Dependents.                                    |
-| `calculated-redacted` | Derived, then overwritten by the PII scrubber.                                                      |
-| `merged`              | Copied in from another channel by joining on the columns named under Merge Keys.                    |
+| Origin                | Meaning                                                                                                                                                                                                           |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `replay`              | Written by the demo parser, straight off the game's own event stream.                                                                                                                                             |
+| `replay_fixed`        | A parser value the pipeline recomputed. The uncorrected value stays in the matching `*_raw` column, except for `player_status`'s server-clock times, which are moved onto the recording's clock with no raw copy. |
+| `replay-capped`       | A parser value clamped at the top, so an unusually high number cannot single a player out.                                                                                                                        |
+| `replay-redacted`     | A parser value overwritten by the PII scrubber.                                                                                                                                                                   |
+| `calculated`          | Derived by the pipeline from the columns named under Dependents.                                                                                                                                                  |
+| `calculated-redacted` | Derived, then overwritten by the PII scrubber.                                                                                                                                                                    |
+| `merged`              | Copied in from another channel by joining on the columns named under Merge Keys.                                                                                                                                  |
 
 Redaction is not one operation, and the redacted columns are still there. Names
 and chat text become the literal string `redacted`, `player_personal.steam_id`
@@ -1154,7 +1154,7 @@ stops, and about a third of reloads end early in a weapon switch.
 completed reload; null for knives, grenades and equipment. `deploy_tick` is
 the tick the held weapon was drawn, joinable on `tick`. The game keeps
 `progress_bar_start`, `last_injury_time` and `deploy_tick` on the game server's
-clock; the converter moves them onto the recording's with
+clock; the converter moves them onto the recording's clock with
 `header.server_start_tick`, hence `replay_fixed`, and keeps no `*_raw` copy.
 
 | Col Name                      | Type    | Nullable | Origin          | Dependents                                                                                                                                                            | Merge Keys                 |
