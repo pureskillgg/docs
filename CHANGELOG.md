@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- `player_command` and `player_subtick_input` in the CS2 spec and data dictionary: each player's user command per tick (mouse movement in raw counts, the movement keys, the weapon switched to) and each sub-tick button press or release with its timing. The channel counts on the spec, Getting the Data and the homepage go to 51 channels and 52 files per match.
 - `player_personal`'s client-settings columns (`crosshair_code` and the four `viewmodel_*` columns) in the CS2 spec and data dictionary, marked as redacted in the data set.
 - `grenade_vector`'s throw columns in the CS2 spec and data dictionary.
 - `bomb_state`'s plant columns in the CS2 spec and data dictionary.
