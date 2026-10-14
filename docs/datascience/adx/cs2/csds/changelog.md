@@ -25,6 +25,18 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
+## About 2026-10-13
+
+_Parser 6.0.0 and converter 8.8.0._
+
+**Columns added**
+
+- `player_vector.is_airborne`, `player_vector.x_vel_engine`, `player_vector.y_vel_engine`, `player_vector.z_vel_engine`, `player_vector.shots_fired`, `player_vector.velocity_modifier`, `player_vector.view_offset_z`: The game's own movement and spray state for each player on each tick, all nullable. `is_airborne` is true when nothing is under the player's feet. `x_vel_engine`, `y_vel_engine` and `z_vel_engine` are the game's velocity at the tick, in units a second. dsdk's `x_vel`, `y_vel` and `z_vel`, which it calculates from positions, describe the move into the tick, half a tick earlier, so the two disagree most after missed ticks, on stairs and in the air. `shots_fired` counts the shots of the current spray and drops back to 0 soon after the player stops firing. `velocity_modifier` is the slowdown from being hit, 1 when there is none. `view_offset_z` is the eye's height above the player's position, about 64 standing and 46 crouched; the eye's height on the map is `z_pos + view_offset_z`.
+- `player_vector.aim_punch_pitch`, `player_vector.aim_punch_yaw`: Floats, in degrees: the recoil kick the player's shots have put on their aim, pitch negative upward. Across a spray they trace the weapon's recoil pattern. The game holds the last shot's value rather than letting it decay, so both are null unless the player fired within the last second (64 ticks), counting the shot's own tick.
+- `player_status.progress_bar_start`, `player_status.progress_bar_duration`, `player_status.last_injury_time`, `player_status.is_in_reload`, `player_status.reserve_ammo`, `player_status.deploy_tick`: The player's and the held weapon's own state, all nullable. `progress_bar_start` and `progress_bar_duration` are the defuse progress bar. `progress_bar_start` is when the player's last defuse began, in seconds on the clock of `second`, and keeps that value after the defuse ends. `progress_bar_duration` is the bar's length in seconds while it shows (10, or 5 with a kit) and negative otherwise. CS2 doesn't use the bar for planting. `last_injury_time` is when the player last took damage, on the clock of `second`. Both times are null until first set. `is_in_reload` is the held weapon's reload flag; unlike `is_reloading` it falls as soon as a reload stops, and about a third of reloads end early in a weapon switch. `reserve_ammo` is the held weapon's reserve and drops by one magazine per completed reload; null for knives, grenades and equipment. `deploy_tick` is the tick the held weapon was drawn, joinable on `tick`.
+- `player_info.game_rank_if_win`, `player_info.game_rank_if_loss`, `player_info.game_rank_if_tie`: Integers, nullable: the rating the game itself predicts the player will hold after the match if their team wins, loses or ties, the "+N / -N" on the Premier scoreboard. Set once at the start of the match, so every round repeats them. 0 outside Premier, as on FACEIT and league demos.
+- `header.server_start_tick`: Integer, nullable: the game server's tick when the recording's tick 0 was recorded, which differs from match to match. The game counts some times from the server's start; the converter uses this to put `player_status.progress_bar_start`, `last_injury_time` and `deploy_tick` on the recording's clock. Null on a demo with no server tick messages.
+
 ## 2026-10-12
 
 _Parser 5.7.0 and publisher 4.0.4._

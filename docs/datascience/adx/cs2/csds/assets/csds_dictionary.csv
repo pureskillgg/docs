@@ -191,6 +191,7 @@ max_unique_players,INTEGER,,False,,,,,header,header
 rank_type,INTEGER,,True,,,,,header,header
 is_queued_matchmaking,BOOLEAN,,True,,"Whether Valve's matchmaker queued the lobby, read from the game rules. Null when the demo does not carry it.",,,header,header
 queued_matchmaking_mode,INTEGER,,True,,"The matchmaker's mode number from the game rules: 1 on Premier, 0 otherwise in the matches checked. Null when the demo does not carry it.",,,header,header
+server_start_tick,INTEGER,,True,The game server's tick when the recording's tick 0 was recorded.,The converter uses it to put player_status's server-clock times on the recording's clock. Null on a demo with no server tick messages. From parser 6.0.0.,,,header,header
 tick_rate,INTEGER,,True,,,,,header,header
 tick_save_rate,INTEGER,,True,,,,,header,header
 rushb_version,VARCHAR,,True,,,,,header,header
@@ -549,6 +550,9 @@ wins,INTEGER,,False,,Values above 2500 are replaced with 2501.,,,player_info,pla
 rank,INTEGER,,False,,,,,player_info,player_info
 rank_type,INTEGER,,False,,,,,player_info,player_info
 radar_color_code,INTEGER,,False,,,,,player_info,player_info
+game_rank_if_win,INTEGER,,True,The rating the game predicts the player will hold after the match if their team wins.,"Set once at match start, the same every round. 0 outside Premier. From parser 6.0.0.",,,player_info,player_info
+game_rank_if_loss,INTEGER,,True,The rating the game predicts the player will hold after the match if their team loses.,"Set once at match start, the same every round. 0 outside Premier. From parser 6.0.0.",,,player_info,player_info
+game_rank_if_tie,INTEGER,,True,The rating the game predicts the player will hold after the match if it is a tie.,"Set once at match start, the same every round. 0 outside Premier. From parser 6.0.0.",,,player_info,player_info
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_info,player_info
 rank_raw,INTEGER,,True,,,,,player_info,player_info
 rank_platform,DECIMAL,,True,,,,,player_info,player_info
@@ -674,6 +678,12 @@ is_reloading,BOOLEAN,,False,,,,,player_status,telemetry
 is_scoped,BOOLEAN,,False,,,,,player_status,telemetry
 is_spotted,BOOLEAN,,False,,,,,player_status,telemetry
 is_walking,BOOLEAN,,False,,,,,player_status,telemetry
+progress_bar_start,DECIMAL,,True,"When the player's last defuse began, in seconds on the clock of second.",Keeps its value after the defuse ends. Null until the first defuse. CS2 doesn't use the bar for planting. From parser 6.0.0.,,,player_status,telemetry
+progress_bar_duration,INTEGER,,True,"The defuse progress bar's length in seconds: 10, or 5 with a kit.",Negative while no bar shows. From parser 6.0.0.,,,player_status,telemetry
+last_injury_time,DECIMAL,,True,"When the player last took damage, in seconds on the clock of second.",Null until the player is first hurt. From parser 6.0.0.,,,player_status,telemetry
+is_in_reload,BOOLEAN,,True,The held weapon's reload flag.,Unlike is_reloading it falls as soon as a reload stops; about a third of reloads end early in a weapon switch. Null with no weapon held. From parser 6.0.0.,,,player_status,telemetry
+reserve_ammo,INTEGER,,True,The held weapon's reserve ammunition.,"Drops by one magazine per completed reload. Null for knives, grenades and equipment, and with no weapon held. From parser 6.0.0.",,,player_status,telemetry
+deploy_tick,INTEGER,,True,The tick the held weapon was drawn.,Joinable on tick. Null with no weapon held. From parser 6.0.0.,,,player_status,telemetry
 second,DECIMAL,,True,,,,,player_status,telemetry
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_status,telemetry
 equipment_value_calc,INTEGER,,True,,,,,player_status,telemetry
@@ -697,6 +707,15 @@ duck_speed,DECIMAL,,False,,,,,player_vector,telemetry
 fall_velocity,DECIMAL,,False,,,,,player_vector,telemetry
 view_punch_angle_tick,INTEGER,,False,,,,,player_vector,telemetry
 is_rescuing,BOOLEAN,,False,,,,,player_vector,telemetry
+is_airborne,BOOLEAN,,True,Whether nothing is under the player's feet.,From parser 6.0.0.,,,player_vector,telemetry
+x_vel_engine,DECIMAL,,True,"The game's own velocity on x at the tick, in units a second.","dsdk's x_vel, calculated from positions, is the move into the tick, half a tick earlier. From parser 6.0.0.",,,player_vector,telemetry
+y_vel_engine,DECIMAL,,True,"The game's own velocity on y at the tick, in units a second.","dsdk's y_vel, calculated from positions, is the move into the tick, half a tick earlier. From parser 6.0.0.",,,player_vector,telemetry
+z_vel_engine,DECIMAL,,True,"The game's own velocity on z at the tick, in units a second.","dsdk's z_vel, calculated from positions, is the move into the tick, half a tick earlier, and reads stair steps as vertical speed. From parser 6.0.0.",,,player_vector,telemetry
+shots_fired,INTEGER,,True,The shots of the current spray.,Drops back to 0 soon after the player stops firing. From parser 6.0.0.,,,player_vector,telemetry
+velocity_modifier,DECIMAL,,True,The slowdown from being hit.,1 when there is none. From parser 6.0.0.,,,player_vector,telemetry
+view_offset_z,DECIMAL,,True,The eye's height above the player's position.,About 64 standing and 46 crouched; the eye's height on the map is z_pos + view_offset_z. From parser 6.0.0.,,,player_vector,telemetry
+aim_punch_pitch,DECIMAL,,True,"Recoil kick on the aim's pitch from the player's shots, in degrees, negative upward.","Null unless the player fired within the last second (64 ticks), counting the shot's own tick. From parser 6.0.0.",,,player_vector,telemetry
+aim_punch_yaw,DECIMAL,,True,"Recoil kick on the aim's yaw from the player's shots, in degrees.","Null unless the player fired within the last second (64 ticks), counting the shot's own tick. From parser 6.0.0.",,,player_vector,telemetry
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_vector,telemetry
 team_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,player_vector,telemetry
 round,INTEGER,,False,,,,,rank_update,single_event
