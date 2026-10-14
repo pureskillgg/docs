@@ -25,7 +25,7 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
-## 2026-10-13
+## 2026-10-14
 
 _Parser 6.0.0 and converter 8.8.0._
 
@@ -44,10 +44,13 @@ _Parser 6.0.0 and converter 8.8.0._
 - `header.server_start_tick`: Integer, nullable: the game server's tick when the recording's tick 0 was recorded, which differs from match to match. The game counts some times from the server's start; the converter uses this to put `player_status.progress_bar_start`, `last_injury_time` and `deploy_tick` on the recording's clock. Null on a demo with no server tick messages.
 - `weapon_fire.inaccuracy_total`, `weapon_fire.seed`, `weapon_fire.origin_x`, `weapon_fire.origin_y`, `weapon_fire.origin_z`, `weapon_fire.angle_pitch`, `weapon_fire.angle_yaw`: The server's own record of each shot, on rows where a gun fired a bullet. `inaccuracy_total` is the inaccuracy the game applied to the shot, including the movement and jumping part that `player_vector.inaccuracy` (the firing penalty only) leaves out; on about a quarter of shots the total is more than 10% higher. `seed` is the random seed for the shot's spread, `origin_x`, `origin_y` and `origin_z` are where it was fired from, and `angle_pitch` and `angle_yaw` its direction in degrees. Null on grenade, knife and other rows that fire no bullet, and on the rare shot whose record never arrives. Matches parsed before parser 6.0.0 reached production don't have them.
 - `weapon_fire.inaccuracy_move`, `weapon_fire.inaccuracy_air`, `weapon_fire.aim_punch_pitch`, `weapon_fire.aim_punch_yaw`, `weapon_fire.attack_tick`, `weapon_fire.attack_tick_frac`: Sent only by Valve's matchmaking servers, so null on FACEIT and league matches as well as on rows that fire no bullet. `inaccuracy_move` and `inaccuracy_air` are the movement and air parts of `inaccuracy_total`. `aim_punch_pitch` and `aim_punch_yaw` are the recoil kick on the view at the shot, in degrees. `attack_tick` and `attack_tick_frac` are the tick, and the fraction of it, when the player clicked: almost always 3 ticks before to 1 after the row's `tick`.
+- `player_footstep.player_x_pos`, `player_footstep.player_y_pos`, `player_footstep.player_z_pos`, `player_footstep.player_x_vel`, `player_footstep.player_y_vel`, `player_footstep.player_z_vel`, `player_footstep.player_phi_ang`, `player_footstep.player_theta_ang`, `player_footstep.player_weapon_code`, `player_footstep.player_team_code`: The player's position, velocity, view angles, weapon and team at the row's tick, merged from `player_vector` as on the other player events, so each step, jump and landing has a place. Null where `player_vector` has no row for that player and tick, about 1 row in 20,000 on a 50-match sample.
 
 **Fixes**
 
 - `weapon_fire`: Two shots by one player on the same tick used to make two identical rows, and the duplicate removal kept only one. The new columns tell them apart, so both are kept. It happens rarely: one match in a 50-match sample gained one row.
+- `player_footstep`: One row per player, kind and tick. A step the game played twice on one tick, at a jump or a landing, was two rows (about 1 step in 300) and is now one. `player_sound` still has a row for every time the game played it.
+- `player_sound.player_id`, `player_sound.source`: Set on more sounds. A sound whose source reaches the recording later in the same tick, such as a bought weapon or a molotov's fire, gets its player and its `source`, and an armor purchase goes to the player whose armor rose on that tick. Before, both had no player and `source` `other`. On a 50-match sample, `other` fell from 3.3% of sounds to 0.8%, and 21,250 sounds gained a player; no sound that had a player changed, and no rows were added or removed.
 
 ## 2026-10-12
 

@@ -191,6 +191,7 @@ max_unique_players,INTEGER,,False,,,,,header,header
 rank_type,INTEGER,,True,,,,,header,header
 is_queued_matchmaking,BOOLEAN,,True,,"Whether Valve's matchmaker queued the lobby, read from the game rules. Null when the demo does not carry it.",,,header,header
 queued_matchmaking_mode,INTEGER,,True,,"The matchmaker's mode number from the game rules: 1 on Premier, 0 otherwise in the matches checked. Null when the demo does not carry it.",,,header,header
+server_start_tick,INTEGER,,True,The game server's tick when the recording's tick 0 was recorded.,The converter uses it to put player_status's server-clock times on the recording's clock. Null on a demo with no server tick messages. From parser 6.0.0.,,,header,header
 tick_rate,INTEGER,,True,,,,,header,header
 tick_save_rate,INTEGER,,True,,,,,header,header
 rushb_version,VARCHAR,,True,,,,,header,header
@@ -508,6 +509,16 @@ kind,VARCHAR,,False,"What the player did: step, jump or land.","From parser 5.7.
 surface,VARCHAR,,False,"What was stepped or landed on, such as Concrete, Sand or Wood.",Empty for a jump. From parser 5.7.0.,,,player_footstep,single_event
 second,DECIMAL,,True,,,,,player_footstep,single_event
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_footstep,single_event
+player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches. From converter 8.8.0.,,,player_footstep,single_event
+player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches. From converter 8.8.0.,,,player_footstep,single_event
+player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches. From converter 8.8.0.,,,player_footstep,single_event
+player_x_vel,DECIMAL,,True,,Merged from another channel. Null where no source row matches. From converter 8.8.0.,,,player_footstep,single_event
+player_y_vel,DECIMAL,,True,,Merged from another channel. Null where no source row matches. From converter 8.8.0.,,,player_footstep,single_event
+player_z_vel,DECIMAL,,True,,Merged from another channel. Null where no source row matches. From converter 8.8.0.,,,player_footstep,single_event
+player_phi_ang,DECIMAL,,True,,Merged from another channel. Null where no source row matches. From converter 8.8.0.,,,player_footstep,single_event
+player_theta_ang,DECIMAL,,True,,Merged from another channel. Null where no source row matches. From converter 8.8.0.,,,player_footstep,single_event
+player_weapon_code,INTEGER,,True,,Merged from another channel. Null where no source row matches. From converter 8.8.0.,,,player_footstep,single_event
+player_team_code,INTEGER,,True,,Merged from another channel. Null where no source row matches. From converter 8.8.0.,,,player_footstep,single_event
 round,INTEGER,,False,,,,,player_hurt,single_event
 tick,INTEGER,,False,,,,,player_hurt,single_event
 player_id,INTEGER,,False,,,,,player_hurt,single_event
@@ -549,6 +560,9 @@ wins,INTEGER,,False,,Values above 2500 are replaced with 2501.,,,player_info,pla
 rank,INTEGER,,False,,,,,player_info,player_info
 rank_type,INTEGER,,False,,,,,player_info,player_info
 radar_color_code,INTEGER,,False,,,,,player_info,player_info
+game_rank_if_win,INTEGER,,True,The rating the game predicts the player will hold after the match if their team wins.,"Set once at match start, the same every round. 0 outside Premier. From parser 6.0.0.",,,player_info,player_info
+game_rank_if_loss,INTEGER,,True,The rating the game predicts the player will hold after the match if their team loses.,"Set once at match start, the same every round. 0 outside Premier. From parser 6.0.0.",,,player_info,player_info
+game_rank_if_tie,INTEGER,,True,The rating the game predicts the player will hold after the match if it is a tie.,"Set once at match start, the same every round. 0 outside Premier. From parser 6.0.0.",,,player_info,player_info
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_info,player_info
 rank_raw,INTEGER,,True,,,,,player_info,player_info
 rank_platform,DECIMAL,,True,,,,,player_info,player_info
@@ -600,11 +614,16 @@ player_id_pawn,INTEGER,,False,,,,,player_personal,player_info
 name,VARCHAR,,False,,"Every value is replaced with the literal string ""redacted"".",,,player_personal,player_info
 clan_tag,VARCHAR,,False,,"Every value is replaced with the literal string ""redacted"".",,,player_personal,player_info
 steam_id,VARCHAR,,False,,"Replaced with a per-match alias: A, B, C and so on. The alias means nothing outside its own match.",,,player_personal,player_info
+crosshair_code,VARCHAR,,True,The player's crosshair share code (CSGO-...).,"Redacted in this data set: every value is replaced with the literal string ""redacted"".",,,player_personal,player_info
+viewmodel_offset_x,DECIMAL,,True,"The player's viewmodel offset, x.",Redacted in this data set: always null.,,,player_personal,player_info
+viewmodel_offset_y,DECIMAL,,True,"The player's viewmodel offset, y.",Redacted in this data set: always null.,,,player_personal,player_info
+viewmodel_offset_z,DECIMAL,,True,"The player's viewmodel offset, z.",Redacted in this data set: always null.,,,player_personal,player_info
+viewmodel_fov,DECIMAL,,True,The player's viewmodel field of view.,Redacted in this data set: always null.,,,player_personal,player_info
 is_bot,BOOLEAN,,True,,,,,player_personal,player_info
 player_id_fixed,INTEGER,,True,,,,,player_personal,player_info
 round,INTEGER,,False,,,,,player_sound,single_event
 tick,INTEGER,,False,,,,,player_sound,single_event
-player_id,INTEGER,,True,,"The player, the carrier of the weapon or the thrower of the grenade. Null when no player is known: world sounds, and sounds whose source had not reached the recording when the sound did.",,,player_sound,single_event
+player_id,INTEGER,,True,,"The player, the carrier of the weapon or the thrower of the grenade. Null when no player is known: world sounds, and sounds whose source the parser can't place (source other). Before parser 6.0.0, also sounds whose source reached the recording later in the same tick, and armor purchases.",,,player_sound,single_event
 sound,VARCHAR,,False,"The game's name for the sound, such as Player.PickupWeapon or T_Concrete.StepLeft.","Its hash as 8 hex digits when the parser's list of names lacks it. ""player_sound"" on a row from the game-event fallback. From parser 5.7.0.",,,player_sound,single_event
 source,VARCHAR,,False,"What made the sound: player, weapon, grenade, world or other.",weapon is one a player carries; other is a source the parser could not find. From parser 5.7.0.,,,player_sound,single_event
 second,DECIMAL,,True,,,,,player_sound,single_event
@@ -674,6 +693,12 @@ is_reloading,BOOLEAN,,False,,,,,player_status,telemetry
 is_scoped,BOOLEAN,,False,,,,,player_status,telemetry
 is_spotted,BOOLEAN,,False,,,,,player_status,telemetry
 is_walking,BOOLEAN,,False,,,,,player_status,telemetry
+progress_bar_start,DECIMAL,,True,"When the player's last defuse began, in seconds on the clock of second.",Keeps its value after the defuse ends. Null until the first defuse. CS2 doesn't use the bar for planting. From parser 6.0.0.,,,player_status,telemetry
+progress_bar_duration,INTEGER,,True,"The defuse progress bar's length in seconds: 10, or 5 with a kit.",Negative while no bar shows. From parser 6.0.0.,,,player_status,telemetry
+last_injury_time,DECIMAL,,True,"When the player last took damage, in seconds on the clock of second.",Null until the player is first hurt. From parser 6.0.0.,,,player_status,telemetry
+is_in_reload,BOOLEAN,,True,The held weapon's reload flag.,Unlike is_reloading it falls as soon as a reload stops; about a third of reloads end early in a weapon switch. Null with no weapon held. From parser 6.0.0.,,,player_status,telemetry
+reserve_ammo,INTEGER,,True,The held weapon's reserve ammunition.,"Drops by one magazine per completed reload. Null for knives, grenades and equipment, and with no weapon held. From parser 6.0.0.",,,player_status,telemetry
+deploy_tick,INTEGER,,True,The tick the held weapon was drawn.,Joinable on tick. Null with no weapon held. From parser 6.0.0.,,,player_status,telemetry
 second,DECIMAL,,True,,,,,player_status,telemetry
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_status,telemetry
 equipment_value_calc,INTEGER,,True,,,,,player_status,telemetry
@@ -697,6 +722,15 @@ duck_speed,DECIMAL,,False,,,,,player_vector,telemetry
 fall_velocity,DECIMAL,,False,,,,,player_vector,telemetry
 view_punch_angle_tick,INTEGER,,False,,,,,player_vector,telemetry
 is_rescuing,BOOLEAN,,False,,,,,player_vector,telemetry
+is_airborne,BOOLEAN,,True,Whether nothing is under the player's feet.,From parser 6.0.0.,,,player_vector,telemetry
+x_vel_engine,DECIMAL,,True,"The game's own velocity on x at the tick, in units a second.","dsdk's x_vel, calculated from positions, is the move into the tick, half a tick earlier. From parser 6.0.0.",,,player_vector,telemetry
+y_vel_engine,DECIMAL,,True,"The game's own velocity on y at the tick, in units a second.","dsdk's y_vel, calculated from positions, is the move into the tick, half a tick earlier. From parser 6.0.0.",,,player_vector,telemetry
+z_vel_engine,DECIMAL,,True,"The game's own velocity on z at the tick, in units a second.","dsdk's z_vel, calculated from positions, is the move into the tick, half a tick earlier, and reads stair steps as vertical speed. From parser 6.0.0.",,,player_vector,telemetry
+shots_fired,INTEGER,,True,The shots of the current spray.,Drops back to 0 soon after the player stops firing. From parser 6.0.0.,,,player_vector,telemetry
+velocity_modifier,DECIMAL,,True,The slowdown from being hit.,1 when there is none. From parser 6.0.0.,,,player_vector,telemetry
+view_offset_z,DECIMAL,,True,The eye's height above the player's position.,About 64 standing and 46 crouched; the eye's height on the map is z_pos + view_offset_z. From parser 6.0.0.,,,player_vector,telemetry
+aim_punch_pitch,DECIMAL,,True,"Recoil kick on the aim's pitch from the player's shots, in degrees, negative upward.","Null unless the player fired within the last second (64 ticks), counting the shot's own tick. From parser 6.0.0.",,,player_vector,telemetry
+aim_punch_yaw,DECIMAL,,True,"Recoil kick on the aim's yaw from the player's shots, in degrees.","Null unless the player fired within the last second (64 ticks), counting the shot's own tick. From parser 6.0.0.",,,player_vector,telemetry
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_vector,telemetry
 team_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,player_vector,telemetry
 round,INTEGER,,False,,,,,rank_update,single_event
