@@ -914,21 +914,34 @@ sounds the game played. `kind` is `step`, `jump` or `land`. `surface` is what
 was stepped or landed on (`Concrete`, `Sand`, `Wood` and so on), and empty for
 a jump. Every jump also plays a step at takeoff, so a jump row comes with a
 step row at about the same tick. Walking and crouching make no sound, so they
-make no steps, and small drops make no landing. A step the game played twice on
-one tick, at a jump or a landing, is two rows (about 1 step in 300). Matches
-parsed before parser 5.7.0 (2026-10-12) hold a different channel: jumps and
-landings only, with no `kind` or `surface`; see the
+make no steps, and small drops make no landing. A player has at most one row
+of each kind on a tick. The merged position columns are the player's, from
+`player_vector` at that tick. Matches parsed before parser 5.7.0 (2026-10-12)
+hold a different channel: jumps and landings only, with no `kind` or `surface`.
+Before parser 6.0.0 (2026-10-14), a step the game played twice on one tick, at
+a jump or a landing, was two rows (about 1 step in 300). Before converter 8.8.0
+(2026-10-14), the channel had no position columns. See the
 [changelog](./changelog.md).
 
-| Col Name        | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
-| --------------- | ------- | -------- | ---------- | --------------- | -------------------------- |
-| round           | int64   | False    | replay     |                 |                            |
-| tick            | int64   | False    | replay     |                 |                            |
-| player_id       | int64   | False    | replay     |                 |                            |
-| kind            | string  | False    | replay     |                 |                            |
-| surface         | string  | False    | replay     |                 |                            |
-| second          | float64 | True     | calculated | tick, tick_rate |                            |
-| player_id_fixed | int64   | True     | merged     |                 | player_id, round, steam_id |
+| Col Name           | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
+| ------------------ | ------- | -------- | ---------- | --------------- | -------------------------- |
+| round              | int64   | False    | replay     |                 |                            |
+| tick               | int64   | False    | replay     |                 |                            |
+| player_id          | int64   | False    | replay     |                 |                            |
+| kind               | string  | False    | replay     |                 |                            |
+| surface            | string  | False    | replay     |                 |                            |
+| second             | float64 | True     | calculated | tick, tick_rate |                            |
+| player_id_fixed    | int64   | True     | merged     |                 | player_id, round, steam_id |
+| player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
+| player_y_pos       | float64 | True     | merged     |                 | player_id, tick            |
+| player_z_pos       | float64 | True     | merged     |                 | player_id, tick            |
+| player_x_vel       | float64 | True     | merged     |                 | player_id, tick            |
+| player_y_vel       | float64 | True     | merged     |                 | player_id, tick            |
+| player_z_vel       | float64 | True     | merged     |                 | player_id, tick            |
+| player_phi_ang     | float64 | True     | merged     |                 | player_id, tick            |
+| player_theta_ang   | float64 | True     | merged     |                 | player_id, tick            |
+| player_weapon_code | int64   | True     | merged     |                 | player_id, tick            |
+| player_team_code   | int64   | True     | merged     |                 | player_id, tick            |
 
 ## player_hurt - single_event
 
@@ -1092,8 +1105,11 @@ list of names lacks it, which is under 1 sound in 1,000 on recent matches.
 `source` says what made it: `player`, `weapon` (one a player carries),
 `grenade`, `world` or `other`. `player_id` is the player, the carrier of the
 weapon or the thrower of the grenade, and null when no player is known: world
-sounds, and about 3% of sounds whose source had not reached the recording when
-the sound did (`source` `other`), among them weapon and armor purchases. The
+sounds, and under 1% of sounds whose source the parser can't place (`source`
+`other`). A sound whose source reaches the recording later in the same tick,
+such as a bought weapon or a molotov's fire, gets its player then, and an armor
+purchase goes to the player whose armor rose on that tick. Before parser 6.0.0
+(2026-10-14) those had no player and were `other`, about 3% of sounds. The
 merged position columns are that player's, and null when `player_id` is. A
 sound the game played twice on one tick, such as a grenade bouncing off two
 surfaces, is two rows. A demo with no sound messages falls back to the
