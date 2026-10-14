@@ -1040,17 +1040,27 @@ Event that triggers this channel: player_name
 
 Event that triggers this channel: round_freeze_end
 
-| Col Name             | Type   | Nullable | Origin          | Dependents       | Merge Keys |
-| -------------------- | ------ | -------- | --------------- | ---------------- | ---------- |
-| round                | int64  | False    | replay          |                  |            |
-| player_id            | int64  | False    | replay          |                  |            |
-| player_controller_id | int64  | False    | replay          |                  |            |
-| player_id_pawn       | int64  | False    | replay          |                  |            |
-| name                 | string | False    | replay-redacted |                  |            |
-| clan_tag             | string | False    | replay-redacted |                  |            |
-| steam_id             | string | False    | replay-redacted |                  |            |
-| is_bot               | bool   | True     | calculated      | steam_id         |            |
-| player_id_fixed      | int64  | True     | calculated      | steam_id, is_bot |            |
+`crosshair_code` and the four `viewmodel_*` columns are each player's client
+settings. In this data set they are redacted: the crosshair code reads
+`"redacted"` and the viewmodel values are null, because a custom crosshair code
+is close to unique per player and could link a player across matches.
+
+| Col Name             | Type    | Nullable | Origin          | Dependents       | Merge Keys |
+| -------------------- | ------- | -------- | --------------- | ---------------- | ---------- |
+| round                | int64   | False    | replay          |                  |            |
+| player_id            | int64   | False    | replay          |                  |            |
+| player_controller_id | int64   | False    | replay          |                  |            |
+| player_id_pawn       | int64   | False    | replay          |                  |            |
+| name                 | string  | False    | replay-redacted |                  |            |
+| clan_tag             | string  | False    | replay-redacted |                  |            |
+| steam_id             | string  | False    | replay-redacted |                  |            |
+| crosshair_code       | string  | True     | replay-redacted |                  |            |
+| viewmodel_offset_x   | float64 | True     | replay-redacted |                  |            |
+| viewmodel_offset_y   | float64 | True     | replay-redacted |                  |            |
+| viewmodel_offset_z   | float64 | True     | replay-redacted |                  |            |
+| viewmodel_fov        | float64 | True     | replay-redacted |                  |            |
+| is_bot               | bool    | True     | calculated      | steam_id         |            |
+| player_id_fixed      | int64   | True     | calculated      | steam_id, is_bot |            |
 
 ## player_sound - single_event
 

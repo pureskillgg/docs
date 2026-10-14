@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- `player_personal`'s client-settings columns (`crosshair_code` and the four `viewmodel_*` columns) in the CS2 spec and data dictionary, marked as redacted in the data set.
 - `grenade_vector`'s throw columns in the CS2 spec and data dictionary.
 - `bomb_state`'s plant columns in the CS2 spec and data dictionary.
 - `weapon_fire`'s per-shot columns in the CS2 spec and data dictionary: the shot's real inaccuracy, its seed, origin and angles, and, from Valve's servers, the movement and air parts, the aim punch and the click's tick.

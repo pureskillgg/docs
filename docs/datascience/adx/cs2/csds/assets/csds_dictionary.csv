@@ -600,6 +600,11 @@ player_id_pawn,INTEGER,,False,,,,,player_personal,player_info
 name,VARCHAR,,False,,"Every value is replaced with the literal string ""redacted"".",,,player_personal,player_info
 clan_tag,VARCHAR,,False,,"Every value is replaced with the literal string ""redacted"".",,,player_personal,player_info
 steam_id,VARCHAR,,False,,"Replaced with a per-match alias: A, B, C and so on. The alias means nothing outside its own match.",,,player_personal,player_info
+crosshair_code,VARCHAR,,True,The player's crosshair share code (CSGO-...).,"Redacted in this data set: every value is replaced with the literal string ""redacted"".",,,player_personal,player_info
+viewmodel_offset_x,DECIMAL,,True,"The player's viewmodel offset, x.",Redacted in this data set: always null.,,,player_personal,player_info
+viewmodel_offset_y,DECIMAL,,True,"The player's viewmodel offset, y.",Redacted in this data set: always null.,,,player_personal,player_info
+viewmodel_offset_z,DECIMAL,,True,"The player's viewmodel offset, z.",Redacted in this data set: always null.,,,player_personal,player_info
+viewmodel_fov,DECIMAL,,True,The player's viewmodel field of view.,Redacted in this data set: always null.,,,player_personal,player_info
 is_bot,BOOLEAN,,True,,,,,player_personal,player_info
 player_id_fixed,INTEGER,,True,,,,,player_personal,player_info
 round,INTEGER,,False,,,,,player_sound,single_event
