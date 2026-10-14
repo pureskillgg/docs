@@ -25,6 +25,19 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
+## 2026-10-14
+
+_Parser 6.0.0 and converter 8.8.0._
+
+**Columns added**
+
+- `player_footstep.player_x_pos`, `player_footstep.player_y_pos`, `player_footstep.player_z_pos`, `player_footstep.player_x_vel`, `player_footstep.player_y_vel`, `player_footstep.player_z_vel`, `player_footstep.player_phi_ang`, `player_footstep.player_theta_ang`, `player_footstep.player_weapon_code`, `player_footstep.player_team_code`: The player's position, velocity, view angles, weapon and team at the row's tick, merged from `player_vector` as on the other player events, so each step, jump and landing has a place. Null where `player_vector` has no row for that player and tick, about 1 row in 20,000 on a 50-match sample.
+
+**Fixes**
+
+- `player_footstep`: One row per player, kind and tick. A step the game played twice on one tick, at a jump or a landing, was two rows (about 1 step in 300) and is now one. `player_sound` still has a row for every time the game played it.
+- `player_sound.player_id`, `player_sound.source`: Set on more sounds. A sound whose source reaches the recording later in the same tick, such as a bought weapon or a molotov's fire, gets its player and its `source`, and an armor purchase goes to the player whose armor rose on that tick. Before, both had no player and `source` `other`. On a 50-match sample, `other` fell from 3.3% of sounds to 0.8%, and 21,250 sounds gained a player; no sound that had a player changed, and no rows were added or removed.
+
 ## 2026-10-12
 
 _Parser 5.7.0 and publisher 4.0.4._
