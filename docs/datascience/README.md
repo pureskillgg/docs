@@ -1,3 +1,7 @@
+---
+description: Free, tick-level Counter-Strike 2 match data for research and development, what the data set holds, how to get it from AWS Data Exchange, and how to read it.
+---
+
 # PureSkill.gg Data Science
 
 ## FAQ
