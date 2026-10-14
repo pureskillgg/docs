@@ -19,6 +19,8 @@ export const channels = [
   channel('player_vector', 'telemetry', 'telemetry'),
   channel('player_status', 'telemetry', 'telemetry'),
   channel('player_inputs', 'telemetry', 'telemetry'),
+  channel('player_command', 'telemetry', 'telemetry'),
+  channel('player_subtick_input', 'telemetry', 'telemetry'),
   channel('tick', 'telemetry', 'telemetry'),
   channel('grenade_vector', 'telemetry', 'telemetry'),
   channel('molotov_fire', 'telemetry', 'telemetry'),

@@ -149,9 +149,9 @@ Each entry in `channels` has:
   `dependents`, `mergeKeys` and `comment`, as the spec's
   [How to read this](./spec.md#how-to-read-this) describes. Skip a column
   whose `origin` ends in `-deleted`: the file no longer stores it.
-- `available`, on six channels whose events a demo may not carry
-  (`bot_takeover`, `bullet_damage`, `player_inputs`, `player_sound`,
-  `rank_update` and `round_mvp`). `false` means the demo didn't carry the
+- `available`, on eight channels whose events a demo may not carry
+  (`bot_takeover`, `bullet_damage`, `player_command`, `player_inputs`,
+  `player_sound`, `player_subtick_input`, `rank_update` and `round_mvp`). `false` means the demo didn't carry the
   event, so the channel is empty for that reason; `true` means it did, though
   the channel can still be empty when nothing happened. In the revision of
   2026-10-07, `player_inputs` and `player_sound` were `false` in 88 of 89
