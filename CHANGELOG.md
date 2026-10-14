@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - `grenade_vector`'s throw columns in the CS2 spec and data dictionary.
 - `bomb_state`'s plant columns in the CS2 spec and data dictionary.
 - `weapon_fire`'s per-shot columns in the CS2 spec and data dictionary: the shot's real inaccuracy, its seed, origin and angles, and, from Valve's servers, the movement and air parts, the aim punch and the click's tick.
+- Changelog entries for parser 6.0.0's `weapon_fire` per-shot columns, and the same-tick shots they keep apart, provisionally dated 2026-10-13 until 6.0.0 reaches production.
 - `team_info` and `pause_state`, and `round_state`'s overtime and loss-streak columns, in the CS2 spec and data dictionary.
 - Parser 6.0.0's per-frame player columns in the CS2 spec, data dictionary and changelog pages: on `player_vector` the game's airborne flag, velocity, spray count, hit slowdown, eye height and recoil kick; on `player_status` the defuse progress bar, last injury, the weapon's own reload flag, reserve ammo and draw tick; on `player_info` the game's predicted ratings; and `header.server_start_tick`. The changelog entry is dated provisionally, by the 6.0.0 tag, until the release reaches production.
 - `world_object`, `hostage_vector` and `hostage_state` in the CS2 spec, data dictionary and Enums page, with the channel counts (49 channels, 50 objects per match) on every page that gives them and the homepage tiles.
