@@ -333,6 +333,10 @@ Dates are the day (UTC) a change reached production.
 
 - **2026-08-03**, channel added. Each change in a team's score.
 
+## smoke_voxel
+
+- **About 2026-10-13**, channel added. What the game sends about each smoke's volume: the cells its fill starts from (`kind` `seed`) and, block by block, the map's surfaces around it (`kind` `block`, a 4 × 4 × 4 block of 20-unit world cells whose bits `mask_lo` and `mask_hi` mark the cells that are part of the map). It is not the smoke itself: filling out from the seeds through free cells for 4 steps gives the shape the game draws, as the [spec](./spec.md) describes. Rows carry the smoke's `grenade_id`. Matches from CS2 builds before the voxel data, and smokes already burning when a demo's recording began, have no rows.
+
 ## team_change
 
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
