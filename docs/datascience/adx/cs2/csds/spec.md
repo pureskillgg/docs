@@ -48,15 +48,15 @@ them.
 
 **Origin** says where a column comes from:
 
-| Origin                | Meaning                                                                                             |
-| --------------------- | --------------------------------------------------------------------------------------------------- |
-| `replay`              | Written by the demo parser, straight off the game's own event stream.                               |
-| `replay_fixed`        | A parser value the pipeline recomputed. The uncorrected value stays in the matching `*_raw` column. |
-| `replay-capped`       | A parser value clamped at the top, so an unusually high number cannot single a player out.          |
-| `replay-redacted`     | A parser value overwritten by the PII scrubber.                                                     |
-| `calculated`          | Derived by the pipeline from the columns named under Dependents.                                    |
-| `calculated-redacted` | Derived, then overwritten by the PII scrubber.                                                      |
-| `merged`              | Copied in from another channel by joining on the columns named under Merge Keys.                    |
+| Origin                | Meaning                                                                                                                                                                                                           |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `replay`              | Written by the demo parser, straight off the game's own event stream.                                                                                                                                             |
+| `replay_fixed`        | A parser value the pipeline recomputed. The uncorrected value stays in the matching `*_raw` column, except for `player_status`'s server-clock times, which are moved onto the recording's clock with no raw copy. |
+| `replay-capped`       | A parser value clamped at the top, so an unusually high number cannot single a player out.                                                                                                                        |
+| `replay-redacted`     | A parser value overwritten by the PII scrubber.                                                                                                                                                                   |
+| `calculated`          | Derived by the pipeline from the columns named under Dependents.                                                                                                                                                  |
+| `calculated-redacted` | Derived, then overwritten by the PII scrubber.                                                                                                                                                                    |
+| `merged`              | Copied in from another channel by joining on the columns named under Merge Keys.                                                                                                                                  |
 
 Redaction is not one operation, and the redacted columns are still there. Names
 and chat text become the literal string `redacted`, `player_personal.steam_id`
@@ -448,6 +448,12 @@ Event that triggers this channel: tick_end
 
 ## header - header
 
+`server_start_tick` is the game server's tick when the recording's tick 0
+was recorded. The game counts some times from the server's start; the
+converter uses this to put `player_status.progress_bar_start`,
+`last_injury_time` and `deploy_tick` on the recording's clock. Null on a
+demo with no server tick messages. From parser 6.0.0.
+
 | Col Name                   | Type    | Nullable | Origin              | Dependents                                                                                       | Merge Keys |
 | -------------------------- | ------- | -------- | ------------------- | ------------------------------------------------------------------------------------------------ | ---------- |
 | magic                      | string  | False    | replay              |                                                                                                  |            |
@@ -469,6 +475,7 @@ Event that triggers this channel: tick_end
 | rank_type                  | int64   | True     | replay              |                                                                                                  |            |
 | is_queued_matchmaking      | bool    | True     | replay              |                                                                                                  |            |
 | queued_matchmaking_mode    | int64   | True     | replay              |                                                                                                  |            |
+| server_start_tick          | int64   | True     | replay              |                                                                                                  |            |
 | tick_rate                  | int64   | True     | calculated          |                                                                                                  |            |
 | tick_save_rate             | int64   | True     | calculated          |                                                                                                  |            |
 | rushb_version              | string  | True     | calculated          | meta:metadata.rushbVersion                                                                       |            |
@@ -968,18 +975,27 @@ Event that triggers this channel: player_hurt
 
 Event that triggers this channel: round_freeze_end
 
-| Col Name         | Type    | Nullable | Origin        | Dependents           | Merge Keys                 |
-| ---------------- | ------- | -------- | ------------- | -------------------- | -------------------------- |
-| round            | int64   | False    | replay        |                      |                            |
-| player_id        | int64   | False    | replay        |                      |                            |
-| team_code        | int64   | False    | replay        |                      |                            |
-| wins             | int64   | False    | replay-capped |                      |                            |
-| rank             | int64   | False    | replay        |                      |                            |
-| rank_type        | int64   | False    | replay        |                      |                            |
-| radar_color_code | int64   | False    | replay        |                      |                            |
-| player_id_fixed  | int64   | True     | merged        |                      | player_id, round, steam_id |
-| rank_raw         | int     | True     | calculated    | player_info:rank     |                            |
-| rank_platform    | float64 | True     | calculated    | player_personal:rank |                            |
+`game_rank_if_win`, `game_rank_if_loss` and `game_rank_if_tie` are the rating
+the game itself predicts the player will hold after the match if their team
+wins, loses or ties, the "+N / -N" on the Premier scoreboard. The game sets
+them once at the start of the match, so every round repeats them. They are 0
+outside Premier, as on FACEIT and league demos. From parser 6.0.0.
+
+| Col Name          | Type    | Nullable | Origin        | Dependents           | Merge Keys                 |
+| ----------------- | ------- | -------- | ------------- | -------------------- | -------------------------- |
+| round             | int64   | False    | replay        |                      |                            |
+| player_id         | int64   | False    | replay        |                      |                            |
+| team_code         | int64   | False    | replay        |                      |                            |
+| wins              | int64   | False    | replay-capped |                      |                            |
+| rank              | int64   | False    | replay        |                      |                            |
+| rank_type         | int64   | False    | replay        |                      |                            |
+| radar_color_code  | int64   | False    | replay        |                      |                            |
+| game_rank_if_win  | int64   | True     | replay        |                      |                            |
+| game_rank_if_loss | int64   | True     | replay        |                      |                            |
+| game_rank_if_tie  | int64   | True     | replay        |                      |                            |
+| player_id_fixed   | int64   | True     | merged        |                      | player_id, round, steam_id |
+| rank_raw          | int     | True     | calculated    | player_info:rank     |                            |
+| rank_platform     | float64 | True     | calculated    | player_personal:rank |                            |
 
 ## player_inputs - telemetry
 
@@ -1134,6 +1150,23 @@ Event that triggers this channel: tick_end
 
 Converter 8.6.0 and later write this table with the types below, sorted by player, then tick; see [The player tables](#the-player-tables).
 
+From parser 6.0.0 the table also carries the player's and the held weapon's
+own state. `progress_bar_start` and `progress_bar_duration` are the defuse
+progress bar: `progress_bar_start` is when the player's last defuse began, in
+seconds on the clock of `second`, and keeps that value after the defuse ends;
+`progress_bar_duration` is the bar's length in seconds while it shows (10, or
+5 with a kit) and negative otherwise. CS2 doesn't use the bar for planting.
+`last_injury_time` is when the player last took damage, on the clock of
+`second`. Both times are null until first set. `is_in_reload` is the held
+weapon's reload flag; unlike `is_reloading` it falls as soon as a reload
+stops, and about a third of reloads end early in a weapon switch.
+`reserve_ammo` is the held weapon's reserve and drops by one magazine per
+completed reload; null for knives, grenades and equipment. `deploy_tick` is
+the tick the held weapon was drawn, joinable on `tick`. The game keeps
+`progress_bar_start`, `last_injury_time` and `deploy_tick` on the game server's
+clock; the converter moves them onto the recording's clock with
+`header.server_start_tick`, hence `replay_fixed`, and keeps no `*_raw` copy.
+
 | Col Name                      | Type    | Nullable | Origin          | Dependents                                                                                                                                                            | Merge Keys                 |
 | ----------------------------- | ------- | -------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
 | tick                          | int32   | False    | replay          |                                                                                                                                                                       |                            |
@@ -1176,6 +1209,12 @@ Converter 8.6.0 and later write this table with the types below, sorted by playe
 | is_scoped                     | bool    | False    | replay          |                                                                                                                                                                       |                            |
 | is_spotted                    | bool    | False    | replay          |                                                                                                                                                                       |                            |
 | is_walking                    | bool    | False    | replay          |                                                                                                                                                                       |                            |
+| progress_bar_start            | float64 | True     | replay_fixed    |                                                                                                                                                                       |                            |
+| progress_bar_duration         | int64   | True     | replay          |                                                                                                                                                                       |                            |
+| last_injury_time              | float64 | True     | replay_fixed    |                                                                                                                                                                       |                            |
+| is_in_reload                  | bool    | True     | replay          |                                                                                                                                                                       |                            |
+| reserve_ammo                  | int64   | True     | replay          |                                                                                                                                                                       |                            |
+| deploy_tick                   | int64   | True     | replay_fixed    |                                                                                                                                                                       |                            |
 | second                        | float32 | True     | calculated      | tick, tick_rate                                                                                                                                                       |                            |
 | player_id_fixed               | int8    | True     | merged          |                                                                                                                                                                       | player_id, round, steam_id |
 | equipment_value_calc          | int16   | True     | calculated      | inv_flashbang, inv_taser, inv_hegrenade, inv_smokegrenade, inv_molotov, inv_decoy, inv_incgrenade, inv_c4, armor, has_defuser, has_helmet, inv_primary, inv_secondary |                            |
@@ -1185,6 +1224,23 @@ Converter 8.6.0 and later write this table with the types below, sorted by playe
 Event that triggers this channel: tick_end
 
 Converter 8.6.0 and later write this table with the types below, sorted by player, then tick; see [The player tables](#the-player-tables).
+
+From parser 6.0.0 the table also carries the game's own movement and spray
+state. `is_airborne` is true when nothing is under the player's feet.
+`x_vel_engine`, `y_vel_engine` and `z_vel_engine` are the game's velocity at
+the tick, in units a second. dsdk's `x_vel`, `y_vel` and `z_vel`, which it
+calculates from positions, describe the move into the tick, half a tick
+earlier, so the two disagree most after missed ticks, on stairs and in the
+air. `shots_fired` counts the shots of the current spray and drops back to 0
+soon after the player stops firing. `velocity_modifier` is the slowdown from
+being hit, 1 when there is none. `view_offset_z` is the eye's height above
+the player's position, about 64 standing and 46 crouched; the eye's height
+on the map is `z_pos + view_offset_z`. `aim_punch_pitch` and `aim_punch_yaw`
+are the recoil kick the player's shots have put on their aim, in degrees,
+pitch negative upward; across a spray they trace the weapon's recoil
+pattern. The game holds the last shot's value rather than letting it decay,
+so both are null unless the player fired within the last second (64 ticks),
+counting the shot's own tick.
 
 | Col Name              | Type    | Nullable | Origin | Dependents | Merge Keys                 |
 | --------------------- | ------- | -------- | ------ | ---------- | -------------------------- |
@@ -1208,6 +1264,15 @@ Converter 8.6.0 and later write this table with the types below, sorted by playe
 | fall_velocity         | float32 | False    | replay |            |                            |
 | view_punch_angle_tick | int32   | False    | replay |            |                            |
 | is_rescuing           | bool    | False    | replay |            |                            |
+| is_airborne           | bool    | True     | replay |            |                            |
+| x_vel_engine          | float64 | True     | replay |            |                            |
+| y_vel_engine          | float64 | True     | replay |            |                            |
+| z_vel_engine          | float64 | True     | replay |            |                            |
+| shots_fired           | int64   | True     | replay |            |                            |
+| velocity_modifier     | float64 | True     | replay |            |                            |
+| view_offset_z         | float64 | True     | replay |            |                            |
+| aim_punch_pitch       | float64 | True     | replay |            |                            |
+| aim_punch_yaw         | float64 | True     | replay |            |                            |
 | player_id_fixed       | int8    | True     | merged |            | player_id, round, steam_id |
 | team_code             | int8    | True     | merged |            | round, player_id           |
 
