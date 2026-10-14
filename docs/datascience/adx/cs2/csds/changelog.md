@@ -25,9 +25,14 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
-## About 2026-10-13
+## 2026-10-13
 
 _Parser 6.0.0 and converter 8.8.0._
+
+**Channels added**
+
+- `world_object`: The map's doors and breakable parts, one row per change: doors opening and closing (`spawned`, `opening`, `open`, `closing`, `closed`), the doors built into the map on cs_office and Vertigo moving (`moving`), and props, vents and Nuke's glass being destroyed (`broken`), with the player who broke one when there is one (`by_player_id`). `cleanup` rows are the map being reset between rounds, not breaks. Matches processed before this date don't have the channel.
+- `hostage_vector`, `hostage_state`: Hostages, on hostage maps: `hostage_vector` has each hostage's position, state, health and carrier every tick, and `hostage_state` a row each time a hostage changes state (picked up, carried, dropped, rescued, killed) or is hurt, with the player involved. Both are empty on bomb maps. Matches processed before this date don't have the channels.
 
 **Columns added**
 
