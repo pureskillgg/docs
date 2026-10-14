@@ -98,7 +98,7 @@ csds/
       csds               the index object: gzipped JSON
       bomb_action        one Parquet file per channel
       bomb_defuse
-      …                  49 channels in all
+      …                  51 channels in all
 ```
 
 - **A match zip** is `csds/YYYY/MM/DD/<id>.zip`. Its entries are the match's
@@ -117,9 +117,9 @@ csds/
   `pandas.read_parquet(path)`.
 - **The index object** is JSON compressed with gzip:
   `json.loads(gzip.decompress(open(path, "rb").read()))`.
-- **Object counts.** A zipped match is one object holding 50 files, or fewer in
+- **Object counts.** A zipped match is one object holding 52 files, or fewer in
   matches from before the newer channels (`convar`, `team_info`, `pause_state`,
-  `smoke_voxel`, `world_object`, `hostage_vector` and `hostage_state`) were added. A loose match is 43 objects since 2026-08-04
+  `smoke_voxel`, `world_object`, `hostage_vector`, `hostage_state`, `player_command` and `player_subtick_input`) were added. A loose match is 43 objects since 2026-08-04
   and 31 before; the 2026-08-03 revision
   holds both, and so does the revision in which zips start. Read the index
   rather than assuming a channel list.
@@ -149,9 +149,9 @@ Each entry in `channels` has:
   `dependents`, `mergeKeys` and `comment`, as the spec's
   [How to read this](./spec.md#how-to-read-this) describes. Skip a column
   whose `origin` ends in `-deleted`: the file no longer stores it.
-- `available`, on six channels whose events a demo may not carry
-  (`bot_takeover`, `bullet_damage`, `player_inputs`, `player_sound`,
-  `rank_update` and `round_mvp`). `false` means the demo didn't carry the
+- `available`, on eight channels whose events a demo may not carry
+  (`bot_takeover`, `bullet_damage`, `player_command`, `player_inputs`,
+  `player_sound`, `player_subtick_input`, `rank_update` and `round_mvp`). `false` means the demo didn't carry the
   event, so the channel is empty for that reason; `true` means it did, though
   the channel can still be empty when nothing happened. In the revision of
   2026-10-07, `player_inputs` and `player_sound` were `false` in 88 of 89

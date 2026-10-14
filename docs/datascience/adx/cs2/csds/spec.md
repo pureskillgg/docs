@@ -7,17 +7,17 @@ sidebar_position: 1
 Documentation for CSDS channels built by FPS Critic, Inc.
 
 One match is published as a JSON index object named `csds` plus one file per
-channel, 49 in all, for 50 objects per match. The index lists the channels,
+channel, 51 in all, for 52 objects per match. The index lists the channels,
 where each one sits, and what columns it declares. Every channel file is
 [Apache Parquet], `header` included.
 
 This document describes the channel set published since 2026-08-04, plus the
 `convar`, `team_info`, `pause_state`, `smoke_voxel`, `world_object`,
-`hostage_vector` and `hostage_state` channels added after it;
+`hostage_vector`, `hostage_state`, `player_command` and `player_subtick_input` channels added after it;
 the [changelog](./changelog.md) dates them. Matches processed before `convar`
 have 42 channels, those processed before `team_info` and `pause_state` have 43,
 those processed before `smoke_voxel` lack it, and those processed before
-`world_object`, `hostage_vector` and `hostage_state` lack them. Revisions
+`world_object`, `hostage_vector` and `hostage_state` lack them; those processed before `player_command` and `player_subtick_input` lack those two. Revisions
 through 2026-08-02 carry an older set of 30 channels, described in the
 [archived spec](/datascience/old/cs2/csds/spec); the 2026-08-03 revision holds
 a mix of the two. Reading each match's index object rather than assuming a
@@ -823,6 +823,37 @@ Event that triggers this channel: player_chat
 | player_weapon_code | int64   | True     | merged          |                 | player_id, tick            |
 | player_team_code   | int64   | True     | merged          |                 | player_id, tick            |
 
+## player_command - telemetry
+
+Event that triggers this channel: user_cmd
+
+One row per user command: what each player's game sent the server for one
+tick, so about a million rows a match. `mouse_dx` and `mouse_dy` are the mouse
+movement in raw counts; in-game, each count turns the view by 0.022° times the
+player's sensitivity. `forward_move` and `left_move` are the movement keys, −1,
+0 or 1 (backward and right are negative). `weapon_select` is the entity index of
+the weapon the player switched to on that command, and 0 on the 99.7% of
+commands without a switch. `command_number` counts each player's commands. The
+view angles and held buttons a command also carries are in `player_vector`
+(`theta_ang`, `phi_ang`) and `player_inputs`: join on `round`, `tick` and
+`player_id`. Matches whose demos don't carry full user commands (older CS2
+recordings) have no rows, and their `available` flag in the index object is
+false.
+
+| Col Name        | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
+| --------------- | ------- | -------- | ---------- | --------------- | -------------------------- |
+| round           | int64   | False    | replay     |                 |                            |
+| tick            | int64   | False    | replay     |                 |                            |
+| player_id       | int64   | False    | replay     |                 |                            |
+| command_number  | int64   | False    | replay     |                 |                            |
+| mouse_dx        | int64   | False    | replay     |                 |                            |
+| mouse_dy        | int64   | False    | replay     |                 |                            |
+| forward_move    | float64 | False    | replay     |                 |                            |
+| left_move       | float64 | False    | replay     |                 |                            |
+| weapon_select   | int64   | False    | replay     |                 |                            |
+| second          | float64 | True     | calculated | tick, tick_rate |                            |
+| player_id_fixed | int64   | True     | merged     |                 | player_id, round, steam_id |
+
 ## player_connect - single_event
 
 Event that triggers this channel: player_connect
@@ -1234,6 +1265,29 @@ clock; the converter moves them onto the recording's clock with
 | second                        | float32 | True     | calculated      | tick, tick_rate                                                                                                                                                       |                            |
 | player_id_fixed               | int8    | True     | merged          |                                                                                                                                                                       | player_id, round, steam_id |
 | equipment_value_calc          | int16   | True     | calculated      | inv_flashbang, inv_taser, inv_hegrenade, inv_smokegrenade, inv_molotov, inv_decoy, inv_incgrenade, inv_c4, armor, has_defuser, has_helmet, inv_primary, inv_secondary |                            |
+
+## player_subtick_input - telemetry
+
+Event that triggers this channel: user_cmd
+
+One row per sub-tick step inside a user command: a button pressed or released,
+and when. `button` is the button's bit, as in `player_inputs.buttons_mask` (1
+attack, 2 jump, 4 duck, 8 forward, 16 back, 512 left, 1024 right, …); steps that
+only carry analog movement have button 0. `when` is the moment as a fraction of
+the command's tick. It is below 1, and slightly negative on about 3.5% of steps
+(a median of −0.03): presses recorded just before the tick began. A few reach
+−2. About 1.7 million rows across the 50-match corpus.
+
+| Col Name        | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
+| --------------- | ------- | -------- | ---------- | --------------- | -------------------------- |
+| round           | int64   | False    | replay     |                 |                            |
+| tick            | int64   | False    | replay     |                 |                            |
+| player_id       | int64   | False    | replay     |                 |                            |
+| button          | int64   | False    | replay     |                 |                            |
+| pressed         | bool    | False    | replay     |                 |                            |
+| when            | float64 | False    | replay     |                 |                            |
+| second          | float64 | True     | calculated | tick, tick_rate |                            |
+| player_id_fixed | int64   | True     | merged     |                 | player_id, round, steam_id |
 
 ## player_vector - telemetry
 

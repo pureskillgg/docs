@@ -441,6 +441,17 @@ player_phi_ang,DECIMAL,,True,,Merged from another channel. Null where no source 
 player_theta_ang,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,player_chat,single_event
 player_weapon_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,player_chat,single_event
 player_team_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,player_chat,single_event
+round,INTEGER,,False,,,,,player_command,telemetry
+tick,INTEGER,,False,,,,,player_command,telemetry
+player_id,INTEGER,,False,,,,,player_command,telemetry
+command_number,INTEGER,,False,Counts each player's user commands,,,,player_command,telemetry
+mouse_dx,INTEGER,,False,Horizontal mouse movement in raw counts,Each count turns the view by 0.022 degrees times the player's sensitivity,,,player_command,telemetry
+mouse_dy,INTEGER,,False,Vertical mouse movement in raw counts,,,,player_command,telemetry
+forward_move,DECIMAL,,False,Forward and backward movement key: 1 forward; -1 backward; 0 neither,,,,player_command,telemetry
+left_move,DECIMAL,,False,Sideways movement key: 1 left; -1 right; 0 neither,,,,player_command,telemetry
+weapon_select,INTEGER,,False,Entity index of the weapon switched to on this command,0 on commands without a switch,,,player_command,telemetry
+second,DECIMAL,,True,,,,,player_command,telemetry
+player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,player_command,telemetry
 round,INTEGER,,False,,,,,player_connect,single_event
 tick,INTEGER,,False,,,,,player_connect,single_event
 player_index,INTEGER,,False,,,,,player_connect,single_event
@@ -702,6 +713,14 @@ deploy_tick,INTEGER,,True,The tick the held weapon was drawn.,Joinable on tick. 
 second,DECIMAL,,True,,,,,player_status,telemetry
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_status,telemetry
 equipment_value_calc,INTEGER,,True,,,,,player_status,telemetry
+round,INTEGER,,False,,,,,player_subtick_input,telemetry
+tick,INTEGER,,False,,,,,player_subtick_input,telemetry
+player_id,INTEGER,,False,,,,,player_subtick_input,telemetry
+button,INTEGER,,False,The button's bit as in player_inputs.buttons_mask,0 on steps that only carry analog movement,,,player_subtick_input,telemetry
+pressed,BOOLEAN,,False,True for a press and false for a release,,,,player_subtick_input,telemetry
+when,DECIMAL,,False,When within the command's tick as a fraction of the tick,Below 1; slightly negative on about 3.5% of steps (pressed just before the tick began),,,player_subtick_input,telemetry
+second,DECIMAL,,True,,,,,player_subtick_input,telemetry
+player_id_fixed,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,player_subtick_input,telemetry
 tick,INTEGER,,False,,,,,player_vector,telemetry
 round,INTEGER,,False,,,,,player_vector,telemetry
 player_id,INTEGER,,False,,,,,player_vector,telemetry
