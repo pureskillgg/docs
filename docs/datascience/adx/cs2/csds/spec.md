@@ -1251,7 +1251,7 @@ Event that triggers this channel: round_end
 
 The fun fact the scoreboard shows when a round ends: one row per `round_end`
 row. `fun_fact_token` is Valve's localization token for the fact, as sent (for
-example `#funfact_kills_headshots`), never the rendered text. `player_id` is the
+example `#funfact_kills_headshots:f`, where the `:f` suffix is part of the token), never the rendered text. `player_id` is the
 player the fact is about, and null for a fact about a team or the round (shots
 fired, a win without casualties, the round time). `fun_fact_data1` to
 `fun_fact_data3` are the numbers the fact quotes, and what they mean depends on

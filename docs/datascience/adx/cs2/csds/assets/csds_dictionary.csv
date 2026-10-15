@@ -734,7 +734,7 @@ player_count,INTEGER,,False,,,,,round_end,single_event
 second,DECIMAL,,True,,,,,round_end,single_event
 round,INTEGER,,False,,,,,round_facts,single_event
 tick,INTEGER,,False,,,,,round_facts,single_event
-fun_fact_token,VARCHAR,,True,"Valve's localization token for the fun fact, for example #funfact_kills_headshots. Null when the round had none.",,,,round_facts,single_event
+fun_fact_token,VARCHAR,,True,"Valve's localization token for the fun fact, for example #funfact_kills_headshots:f (the :f suffix is part of the token). Null when the round had none.",,,,round_facts,single_event
 player_id,INTEGER,,True,"The player the fact is about. Null for a fact about a team or the round, or when the round had no fun fact.",,,,round_facts,single_event
 fun_fact_data1,INTEGER,,True,A number the fact quotes; its meaning depends on the token.,,,,round_facts,single_event
 fun_fact_data2,INTEGER,,True,,,,,round_facts,single_event
