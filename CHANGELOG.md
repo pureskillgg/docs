@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- The CS2 spec and data dictionary describe four new channels, `map_ping` (ping-button markers), `player_round_stats` (the game's own per-round scoreboard), `round_facts` (the round-end fun fact) and `vote` (finished team votes), and `tick`'s `host_time_us` and `host_time_sd_us`. Channel counts across the docs go to 55.
 - `player_command` and `player_subtick_input` in the CS2 spec and data dictionary, and 51 channels in the counts.
 - `player_personal`'s client-settings columns (`crosshair_code` and the four `viewmodel_*` columns) in the CS2 spec and data dictionary, marked as redacted in the data set.
 - `grenade_vector`'s throw columns in the CS2 spec and data dictionary.

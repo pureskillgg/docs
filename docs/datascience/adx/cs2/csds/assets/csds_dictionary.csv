@@ -321,6 +321,26 @@ player_phi_ang,DECIMAL,,True,,Merged from another channel. Null where no source 
 player_theta_ang,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,item_refund,single_event
 player_weapon_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,item_refund,single_event
 player_team_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,item_refund,single_event
+round,INTEGER,,False,,,,,map_ping,single_event
+tick,INTEGER,,False,,,,,map_ping,single_event
+player_id,INTEGER,,True,The player who placed the marker. Null when the marker names no player.,,,,map_ping,single_event
+x_pos,DECIMAL,,False,Where the marker stands.,,,,map_ping,single_event
+y_pos,DECIMAL,,False,,,,,map_ping,single_event
+z_pos,DECIMAL,,False,,,,,map_ping,single_event
+ping_type,INTEGER,,True,"Valve's marker type: 13 for an urgent ping, otherwise 0 or 1 in the matches checked.",,,,map_ping,single_event
+is_urgent,BOOLEAN,,False,True once the player pressed again on the same marker.,,,,map_ping,single_event
+second,DECIMAL,,True,,,,,map_ping,single_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,map_ping,single_event
+player_x_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,map_ping,single_event
+player_y_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,map_ping,single_event
+player_z_pos,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,map_ping,single_event
+player_x_vel,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,map_ping,single_event
+player_y_vel,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,map_ping,single_event
+player_z_vel,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,map_ping,single_event
+player_phi_ang,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,map_ping,single_event
+player_theta_ang,DECIMAL,,True,,Merged from another channel. Null where no source row matches.,,,map_ping,single_event
+player_weapon_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,map_ping,single_event
+player_team_code,INTEGER,,True,,Merged from another channel. Null where no source row matches.,,,map_ping,single_event
 round,INTEGER,,False,,,,,molotov_fire,telemetry
 tick,INTEGER,,False,,,,,molotov_fire,telemetry
 entity_id,INTEGER,,False,,,,,molotov_fire,telemetry
@@ -632,6 +652,26 @@ viewmodel_offset_z,DECIMAL,,True,"The player's viewmodel offset, z.",Redacted in
 viewmodel_fov,DECIMAL,,True,The player's viewmodel field of view.,Redacted in this data set: always null.,,,player_personal,player_info
 is_bot,BOOLEAN,,True,,,,,player_personal,player_info
 player_id_fixed,INTEGER,,True,,,,,player_personal,player_info
+round,INTEGER,,False,,,,,player_round_stats,single_event
+tick,INTEGER,,False,,,,,player_round_stats,single_event
+player_id,INTEGER,,False,,,,,player_round_stats,single_event
+kills,INTEGER,,True,"This round only. Null after round 30, when the server's 30 slots run out; so are the other per-round columns.",,,,player_round_stats,single_event
+deaths,INTEGER,,True,,,,,player_round_stats,single_event
+assists,INTEGER,,True,,,,,player_round_stats,single_event
+damage,INTEGER,,True,Health actually taken from enemies this round; overkill and team damage don't count.,,,,player_round_stats,single_event
+utility_damage,INTEGER,,True,,,,,player_round_stats,single_event
+enemies_flashed,INTEGER,,True,,,,,player_round_stats,single_event
+equipment_value,INTEGER,,True,,,,,player_round_stats,single_event
+money_saved,INTEGER,,True,,,,,player_round_stats,single_event
+kill_reward,INTEGER,,True,,,,,player_round_stats,single_event
+live_time,INTEGER,,True,Seconds alive in the round.,,,,player_round_stats,single_event
+headshot_kills,INTEGER,,True,,,,,player_round_stats,single_event
+objective,INTEGER,,True,The scoreboard's objective count: one for a bomb plant or defuse.,,,,player_round_stats,single_event
+cash_earned,INTEGER,,True,,,,,player_round_stats,single_event
+total_damage,INTEGER,,True,Running total for the match so far.,,,,player_round_stats,single_event
+total_utility_damage,INTEGER,,True,Running total for the match so far.,,,,player_round_stats,single_event
+second,DECIMAL,,True,,,,,player_round_stats,single_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_round_stats,single_event
 round,INTEGER,,False,,,,,player_sound,single_event
 tick,INTEGER,,False,,,,,player_sound,single_event
 player_id,INTEGER,,True,,"The player, the carrier of the weapon or the thrower of the grenade. Null when no player is known: world sounds, and sounds whose source the parser can't place (source other). Before parser 6.0.0, also sounds whose source reached the recording later in the same tick, and armor purchases.",,,player_sound,single_event
@@ -778,6 +818,15 @@ win_reason_code,INTEGER,,False,,,,,round_end,single_event
 win_reason_message,VARCHAR,,False,,,,,round_end,single_event
 player_count,INTEGER,,False,,,,,round_end,single_event
 second,DECIMAL,,True,,,,,round_end,single_event
+round,INTEGER,,False,,,,,round_facts,single_event
+tick,INTEGER,,False,,,,,round_facts,single_event
+fun_fact_token,VARCHAR,,True,"Valve's localization token for the fun fact, for example #funfact_kills_headshots:f (the :f suffix is part of the token). Null when the round had none.",,,,round_facts,single_event
+player_id,INTEGER,,True,"The player the fact is about. Null for a fact about a team or the round, or when the round had no fun fact.",,,,round_facts,single_event
+fun_fact_data1,INTEGER,,True,A number the fact quotes; its meaning depends on the token.,,,,round_facts,single_event
+fun_fact_data2,INTEGER,,True,,,,,round_facts,single_event
+fun_fact_data3,INTEGER,,True,,,,,round_facts,single_event
+second,DECIMAL,,True,,,,,round_facts,single_event
+player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,round_facts,single_event
 round,INTEGER,,False,,,,,round_mvp,single_event
 tick,INTEGER,,False,,,,,round_mvp,single_event
 player_id,INTEGER,,False,,,,,round_mvp,single_event
@@ -849,9 +898,23 @@ score_second_half,INTEGER,,False,This side's rounds won in the second half.,Over
 second,DECIMAL,,True,,,,,team_info,single_event
 round,INTEGER,,False,,,,,tick,telemetry
 tick,INTEGER,,False,,,,,tick,telemetry
+host_time_us,INTEGER,,True,"The server's computation time for the frame, in microseconds.",,,,tick,telemetry
+host_time_sd_us,INTEGER,,True,"The standard deviation of the server's frame computation time, in microseconds.",,,,tick,telemetry
 second,DECIMAL,,True,,,,,tick,telemetry
 previous_phase,VARCHAR,,True,,,,,tick,telemetry
 second_since_previous_phase,DECIMAL,,True,,Null before the first phase. Older matches: -1.,,,tick,telemetry
+round,INTEGER,,False,,,,,vote,single_event
+tick,INTEGER,,False,,,,,vote,single_event
+start_tick,INTEGER,,True,When the vote was called.,,,,vote,single_event
+event_type,VARCHAR,,False,passed or failed.,,,,vote,single_event
+vote_type,INTEGER,,True,Passed votes only.,,,,vote,single_event
+issue_index,INTEGER,,True,"0 a kick, 1 a tactical timeout, 2 a surrender, in every match checked.",,,,vote,single_event
+team_code,INTEGER,,False,The team that voted.,,,,vote,single_event
+yes_votes,INTEGER,,True,,,,,vote,single_event
+no_votes,INTEGER,,True,,,,,vote,single_event
+potential_votes,INTEGER,,True,How many players could vote.,,,,vote,single_event
+fail_reason,INTEGER,,True,Failed votes only.,,,,vote,single_event
+second,DECIMAL,,True,,,,,vote,single_event
 round,INTEGER,,False,,,,,weapon_action,multi_event
 tick,INTEGER,,False,,,,,weapon_action,multi_event
 event_type,VARCHAR,,False,,,,,weapon_action,multi_event

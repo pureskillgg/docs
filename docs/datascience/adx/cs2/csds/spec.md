@@ -7,17 +7,19 @@ sidebar_position: 1
 Documentation for CSDS channels built by FPS Critic, Inc.
 
 One match is published as a JSON index object named `csds` plus one file per
-channel, 51 in all, for 52 objects per match. The index lists the channels,
+channel, 55 in all, for 56 objects per match. The index lists the channels,
 where each one sits, and what columns it declares. Every channel file is
 [Apache Parquet], `header` included.
 
 This document describes the channel set published since 2026-08-04, plus the
 `convar`, `team_info`, `pause_state`, `smoke_voxel`, `world_object`,
-`hostage_vector`, `hostage_state`, `player_command` and `player_subtick_input` channels added after it;
+`hostage_vector`, `hostage_state`, `player_command`, `player_subtick_input`,
+`map_ping`, `player_round_stats`, `round_facts` and `vote` channels added after it;
 the [changelog](./changelog.md) dates them. Matches processed before `convar`
 have 42 channels, those processed before `team_info` and `pause_state` have 43,
 those processed before `smoke_voxel` lack it, and those processed before
-`world_object`, `hostage_vector` and `hostage_state` lack them; those processed before `player_command` and `player_subtick_input` lack those two. Revisions
+`world_object`, `hostage_vector` and `hostage_state` lack them; those processed before `player_command` and `player_subtick_input` lack those two,
+and those processed before `map_ping`, `player_round_stats`, `round_facts` and `vote` lack those four. Revisions
 through 2026-08-02 carry an older set of 30 channels, described in the
 [archived spec](/datascience/old/cs2/csds/spec); the 2026-08-03 revision holds
 a mix of the two. Reading each match's index object rather than assuming a
@@ -652,6 +654,42 @@ Event that triggers this channel: item_refund
 | player_weapon_code | int64   | True     | merged     |                 | player_id, tick            |
 | player_team_code   | int64   | True     | merged     |                 | player_id, tick            |
 
+## map_ping - single_event
+
+Event that triggers this channel: map_ping
+
+One row per marker a player placed with the ping button: the marker on the
+map, not network latency, which is `player_status.ping`. `round` and `tick` are
+when the marker appeared, and `x_pos`, `y_pos` and `z_pos` are where it stands.
+`player_id` is the player who placed it, null when the marker names no player.
+Pressing again on the same marker makes it urgent: `is_urgent` becomes true and
+`ping_type` 13, and the row holds those values. Otherwise `ping_type` is 0 or 1
+in the matches checked; Valve does not document it. The `player_*` columns are
+the pinging player's own position and view at that tick, not the marker's.
+
+| Col Name           | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
+| ------------------ | ------- | -------- | ---------- | --------------- | -------------------------- |
+| round              | int64   | False    | replay     |                 |                            |
+| tick               | int64   | False    | replay     |                 |                            |
+| player_id          | int64   | True     | replay     |                 |                            |
+| x_pos              | float64 | False    | replay     |                 |                            |
+| y_pos              | float64 | False    | replay     |                 |                            |
+| z_pos              | float64 | False    | replay     |                 |                            |
+| ping_type          | int64   | True     | replay     |                 |                            |
+| is_urgent          | bool    | False    | replay     |                 |                            |
+| second             | float64 | True     | calculated | tick, tick_rate |                            |
+| player_id_fixed    | int64   | True     | merged     |                 | player_id, round, steam_id |
+| player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
+| player_y_pos       | float64 | True     | merged     |                 | player_id, tick            |
+| player_z_pos       | float64 | True     | merged     |                 | player_id, tick            |
+| player_x_vel       | float64 | True     | merged     |                 | player_id, tick            |
+| player_y_vel       | float64 | True     | merged     |                 | player_id, tick            |
+| player_z_vel       | float64 | True     | merged     |                 | player_id, tick            |
+| player_phi_ang     | float64 | True     | merged     |                 | player_id, tick            |
+| player_theta_ang   | float64 | True     | merged     |                 | player_id, tick            |
+| player_weapon_code | int64   | True     | merged     |                 | player_id, tick            |
+| player_team_code   | int64   | True     | merged     |                 | player_id, tick            |
+
 ## molotov_fire - telemetry
 
 Event that triggers this channel: tick_end
@@ -1122,6 +1160,56 @@ is close to unique per player and could link a player across matches.
 | is_bot               | bool    | True     | calculated      | steam_id         |            |
 | player_id_fixed      | int64   | True     | calculated      | steam_id, is_bot |            |
 
+## player_round_stats - single_event
+
+Event that triggers this channel: round_officially_ended
+
+The game's own scoreboard numbers: one row per player per round, as the server
+counted them. They are read at the round's `round_officially_ended`, or, when
+that never comes (the last round, on most matches), at the next round's start
+or the end of the demo. The per-round columns count that round alone:
+
+- `kills`, `deaths`, `assists` and `headshot_kills`.
+- `damage`: the health actually taken from enemies, so overkill and team damage
+  don't count. `utility_damage` is the scoreboard's utility damage.
+- `enemies_flashed`.
+- `equipment_value`, `money_saved`, `kill_reward` and `cash_earned`, in dollars.
+- `live_time`: seconds alive in the round.
+- `objective`: the scoreboard's objective count, one for a bomb plant or
+  defuse.
+
+`total_damage` and `total_utility_damage` are running totals for the match so
+far. The server keeps 30 rounds of these numbers, so after round 30 (in
+overtime) the per-round columns are null. There is a row for every player on a
+team when the round is read, and for a player who has left if the server still
+holds their numbers for the round. On our 50-match test set, `kills`, `deaths`
+and `headshot_kills` agree with `player_death` on more than 99% of
+player-rounds, and `damage` agrees with the health taken from enemies in
+`player_hurt` on 99.2%.
+
+| Col Name             | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
+| -------------------- | ------- | -------- | ---------- | --------------- | -------------------------- |
+| round                | int64   | False    | replay     |                 |                            |
+| tick                 | int64   | False    | replay     |                 |                            |
+| player_id            | int64   | False    | replay     |                 |                            |
+| kills                | int64   | True     | replay     |                 |                            |
+| deaths               | int64   | True     | replay     |                 |                            |
+| assists              | int64   | True     | replay     |                 |                            |
+| damage               | int64   | True     | replay     |                 |                            |
+| utility_damage       | int64   | True     | replay     |                 |                            |
+| enemies_flashed      | int64   | True     | replay     |                 |                            |
+| equipment_value      | int64   | True     | replay     |                 |                            |
+| money_saved          | int64   | True     | replay     |                 |                            |
+| kill_reward          | int64   | True     | replay     |                 |                            |
+| live_time            | int64   | True     | replay     |                 |                            |
+| headshot_kills       | int64   | True     | replay     |                 |                            |
+| objective            | int64   | True     | replay     |                 |                            |
+| cash_earned          | int64   | True     | replay     |                 |                            |
+| total_damage         | int64   | True     | replay     |                 |                            |
+| total_utility_damage | int64   | True     | replay     |                 |                            |
+| second               | float64 | True     | calculated | tick, tick_rate |                            |
+| player_id_fixed      | int64   | True     | merged     |                 | player_id, round, steam_id |
+
 ## player_sound - single_event
 
 Event that triggers this channel: player_sound
@@ -1386,6 +1474,32 @@ Event that triggers this channel: round_end
 | player_count       | int64   | False    | replay     |                 |            |
 | second             | float64 | True     | calculated | tick, tick_rate |            |
 
+## round_facts - single_event
+
+Event that triggers this channel: round_end
+
+The fun fact the scoreboard shows when a round ends: one row per `round_end`
+row. `fun_fact_token` is Valve's localization token for the fact, as sent (for
+example `#funfact_kills_headshots:f`, where the `:f` suffix is part of the token), never the rendered text. `player_id` is the
+player the fact is about, and null for a fact about a team or the round (shots
+fired, a win without casualties, the round time). `fun_fact_data1` to
+`fun_fact_data3` are the numbers the fact quotes, and what they mean depends on
+the token: a count, seconds, an amount of money. A round can end without a fun
+fact (every surrender does), and then the token, `player_id` and the data
+columns are all null.
+
+| Col Name        | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
+| --------------- | ------- | -------- | ---------- | --------------- | -------------------------- |
+| round           | int64   | False    | replay     |                 |                            |
+| tick            | int64   | False    | replay     |                 |                            |
+| fun_fact_token  | string  | True     | replay     |                 |                            |
+| player_id       | int64   | True     | replay     |                 |                            |
+| fun_fact_data1  | int64   | True     | replay     |                 |                            |
+| fun_fact_data2  | int64   | True     | replay     |                 |                            |
+| fun_fact_data3  | int64   | True     | replay     |                 |                            |
+| second          | float64 | True     | calculated | tick, tick_rate |                            |
+| player_id_fixed | int64   | True     | merged     |                 | player_id, round, steam_id |
+
 ## round_mvp - single_event
 
 Event that triggers this channel: round_mvp
@@ -1546,13 +1660,48 @@ matches name both teams.
 
 Event that triggers this channel: tick_end
 
+`host_time_us` and `host_time_sd_us` are the server's computation time per
+frame and its standard deviation, in microseconds, from the latest network tick
+message before the frame. A 64-tick frame lasts 15,625 microseconds; on our
+50-match test set the median is about 2,200 and the 99th percentile about 5,000.
+
 | Col Name                    | Type    | Nullable | Origin     | Dependents         | Merge Keys |
 | --------------------------- | ------- | -------- | ---------- | ------------------ | ---------- |
 | round                       | int64   | False    | replay     |                    |            |
 | tick                        | int64   | False    | replay     |                    |            |
+| host_time_us                | int64   | True     | replay     |                    |            |
+| host_time_sd_us             | int64   | True     | replay     |                    |            |
 | second                      | float64 | True     | calculated | tick, tick_rate    |            |
 | previous_phase              | string  | True     | calculated | event_type, second |            |
 | second_since_previous_phase | float64 | True     | calculated | second             |            |
+
+## vote - single_event
+
+Events that trigger this channel: vote_passed, vote_failed
+
+One row per team vote that finished: a kick, a tactical timeout or a
+surrender. `event_type` is `passed` or `failed`, and `team_code` is the team
+that voted. `vote_type` is set on passed votes and `fail_reason` on failed ones,
+because each outcome message carries only its own. `issue_index` says what the
+vote was about: 0 a kick, 1 a timeout and 2 a surrender, in every match checked.
+`start_tick` is when the vote was called, and `yes_votes`, `no_votes` and
+`potential_votes` are the tally when it finished. A demo does not record who
+called a vote or whom a kick was aimed at, so neither is here.
+
+| Col Name        | Type    | Nullable | Origin     | Dependents      | Merge Keys |
+| --------------- | ------- | -------- | ---------- | --------------- | ---------- |
+| round           | int64   | False    | replay     |                 |            |
+| tick            | int64   | False    | replay     |                 |            |
+| start_tick      | int64   | True     | replay     |                 |            |
+| event_type      | string  | False    | replay     |                 |            |
+| vote_type       | int64   | True     | replay     |                 |            |
+| issue_index     | int64   | True     | replay     |                 |            |
+| team_code       | int64   | False    | replay     |                 |            |
+| yes_votes       | int64   | True     | replay     |                 |            |
+| no_votes        | int64   | True     | replay     |                 |            |
+| potential_votes | int64   | True     | replay     |                 |            |
+| fail_reason     | int64   | True     | replay     |                 |            |
+| second          | float64 | True     | calculated | tick, tick_rate |            |
 
 ## weapon_action - multi_event
 
