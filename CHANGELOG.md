@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- CS2 changelog: add `player_command` and `player_subtick_input` under 2026-10-14 (provisional).
 - Bring the CS2 spec, data dictionary and changelog pages up to date with parser 6.0.0 and converter 8.8.0 (2026-10-14): `player_footstep` has one row per player, kind and tick and gains the ten merged `player_*` columns, and `player_sound.player_id` is set on sounds whose source reaches the recording later in the tick and on armor purchases.
 - CS2 delivery: newer revisions deliver each match as one zip, `csds/YYYY/MM/DD/<id>.zip`, instead of 43 objects. Getting the Data, the Quickstart, the data set page and the FAQ's cost answers say how to unzip them (dsdk's `extract_adx_zips`) and what it changes for cost.
 

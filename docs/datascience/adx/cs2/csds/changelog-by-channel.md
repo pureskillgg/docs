@@ -193,6 +193,10 @@ Dates are the day (UTC) a change reached production.
 - **2026-08-22**, types changed: `is_chat_all`. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.
 - **2026-08-03**, channel added. In-game chat. `text` reads `redacted` in the published data.
 
+## player_command
+
+- **2026-10-14**, channel added. One row per user command, what each player's game sent the server for one tick, about a million rows a match. `mouse_dx` and `mouse_dy` are the mouse movement in raw counts, `forward_move` and `left_move` the movement keys (−1, 0 or 1), `weapon_select` the weapon switched to (0 when none), and `command_number` counts each player's commands. The view angles and held buttons are in `player_vector` and `player_inputs`. Matches processed before this date, and older CS2 recordings without full user commands, have no rows.
+
 ## player_connect
 
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
@@ -287,6 +291,10 @@ Dates are the day (UTC) a change reached production.
 - **2026-06-07**, fixes: `player_id`. When a round records the same `player_id` for two players, the player's controller id is used instead. A match that would still have duplicate `tick` and `player_id_fixed` rows fails processing and is not published.
 - **2025-08-21**, values changed: `reload_visually_complete`. No longer filled, so null on every row. Removed on 2026-08-22 in favour of `is_reloading`.
 - **2023-12-09**, column added: `player_controller_id`. The player's controller id, stable for a player slot. Joins `player_status` rows to `player_personal`.
+
+## player_subtick_input
+
+- **2026-10-14**, channel added. One row per sub-tick step inside a user command: a button pressed or released (`button`, the bit as in `player_inputs.buttons_mask`, and `pressed`), and `when`, the moment within the tick as a fraction of it. Matches processed before this date, and older CS2 recordings without full user commands, have no rows.
 
 ## player_vector
 
