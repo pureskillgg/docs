@@ -456,6 +456,28 @@ converter uses this to put `player_status.progress_bar_start`,
 `last_injury_time` and `deploy_tick` on the recording's clock. Null on a
 demo with no server tick messages. From parser 6.0.0.
 
+From parser 6.2.0 the header also says more about how the match was set up
+and how the recording went:
+
+- `round_time` is the round length in seconds that the game itself reports
+  (`m_iRoundTime`), as most of the match's rounds started with it. It is not
+  always `round_time_defuse` × 60: on FACEIT and league servers the first
+  round starts under a warmup configuration (two minutes) and the match rules
+  (1.92 minutes, 115 seconds) are applied a few thousand ticks in, so
+  `round_time_defuse` can hold the warmup value while `round_time` holds the
+  one the match was played with. Null on a demo with no game-rules entity.
+- `objective` is what the map asks of the players: `bomb`, `hostage`, `none`
+  (neither) or `both`. Null when the demo does not carry the map's flags.
+- `patch_version` is the network protocol of the build that recorded the
+  demo; `build_num` is the game build. (The old `network_protocol` column was
+  always 1234 and was removed in parser 5.6.0; this is a different, real
+  value.)
+- `is_pov_recording` is true for a recording made on a player's own computer
+  rather than on a server.
+- `is_truncated` is true when the demo ended early. Every table holds what the
+  demo reached; the match is incomplete. A demo cut in the middle of a message
+  is rejected instead and is not delivered.
+
 | Col Name                   | Type    | Nullable | Origin              | Dependents                                                                                       | Merge Keys |
 | -------------------------- | ------- | -------- | ------------------- | ------------------------------------------------------------------------------------------------ | ---------- |
 | magic                      | string  | False    | replay              |                                                                                                  |            |
@@ -478,6 +500,11 @@ demo with no server tick messages. From parser 6.0.0.
 | is_queued_matchmaking      | bool    | True     | replay              |                                                                                                  |            |
 | queued_matchmaking_mode    | int64   | True     | replay              |                                                                                                  |            |
 | server_start_tick          | int64   | True     | replay              |                                                                                                  |            |
+| round_time                 | int64   | True     | replay              |                                                                                                  |            |
+| objective                  | string  | True     | replay              |                                                                                                  |            |
+| patch_version              | int64   | False    | replay              |                                                                                                  |            |
+| is_pov_recording           | bool    | False    | replay              |                                                                                                  |            |
+| is_truncated               | bool    | False    | replay              |                                                                                                  |            |
 | tick_rate                  | int64   | True     | calculated          |                                                                                                  |            |
 | tick_save_rate             | int64   | True     | calculated          |                                                                                                  |            |
 | rushb_version              | string  | True     | calculated          | meta:metadata.rushbVersion                                                                       |            |
