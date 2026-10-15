@@ -52,8 +52,10 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 
 - **What data does each instance consist of?**
   We extract the data from CS2 demo files with our own processing, and save it
-  as 49 separate channels (fewer in older matches: the
-  [spec](./spec.md) says which channels came when).
+  as 55 separate channels (fewer before the newer channels, `convar`,
+  `team_info`, `pause_state`, `smoke_voxel`, `world_object`, `hostage_vector`,
+  `hostage_state`, `player_command`, `player_subtick_input`, `map_ping`,
+  `player_round_stats`, `round_facts` and `vote`, were added).
   The collection of these channels for a match is called csds.
   Our open source libraries [dsdk] and [csgo-dsdk] read and work with the csds
   data.

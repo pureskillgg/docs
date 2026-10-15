@@ -16,13 +16,13 @@ The numbers on this page were measured on the 89 matches published on
 
 Each channel has a category, shown in its heading in the spec:
 
-| Category       | One row is                                                        | Channels                                                                                                                                                                      |
-| -------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `header`       | The match.                                                        | `header`                                                                                                                                                                      |
-| `player_info`  | One player in one round, taken when the round's freeze time ends. | `player_info`, `player_personal`                                                                                                                                              |
-| `telemetry`    | Something on one tick.                                            | `player_vector` and `player_status` (one living player), `tick` (the tick), `grenade_vector` and `world_item_vector` (one object that moved), `molotov_fire`, `player_inputs` |
-| `single_event` | One game event.                                                   | `player_death`, `player_hurt`, `weapon_fire`, `round_end` and the rest                                                                                                        |
-| `multi_event`  | One of several related events, named in `event_type`.             | `bomb_action`, `bomb_state`, `grenade_state`, `molotov_state`, `round_state` and the rest                                                                                     |
+| Category       | One row is                                                        | Channels                                                                                                                                                                                                                                        |
+| -------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `header`       | The match.                                                        | `header`                                                                                                                                                                                                                                        |
+| `player_info`  | One player in one round, taken when the round's freeze time ends. | `player_info`, `player_personal`                                                                                                                                                                                                                |
+| `telemetry`    | Something on one tick.                                            | `player_vector` and `player_status` (one living player), `tick` (the tick), `grenade_vector` and `world_item_vector` (one object that moved), `molotov_fire`, `player_inputs`, `player_command` and `player_subtick_input` (one player's input) |
+| `single_event` | One game event.                                                   | `player_death`, `player_hurt`, `weapon_fire`, `round_end` and the rest                                                                                                                                                                          |
+| `multi_event`  | One of several related events, named in `event_type`.             | `bomb_action`, `bomb_state`, `grenade_state`, `molotov_state`, `round_state` and the rest                                                                                                                                                       |
 
 Every row except the header's carries `round`, and every event and telemetry
 row carries `tick`.
@@ -90,9 +90,10 @@ Most event channels already carry where their players were. A channel with a
 `player_id` usually has `player_x_pos`, `player_theta_ang`,
 `player_weapon_code`, `player_team_code` and the like, copied from
 `player_vector`; an `attacker_id` or `assister_id` brings the same columns for
-that player. `grenade_bounce`, `player_connect`, `player_disconnect`,
-`player_footstep` and `round_mvp` carry none, so check a channel's columns in
-the [CSDS Spec](./spec.md).
+that player. `grenade_bounce`, `player_connect`, `player_disconnect` and
+`round_mvp` carry none, nor does `player_footstep` before converter 8.8.0
+(2026-10-14), so check a channel's columns in the
+[CSDS Spec](./spec.md).
 
 - **Most channels** copy from the row on the event's own tick.
 - **`player_death`, `player_hurt`, `bullet_damage`, `bomb_action`,

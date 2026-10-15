@@ -7,17 +7,19 @@ sidebar_position: 1
 Documentation for CSDS channels built by FPS Critic, Inc.
 
 One match is published as a JSON index object named `csds` plus one file per
-channel, 49 in all, for 50 objects per match. The index lists the channels,
+channel, 55 in all, for 56 objects per match. The index lists the channels,
 where each one sits, and what columns it declares. Every channel file is
 [Apache Parquet], `header` included.
 
 This document describes the channel set published since 2026-08-04, plus the
-`convar`, `team_info`, `pause_state`, `map_ping`, `player_round_stats`,
-`round_facts` and `vote` channels added after it; the
-[changelog](./changelog.md) dates those. Matches processed before `convar`
-have 42 channels, those processed before `team_info` and `pause_state` have
-43, and those processed before `map_ping`, `player_round_stats`, `round_facts`
-and `vote` have 45. Revisions
+`convar`, `team_info`, `pause_state`, `smoke_voxel`, `world_object`,
+`hostage_vector`, `hostage_state`, `player_command`, `player_subtick_input`,
+`map_ping`, `player_round_stats`, `round_facts` and `vote` channels added after it;
+the [changelog](./changelog.md) dates them. Matches processed before `convar`
+have 42 channels, those processed before `team_info` and `pause_state` have 43,
+those processed before `smoke_voxel` lack it, and those processed before
+`world_object`, `hostage_vector` and `hostage_state` lack them; those processed before `player_command` and `player_subtick_input` lack those two,
+and those processed before `map_ping`, `player_round_stats`, `round_facts` and `vote` lack those four. Revisions
 through 2026-08-02 carry an older set of 30 channels, described in the
 [archived spec](/datascience/old/cs2/csds/spec); the 2026-08-03 revision holds
 a mix of the two. Reading each match's index object rather than assuming a
@@ -48,15 +50,15 @@ them.
 
 **Origin** says where a column comes from:
 
-| Origin                | Meaning                                                                                             |
-| --------------------- | --------------------------------------------------------------------------------------------------- |
-| `replay`              | Written by the demo parser, straight off the game's own event stream.                               |
-| `replay_fixed`        | A parser value the pipeline recomputed. The uncorrected value stays in the matching `*_raw` column. |
-| `replay-capped`       | A parser value clamped at the top, so an unusually high number cannot single a player out.          |
-| `replay-redacted`     | A parser value overwritten by the PII scrubber.                                                     |
-| `calculated`          | Derived by the pipeline from the columns named under Dependents.                                    |
-| `calculated-redacted` | Derived, then overwritten by the PII scrubber.                                                      |
-| `merged`              | Copied in from another channel by joining on the columns named under Merge Keys.                    |
+| Origin                | Meaning                                                                                                                                                                                                           |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `replay`              | Written by the demo parser, straight off the game's own event stream.                                                                                                                                             |
+| `replay_fixed`        | A parser value the pipeline recomputed. The uncorrected value stays in the matching `*_raw` column, except for `player_status`'s server-clock times, which are moved onto the recording's clock with no raw copy. |
+| `replay-capped`       | A parser value clamped at the top, so an unusually high number cannot single a player out.                                                                                                                        |
+| `replay-redacted`     | A parser value overwritten by the PII scrubber.                                                                                                                                                                   |
+| `calculated`          | Derived by the pipeline from the columns named under Dependents.                                                                                                                                                  |
+| `calculated-redacted` | Derived, then overwritten by the PII scrubber.                                                                                                                                                                    |
+| `merged`              | Copied in from another channel by joining on the columns named under Merge Keys.                                                                                                                                  |
 
 Redaction is not one operation, and the redacted columns are still there. Names
 and chat text become the literal string `redacted`, `player_personal.steam_id`
@@ -448,6 +450,12 @@ Event that triggers this channel: tick_end
 
 ## header - header
 
+`server_start_tick` is the game server's tick when the recording's tick 0
+was recorded. The game counts some times from the server's start; the
+converter uses this to put `player_status.progress_bar_start`,
+`last_injury_time` and `deploy_tick` on the recording's clock. Null on a
+demo with no server tick messages. From parser 6.0.0.
+
 | Col Name                   | Type    | Nullable | Origin              | Dependents                                                                                       | Merge Keys |
 | -------------------------- | ------- | -------- | ------------------- | ------------------------------------------------------------------------------------------------ | ---------- |
 | magic                      | string  | False    | replay              |                                                                                                  |            |
@@ -469,6 +477,7 @@ Event that triggers this channel: tick_end
 | rank_type                  | int64   | True     | replay              |                                                                                                  |            |
 | is_queued_matchmaking      | bool    | True     | replay              |                                                                                                  |            |
 | queued_matchmaking_mode    | int64   | True     | replay              |                                                                                                  |            |
+| server_start_tick          | int64   | True     | replay              |                                                                                                  |            |
 | tick_rate                  | int64   | True     | calculated          |                                                                                                  |            |
 | tick_save_rate             | int64   | True     | calculated          |                                                                                                  |            |
 | rushb_version              | string  | True     | calculated          | meta:metadata.rushbVersion                                                                       |            |
@@ -487,6 +496,56 @@ Event that triggers this channel: tick_end
 | unique_steamids            | int64   | True     | calculated          | player_personal:steam_id                                                                         |            |
 | providence                 | string  | True     | calculated          | metademo:providence                                                                              |            |
 | number_of_points           | int64   | True     | calculated          | shape of all data frames                                                                         |            |
+
+## hostage_state - multi_event
+
+Events that trigger this channel: being_carried, being_untied, dead, following_player, getting_dropped, getting_picked_up, hurt, idle, rescued
+
+One row each time a hostage changes state, plus a `hurt` row each time it takes damage. `event_type` is the state it moved into, or `hurt`; `old_state` is the state it left, null for `hurt`. A pick-up goes `being_untied`, `getting_picked_up`, `being_carried`; a drop goes `getting_dropped`, then `idle`. `player_id` is the player carrying or leading the hostage, the rescuer for `rescued`, the killer for `dead` and the attacker for `hurt`, null when there is none. The position and `health` are the hostage's at that moment. Hostages are created again each round, so `entity_id` names a hostage within one round. Empty on bomb maps.
+
+| Col Name           | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
+| ------------------ | ------- | -------- | ---------- | --------------- | -------------------------- |
+| round              | int64   | False    | replay     |                 |                            |
+| tick               | int64   | False    | replay     |                 |                            |
+| entity_id          | int64   | False    | replay     |                 |                            |
+| event_type         | string  | False    | replay     |                 |                            |
+| old_state          | string  | True     | replay     |                 |                            |
+| player_id          | int64   | True     | replay     |                 |                            |
+| x_pos              | float64 | False    | replay     |                 |                            |
+| y_pos              | float64 | False    | replay     |                 |                            |
+| z_pos              | float64 | False    | replay     |                 |                            |
+| health             | int64   | False    | replay     |                 |                            |
+| second             | float64 | True     | calculated | tick, tick_rate |                            |
+| player_id_fixed    | int64   | True     | merged     |                 | player_id, round, steam_id |
+| player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
+| player_y_pos       | float64 | True     | merged     |                 | player_id, tick            |
+| player_z_pos       | float64 | True     | merged     |                 | player_id, tick            |
+| player_x_vel       | float64 | True     | merged     |                 | player_id, tick            |
+| player_y_vel       | float64 | True     | merged     |                 | player_id, tick            |
+| player_z_vel       | float64 | True     | merged     |                 | player_id, tick            |
+| player_phi_ang     | float64 | True     | merged     |                 | player_id, tick            |
+| player_theta_ang   | float64 | True     | merged     |                 | player_id, tick            |
+| player_weapon_code | int64   | True     | merged     |                 | player_id, tick            |
+| player_team_code   | int64   | True     | merged     |                 | player_id, tick            |
+
+## hostage_vector - telemetry
+
+Event that triggers this channel: tick_end
+
+Each hostage every tick, on hostage maps: where it is, its `state`, `health` and `carrier_id`, the player leading or carrying it (null when none). `state` is one of idle, being_untied, getting_picked_up, being_carried, following_player, getting_dropped, rescued and dead. Hostages are created again each round, so `entity_id` names a hostage within one round. Empty on bomb maps.
+
+| Col Name   | Type    | Nullable | Origin     | Dependents      | Merge Keys |
+| ---------- | ------- | -------- | ---------- | --------------- | ---------- |
+| round      | int64   | False    | replay     |                 |            |
+| tick       | int64   | False    | replay     |                 |            |
+| entity_id  | int64   | False    | replay     |                 |            |
+| x_pos      | float64 | False    | replay     |                 |            |
+| y_pos      | float64 | False    | replay     |                 |            |
+| z_pos      | float64 | False    | replay     |                 |            |
+| state      | string  | False    | replay     |                 |            |
+| health     | int64   | False    | replay     |                 |            |
+| carrier_id | int64   | True     | replay     |                 |            |
+| second     | float64 | True     | calculated | tick, tick_rate |            |
 
 ## item_dropped - single_event
 
@@ -802,6 +861,37 @@ Event that triggers this channel: player_chat
 | player_weapon_code | int64   | True     | merged          |                 | player_id, tick            |
 | player_team_code   | int64   | True     | merged          |                 | player_id, tick            |
 
+## player_command - telemetry
+
+Event that triggers this channel: user_cmd
+
+One row per user command: what each player's game sent the server for one
+tick, so about a million rows a match. `mouse_dx` and `mouse_dy` are the mouse
+movement in raw counts; in-game, each count turns the view by 0.022° times the
+player's sensitivity. `forward_move` and `left_move` are the movement keys, −1,
+0 or 1 (backward and right are negative). `weapon_select` is the entity index of
+the weapon the player switched to on that command, and 0 on the 99.7% of
+commands without a switch. `command_number` counts each player's commands. The
+view angles and held buttons a command also carries are in `player_vector`
+(`theta_ang`, `phi_ang`) and `player_inputs`: join on `round`, `tick` and
+`player_id`. Matches whose demos don't carry full user commands (older CS2
+recordings) have no rows, and their `available` flag in the index object is
+false.
+
+| Col Name        | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
+| --------------- | ------- | -------- | ---------- | --------------- | -------------------------- |
+| round           | int64   | False    | replay     |                 |                            |
+| tick            | int64   | False    | replay     |                 |                            |
+| player_id       | int64   | False    | replay     |                 |                            |
+| command_number  | int64   | False    | replay     |                 |                            |
+| mouse_dx        | int64   | False    | replay     |                 |                            |
+| mouse_dy        | int64   | False    | replay     |                 |                            |
+| forward_move    | float64 | False    | replay     |                 |                            |
+| left_move       | float64 | False    | replay     |                 |                            |
+| weapon_select   | int64   | False    | replay     |                 |                            |
+| second          | float64 | True     | calculated | tick, tick_rate |                            |
+| player_id_fixed | int64   | True     | merged     |                 | player_id, round, steam_id |
+
 ## player_connect - single_event
 
 Event that triggers this channel: player_connect
@@ -888,13 +978,39 @@ Event that triggers this channel: player_disconnect
 
 Event that triggers this channel: player_footstep
 
-| Col Name        | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
-| --------------- | ------- | -------- | ---------- | --------------- | -------------------------- |
-| round           | int64   | False    | replay     |                 |                            |
-| tick            | int64   | False    | replay     |                 |                            |
-| player_id       | int64   | False    | replay     |                 |                            |
-| second          | float64 | True     | calculated | tick, tick_rate |                            |
-| player_id_fixed | int64   | True     | merged     |                 | player_id, round, steam_id |
+Every step, jump and landing a player was heard making, one row each, from the
+sounds the game played. `kind` is `step`, `jump` or `land`. `surface` is what
+was stepped or landed on (`Concrete`, `Sand`, `Wood` and so on), and empty for
+a jump. Every jump also plays a step at takeoff, so a jump row comes with a
+step row at about the same tick. Walking and crouching make no sound, so they
+make no steps, and small drops make no landing. A player has at most one row
+of each kind on a tick. The merged position columns are the player's, from
+`player_vector` at that tick. Matches parsed before parser 5.7.0 (2026-10-12)
+hold a different channel: jumps and landings only, with no `kind` or `surface`.
+Before parser 6.0.0 (2026-10-14), a step the game played twice on one tick, at
+a jump or a landing, was two rows (about 1 step in 300). Before converter 8.8.0
+(2026-10-14), the channel had no position columns. See the
+[changelog](./changelog.md).
+
+| Col Name           | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
+| ------------------ | ------- | -------- | ---------- | --------------- | -------------------------- |
+| round              | int64   | False    | replay     |                 |                            |
+| tick               | int64   | False    | replay     |                 |                            |
+| player_id          | int64   | False    | replay     |                 |                            |
+| kind               | string  | False    | replay     |                 |                            |
+| surface            | string  | False    | replay     |                 |                            |
+| second             | float64 | True     | calculated | tick, tick_rate |                            |
+| player_id_fixed    | int64   | True     | merged     |                 | player_id, round, steam_id |
+| player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
+| player_y_pos       | float64 | True     | merged     |                 | player_id, tick            |
+| player_z_pos       | float64 | True     | merged     |                 | player_id, tick            |
+| player_x_vel       | float64 | True     | merged     |                 | player_id, tick            |
+| player_y_vel       | float64 | True     | merged     |                 | player_id, tick            |
+| player_z_vel       | float64 | True     | merged     |                 | player_id, tick            |
+| player_phi_ang     | float64 | True     | merged     |                 | player_id, tick            |
+| player_theta_ang   | float64 | True     | merged     |                 | player_id, tick            |
+| player_weapon_code | int64   | True     | merged     |                 | player_id, tick            |
+| player_team_code   | int64   | True     | merged     |                 | player_id, tick            |
 
 ## player_hurt - single_event
 
@@ -941,18 +1057,27 @@ Event that triggers this channel: player_hurt
 
 Event that triggers this channel: round_freeze_end
 
-| Col Name         | Type    | Nullable | Origin        | Dependents           | Merge Keys                 |
-| ---------------- | ------- | -------- | ------------- | -------------------- | -------------------------- |
-| round            | int64   | False    | replay        |                      |                            |
-| player_id        | int64   | False    | replay        |                      |                            |
-| team_code        | int64   | False    | replay        |                      |                            |
-| wins             | int64   | False    | replay-capped |                      |                            |
-| rank             | int64   | False    | replay        |                      |                            |
-| rank_type        | int64   | False    | replay        |                      |                            |
-| radar_color_code | int64   | False    | replay        |                      |                            |
-| player_id_fixed  | int64   | True     | merged        |                      | player_id, round, steam_id |
-| rank_raw         | int     | True     | calculated    | player_info:rank     |                            |
-| rank_platform    | float64 | True     | calculated    | player_personal:rank |                            |
+`game_rank_if_win`, `game_rank_if_loss` and `game_rank_if_tie` are the rating
+the game itself predicts the player will hold after the match if their team
+wins, loses or ties, the "+N / -N" on the Premier scoreboard. The game sets
+them once at the start of the match, so every round repeats them. They are 0
+outside Premier, as on FACEIT and league demos. From parser 6.0.0.
+
+| Col Name          | Type    | Nullable | Origin        | Dependents           | Merge Keys                 |
+| ----------------- | ------- | -------- | ------------- | -------------------- | -------------------------- |
+| round             | int64   | False    | replay        |                      |                            |
+| player_id         | int64   | False    | replay        |                      |                            |
+| team_code         | int64   | False    | replay        |                      |                            |
+| wins              | int64   | False    | replay-capped |                      |                            |
+| rank              | int64   | False    | replay        |                      |                            |
+| rank_type         | int64   | False    | replay        |                      |                            |
+| radar_color_code  | int64   | False    | replay        |                      |                            |
+| game_rank_if_win  | int64   | True     | replay        |                      |                            |
+| game_rank_if_loss | int64   | True     | replay        |                      |                            |
+| game_rank_if_tie  | int64   | True     | replay        |                      |                            |
+| player_id_fixed   | int64   | True     | merged        |                      | player_id, round, steam_id |
+| rank_raw          | int     | True     | calculated    | player_info:rank     |                            |
+| rank_platform     | float64 | True     | calculated    | player_personal:rank |                            |
 
 ## player_inputs - telemetry
 
@@ -1013,17 +1138,27 @@ Event that triggers this channel: player_name
 
 Event that triggers this channel: round_freeze_end
 
-| Col Name             | Type   | Nullable | Origin          | Dependents       | Merge Keys |
-| -------------------- | ------ | -------- | --------------- | ---------------- | ---------- |
-| round                | int64  | False    | replay          |                  |            |
-| player_id            | int64  | False    | replay          |                  |            |
-| player_controller_id | int64  | False    | replay          |                  |            |
-| player_id_pawn       | int64  | False    | replay          |                  |            |
-| name                 | string | False    | replay-redacted |                  |            |
-| clan_tag             | string | False    | replay-redacted |                  |            |
-| steam_id             | string | False    | replay-redacted |                  |            |
-| is_bot               | bool   | True     | calculated      | steam_id         |            |
-| player_id_fixed      | int64  | True     | calculated      | steam_id, is_bot |            |
+`crosshair_code` and the four `viewmodel_*` columns are each player's client
+settings. In this data set they are redacted: the crosshair code reads
+`"redacted"` and the viewmodel values are null, because a custom crosshair code
+is close to unique per player and could link a player across matches.
+
+| Col Name             | Type    | Nullable | Origin          | Dependents       | Merge Keys |
+| -------------------- | ------- | -------- | --------------- | ---------------- | ---------- |
+| round                | int64   | False    | replay          |                  |            |
+| player_id            | int64   | False    | replay          |                  |            |
+| player_controller_id | int64   | False    | replay          |                  |            |
+| player_id_pawn       | int64   | False    | replay          |                  |            |
+| name                 | string  | False    | replay-redacted |                  |            |
+| clan_tag             | string  | False    | replay-redacted |                  |            |
+| steam_id             | string  | False    | replay-redacted |                  |            |
+| crosshair_code       | string  | True     | replay-redacted |                  |            |
+| viewmodel_offset_x   | float64 | True     | replay-redacted |                  |            |
+| viewmodel_offset_y   | float64 | True     | replay-redacted |                  |            |
+| viewmodel_offset_z   | float64 | True     | replay-redacted |                  |            |
+| viewmodel_fov        | float64 | True     | replay-redacted |                  |            |
+| is_bot               | bool    | True     | calculated      | steam_id         |            |
+| player_id_fixed      | int64   | True     | calculated      | steam_id, is_bot |            |
 
 ## player_round_stats - single_event
 
@@ -1079,14 +1214,36 @@ player-rounds, and `damage` agrees with the health taken from enemies in
 
 Event that triggers this channel: player_sound
 
+Every sound the game played, one row per sound. That covers each player's
+steps, jumps and landings (the ones `player_footstep` has), pickups and damage
+heard by others, and the world's and the grenades' sounds: dropped items
+landing, molotovs catching fire, bounces, explosions. Gunshots and reloads
+aren't in it; `weapon_fire` has the shots. `sound` is the game's name for the
+sound (`Player.PickupWeapon`), or its hash as 8 hex digits when the parser's
+list of names lacks it, which is under 1 sound in 1,000 on recent matches.
+`source` says what made it: `player`, `weapon` (one a player carries),
+`grenade`, `world` or `other`. `player_id` is the player, the carrier of the
+weapon or the thrower of the grenade, and null when no player is known: world
+sounds, and under 1% of sounds whose source the parser can't place (`source`
+`other`). A sound whose source reaches the recording later in the same tick,
+such as a bought weapon or a molotov's fire, gets its player then, and an armor
+purchase goes to the player whose armor rose on that tick. Before parser 6.0.0
+(2026-10-14) those had no player and were `other`, about 3% of sounds. The
+merged position columns are that player's, and null when `player_id` is. A
+sound the game played twice on one tick, such as a grenade bouncing off two
+surfaces, is two rows. A demo with no sound messages falls back to the
+`player_sound` game event, one row per event with `sound` `player_sound`.
+Matches parsed before parser 5.7.0 (2026-10-12) took the channel from that
+event alone, which most demos don't carry, and had `radius`, `duration` and
+`is_step`; see the [changelog](./changelog.md).
+
 | Col Name           | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
 | ------------------ | ------- | -------- | ---------- | --------------- | -------------------------- |
 | round              | int64   | False    | replay     |                 |                            |
 | tick               | int64   | False    | replay     |                 |                            |
-| player_id          | int64   | False    | replay     |                 |                            |
-| radius             | int64   | False    | replay     |                 |                            |
-| duration           | float64 | False    | replay     |                 |                            |
-| is_step            | bool    | False    | replay     |                 |                            |
+| player_id          | int64   | True     | replay     |                 |                            |
+| sound              | string  | False    | replay     |                 |                            |
+| source             | string  | False    | replay     |                 |                            |
 | second             | float64 | True     | calculated | tick, tick_rate |                            |
 | player_id_fixed    | int64   | True     | merged     |                 | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                 | player_id, tick            |
@@ -1127,6 +1284,23 @@ Event that triggers this channel: player_spawn
 Event that triggers this channel: tick_end
 
 Converter 8.6.0 and later write this table with the types below, sorted by player, then tick; see [The player tables](#the-player-tables).
+
+From parser 6.0.0 the table also carries the player's and the held weapon's
+own state. `progress_bar_start` and `progress_bar_duration` are the defuse
+progress bar: `progress_bar_start` is when the player's last defuse began, in
+seconds on the clock of `second`, and keeps that value after the defuse ends;
+`progress_bar_duration` is the bar's length in seconds while it shows (10, or
+5 with a kit) and negative otherwise. CS2 doesn't use the bar for planting.
+`last_injury_time` is when the player last took damage, on the clock of
+`second`. Both times are null until first set. `is_in_reload` is the held
+weapon's reload flag; unlike `is_reloading` it falls as soon as a reload
+stops, and about a third of reloads end early in a weapon switch.
+`reserve_ammo` is the held weapon's reserve and drops by one magazine per
+completed reload; null for knives, grenades and equipment. `deploy_tick` is
+the tick the held weapon was drawn, joinable on `tick`. The game keeps
+`progress_bar_start`, `last_injury_time` and `deploy_tick` on the game server's
+clock; the converter moves them onto the recording's clock with
+`header.server_start_tick`, hence `replay_fixed`, and keeps no `*_raw` copy.
 
 | Col Name                      | Type    | Nullable | Origin          | Dependents                                                                                                                                                            | Merge Keys                 |
 | ----------------------------- | ------- | -------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
@@ -1170,15 +1344,61 @@ Converter 8.6.0 and later write this table with the types below, sorted by playe
 | is_scoped                     | bool    | False    | replay          |                                                                                                                                                                       |                            |
 | is_spotted                    | bool    | False    | replay          |                                                                                                                                                                       |                            |
 | is_walking                    | bool    | False    | replay          |                                                                                                                                                                       |                            |
+| progress_bar_start            | float64 | True     | replay_fixed    |                                                                                                                                                                       |                            |
+| progress_bar_duration         | int64   | True     | replay          |                                                                                                                                                                       |                            |
+| last_injury_time              | float64 | True     | replay_fixed    |                                                                                                                                                                       |                            |
+| is_in_reload                  | bool    | True     | replay          |                                                                                                                                                                       |                            |
+| reserve_ammo                  | int64   | True     | replay          |                                                                                                                                                                       |                            |
+| deploy_tick                   | int64   | True     | replay_fixed    |                                                                                                                                                                       |                            |
 | second                        | float32 | True     | calculated      | tick, tick_rate                                                                                                                                                       |                            |
 | player_id_fixed               | int8    | True     | merged          |                                                                                                                                                                       | player_id, round, steam_id |
 | equipment_value_calc          | int16   | True     | calculated      | inv_flashbang, inv_taser, inv_hegrenade, inv_smokegrenade, inv_molotov, inv_decoy, inv_incgrenade, inv_c4, armor, has_defuser, has_helmet, inv_primary, inv_secondary |                            |
+
+## player_subtick_input - telemetry
+
+Event that triggers this channel: user_cmd
+
+One row per sub-tick step inside a user command: a button pressed or released,
+and when. `button` is the button's bit, as in `player_inputs.buttons_mask` (1
+attack, 2 jump, 4 duck, 8 forward, 16 back, 512 left, 1024 right, …); steps that
+only carry analog movement have button 0. `when` is the moment as a fraction of
+the command's tick. It is below 1, and slightly negative on about 3.5% of steps
+(a median of −0.03): presses recorded just before the tick began. A few reach
+−2. About 1.7 million rows across the 50-match corpus.
+
+| Col Name        | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
+| --------------- | ------- | -------- | ---------- | --------------- | -------------------------- |
+| round           | int64   | False    | replay     |                 |                            |
+| tick            | int64   | False    | replay     |                 |                            |
+| player_id       | int64   | False    | replay     |                 |                            |
+| button          | int64   | False    | replay     |                 |                            |
+| pressed         | bool    | False    | replay     |                 |                            |
+| when            | float64 | False    | replay     |                 |                            |
+| second          | float64 | True     | calculated | tick, tick_rate |                            |
+| player_id_fixed | int64   | True     | merged     |                 | player_id, round, steam_id |
 
 ## player_vector - telemetry
 
 Event that triggers this channel: tick_end
 
 Converter 8.6.0 and later write this table with the types below, sorted by player, then tick; see [The player tables](#the-player-tables).
+
+From parser 6.0.0 the table also carries the game's own movement and spray
+state. `is_airborne` is true when nothing is under the player's feet.
+`x_vel_engine`, `y_vel_engine` and `z_vel_engine` are the game's velocity at
+the tick, in units a second. dsdk's `x_vel`, `y_vel` and `z_vel`, which it
+calculates from positions, describe the move into the tick, half a tick
+earlier, so the two disagree most after missed ticks, on stairs and in the
+air. `shots_fired` counts the shots of the current spray and drops back to 0
+soon after the player stops firing. `velocity_modifier` is the slowdown from
+being hit, 1 when there is none. `view_offset_z` is the eye's height above
+the player's position, about 64 standing and 46 crouched; the eye's height
+on the map is `z_pos + view_offset_z`. `aim_punch_pitch` and `aim_punch_yaw`
+are the recoil kick the player's shots have put on their aim, in degrees,
+pitch negative upward; across a spray they trace the weapon's recoil
+pattern. The game holds the last shot's value rather than letting it decay,
+so both are null unless the player fired within the last second (64 ticks),
+counting the shot's own tick.
 
 | Col Name              | Type    | Nullable | Origin | Dependents | Merge Keys                 |
 | --------------------- | ------- | -------- | ------ | ---------- | -------------------------- |
@@ -1202,6 +1422,15 @@ Converter 8.6.0 and later write this table with the types below, sorted by playe
 | fall_velocity         | float32 | False    | replay |            |                            |
 | view_punch_angle_tick | int32   | False    | replay |            |                            |
 | is_rescuing           | bool    | False    | replay |            |                            |
+| is_airborne           | bool    | True     | replay |            |                            |
+| x_vel_engine          | float64 | True     | replay |            |                            |
+| y_vel_engine          | float64 | True     | replay |            |                            |
+| z_vel_engine          | float64 | True     | replay |            |                            |
+| shots_fired           | int64   | True     | replay |            |                            |
+| velocity_modifier     | float64 | True     | replay |            |                            |
+| view_offset_z         | float64 | True     | replay |            |                            |
+| aim_punch_pitch       | float64 | True     | replay |            |                            |
+| aim_punch_yaw         | float64 | True     | replay |            |                            |
 | player_id_fixed       | int8    | True     | merged |            | player_id, round, steam_id |
 | team_code             | int8    | True     | merged |            | round, player_id           |
 
@@ -1333,6 +1562,51 @@ Event that triggers this channel: score_update
 | new_score | int64   | False    | replay     |                 |            |
 | second    | float64 | True     | calculated | tick, tick_rate |            |
 
+## smoke_voxel - telemetry
+
+Event that triggers this channel: tick_end
+
+A smoke's volume as the game sends it. The rows are not the smoke itself: they
+are the cells the smoke's fill starts from (`kind` `seed`) and the map's
+surfaces around the smoke (`kind` `block`), from which each player's game fills
+the smoke in.
+
+- Cells are 20 units on a world grid: cell n spans 20n to 20n + 20 on each axis,
+  so a point is in cell `floor(x / 20)`, `floor(y / 20)`, `floor(z / 20)`.
+- A `block` row covers the 4 × 4 × 4 cells from its corner `cell_x`, `cell_y`,
+  `cell_z`. The cell at corner + (x, y, z) is part of the map where bit x + 4y +
+  16z of the block's mask is set. The mask comes in two halves, each 0 to
+  2^32 - 1: `mask_lo` holds bits 0 to 31 (layers z = 0 and 1) and `mask_hi` bits
+  32 to 63 (z = 2 and 3), so the whole mask is `mask_lo | mask_hi << 32`. They
+  are split because a reader such as pandas loads a nullable 64-bit integer as a
+  float, which would round the mask. A later row for the same block and
+  `grenade_id` replaces it.
+- A `seed` row is one cell the fill starts from. `seed_value` is a byte the game
+  sends with each seed (5 or 0; its meaning is unknown).
+- To get the smoke's shape, fill outward from the seed cells to the six face
+  neighbours, through cells that lie in a received block and are not set, for 4
+  steps. Checked against the smoke CS2 draws, about three quarters of that shape
+  is smoke, and it covers about three quarters of the smoke.
+- The smoke is gone at its `smokegrenade_expired` row in `grenade_state`, even
+  if rows for it came later. Demos from builds before the voxel data have no
+  rows.
+
+| Col Name   | Type    | Nullable | Origin     | Dependents      | Merge Keys |
+| ---------- | ------- | -------- | ---------- | --------------- | ---------- |
+| round      | int64   | False    | replay     |                 |            |
+| tick       | int64   | False    | replay     |                 |            |
+| entity_id  | int64   | False    | replay     |                 |            |
+| grenade_id | int64   | False    | replay     |                 |            |
+| update_nr  | int64   | False    | replay     |                 |            |
+| kind       | string  | False    | replay     |                 |            |
+| cell_x     | int64   | False    | replay     |                 |            |
+| cell_y     | int64   | False    | replay     |                 |            |
+| cell_z     | int64   | False    | replay     |                 |            |
+| mask_lo    | int64   | True     | replay     |                 |            |
+| mask_hi    | int64   | True     | replay     |                 |            |
+| seed_value | int64   | True     | replay     |                 |            |
+| second     | float64 | True     | calculated | tick, tick_rate |            |
+
 ## team_change - single_event
 
 Event that triggers this channel: player_team
@@ -1456,6 +1730,21 @@ Events that trigger this channel: fire_on_empty, reload, zoom, zoom_rifle
 
 Event that triggers this channel: weapon_fire
 
+Rows where a gun fired a bullet also carry the server's own record of the
+shot. `inaccuracy_total` is the inaccuracy the game applied to it, including the
+movement and jumping part that `player_vector.inaccuracy` (the firing penalty
+only) leaves out; on about a quarter of shots the total is more than 10% higher.
+`seed` is the random seed for the shot's spread, `origin_x`, `origin_y` and
+`origin_z` are where it was fired from, and `angle_pitch` and `angle_yaw` its
+direction in degrees. Valve's matchmaking servers also send `inaccuracy_move`
+and `inaccuracy_air` (the movement and air parts of the total),
+`aim_punch_pitch` and `aim_punch_yaw` (the recoil kick on the view at the shot,
+in degrees), and `attack_tick` and `attack_tick_frac` (the tick, and the
+fraction of it, when the player clicked: almost always 3 ticks before to 1
+after the row's `tick`). These columns are null on grenade, knife and other
+rows that fire no bullet, and the Valve-only ones are null on FACEIT and league
+matches. Older matches don't have them.
+
 | Col Name           | Type    | Nullable | Origin     | Dependents                                     | Merge Keys                 |
 | ------------------ | ------- | -------- | ---------- | ---------------------------------------------- | -------------------------- |
 | round              | int64   | False    | replay     |                                                |                            |
@@ -1464,6 +1753,19 @@ Event that triggers this channel: weapon_fire
 | player_id_pawn     | int64   | False    | replay     |                                                |                            |
 | weapon_name        | string  | False    | replay     |                                                |                            |
 | is_silenced        | bool    | False    | replay     |                                                |                            |
+| inaccuracy_total   | float64 | True     | replay     |                                                |                            |
+| seed               | int64   | True     | replay     |                                                |                            |
+| origin_x           | float64 | True     | replay     |                                                |                            |
+| origin_y           | float64 | True     | replay     |                                                |                            |
+| origin_z           | float64 | True     | replay     |                                                |                            |
+| angle_pitch        | float64 | True     | replay     |                                                |                            |
+| angle_yaw          | float64 | True     | replay     |                                                |                            |
+| inaccuracy_move    | float64 | True     | replay     |                                                |                            |
+| inaccuracy_air     | float64 | True     | replay     |                                                |                            |
+| aim_punch_pitch    | float64 | True     | replay     |                                                |                            |
+| aim_punch_yaw      | float64 | True     | replay     |                                                |                            |
+| attack_tick        | int64   | True     | replay     |                                                |                            |
+| attack_tick_frac   | float64 | True     | replay     |                                                |                            |
 | second             | float64 | True     | calculated | tick, tick_rate                                |                            |
 | player_id_fixed    | int64   | True     | merged     |                                                | player_id, round, steam_id |
 | player_x_pos       | float64 | True     | merged     |                                                | player_id, tick            |
@@ -1494,3 +1796,27 @@ Event that triggers this channel: tick_end
 | y_pos         | float64 | False    | replay     |                 |            |
 | z_pos         | float64 | False    | replay     |                 |            |
 | second        | float64 | True     | calculated | tick, tick_rate |            |
+
+## world_object - multi_event
+
+Events that trigger this channel: broken, cleanup, closed, closing, moving, open, opening, spawned
+
+The map's doors and breakable parts, one row per change. `class` is what the object is: `door`, a door that swings open; `brush_door`, a door built into the map itself (cs_office's garage door, Vertigo's port-o-potty doors); `prop`, a breakable prop; `breakable`, a vent (Nuke, Mirage); and `brush`, a pane of Nuke's glass.
+
+A `door` gets a `spawned` row when it is created, then `opening`, `open`, `closing` and `closed` as it moves; every door is created again, closed, at each round start. A `brush_door` gets `spawned` and then one `moving` row for each tick it moves, with its position and angle. `broken` is an object destroyed during a round. `by_player_id` is the player who broke it, null when no player did: the bomb, props knocked into each other, and Nuke's glass, which never names one. `cleanup` rows are the map being reset for the next round, not breaks. Maps with no doors or breakables have no rows.
+
+| Col Name     | Type    | Nullable | Origin     | Dependents      | Merge Keys |
+| ------------ | ------- | -------- | ---------- | --------------- | ---------- |
+| round        | int64   | False    | replay     |                 |            |
+| tick         | int64   | False    | replay     |                 |            |
+| entity_id    | int64   | False    | replay     |                 |            |
+| class        | string  | False    | replay     |                 |            |
+| event_type   | string  | False    | replay     |                 |            |
+| x_pos        | float64 | False    | replay     |                 |            |
+| y_pos        | float64 | False    | replay     |                 |            |
+| z_pos        | float64 | False    | replay     |                 |            |
+| pitch        | float64 | False    | replay     |                 |            |
+| yaw          | float64 | False    | replay     |                 |            |
+| roll         | float64 | False    | replay     |                 |            |
+| by_player_id | int64   | True     | replay     |                 |            |
+| second       | float64 | True     | calculated | tick, tick_rate |            |

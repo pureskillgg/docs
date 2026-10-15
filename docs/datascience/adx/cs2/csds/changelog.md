@@ -25,22 +25,65 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
+## 2026-10-14
+
+_Parser 6.0.0 and the release after it, converter 8.8.0 and the release after it._
+
+**Channels added**
+
+- `world_object`: The map's doors and breakable parts, one row per change: doors opening and closing (`spawned`, `opening`, `open`, `closing`, `closed`), the doors built into the map on cs_office and Vertigo moving (`moving`), and props, vents and Nuke's glass being destroyed (`broken`), with the player who broke one when there is one (`by_player_id`). `cleanup` rows are the map being reset between rounds, not breaks. Matches processed before this date don't have the channel.
+- `hostage_vector`, `hostage_state`: Hostages, on hostage maps: `hostage_vector` has each hostage's position, state, health and carrier every tick, and `hostage_state` a row each time a hostage changes state (picked up, carried, dropped, rescued, killed) or is hurt, with the player involved. Both are empty on bomb maps. Matches processed before this date don't have the channels.
+- `smoke_voxel`: What the game sends about each smoke's volume: the cells its fill starts from (`kind` `seed`) and, block by block, the map's surfaces around it (`kind` `block`, a 4 × 4 × 4 block of 20-unit world cells whose bits `mask_lo` and `mask_hi` mark the cells that are part of the map). It is not the smoke itself: filling out from the seeds through free cells for 4 steps gives the shape the game draws, as the [spec](./spec.md) describes. Rows carry the smoke's `grenade_id`. Matches from CS2 builds before the voxel data, and smokes already burning when a demo's recording began, have no rows.
+- `player_command`: One row per user command, what each player's game sent the server for one tick, about a million rows a match. `mouse_dx` and `mouse_dy` are the mouse movement in raw counts, `forward_move` and `left_move` the movement keys (−1, 0 or 1), `weapon_select` the weapon switched to (0 when none), and `command_number` counts each player's commands. The view angles and held buttons are in `player_vector` and `player_inputs`. Matches processed before this date, and older CS2 recordings without full user commands, have no rows.
+- `player_subtick_input`: One row per sub-tick step inside a user command: a button pressed or released (`button`, the bit as in `player_inputs.buttons_mask`, and `pressed`), and `when`, the moment within the tick as a fraction of it. Steps that carry only analog movement have `button` 0. Matches processed before this date, and older CS2 recordings without full user commands, have no rows.
+
+**Columns added**
+
+- `player_vector.is_airborne`, `player_vector.x_vel_engine`, `player_vector.y_vel_engine`, `player_vector.z_vel_engine`, `player_vector.shots_fired`, `player_vector.velocity_modifier`, `player_vector.view_offset_z`: The game's own movement and spray state for each player on each tick, all nullable. `is_airborne` is true when nothing is under the player's feet. `x_vel_engine`, `y_vel_engine` and `z_vel_engine` are the game's velocity at the tick, in units a second. dsdk's `x_vel`, `y_vel` and `z_vel`, which it calculates from positions, describe the move into the tick, half a tick earlier, so the two disagree most after missed ticks, on stairs and in the air. `shots_fired` counts the shots of the current spray and drops back to 0 soon after the player stops firing. `velocity_modifier` is the slowdown from being hit, 1 when there is none. `view_offset_z` is the eye's height above the player's position, about 64 standing and 46 crouched; the eye's height on the map is `z_pos + view_offset_z`.
+- `player_vector.aim_punch_pitch`, `player_vector.aim_punch_yaw`: Floats, in degrees: the recoil kick the player's shots have put on their aim, pitch negative upward. Across a spray they trace the weapon's recoil pattern. The game holds the last shot's value rather than letting it decay, so both are null unless the player fired within the last second (64 ticks), counting the shot's own tick.
+- `player_status.progress_bar_start`, `player_status.progress_bar_duration`, `player_status.last_injury_time`, `player_status.is_in_reload`, `player_status.reserve_ammo`, `player_status.deploy_tick`: The player's and the held weapon's own state, all nullable. `progress_bar_start` and `progress_bar_duration` are the defuse progress bar. `progress_bar_start` is when the player's last defuse began, in seconds on the clock of `second`, and keeps that value after the defuse ends. `progress_bar_duration` is the bar's length in seconds while it shows (10, or 5 with a kit) and negative otherwise. CS2 doesn't use the bar for planting. `last_injury_time` is when the player last took damage, on the clock of `second`. Both times are null until first set. `is_in_reload` is the held weapon's reload flag; unlike `is_reloading` it falls as soon as a reload stops, and about a third of reloads end early in a weapon switch. `reserve_ammo` is the held weapon's reserve and drops by one magazine per completed reload; null for knives, grenades and equipment. `deploy_tick` is the tick the held weapon was drawn, joinable on `tick`.
+- `player_info.game_rank_if_win`, `player_info.game_rank_if_loss`, `player_info.game_rank_if_tie`: Integers, nullable: the rating the game itself predicts the player will hold after the match if their team wins, loses or ties, the "+N / -N" on the Premier scoreboard. Set once at the start of the match, so every round repeats them. 0 outside Premier, as on FACEIT and league demos.
+- `header.server_start_tick`: Integer, nullable: the game server's tick when the recording's tick 0 was recorded, which differs from match to match. The game counts some times from the server's start; the converter uses this to put `player_status.progress_bar_start`, `last_injury_time` and `deploy_tick` on the recording's clock. Null on a demo with no server tick messages.
+- `weapon_fire.inaccuracy_total`, `weapon_fire.seed`, `weapon_fire.origin_x`, `weapon_fire.origin_y`, `weapon_fire.origin_z`, `weapon_fire.angle_pitch`, `weapon_fire.angle_yaw`: The server's own record of each shot, on rows where a gun fired a bullet. `inaccuracy_total` is the inaccuracy the game applied to the shot, including the movement and jumping part that `player_vector.inaccuracy` (the firing penalty only) leaves out; on about a quarter of shots the total is more than 10% higher. `seed` is the random seed for the shot's spread, `origin_x`, `origin_y` and `origin_z` are where it was fired from, and `angle_pitch` and `angle_yaw` its direction in degrees. Null on grenade, knife and other rows that fire no bullet, and on the rare shot whose record never arrives. Matches parsed before parser 6.0.0 reached production don't have them.
+- `weapon_fire.inaccuracy_move`, `weapon_fire.inaccuracy_air`, `weapon_fire.aim_punch_pitch`, `weapon_fire.aim_punch_yaw`, `weapon_fire.attack_tick`, `weapon_fire.attack_tick_frac`: Sent only by Valve's matchmaking servers, so null on FACEIT and league matches as well as on rows that fire no bullet. `inaccuracy_move` and `inaccuracy_air` are the movement and air parts of `inaccuracy_total`. `aim_punch_pitch` and `aim_punch_yaw` are the recoil kick on the view at the shot, in degrees. `attack_tick` and `attack_tick_frac` are the tick, and the fraction of it, when the player clicked: almost always 3 ticks before to 1 after the row's `tick`.
+- `player_footstep.player_x_pos`, `player_footstep.player_y_pos`, `player_footstep.player_z_pos`, `player_footstep.player_x_vel`, `player_footstep.player_y_vel`, `player_footstep.player_z_vel`, `player_footstep.player_phi_ang`, `player_footstep.player_theta_ang`, `player_footstep.player_weapon_code`, `player_footstep.player_team_code`: The player's position, velocity, view angles, weapon and team at the row's tick, merged from `player_vector` as on the other player events, so each step, jump and landing has a place. Null where `player_vector` has no row for that player and tick, about 1 row in 20,000 on a 50-match sample.
+
+**Fixes**
+
+- `weapon_fire`: Two shots by one player on the same tick used to make two identical rows, and the duplicate removal kept only one. The new columns tell them apart, so both are kept. It happens rarely: one match in a 50-match sample gained one row.
+- `player_footstep`: One row per player, kind and tick. A step the game played twice on one tick, at a jump or a landing, was two rows (about 1 step in 300) and is now one. `player_sound` still has a row for every time the game played it.
+- `player_sound.player_id`, `player_sound.source`: Set on more sounds. A sound whose source reaches the recording later in the same tick, such as a bought weapon or a molotov's fire, gets its player and its `source`, and an armor purchase goes to the player whose armor rose on that tick. Before, both had no player and `source` `other`. On a 50-match sample, `other` fell from 3.3% of sounds to 0.8%, and 21,250 sounds gained a player; no sound that had a player changed, and no rows were added or removed.
+
 ## 2026-10-12
 
-_Publisher 4.0.4._
+_Parser 5.7.0 and publisher 4.0.4._
 
-**Delivery**
+**Columns added**
 
-- Each match is delivered as one zip, `csds/YYYY/MM/DD/<id>.zip`, instead of 43 separate objects. Its entries are the same files under their full keys, stored without recompression, so unzipping it where `csds/` sits rebuilds the old layout; dsdk 4.1.0's `extract_adx_zips` does that, and `download_adx_dataset_revision` unzips for you. Matches processed after 21:22 UTC are zipped, so the 2026-10-12 revision holds both kinds. See [Getting the Data](./getting-the-data.md#file-layout).
+- `player_footstep.kind`, `player_footstep.surface`: Strings. `kind` is `step`, `jump` or `land`. `surface` is what was stepped or landed on (`Concrete`, `Sand`, `Wood` and so on), and empty for a jump.
+- `player_sound.sound`, `player_sound.source`: Strings. `sound` is the game's name for the sound (`Player.PickupWeapon`), or its hash as 8 hex digits when the parser's list of names lacks it. `source` says what made it: `player`, `weapon` (one a player carries), `grenade`, `world` or `other`.
 
-## 2026-10-11
+**Columns removed**
 
-_Parser 5.7.0._
+- `player_sound.radius`, `player_sound.duration`, `player_sound.is_step`: **Breaking:** no longer written, so code that reads them breaks. They came from the `player_sound` game event, which most demos don't carry.
+
+**Types changed**
+
+- `player_sound.player_id`: Now nullable, and null when no player is known, as for world sounds and about 3% of sounds whose source had not reached the recording when the sound did. The merged position columns are null with it.
+
+**Values changed**
+
+- `player_footstep`: **Breaking:** Holds every step, jump and landing a player was heard making, about 10,000 rows a match instead of about 560. The rows now come from the sounds the game played. Before, the channel came from a game event that CS2 fires almost only on jumps and landings: of 28,080 such rows on a 50-match sample, 1 was a running step. Code that read every row as a jump or a landing must now filter on the new `kind` column. A step the game played twice on one tick, at a jump or a landing, is two rows (about 1 step in 300). Matches parsed before this date keep the old channel.
+- `player_sound`: Holds every sound the game played, about 16,000 rows a match: each player's steps, jumps and landings, pickups and damage heard by others, and the world's and the grenades' sounds. Before, it came from the `player_sound` game event, which most demos don't carry, so the channel was empty on most matches. Its `available` flag in the index object is now true on every demo that carries the game's sound messages. A demo with none falls back to the game event, one row per event with `sound` `player_sound`. A sound the game played twice on one tick is two rows.
 
 **Fixes**
 
 - `player_inputs`: Has rows again, on every kind of demo: which buttons each player held, a row whenever that changed (6,600 to 82,000 rows a match across a 50-match sample). The CS2 update of 2026-07-09 removed the player property the parser read them from, so the channel, added on 2026-08-03, has been empty on every match recorded since that update, whatever its source; the 2026-08-03 entry's "empty on Valve matchmaking demos" understated it. Parser 5.7.0 (demoinfocs-golang v6) rebuilds the button state from the user commands the demo carries. Matches parsed before this date keep their empty channel.
 - `world_item_vector.prev_owner_id`: The same on every parse of a demo. Before, on some matches (seen on FACEIT demos) about twenty rows a match could name a different previous owner from one parse to the next. A match is parsed once, so a published match was self-consistent, but processing the same demo again could change this column.
+
+**Delivery**
+
+- Each match is delivered as one zip, `csds/YYYY/MM/DD/<id>.zip`, instead of 43 separate objects. Its entries are the same files under their full keys, stored without recompression, so unzipping it where `csds/` sits rebuilds the old layout; dsdk 4.1.0's `extract_adx_zips` does that, and `download_adx_dataset_revision` unzips for you. Matches processed after 21:22 UTC are zipped, so the 2026-10-12 revision holds both kinds. See [Getting the Data](./getting-the-data.md#file-layout).
 
 ## 2026-10-06
 

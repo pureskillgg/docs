@@ -9,16 +9,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- CS2 changelog: add `player_command` and `player_subtick_input` under 2026-10-14 (provisional).
+- Bring the CS2 spec, data dictionary and changelog pages up to date with parser 6.0.0 and converter 8.8.0 (2026-10-14): `player_footstep` has one row per player, kind and tick and gains the ten merged `player_*` columns, and `player_sound.player_id` is set on sounds whose source reaches the recording later in the tick and on armor purchases.
 - CS2 delivery: newer revisions deliver each match as one zip, `csds/YYYY/MM/DD/<id>.zip`, instead of 43 objects. Getting the Data, the Quickstart, the data set page and the FAQ's cost answers say how to unzip them (dsdk's `extract_adx_zips`) and what it changes for cost.
 
 ### Added
 
-- The CS2 spec and data dictionary describe four new channels, `map_ping` (ping-button markers), `player_round_stats` (the game's own per-round scoreboard), `round_facts` (the round-end fun fact) and `vote` (finished team votes), and `tick`'s `host_time_us` and `host_time_sd_us`. Channel counts across the docs go to 49.
+- The CS2 spec and data dictionary describe four new channels, `map_ping` (ping-button markers), `player_round_stats` (the game's own per-round scoreboard), `round_facts` (the round-end fun fact) and `vote` (finished team votes), and `tick`'s `host_time_us` and `host_time_sd_us`. Channel counts across the docs go to 55.
+- `player_command` and `player_subtick_input` in the CS2 spec and data dictionary, and 51 channels in the counts.
+- `player_personal`'s client-settings columns (`crosshair_code` and the four `viewmodel_*` columns) in the CS2 spec and data dictionary, marked as redacted in the data set.
 - `grenade_vector`'s throw columns in the CS2 spec and data dictionary.
 - `bomb_state`'s plant columns in the CS2 spec and data dictionary.
+- `weapon_fire`'s per-shot columns in the CS2 spec and data dictionary: the shot's real inaccuracy, its seed, origin and angles, and, from Valve's servers, the movement and air parts, the aim punch and the click's tick.
+- Changelog entries for parser 6.0.0's `weapon_fire` per-shot columns, and the same-tick shots they keep apart, provisionally dated 2026-10-14 until 6.0.0 reaches production.
 - `team_info` and `pause_state`, and `round_state`'s overtime and loss-streak columns, in the CS2 spec and data dictionary.
+- Parser 6.0.0's per-frame player columns in the CS2 spec, data dictionary and changelog pages: on `player_vector` the game's airborne flag, velocity, spray count, hit slowdown, eye height and recoil kick; on `player_status` the defuse progress bar, last injury, the weapon's own reload flag, reserve ammo and draw tick; on `player_info` the game's predicted ratings; and `header.server_start_tick`. The changelog entry is dated provisionally, 2026-10-14, until the release reaches production.
+- `world_object`, `hostage_vector` and `hostage_state` in the CS2 spec, data dictionary and Enums page, with the channel counts (49 channels, 50 objects per match) on every page that gives them and the homepage tiles.
 - `site`, the bomb site letter, on `bomb_action` and `bomb_state` in the CS2 spec, data dictionary and Enums page.
+- `player_footstep` and `player_sound` from parser 5.7.0 in the CS2 spec, data dictionary, Known Flaws and Getting the Data: every step, jump and landing with its `kind` and `surface`, and every sound the game played with its `sound` and `source`. Changelog entries for 2026-10-12, which now also holds parser 5.7.0's earlier `player_inputs` and `prev_owner_id` entries (5.7.0 reached production on 2026-10-12 UTC, not 2026-10-11).
 - A 2026-10-12 entry on the CS2 changelog pages: each match is delivered as one zip from that day.
+- CSDS spec: the `smoke_voxel` channel (rushb 5.8.0): each smoke's seed cells and the map blocks around it, and how to fill in the smoke's shape from them.
+- A changelog entry for `smoke_voxel` on the CS2 changelog pages, dated 2026-10-14 with the other parser 6.0.0 entries (provisional until its production day is known).
 - Game constants on the CS2 Enums page: tick rate, rounds, freeze, buy and round time, money and health limits, overtime, the bomb and utility timers, player size, jump heights and eye height, and top movement speed by weapon, walking, crouched, scoped and carrying a hostage. All but the eye heights, which are the game's values, were measured on the 50-match regression corpus.
 - A CS2 page on how the data fits together: what a row is in each kind of channel, ticks and seconds, how rounds are numbered, following a player, sides and the half, where player state lives, and how event channels carry positions (with a tested example of joining another column), measured on the 89 matches published 2026-10-07.
 - A CS2 CSDS page on positions and view angles: what x, y, z, `theta_ang` and `phi_ang` measure, with figures, and the formula for the angle between a player's view and any point. The spec links to it.
@@ -33,7 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Bring the CS2 changelog pages up to date with parser 5.7.0 (2026-10-11): `player_inputs` has rows again on every kind of demo, after being empty on every match recorded since the CS2 update of 2026-07-09 (the channel itself dates from 2026-08-03), and `world_item_vector.prev_owner_id` is the same on every parse. Known Flaws no longer lists `player_inputs` among the channels most demos leave empty.
+- Bring the CS2 changelog pages up to date with parser 5.7.0 (2026-10-12): `player_inputs` has rows again on every kind of demo, after being empty on every match recorded since the CS2 update of 2026-07-09 (the channel itself dates from 2026-08-03), and `world_item_vector.prev_owner_id` is the same on every parse. Known Flaws no longer lists `player_inputs` among the channels most demos leave empty.
 - The data is licensed under CC BY-NC-SA 4.0. The CS2 data set page, datasheet, Getting the Data and the FAQ no longer call the Data Subscriber Agreement the license.
 - CS2 datasheet, from the ethics review: some players can be linked across matches, the data almost certainly includes players under 18, the Terms of Service don't mention the data set, and it may not be used for cheats.
 - Link Data Science, the CSDS Spec and the Changelog from the navbar, move the social links into the footer, and replace the "Beep Boop." tagline.

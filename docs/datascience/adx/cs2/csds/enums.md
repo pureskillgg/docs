@@ -152,9 +152,12 @@ them, and `postgame` after the last round.
 | `molotov_state` | `inferno_startburn`, `inferno_expire`                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | `weapon_action` | `reload`, `zoom`, `fire_on_empty`                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | `round_state`   | `begin_new_match`, `round_announce_match_start`, `round_prestart`, `round_start`, `round_poststart`, `cs_round_start_beep`, `cs_round_final_beep`, `round_freeze_end`, `freezetime_ended_inferred`, `buytime_ended`, `bomb_planted`, `bomb_defused`, `bomb_exploded`, `round_end`, `round_officially_ended`, `cs_pre_restart`, `announce_phase_end`, `round_announce_last_round_half`, `round_announce_match_point`, `round_announce_final`, `cs_win_panel_match` |
+| `world_object`  | `spawned`, `opening`, `open`, `closing`, `closed`, `moving`, `broken`, `cleanup`                                                                                                                                                                                                                                                                                                                                                                                  |
+| `hostage_state` | `being_untied`, `getting_picked_up`, `being_carried`, `getting_dropped`, `idle`, `rescued`, `hurt`                                                                                                                                                                                                                                                                                                                                                                |
 
 The spec lists a few more event types for some channels, such as
-`bomb_abort_plant` and `inferno_extinguish`; none appeared in these matches.
+`bomb_abort_plant`, `inferno_extinguish`, and `following_player` and `dead` on
+`hostage_state`; none appeared in these matches.
 
 ## Bombsites
 

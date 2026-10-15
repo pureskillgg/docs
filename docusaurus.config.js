@@ -11,6 +11,17 @@ const config = ({ remarkMath, rehypeKatex }) => ({
   url: 'https://docs.pureskill.gg',
   baseUrl: '/',
   favicon: 'https://csgo.cdn.pureskill.app/17.2.0/favicon.ico',
+  // Google Search Console ownership (the HTML-tag method). Not a secret: it is in every
+  // page's source, and it is tied to the Google account that added the property.
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'google-site-verification',
+        content: 'tkpOWdJq8VIcr1N6fkMTOoC4heDB_00B4pv__07hvLI'
+      }
+    }
+  ],
   onBrokenLinks: 'throw',
   markdown: {
     hooks: {
@@ -32,6 +43,8 @@ const config = ({ remarkMath, rehypeKatex }) => ({
     ]
   ],
   themeConfig: {
+    // The image link previews and social cards show for every page.
+    image: 'img/social-card.png',
     colorMode: {
       defaultMode: 'dark',
       disableSwitch: false,

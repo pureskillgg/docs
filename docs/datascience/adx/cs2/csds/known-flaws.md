@@ -52,11 +52,13 @@ not its processing (such as when it was processed, or by which versions).
 - Servers that restrict what their recording broadcasts, as tournament
   servers do, leave `player_blind`, `player_footstep`, `item_equip` and
   `weapon_action` empty; the rest of the match is complete.
-- `player_sound` is empty in most matches, because most demos don't carry
-  that event. The index object marks a channel whose events the demo didn't
-  carry with `available: false`.
+- `player_sound` is empty in most matches parsed before parser 5.7.0
+  (2026-10-12), because most demos don't carry the event it was taken from.
+  From 5.7.0 it holds every sound the game played, on every demo that carries
+  the game's sound messages. The index object marks a channel whose events the
+  demo didn't carry with `available: false`.
 - `player_inputs` is empty in every match recorded after the CS2 update of
-  2026-07-09 and parsed before parser 5.7.0 (2026-10-11), whatever the demo's
+  2026-07-09 and parsed before parser 5.7.0 (2026-10-12), whatever the demo's
   source: the update removed the property the parser read the buttons from,
   and the channel itself dates from 2026-08-03. From 5.7.0 the channel is
   filled on every kind of demo. Matches parsed before then keep their empty
@@ -77,7 +79,9 @@ not its processing (such as when it was processed, or by which versions).
   `item_dropped`, `item_refund`, `molotov_fire`, `player_chat`,
   `player_connect`, `player_inputs`, `player_sound`, `rank_update`,
   `score_update`, `team_change` and `world_item_vector`. Two were removed:
-  `item_remove` and `player_action`. Read each match's `csds` index object
+  `item_remove` and `player_action`. Nine more came later, `convar`,
+  `team_info`, `pause_state`, `smoke_voxel`, `world_object`, `hostage_vector`,
+  `hostage_state`, `player_command` and `player_subtick_input`, for 51; matches processed before them lack them. Read each match's `csds` index object
   rather than assuming a fixed channel list.
 - **`player_vector` stores fewer columns.** Since 2026-10-06 it no longer
   stores its ten derived columns; compute them on load, as the
