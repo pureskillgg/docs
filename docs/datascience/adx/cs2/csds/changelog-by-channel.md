@@ -294,7 +294,7 @@ Dates are the day (UTC) a change reached production.
 
 ## player_subtick_input
 
-- **2026-10-14**, channel added. One row per sub-tick step inside a user command: a button pressed or released (`button`, the bit as in `player_inputs.buttons_mask`, and `pressed`), and `when`, the moment within the tick as a fraction of it. Matches processed before this date, and older CS2 recordings without full user commands, have no rows.
+- **2026-10-14**, channel added. One row per sub-tick step inside a user command: a button pressed or released (`button`, the bit as in `player_inputs.buttons_mask`, and `pressed`), and `when`, the moment within the tick as a fraction of it. Steps that carry only analog movement have `button` 0. Matches processed before this date, and older CS2 recordings without full user commands, have no rows.
 
 ## player_vector
 
