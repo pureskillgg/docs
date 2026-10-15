@@ -187,17 +187,17 @@ is about an inch, so a standing player is about 6 feet tall.
 
 ### Match and round
 
-|                           | Premier, FACEIT |  Competitive |     Wingman | Where to see it                                     |
-| ------------------------- | --------------: | -----------: | ----------: | --------------------------------------------------- |
-| Tick rate                 |              64 |           64 |          64 | `header.tick_rate`                                  |
-| Rounds in regulation      |              24 |           24 |          16 | `header.max_rounds`                                 |
-| Rounds to win             |              13 |           13 |           9 |                                                     |
-| Freeze time               |            20 s |         15 s |        10 s | `header.freeze_time`                                |
-| Buy time after freeze     |            20 s |         20 s |        20 s | `round_freeze_end` to `buytime_ended`               |
-| Round time                |    1:55 (115 s) | 1:55 (115 s) | 1:30 (90 s) | `header.round_time_defuse`, in minutes (1.92, 1.50) |
-| Starting money            |            $800 |         $800 |        $800 | `player_status.money` in round 1                    |
-| Most money a player holds |         $16,000 |      $16,000 |      $8,000 | `player_status.money`                               |
-| Health, armour at most    |             100 |          100 |         100 | `player_status.health`, `armor`                     |
+|                           | Premier, FACEIT |  Competitive |     Wingman | Where to see it                                                                                                                                                                                         |
+| ------------------------- | --------------: | -----------: | ----------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tick rate                 |              64 |           64 |          64 | `header.tick_rate`                                                                                                                                                                                      |
+| Rounds in regulation      |              24 |           24 |          16 | `header.max_rounds`                                                                                                                                                                                     |
+| Rounds to win             |              13 |           13 |           9 |                                                                                                                                                                                                         |
+| Freeze time               |            20 s |         15 s |        10 s | `header.freeze_time`                                                                                                                                                                                    |
+| Buy time after freeze     |            20 s |         20 s |        20 s | `round_freeze_end` to `buytime_ended`                                                                                                                                                                   |
+| Round time                |    1:55 (115 s) | 1:55 (115 s) | 1:30 (90 s) | `header.round_time`, in seconds (115, 90; parser 6.2.0 and later). `header.round_time_defuse` holds the same in minutes (1.92, 1.50), but on FACEIT and league servers it can hold the warmup value (2) |
+| Starting money            |            $800 |         $800 |        $800 | `player_status.money` in round 1                                                                                                                                                                        |
+| Most money a player holds |         $16,000 |      $16,000 |      $8,000 | `player_status.money`                                                                                                                                                                                   |
+| Health, armour at most    |             100 |          100 |         100 | `player_status.health`, `armor`                                                                                                                                                                         |
 
 Round time runs from the end of freeze time. Hostage maps use the same 1:55.
 A few rounds have a longer freeze time than the setting.
