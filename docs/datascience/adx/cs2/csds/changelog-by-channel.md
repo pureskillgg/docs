@@ -71,7 +71,7 @@ Dates are the day (UTC) a change reached production.
 
 ## convar
 
-- **2026-10-15**, channel added. Every setting the game server sent, one row per setting each time the server sent it, in the order sent: `round`, `tick`, `name` and `value` (the server's own string). Valve matchmaking demos send 41 to 47 rows at the start, all at tick 0 except the server's session id, a few dozen ticks later; FACEIT and league servers send 86 to 90 rows, and on FACEIT the match rules (`mp_startmoney`, cash awards) arrive mid-match after the warmup configuration. The setting in effect at a tick is the last row for that name at or before it. The server's session id (`steamworks_sessionid_server`) is blanked in the published data. Matches processed before this date don't have the channel.
+- **2026-10-15**, channel added. Every setting the game server sent, one row per setting each time the server sent it, in the order sent: `round`, `tick`, `name` and `value` (the server's own string). Valve matchmaking demos send 41 to 47 rows at the start, all at tick 0 except the server's session id, a few dozen ticks later; FACEIT and league servers send 86 to 90 rows, and on FACEIT the match rules (`mp_startmoney`, cash awards) arrive mid-match after the warmup configuration. The setting in effect at a tick is the last row for that name at or before it. The server's session id (`steamworks_sessionid_server`) is redacted in the published data. Matches processed before this date don't have the channel.
 
 ## grenade_bounce
 
