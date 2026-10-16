@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- CS2 changelog: add the `convar` channel and `header.is_queued_matchmaking` / `queued_matchmaking_mode` under 2026-10-15 (parser 6.0.0), and `header.round_time`, `objective`, `patch_version`, `is_pov_recording` and `is_truncated` under 2026-10-16 (parser 6.2.0), dated from the production deployments.
 - CS2 spec: the header gains `round_time`, `objective`, `patch_version`, `is_pov_recording` and `is_truncated` (parser 6.2.0). The CS2 changelog gets its entry when the parser reaches production.
 - CS2 changelog: add `player_command` and `player_subtick_input` under 2026-10-14 (provisional).
 - Bring the CS2 spec, data dictionary and changelog pages up to date with parser 6.0.0 and converter 8.8.0 (2026-10-14): `player_footstep` has one row per player, kind and tick and gains the ten merged `player_*` columns, and `player_sound.player_id` is set on sounds whose source reaches the recording later in the tick and on armor purchases.

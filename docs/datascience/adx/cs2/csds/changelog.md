@@ -25,6 +25,28 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
+## 2026-10-16
+
+_Parser 6.2.0._
+
+**Columns added**
+
+- `header.round_time`, `header.objective`: `round_time` is the round length in seconds that the game itself reports (115 on most maps, 90 in wingman), nullable. It is the value most of the match's rounds started with. It is not always `round_time_defuse` times 60: on FACEIT and league servers the first round starts under a warmup configuration (two minutes) and the match rules (1.92 minutes, 115 seconds) are applied a few thousand ticks in, so `round_time_defuse` can hold the warmup value while `round_time` holds the one the match was played with. `objective` is what the map asks of the players: `bomb`, `hostage`, `none` or `both`, nullable. Matches processed before this date have both as null or missing.
+- `header.patch_version`: Integer: the network protocol of the game build that recorded the demo (14176 to 14181 on the matches checked). `build_num` is the game build. This is a real value, unlike the old `network_protocol` column, which was always 1234 and was removed in parser 5.6.0.
+- `header.is_pov_recording`, `header.is_truncated`: Booleans. `is_pov_recording` is true for a recording made on a player's own computer rather than on a server. `is_truncated` is true when the demo ended early: every table holds what the demo reached, and the match is incomplete. A demo cut in the middle of a message is rejected instead and is not delivered.
+
+## 2026-10-15
+
+_Parser 6.0.0 and 6.1.0, converter 8.8.0 and 8.8.1._
+
+**Channels added**
+
+- `convar`: Every setting the game server sent, one row per setting each time the server sent it, in the order sent: `round`, `tick`, `name` and `value` (the server's own string). Valve matchmaking demos send 41 to 47 rows at the start, all at tick 0 except the server's session id, a few dozen ticks later; FACEIT and league servers send 86 to 90 rows, and on FACEIT the match rules (`mp_startmoney`, cash awards) arrive mid-match after the warmup configuration. The setting in effect at a tick is the last row for that name at or before it. The server's session id (`steamworks_sessionid_server`) is redacted in the published data. Matches processed before this date don't have the channel.
+
+**Columns added**
+
+- `header.is_queued_matchmaking`, `header.queued_matchmaking_mode`: Nullable. `is_queued_matchmaking` is true when Valve's matchmaker queued the lobby (Premier, competitive, wingman) and false on FACEIT and league servers. `queued_matchmaking_mode` is 1 for Premier and 0 for the others. Both come from the game itself rather than from rank types and row counts.
+
 ## 2026-10-14
 
 _Parser 6.0.0 and the release after it, converter 8.8.0 and the release after it._
