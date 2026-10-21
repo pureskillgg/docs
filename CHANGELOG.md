@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Drop `player_status.is_spotted` from the CS2 spec and data dictionary.
 - CS2 changelog: add the `convar` channel and `header.is_queued_matchmaking` / `queued_matchmaking_mode` under 2026-10-15 (parser 6.0.0), and `header.round_time`, `objective`, `patch_version`, `is_pov_recording` and `is_truncated` under 2026-10-16 (parser 6.2.0), dated from the production deployments.
 - CS2 spec: the header gains `round_time`, `objective`, `patch_version`, `is_pov_recording` and `is_truncated` (parser 6.2.0). The CS2 changelog gets its entry when the parser reaches production.
 - CS2 changelog: add `player_command` and `player_subtick_input` under 2026-10-14 (provisional).
