@@ -25,9 +25,9 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
-## About 2026-10-21
+## 2026-10-21
 
-_The converter release that stops writing player_status.is_spotted (date provisional)._
+_The converter release that stops writing player_status.is_spotted._
 
 **Columns removed**
 
