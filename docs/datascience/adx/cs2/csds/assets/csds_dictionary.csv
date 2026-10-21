@@ -742,7 +742,6 @@ is_in_bomb_zone,BOOLEAN,,False,,,,,player_status,telemetry
 is_in_buy_zone,BOOLEAN,,False,,,,,player_status,telemetry
 is_reloading,BOOLEAN,,False,,,,,player_status,telemetry
 is_scoped,BOOLEAN,,False,,,,,player_status,telemetry
-is_spotted,BOOLEAN,,False,,,,,player_status,telemetry
 is_walking,BOOLEAN,,False,,,,,player_status,telemetry
 progress_bar_start,DECIMAL,,True,"When the player's last defuse began, in seconds on the clock of second.",Keeps its value after the defuse ends. Null until the first defuse. CS2 doesn't use the bar for planting. From parser 6.0.0.,,,player_status,telemetry
 progress_bar_duration,INTEGER,,True,"The defuse progress bar's length in seconds: 10, or 5 with a kit.",Negative while no bar shows. From parser 6.0.0.,,,player_status,telemetry
