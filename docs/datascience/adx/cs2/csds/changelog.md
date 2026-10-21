@@ -25,6 +25,14 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
+## 2026-10-21
+
+_The converter release that stops writing player_status.is_spotted (date provisional)._
+
+**Columns removed**
+
+- `player_status.is_spotted`: **Breaking:** no longer written, so code that reads it breaks. It was the game's own "spotted" flag on each player, and it proved unreliable as a sign of who could see whom: checked against real kills, it was never set for one victim who was being shot, and set only a fraction of a second before another kill. Matches published earlier keep the column. Some later manifests still list it, with origin `replay-deleted` and no data behind it.
+
 ## 2026-10-16
 
 _Parser 6.2.0._
