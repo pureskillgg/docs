@@ -25,6 +25,14 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
+## 2026-10-31
+
+_The parser release after 7.0.1._
+
+**Columns added**
+
+- `player_status.is_silent_reload`: Boolean, nullable: true while the player's held weapon is reloading silently. CS2's update of 2026-09-22 lets a player reload silently, and more slowly, by holding the reload key. It is true only while the weapon is in a reload (`is_in_reload`), from the moment the game marks the reload silent, about a quarter of a second in. A silent reload's magazine lands up to twice as late as a normal one's. It is null when no weapon is held, and on every match recorded before the 2026-09-22 update, since those demos don't carry the game's flag. Matches processed before this date don't have the column.
+
 ## 2026-10-21
 
 _The converter release that stops writing player_status.is_spotted._
