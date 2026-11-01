@@ -749,6 +749,7 @@ last_injury_time,DECIMAL,,True,"When the player last took damage, in seconds on 
 is_in_reload,BOOLEAN,,True,The held weapon's reload flag.,Unlike is_reloading it falls as soon as a reload stops; about a third of reloads end early in a weapon switch. Null with no weapon held. From parser 6.0.0.,,,player_status,telemetry
 reserve_ammo,INTEGER,,True,The held weapon's reserve ammunition.,"Drops by one magazine per completed reload. Null for knives, grenades and equipment, and with no weapon held. From parser 6.0.0.",,,player_status,telemetry
 deploy_tick,INTEGER,,True,The tick the held weapon was drawn.,Joinable on tick. Null with no weapon held. From parser 6.0.0.,,,player_status,telemetry
+is_silent_reload,BOOLEAN,,True,"Whether the held weapon is reloading silently, CS2's hold-to-reload since 2026-09-22.","True only while is_in_reload is true, from about a quarter of a second into the reload. Null with no weapon held, and on matches recorded before the 2026-09-22 update.",,,player_status,telemetry
 second,DECIMAL,,True,,,,,player_status,telemetry
 player_id_fixed,INTEGER,,True,Calculated from steam_id and player_id in player_personal. Merging done on round and player_id,Merged from another channel. Null where no source row matches.,,,player_status,telemetry
 equipment_value_calc,INTEGER,,True,,,,,player_status,telemetry

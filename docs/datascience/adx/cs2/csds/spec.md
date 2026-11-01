@@ -1329,6 +1329,14 @@ the tick the held weapon was drawn, joinable on `tick`. The game keeps
 clock; the converter moves them onto the recording's clock with
 `header.server_start_tick`, hence `replay_fixed`, and keeps no `*_raw` copy.
 
+`is_silent_reload` is true while the held weapon reloads silently. Since CS2's
+update of 2026-09-22, a player who holds the reload key reloads silently and
+more slowly, and the game marks the weapon. The column is true only while
+`is_in_reload` is true, from the moment the game marks the reload silent, about a
+quarter of a second in. A silent reload's magazine lands up to twice as late as
+a normal one's. It is null when no weapon is held, and on matches recorded
+before that update, whose demos don't carry the mark.
+
 | Col Name                      | Type    | Nullable | Origin          | Dependents                                                                                                                                                            | Merge Keys                 |
 | ----------------------------- | ------- | -------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
 | tick                          | int32   | False    | replay          |                                                                                                                                                                       |                            |
@@ -1376,6 +1384,7 @@ clock; the converter moves them onto the recording's clock with
 | is_in_reload                  | bool    | True     | replay          |                                                                                                                                                                       |                            |
 | reserve_ammo                  | int64   | True     | replay          |                                                                                                                                                                       |                            |
 | deploy_tick                   | int64   | True     | replay_fixed    |                                                                                                                                                                       |                            |
+| is_silent_reload              | bool    | True     | replay          |                                                                                                                                                                       |                            |
 | second                        | float32 | True     | calculated      | tick, tick_rate                                                                                                                                                       |                            |
 | player_id_fixed               | int8    | True     | merged          |                                                                                                                                                                       | player_id, round, steam_id |
 | equipment_value_calc          | int16   | True     | calculated      | inv_flashbang, inv_taser, inv_hegrenade, inv_smokegrenade, inv_molotov, inv_decoy, inv_incgrenade, inv_c4, armor, has_defuser, has_helmet, inv_primary, inv_secondary |                            |
