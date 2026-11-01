@@ -474,9 +474,10 @@ and how the recording went:
   value.)
 - `is_pov_recording` is true for a recording made on a player's own computer
   rather than on a server.
-- `is_truncated` is true when the demo ended early. Every table holds what the
-  demo reached; the match is incomplete. A demo cut in the middle of a message
-  is rejected instead and is not delivered.
+- `is_truncated` is true when the demo ended early, including a demo cut in
+  the middle of a message. Every table holds what the demo reached; the match
+  is incomplete. Before the parser release of 2026-11-02 a demo cut in the
+  middle of a message was rejected instead and not delivered.
 
 | Col Name                   | Type    | Nullable | Origin              | Dependents                                                                                       | Merge Keys |
 | -------------------------- | ------- | -------- | ------------------- | ------------------------------------------------------------------------------------------------ | ---------- |

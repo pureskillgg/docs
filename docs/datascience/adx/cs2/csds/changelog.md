@@ -25,6 +25,27 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
+## 2026-11-02
+
+_The parser release after 7.1.0 (demoinfocs-golang v6.0.0-rc.1)._
+
+**Values changed**
+
+- `molotov_fire`: Rarely, an inferno's not-burning rows come a little earlier (78 ticks on the one match seen), because the library now reports that inferno's end earlier.
+
+**Fixes**
+
+- `player_sound.source`, `player_sound.player_id`: A sound from an entity whose index the server had reused was credited to the stale weapon the parser library still kept at that index, and so to that weapon's last owner. Fixed in the library: about 0.7% of rows change, nearly all grenade sounds whose `source` moves from `weapon` to `grenade`, some of them to another `player_id`. Row counts are unchanged.
+- `world_object`: Has the `cleanup` rows (and a few `broken` ones) of entities the server replaced at a reused index without deleting them, which the parser library never reported as removed: about 2,500 more rows a round on the matches affected, about half of them.
+- `world_item_vector`: No longer has a row for a gun that sits on the ground for one tick before its owner resolves, at the start of the demo (round 0).
+- `player_command`, `player_subtick_input`, `player_inputs`: Have the user commands a player sends as deltas before their first full command: a few more rows in round 1 on some matches.
+- `bomb_action`: No `bomb_abort_plant` row without a plant begun; rare.
+- `player_personal.steam_id`, `player_personal.name`, `player_name`: Rare: where the old library read a player-info entry under the wrong slot, one player took another's name and Steam ID for a few rounds and the other's name reverted to a stale one. The entry is read under its own slot now. Players' names are otherwise unchanged: the parser keeps the name each player connected with, as before.
+
+**Delivery**
+
+- A match whose demo was cut in the middle of a message is published now, as a truncated match (`header.is_truncated` true, every channel holds what the demo reached); before, it failed to parse and was not published. Client (POV) recordings in which a fire had gone out before its entity came back into view no longer fail to parse either.
+
 ## 2026-10-31
 
 _The parser release after 7.0.1._
