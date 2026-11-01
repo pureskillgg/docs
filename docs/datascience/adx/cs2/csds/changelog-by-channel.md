@@ -15,6 +15,7 @@ Dates are the day (UTC) a change reached production.
 
 ## All channels
 
+- **2026-11-02**, delivery. A match whose demo was cut in the middle of a message is published now, as a truncated match (`header.is_truncated` true, every channel holds what the demo reached); before, it failed to parse and was not published. Client (POV) recordings in which a fire had gone out before its entity came back into view no longer fail to parse either.
 - **2026-10-12**, delivery. Each match is delivered as one zip, `csds/YYYY/MM/DD/<id>.zip`, instead of 43 separate objects. Its entries are the same files under their full keys, stored without recompression, so unzipping it where `csds/` sits rebuilds the old layout; dsdk 4.1.0's `extract_adx_zips` does that, and `download_adx_dataset_revision` unzips for you. Matches processed after 21:22 UTC are zipped, so the 2026-10-12 revision holds both kinds. See [Getting the Data](./getting-the-data.md#file-layout).
 - **2026-09-07**, delivery. The daily revision now closes reliably. Before, when a close failed, that day's matches were published in the next revision, so one revision could hold more than one day.
 - **2026-07-08**, file format. Parquet files are compressed with ZSTD instead of GZIP. Values are unchanged; your Parquet reader needs ZSTD support.
@@ -39,6 +40,7 @@ Dates are the day (UTC) a change reached production.
 
 ## bomb_action
 
+- **2026-11-02**, fixes. No `bomb_abort_plant` row without a plant begun; rare.
 - **2026-10-06**, types changed: `event_type`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 - **2026-10-05**, fixes: `player_id`. Set on `bomb_pickup` rows. It was null on all of them, so those rows joined to no player and carried no player position.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
@@ -157,6 +159,7 @@ Dates are the day (UTC) a change reached production.
 
 ## molotov_fire
 
+- **2026-11-02**, values changed. Rarely, an inferno's not-burning rows come a little earlier (78 ticks on the one match seen), because the library now reports that inferno's end earlier.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-08-22**, column added: `entity_id_fixed`. The `molotov_state.entity_id_fixed` of the fire this flame belongs to, or -1 if unmatched. Join on this, not on `entity_id`, which the game reuses.
 - **2026-08-03**, channel added. Each flame of each molotov or incendiary fire, when it ignites and when it goes out.
@@ -203,6 +206,7 @@ Dates are the day (UTC) a change reached production.
 
 ## player_command
 
+- **2026-11-02**, fixes. Have the user commands a player sends as deltas before their first full command: a few more rows in round 1 on some matches.
 - **2026-10-14**, channel added. One row per user command, what each player's game sent the server for one tick, about a million rows a match. `mouse_dx` and `mouse_dy` are the mouse movement in raw counts, `forward_move` and `left_move` the movement keys (−1, 0 or 1), `weapon_select` the weapon switched to (0 when none), and `command_number` counts each player's commands. The view angles and held buttons are in `player_vector` and `player_inputs`. Matches processed before this date, and older CS2 recordings without full user commands, have no rows.
 
 ## player_connect
@@ -251,6 +255,7 @@ Dates are the day (UTC) a change reached production.
 
 ## player_inputs
 
+- **2026-11-02**, fixes. Have the user commands a player sends as deltas before their first full command: a few more rows in round 1 on some matches.
 - **2026-10-12**, fixes. Has rows again, on every kind of demo: which buttons each player held, a row whenever that changed (6,600 to 82,000 rows a match across a 50-match sample). The CS2 update of 2026-07-09 removed the player property the parser read them from, so the channel, added on 2026-08-03, has been empty on every match recorded since that update, whatever its source; the 2026-08-03 entry's "empty on Valve matchmaking demos" understated it. Parser 5.7.0 (demoinfocs-golang v6) rebuilds the button state from the user commands the demo carries. Matches parsed before this date keep their empty channel.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
@@ -259,17 +264,20 @@ Dates are the day (UTC) a change reached production.
 
 ## player_name
 
+- **2026-11-02**, fixes. Rare: where the old library read a player-info entry under the wrong slot, one player took another's name and Steam ID for a few rounds and the other's name reverted to a stale one. The entry is read under its own slot now. Players' names are otherwise unchanged: the parser keeps the name each player connected with, as before.
 - **2026-10-06**, types changed: `name_new`, `name_old`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 - **2026-08-03**, values changed. Records name changes. It had no rows in any CS2 data before.
 
 ## player_personal
 
+- **2026-11-02**, fixes: `steam_id`, `name`. Rare: where the old library read a player-info entry under the wrong slot, one player took another's name and Steam ID for a few rounds and the other's name reverted to a stale one. The entry is read under its own slot now. Players' names are otherwise unchanged: the parser keeps the name each player connected with, as before.
 - **2026-10-05**, fixes. Every player who spawns in a round that reaches freeze end has a row for that round. Before, a player missing from the round's roster, such as one who joined or reconnected late, had none, so their rows in that round joined to no player.
 - **2026-06-07**, fixes: `player_id`. When a round records the same `player_id` for two players, the player's controller id is used instead. A match that would still have duplicate `tick` and `player_id_fixed` rows fails processing and is not published.
 - **2023-12-09**, column added: `player_controller_id`. The player's controller id, stable for a player slot. Joins `player_status` rows to `player_personal`.
 
 ## player_sound
 
+- **2026-11-02**, fixes: `source`, `player_id`. A sound from an entity whose index the server had reused was credited to the stale weapon the parser library still kept at that index, and so to that weapon's last owner. Fixed in the library: about 0.7% of rows change, nearly all grenade sounds whose `source` moves from `weapon` to `grenade`, some of them to another `player_id`. Row counts are unchanged.
 - **2026-10-14**, fixes: `player_id`, `source`. Set on more sounds. A sound whose source reaches the recording later in the same tick, such as a bought weapon or a molotov's fire, gets its player and its `source`, and an armor purchase goes to the player whose armor rose on that tick. Before, both had no player and `source` `other`. On a 50-match sample, `other` fell from 3.3% of sounds to 0.8%, and 21,250 sounds gained a player; no sound that had a player changed, and no rows were added or removed.
 - **2026-10-12**, values changed. Holds every sound the game played, about 16,000 rows a match: each player's steps, jumps and landings, pickups and damage heard by others, and the world's and the grenades' sounds. Before, it came from the `player_sound` game event, which most demos don't carry, so the channel was empty on most matches. Its `available` flag in the index object is now true on every demo that carries the game's sound messages. A demo with none falls back to the game event, one row per event with `sound` `player_sound`. A sound the game played twice on one tick is two rows.
 - **2026-10-12**, columns added: `sound`, `source`. Strings. `sound` is the game's name for the sound (`Player.PickupWeapon`), or its hash as 8 hex digits when the parser's list of names lacks it. `source` says what made it: `player`, `weapon` (one a player carries), `grenade`, `world` or `other`.
@@ -304,6 +312,7 @@ Dates are the day (UTC) a change reached production.
 
 ## player_subtick_input
 
+- **2026-11-02**, fixes. Have the user commands a player sends as deltas before their first full command: a few more rows in round 1 on some matches.
 - **2026-10-14**, channel added. One row per sub-tick step inside a user command: a button pressed or released (`button`, the bit as in `player_inputs.buttons_mask`, and `pressed`), and `when`, the moment within the tick as a fraction of it. Steps that carry only analog movement have `button` 0. Matches processed before this date, and older CS2 recordings without full user commands, have no rows.
 
 ## player_vector
@@ -401,9 +410,11 @@ Dates are the day (UTC) a change reached production.
 
 ## world_item_vector
 
+- **2026-11-02**, fixes. No longer has a row for a gun that sits on the ground for one tick before its owner resolves, at the start of the demo (round 0).
 - **2026-10-12**, fixes: `prev_owner_id`. The same on every parse of a demo. Before, on some matches (seen on FACEIT demos) about twenty rows a match could name a different previous owner from one parse to the next. A match is parsed once, so a published match was self-consistent, but processing the same demo again could change this column.
 - **2026-08-03**, channel added. Positions of items lying on the ground, a row whenever one moved.
 
 ## world_object
 
+- **2026-11-02**, fixes. Has the `cleanup` rows (and a few `broken` ones) of entities the server replaced at a reused index without deleting them, which the parser library never reported as removed: about 2,500 more rows a round on the matches affected, about half of them.
 - **2026-10-14**, channel added. The map's doors and breakable parts, one row per change: doors opening and closing (`spawned`, `opening`, `open`, `closing`, `closed`), the doors built into the map on cs_office and Vertigo moving (`moving`), and props, vents and Nuke's glass being destroyed (`broken`), with the player who broke one when there is one (`by_player_id`). `cleanup` rows are the map being reset between rounds, not breaks. Matches processed before this date don't have the channel.
