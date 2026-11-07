@@ -113,8 +113,11 @@ csds/
   file extensions. Keep the whole key when you download or unzip: the
   libraries find a match's files by it.
 - **Channel files** are [Apache Parquet], compressed with ZSTD since
-  2026-07-08 (GZIP before). Any Parquet reader opens them, for example
-  `pandas.read_parquet(path)`.
+  2026-07-08 (GZIP before). Read them with pyarrow, polars, or DuckDB, for
+  example `pandas.read_parquet(path, engine="pyarrow")`. fastparquet can't
+  read the player tables, or most other channels of newer matches, because
+  their floats use Parquet's byte stream split encoding (see
+  [The player tables](./spec.md#the-player-tables) in the spec).
 - **The index object** is JSON compressed with gzip:
   `json.loads(gzip.decompress(open(path, "rb").read()))`.
 - **Object counts.** A zipped match is one object holding 56 files, or fewer in
