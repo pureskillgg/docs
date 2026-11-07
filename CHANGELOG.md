@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- CS2 changelog: add the converter release's tuned Parquet encodings for every channel (provisional, 2026-11-07), and say in the spec that fastparquet can't read most channels from that release.
+- CS2 changelog: add the converter release's tuned Parquet encodings for every channel (provisional, 2026-11-07), and say in the spec and Getting the Data that fastparquet can't read most channels from that release.
 - CS2 changelog: add the removal of `player_status.is_spotted` under 2026-10-21.
 - Drop `player_status.is_spotted` from the CS2 spec and data dictionary.
 - CS2 changelog: add the `convar` channel and `header.is_queued_matchmaking` / `queued_matchmaking_mode` under 2026-10-15 (parser 6.0.0), and `header.round_time`, `objective`, `patch_version`, `is_pov_recording` and `is_truncated` under 2026-10-16 (parser 6.2.0), dated from the production deployments.
