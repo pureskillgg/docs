@@ -5,22 +5,50 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 1.0.17
+
+### Changed
+
+- CI runs on pushes and PRs to master and `ver/**` only. Rename the workflows as they show on the Actions tab (CI, Format, Cut version, Publish) with readable run titles; one version cut at a time, with a required version input; the version tag is pushed only together with its branch (`git push --atomic`); format skips fork and Dependabot PRs.
+
+## 1.0.16
+
+### Added
+
+- `player_status.is_silent_reload` in the CS2 spec and data dictionary, and in the CS2 changelog under 2026-10-31 (provisional: the date is corrected when the parser release with the column reaches production).
+
+## 1.0.15
 
 ### Changed
 
 - CS2 changelog: add the removal of `player_status.is_spotted` under 2026-10-21.
 - Drop `player_status.is_spotted` from the CS2 spec and data dictionary.
+
+## 1.0.14
+
+### Changed
+
 - CS2 changelog: add the `convar` channel and `header.is_queued_matchmaking` / `queued_matchmaking_mode` under 2026-10-15 (parser 6.0.0), and `header.round_time`, `objective`, `patch_version`, `is_pov_recording` and `is_truncated` under 2026-10-16 (parser 6.2.0), dated from the production deployments.
+
+## 1.0.13
+
+### Changed
+
 - CS2 spec: the header gains `round_time`, `objective`, `patch_version`, `is_pov_recording` and `is_truncated` (parser 6.2.0). The CS2 changelog gets its entry when the parser reaches production.
 - CS2 changelog: add `player_command` and `player_subtick_input` under 2026-10-14 (provisional).
-- Bring the CS2 spec, data dictionary and changelog pages up to date with parser 6.0.0 and converter 8.8.0 (2026-10-14): `player_footstep` has one row per player, kind and tick and gains the ten merged `player_*` columns, and `player_sound.player_id` is set on sounds whose source reaches the recording later in the tick and on armor purchases.
-- CS2 delivery: newer revisions deliver each match as one zip, `csds/YYYY/MM/DD/<id>.zip`, instead of 43 objects. Getting the Data, the Quickstart, the data set page and the FAQ's cost answers say how to unzip them (dsdk's `extract_adx_zips`) and what it changes for cost.
 
 ### Added
 
-- `player_status.is_silent_reload` in the CS2 spec and data dictionary, and in the CS2 changelog under 2026-10-31 (provisional: the date is corrected when the parser release with the column reaches production).
 - The CS2 spec and data dictionary describe four new channels, `map_ping` (ping-button markers), `player_round_stats` (the game's own per-round scoreboard), `round_facts` (the round-end fun fact) and `vote` (finished team votes), and `tick`'s `host_time_us` and `host_time_sd_us`. Channel counts across the docs go to 55.
+
+## 1.0.12
+
+### Changed
+
+- Bring the CS2 spec, data dictionary and changelog pages up to date with parser 6.0.0 and converter 8.8.0 (2026-10-14): `player_footstep` has one row per player, kind and tick and gains the ten merged `player_*` columns, and `player_sound.player_id` is set on sounds whose source reaches the recording later in the tick and on armor purchases.
+
+### Added
+
 - `player_command` and `player_subtick_input` in the CS2 spec and data dictionary, and 51 channels in the counts.
 - `player_personal`'s client-settings columns (`crosshair_code` and the four `viewmodel_*` columns) in the CS2 spec and data dictionary, marked as redacted in the data set.
 - `grenade_vector`'s throw columns in the CS2 spec and data dictionary.
@@ -35,10 +63,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - A 2026-10-12 entry on the CS2 changelog pages: each match is delivered as one zip from that day.
 - CSDS spec: the `smoke_voxel` channel (rushb 5.8.0): each smoke's seed cells and the map blocks around it, and how to fill in the smoke's shape from them.
 - A changelog entry for `smoke_voxel` on the CS2 changelog pages, dated 2026-10-14 with the other parser 6.0.0 entries (provisional until its production day is known).
+
+## 1.0.11
+
+### Changed
+
+- CS2 delivery: newer revisions deliver each match as one zip, `csds/YYYY/MM/DD/<id>.zip`, instead of 43 objects. Getting the Data, the Quickstart, the data set page and the FAQ's cost answers say how to unzip them (dsdk's `extract_adx_zips`) and what it changes for cost.
+
+### Added
+
 - Game constants on the CS2 Enums page: tick rate, rounds, freeze, buy and round time, money and health limits, overtime, the bomb and utility timers, player size, jump heights and eye height, and top movement speed by weapon, walking, crouched, scoped and carrying a hostage. All but the eye heights, which are the game's values, were measured on the 50-match regression corpus.
+
+## 1.0.10
+
+### Changed
+
+- Bring the CS2 changelog pages up to date with parser 5.7.0 (2026-10-12): `player_inputs` has rows again on every kind of demo, after being empty on every match recorded since the CS2 update of 2026-07-09 (the channel itself dates from 2026-08-03), and `world_item_vector.prev_owner_id` is the same on every parse. Known Flaws no longer lists `player_inputs` among the channels most demos leave empty.
+
+## 1.0.9
+
+### Changed
+
+- The data is licensed under CC BY-NC-SA 4.0. The CS2 data set page, datasheet, Getting the Data and the FAQ no longer call the Data Subscriber Agreement the license.
+- Link the Known Flaws and Datasheet pages from the homepage's Explore the docs cards.
+- Describe the compact `player_vector` and `player_status` in the CS2 spec, written since converter 8.6.0: rows sorted by player then tick, `current_ammo`'s `-1` where an older parser wrapped an empty magazine, the types pandas reads, narrow-integer wraparound, the old format, and how pandas, polars and DuckDB read old and compact files together. fastparquet can't read the compact files. The data dictionary notes `current_ammo` and `place_name`.
+- Add the 2026-10-05 entries for the compact player tables and for parser 5.4.1's fixes to the CS2 CSDS changelog pages: `current_ammo` reads the real magazine count, `player_spawn.round` is the round spawned into, `player_info` and `player_personal` cover every spawn, and `inv_flashbang` counts up to 2.
+
+## 1.0.8
+
+### Added
+
 - A CS2 page on how the data fits together: what a row is in each kind of channel, ticks and seconds, how rounds are numbered, following a player, sides and the half, where player state lives, and how event channels carry positions (with a tested example of joining another column), measured on the 89 matches published 2026-10-07.
-- A CS2 CSDS page on positions and view angles: what x, y, z, `theta_ang` and `phi_ang` measure, with figures, and the formula for the angle between a player's view and any point. The spec links to it.
-- Render LaTeX maths in the docs with `remark-math` and `rehype-katex`.
 - A CS2 Datasheet page. The Datasheets for Datasets answers move there from the data set page, which keeps its data dictionary and glossary and links to it.
 - A landing page at `/` in place of the markdown homepage: what the data set is, how to get it, every object in a match linked to its section of the spec, and the docs worth reading first.
 - A CS2 Quickstart page: subscribe, export a day to S3, download it, load a match with dsdk, add `player_vector`'s derived columns, and query a day through tomes. Every Python block was run on a copy of the 2026-10-07 revision.
@@ -49,24 +104,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Bring the CS2 changelog pages up to date with parser 5.7.0 (2026-10-12): `player_inputs` has rows again on every kind of demo, after being empty on every match recorded since the CS2 update of 2026-07-09 (the channel itself dates from 2026-08-03), and `world_item_vector.prev_owner_id` is the same on every parse. Known Flaws no longer lists `player_inputs` among the channels most demos leave empty.
-- The data is licensed under CC BY-NC-SA 4.0. The CS2 data set page, datasheet, Getting the Data and the FAQ no longer call the Data Subscriber Agreement the license.
 - CS2 datasheet, from the ethics review: some players can be linked across matches, the data almost certainly includes players under 18, the Terms of Service don't mention the data set, and it may not be used for cheats.
 - Link Data Science, the CSDS Spec and the Changelog from the navbar, move the social links into the footer, and replace the "Beep Boop." tagline.
-- Link the Known Flaws and Datasheet pages from the homepage's Explore the docs cards.
 - Bring the CS2 spec, data dictionary and changelog pages up to date with parser 5.5.0 and 5.6.0 (2026-10-05): `grenade_id` in `grenade_vector`, `grenade_bounce` and `grenade_state`, and `grenade_vector.grenade_weapon_code` added; `grenade_vector.grenade_type_code` and `item_equip.def_index` removed; `header.rank_type` added and `header.network_protocol` removed; `rank_update.rank_change` an integer; `bomb_action.player_id` set on pickups and `bullet_damage.num_penetrations` counted.
 - Bring the CS2 datasheet up to date: rounds removed before publication, Revision Stats for counts, splitting by match to avoid leakage, why duplicates happen, Known Flaws for what is missing, manual uploads (which may include no PureSkill.gg user), where radar data lives, how the data is extracted and processed, how long demos are kept, the yearly prune, the changelog as the erratum, and a plain "No" on third-party restrictions.
 - Say what is removed before publication instead of calling identification impossible, on the datasheet and in the Data Science FAQ, and list on PII Removal what is published as recorded (`header.server_name`, and `header.match_date` to the second).
 - Update the Data Science FAQ's retention answer (a yearly prune; 408 revisions from 2025-07-19 on 2026-10-09) and say a pruned revision may be restored on request with a good reason.
 - Update the Cost FAQ's sizes, measured on 2026-10-09: about 10 MB per match since 2026-10-06, and `player_vector` with `player_status` about 7 MB of it.
 - Point "How can I get started?" in the Data Science FAQ at the Quickstart; the tutorial stays as a longer course, noted as written for older data. The data set page links both new pages, and the landing page's "Start with the Quickstart" button and steps point at it, with the tutorial as an Explore card; Explore also gains Enums and Getting the Data.
-- Refresh the CS2 Revision Stats page through the 2026-10-09 revision: 408 revisions, 37,881 matches, 1.37 TB.
-- Add a size per match column to the CS2 Revision Stats page.
 - Add a data change column to the CS2 Revision Stats page, linking each revision to the changelog entries it is the first to carry.
 - Date the removal of `player_vector`'s ten derived columns 2026-10-06, the day converter 8.7.3 reached production, not about 2026-10-05.
 - Add converter 8.7.4's changes to the CS2 CSDS changelog pages, dated 2026-10-06: the molotov flags as booleans, empty columns written at their own type, and the index object declaring every column's written type and nullability.
-- Describe the compact `player_vector` and `player_status` in the CS2 spec, written since converter 8.6.0: rows sorted by player then tick, `current_ammo`'s `-1` where an older parser wrapped an empty magazine, the types pandas reads, narrow-integer wraparound, the old format, and how pandas, polars and DuckDB read old and compact files together. fastparquet can't read the compact files. The data dictionary notes `current_ammo` and `place_name`.
-- Add the 2026-10-05 entries for the compact player tables and for parser 5.4.1's fixes to the CS2 CSDS changelog pages: `current_ammo` reads the real magazine count, `player_spawn.round` is the round spawned into, `player_info` and `player_personal` cover every spawn, and `inv_flashbang` counts up to 2.
+
+## 1.0.7
+
+### Added
+
+- A CS2 CSDS page on positions and view angles: what x, y, z, `theta_ang` and `phi_ang` measure, with figures, and the formula for the angle between a player's view and any point. The spec links to it.
+- Render LaTeX maths in the docs with `remark-math` and `rehype-katex`.
+
+### Changed
+
+- Refresh the CS2 Revision Stats page through the 2026-10-09 revision: 408 revisions, 37,881 matches, 1.37 TB.
+- Add a size per match column to the CS2 Revision Stats page.
 
 ## 1.0.6
 
