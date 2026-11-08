@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/@pureskillgg/docs.svg)](https://www.npmjs.com/package/@pureskillgg/docs)
 [![docs](https://img.shields.io/badge/docs-online-informational)](https://dev.pureskill.gg/docs/)
-[![GitHub Actions](https://github.com/pureskillgg/docs/workflows/main/badge.svg)](https://github.com/pureskillgg/docs/actions)
+[![GitHub Actions](https://github.com/pureskillgg/docs/actions/workflows/main.yml/badge.svg)](https://github.com/pureskillgg/docs/actions)
 
 PureSkill.gg community documentation.
 
@@ -87,7 +87,7 @@ Publishing may be triggered using on the web
 using a [workflow_dispatch on GitHub Actions].
 
 [npm-version]: https://docs.npmjs.com/cli/version
-[workflow_dispatch on GitHub Actions]: https://github.com/pureskillgg/docs/actions?query=workflow%3Aversion
+[workflow_dispatch on GitHub Actions]: https://github.com/pureskillgg/docs/actions/workflows/version.yml
 
 ## GitHub Actions
 
