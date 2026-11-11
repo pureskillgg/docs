@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- CS2 changelog: add the converter release's tuned Parquet encodings for every channel (provisional, 2026-11-07), and say in the spec and Getting the Data that fastparquet can't read most channels from that release.
 - CS2 changelog: add the removal of `player_status.is_spotted` under 2026-10-21.
 - Drop `player_status.is_spotted` from the CS2 spec and data dictionary.
 

@@ -190,9 +190,11 @@ integers, `double` floats, plain strings, rows in tick order, and
 `header.ppp_version` names the converter release that built it, and each
 file's own schema says which format it is.
 
-**Reading the files.** pyarrow (pandas' default engine), polars and DuckDB
-read both formats. fastparquet can't read the compact files: their floats
-use Parquet's byte stream split encoding, which it doesn't support.
+**Reading the files.** pyarrow (pandas' default engine), polars, and DuckDB
+read every format. fastparquet can't read files that use Parquet's byte
+stream split encoding, which it doesn't support: the compact player tables,
+and, from the converter release after 9.0.2, most other channels too, whose
+float columns use it wherever it makes them smaller.
 
 **Reading old and compact files together.** pandas widens on its own;
 polars and DuckDB need to be told to:

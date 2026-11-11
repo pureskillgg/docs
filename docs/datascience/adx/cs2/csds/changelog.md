@@ -25,6 +25,14 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
+## 2026-11-07
+
+_The converter release after 9.0.2._
+
+**File format**
+
+- Every channel is written with the Parquet encoding that suits each column best, and compressed at ZSTD level 3, so a match's files are about a third smaller. Values, nulls, types, row order, and the saved schema are unchanged. Float columns in most channels now use Parquet's byte stream split encoding, which fastparquet can't read; pyarrow (pandas' default engine), polars, and DuckDB read both the old and the new files.
+
 ## 2026-11-02
 
 _The parser release after 7.1.0 (demoinfocs-golang v6.0.0-rc.1)._
