@@ -38,7 +38,7 @@ Dates are the day (UTC) a change reached production.
 ## Index object
 
 - **2026-10-16**, index object. `map_ping`, `player_round_stats`, `round_facts` and `vote` carry `available` too.
-- **2026-10-15**, index object. More channels carry `available`: the new `hostage_state`, `hostage_vector`, `smoke_voxel`, `world_object`, `player_command` and `player_subtick_input`, and `player_blind`, `bomb_defuse` and `other_death`, which carry it as true when they have rows.
+- **2026-10-15**, index object. More channels carry `available`: the new `hostage_state`, `hostage_vector`, `smoke_voxel`, `world_object`, `player_command` and `player_subtick_input`, and `player_blind`, `bomb_defuse` and `other_death`, which carry it, as `true`, only when they have rows; an empty one has no `available` key.
 - **2026-10-06**, index object. Every column's entry gives the type it is written as and whether it can be null, and every merged and calculated column is declared nullable. Before, most columns declared a narrower type than the one written (`int32`, `float32`) or one with no width (`int`), and merged and calculated columns declared neither.
 - **2026-09-07**, index object. The `tick` channel's category is now `telemetry` (was `single_event`).
 - **2026-08-22**, index object. The index stops listing 62 columns that were never written. They are the header's `protocol`, `playback_time`, `playback_ticks`, `playback_frames`, `signon_length` and `second`, and the `player_tick` and `player_player_id` entries (and their `attacker_` and `assister_` forms) in 21 event channels. Duplicate entries are gone too: `player_vector`'s velocities, `round_state.second` and several header columns.

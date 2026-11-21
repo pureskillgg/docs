@@ -176,7 +176,7 @@ _Parser 6.0.0 and 6.1.0, converter 8.8.0 and 8.8.1._
 
 **Index object**
 
-- More channels carry `available`: the new `hostage_state`, `hostage_vector`, `smoke_voxel`, `world_object`, `player_command` and `player_subtick_input`, and `player_blind`, `bomb_defuse` and `other_death`, which carry it as true when they have rows.
+- More channels carry `available`: the new `hostage_state`, `hostage_vector`, `smoke_voxel`, `world_object`, `player_command` and `player_subtick_input`, and `player_blind`, `bomb_defuse` and `other_death`, which carry it, as `true`, only when they have rows; an empty one has no `available` key.
 
 ## 2026-10-12
 

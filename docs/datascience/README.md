@@ -14,7 +14,7 @@ third-parties.
 Contains full player telemetry and timestamped game events.
 A new revision is published every day. Each match is one zip of 56 files: 55
 channel files plus an index object. Older revisions in the window hold fewer
-channels, and those before 2026-10-12 deliver the files loose; the
+channels, and those through 2026-10-12 deliver the files loose; the
 [archive](/datascience/old/#what-older-revisions-hold) says what each holds.
 
 The data set carried Counter-Strike: Global Offensive (CS:GO) data until CS2
@@ -62,7 +62,8 @@ At least a year. A revision is published each day, and revisions more than
 about a year old are revoked and emptied in a batch about once a year, most
 recently in July 2026. So the data set holds a window of one to two years
 rather than a growing archive: about a year just after a prune, growing until
-the next. On 2026-11-20 it held 447 daily revisions covering 2025-07-19 onward.
+the next. On 2026-11-21 it held 447 daily revisions, from 2025-07-19 to
+2026-11-20.
 
 If you need a particular stretch of time, export it rather than assuming it
 will still be there. Pruned revisions are archived for our own records. If you
@@ -208,17 +209,17 @@ but we do not guarantee their accuracy or applicability to your AWS account.
 
 Measured on the production data set on 2026-11-21:
 
-| What                      | How big                                                                                                                           |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| One match                 | about 15 MB, one zip of 56 files, since 2026-11-15; older matches differ ([archive](/datascience/old/#what-older-revisions-hold)) |
-| One recent daily revision | usually 400 to 650 matches, about 6 to 10 GB, one object a match; a backlog makes a few days much bigger                          |
-| The whole retained window | 447 daily revisions, 74,334 matches, 2.04 TB; [Revision Stats][revision stats] has each day's size and count                      |
+| What                      | How big                                                                                                                                  |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| One match                 | about 15 MB, one zip of 56 files, since 2026-11-15; older matches differ ([archive](/datascience/old/#what-older-revisions-hold))        |
+| One recent daily revision | usually 400 to 650 matches, one object a match; about 6 to 10 GB since 2026-11-15, 11 to 15 GB before; a backlog makes a few days bigger |
+| The whole retained window | 447 daily revisions, 74,334 matches, 2.04 TB; [Revision Stats][revision stats] has each day's size and count                             |
 
 Exporting from the AWS Data Exchange writes those objects into an S3 bucket you
 own, so you pay per object written and then for storing them. Pulling them out
 of AWS afterwards adds data transfer. Check the current [S3 pricing] for your
 region before starting a large export; the object count matters as much as the
-byte count. Revisions from 2026-10-12 deliver each match as one zip, so a
+byte count. From the 2026-10-13 revision on, each match comes as one zip, so a
 match is one object instead of 31 or 43; the bytes are about the same, since
 the zip stores its files as they are and adds only a few KB of headers.
 
@@ -226,8 +227,8 @@ the zip stores its files as they are and adds only a few KB of headers.
 
 The data set is structured to help you control and optimize your costs.
 It is split into daily revisions which may be exported individually. In
-revisions before 2026-10-12 the data within a match is split by channel, so you
-can take only the channels you need; from 2026-10-12 a match is one zip, which
+revisions through 2026-10-12 the data within a match is split by channel, so
+you can take only the channels you need; from 2026-10-13 a match is one zip, which
 cuts the objects you pay for to one a match but comes whole.
 
 Consider these steps:

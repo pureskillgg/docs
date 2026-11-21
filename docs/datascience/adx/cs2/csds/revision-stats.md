@@ -14,16 +14,17 @@ every revision that can still be exported: 447 revisions from 2025-07-19 to
 2026-11-20, with 74,334 matches in 1,432,675 objects (2.04 TB).
 
 A revision is dated by the day (UTC) it opened and holds the matches processed
-while it was open. **Objects** are what a revision delivers: until 2026-10-12 a
-match was its `csds` index object plus one file per channel, and since then each
-match is one zip. After a pipeline outage the backlog was published in a single
-revision, so a few revisions are much larger than the rest, and the days of the
-outage have no revision. A revision with no matches stays open until the next
-day's matches arrive.
+while it was open. **Objects** are what a revision delivers: through 2026-10-12
+a match was its `csds` index object plus one file per channel, and from 21:22
+UTC that day each match is one zip, though a few revisions list one match's zip
+twice. After a pipeline outage the backlog was published in a single revision,
+so a few revisions are much larger than the rest, and the days of the outage
+have no revision. A revision with no matches stays open through the next day and
+takes that day's matches.
 
 Data Exchange takes at most 50,000 objects in a revision. With 43 objects to a
-match, a revision could hold at most 1,162 matches until the zips, and the
-revisions of 2026-10-09 to 2026-10-11 are full.
+match, from 2026-08-04 to 2026-10-12, a revision could hold at most 1,162
+matches, and the revisions of 2026-10-09 to 2026-10-11 are full.
 
 Some revisions hold matches processed on other days: the 2026-10-17 revision
 holds 4,891 matches processed on 2026-10-09 to 2026-10-11; the 2026-11-13

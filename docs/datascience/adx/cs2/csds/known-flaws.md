@@ -74,7 +74,8 @@ not its processing (such as when it was processed, or by which versions).
 ## Changes across the retained window
 
 - **The channel set changed.** Older revisions hold fewer channels: 30
-  through 2026-08-02, 42 until October 2026, and 55 since. The
+  through 2026-08-02, 42 through 2026-10-14, and 55 from 2026-10-17, apart
+  from 4,891 older matches that revision also holds. The
   [archive](/datascience/old/#what-older-revisions-hold) says what each revision holds. Read
   each match's `csds` index object rather than assuming a fixed channel list.
 - **`player_vector` stores fewer columns.** Since 2026-10-06 it no longer

@@ -87,8 +87,8 @@ regions.
 
 ## File layout
 
-Each match comes as **one zip**; revisions before 2026-10-12 deliver its files
-loose instead ([archive](/datascience/old/#what-older-revisions-hold)). Both unpack to the same layout:
+Each match comes as **one zip**; revisions through 2026-10-12 deliver its files
+loose instead, apart from the last few matches of 2026-10-12 ([archive](/datascience/old/#what-older-revisions-hold)). Both unpack to the same layout:
 
 ```text
 csds/
@@ -121,7 +121,7 @@ csds/
 - **The index object** is JSON compressed with gzip:
   `json.loads(gzip.decompress(open(path, "rb").read()))`.
 - **Object counts.** A match is one zip holding 56 files: 55 channel files and
-  the index. Older matches hold fewer channels, and revisions before 2026-10-12
+  the index. Older matches hold fewer channels, and revisions through 2026-10-12
   deliver the files loose, 31 or 43 objects a match
   ([archive](/datascience/old/#what-older-revisions-hold)). Read the index rather than assuming a
   channel list.
@@ -155,8 +155,9 @@ Each entry in `channels` has:
   `bot_takeover`, `bullet_damage`, `hostage_state`, `hostage_vector`,
   `map_ping`, `player_command`, `player_inputs`, `player_round_stats`,
   `player_sound`, `player_subtick_input`, `rank_update`, `round_facts`,
-  `round_mvp`, `smoke_voxel`, `vote` and `world_object`, and on `bomb_defuse`,
-  `other_death` and `player_blind` when they have rows. `false` means the demo
+  `round_mvp`, `smoke_voxel`, `vote` and `world_object`, and, as `true`, on
+  `bomb_defuse`, `other_death` and `player_blind` when they have rows (an empty
+  one has no `available` key). `false` means the demo
   didn't carry the data, so the channel is empty for that reason; `true` means
   it did, though the channel can still be empty when nothing happened.
   `player_inputs` is `true` on every kind of demo, and `player_sound` on every

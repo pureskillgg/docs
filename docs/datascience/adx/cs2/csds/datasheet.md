@@ -40,9 +40,9 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   [PII Removal](./pii-removal.md).
 
 - **How many instances are there in total?**
-  Each daily revision holds the matches processed that day.
-  [Revision Stats](./revision-stats.md) gives the matches, objects and size of
-  every revision.
+  Each daily revision holds the matches processed that day, with a few
+  exceptions. [Revision Stats](./revision-stats.md) gives the matches, objects
+  and size of every revision, and names the exceptions.
 
 - **Does the dataset contain all possible instances or is it a sample of instances from a larger set?**
   It holds every match PureSkill.gg processed successfully; matches that failed
@@ -184,7 +184,7 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   Collection began 2021-12-01 and continues daily.
   Revisions more than about a year old are revoked and emptied in a batch about
   once a year, most recently in July 2026, so the data you can export reaches
-  back between one and two years: on 2026-11-20 the oldest exportable revision
+  back between one and two years: on 2026-11-21 the oldest exportable revision
   was from 2025-07-19.
 
 - **Were any ethical review processes conducted?**
@@ -327,8 +327,8 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   Revisions are kept for at least about a year. Those older than that are
   revoked and emptied in a batch about once a year, most recently in July
   2026, so a revision can stay exportable for up to about two years. On
-  2026-11-20 the 447
-  exportable revisions covered 2025-07-19 onward. Download what you need
+  2026-11-21 the 447
+  exportable revisions covered 2025-07-19 to 2026-11-20. Download what you need
   rather than assuming a revision will still be there later.
   Pruned revisions are archived for our own records. If you have a good reason
   to need one back, [contact us][email] and we may be able to restore it.

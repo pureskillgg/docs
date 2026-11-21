@@ -5,8 +5,9 @@ sidebar_label: About the archive
 # Archive
 
 Older versions of these pages, kept because the retained window still contains
-revisions they describe, and a summary of what those older revisions hold.
-Nothing here describes the data set as it is published today.
+revisions they describe, and a summary of how those older revisions differ
+from today's. None of the archived pages describes the data set as it is
+published today.
 
 Which page you need depends on the revision, not on when you downloaded it: a
 revision from 2026-08-02 is still retained, still exportable today, and still
@@ -27,14 +28,16 @@ as follows:
 | 2026-08-04 to 2026-10-12  | 42 channels, delivered as 43 loose objects a match, about 34 MB. On 2026-10-05 a match is about 26 MB, and from 2026-10-06 about 10 MB, after `player_vector` stopped storing its ten derived columns. Matches processed after 21:22 UTC on 2026-10-12 come as one zip of 43 files. |
 | 2026-10-13 and 2026-10-14 | 42 channels, as one zip of 43 files a match, about 13 MB.                                                                                                                                                                                                                           |
 | 2026-10-15 and 2026-10-16 | Revoked; see the [changelog](/datascience/adx/cs2/csds/changelog).                                                                                                                                                                                                                  |
-| 2026-10-17                | Mostly today's 55 channels, plus 4,891 matches processed on 2026-10-09 to 2026-10-11 with 42.                                                                                                                                                                                       |
+| 2026-10-17                | 2,069 matches with today's 55 channels, and 4,891 processed on 2026-10-09 to 2026-10-11 with 42.                                                                                                                                                                                    |
 | 2026-10-17 to 2026-11-14  | Files about half again as big as today's, about 22 MB a match, before the tuned encodings of 2026-11-15.                                                                                                                                                                            |
 
 Two more things vary across the window:
 
-- **Revisions straddle changes.** Until 2026-09-07, a revision that failed to
-  close carried its matches into the next one, so one revision could hold more
-  than one day.
+- **A revision can hold other days' matches.** Until 2026-09-07, a revision
+  that failed to close carried its matches into the next one. Later, the
+  2026-10-17 revision holds 4,891 matches processed on 2026-10-09 to
+  2026-10-11, and the 2026-11-13 revision, open through a day with no matches,
+  holds those of 2026-11-14.
 - **Columns and values changed throughout.** The [changelog] dates every
   change, and each match's `header.rushb_version` and `header.ppp_version`
   name the releases that built it. Read each match's `csds` index object

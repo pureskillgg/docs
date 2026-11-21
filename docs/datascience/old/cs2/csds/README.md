@@ -13,7 +13,7 @@ glossary; 31 was the right answer at the time.
 It describes revisions through 2026-08-02, which are still retained and can
 still be exported today, so which page you need depends on the revision rather
 than on when you downloaded it. From 2026-08-04 a match has 42 channels, and
-55 since October 2026, covered by the current
+55 from the 2026-10-17 revision on, covered by the current
 [Competitive CS2 Gameplay](/datascience/adx/cs2/csds/) page; the
 [archive](/datascience/old/#what-older-revisions-hold) says what each revision holds.
 

@@ -11,7 +11,8 @@ channel, 55 in all, for 56 files per match, delivered as one zip. The index
 lists the channels, where each one sits, and what columns it declares. Every
 channel file is [Apache Parquet], `header` included.
 
-This document describes the 55 channels published since 2026-10-16. Older
+This document describes the 55 channels published since 2026-10-16, which
+the exportable revisions carry from 2026-10-17 on. Older
 revisions in the window hold fewer, and those through 2026-08-02 a different set
 of 30, described in the [archived spec](/datascience/old/cs2/csds/spec); the
 [archive](/datascience/old/#what-older-revisions-hold) says what each revision holds, and the
@@ -30,8 +31,9 @@ The [changelog](./changelog.md) lists every change by date, and the
 the day (UTC) it reached production, but a match sits in the revision for the
 day it was processed, and a release can land partway through a day. So the
 revision for a change's date can hold matches from both before and after it.
-Until 2026-09-07, a revision that failed to close also carried its matches into
-the next one, so one revision could hold more than one day. To tell which side
+A revision can also hold other days' matches: until 2026-09-07 one that failed
+to close carried its matches into the next, and
+[Revision Stats](./revision-stats.md) names the later revisions that do. To tell which side
 of a change a match is on, go by the match rather than its revision:
 `header.rushb_version` and `header.ppp_version` name the parser and converter
 releases that built it.
