@@ -58,8 +58,10 @@ them.
 Redaction is not one operation, and the redacted columns are still there. Names
 and chat text become the literal string `redacted`, `player_personal.steam_id`
 becomes a per-match alias (`A`, `B`, `C` and so on) that means nothing outside
-its own match, `player_status.ping` becomes `0`, and in `convar` only the
-`steamworks_sessionid_server` row's value becomes `redacted`. The rows are untouched, so
+its own match, `player_status.ping` becomes `0`, in `convar` only the values of
+`steamworks_sessionid_server` and `mp_guardian_bomb_plant_custom_x_mark_location`
+become `redacted`, and in `team_info` a team name that is set becomes
+`redacted`. The rows are untouched, so
 `player_chat` still tells you that somebody typed in a given round, without
 telling you what they typed. There is no voice data anywhere in the data set.
 The [data dictionary](./assets/csds_dictionary.csv) says which treatment each
@@ -358,8 +360,10 @@ sent it, in the order sent. `value` is the server's own string; parse it per
 setting. Valve matchmaking servers send their settings once, at tick 0. FACEIT
 and league servers send a warmup configuration first and the match rules later,
 so the setting in effect at a tick is the last row for that name at or before
-it. `steamworks_sessionid_server`, the server's Steam session, has its `value`
-replaced with the literal string `redacted`.
+it. Two settings have their `value` replaced with the literal string
+`redacted`: `steamworks_sessionid_server`, the server's Steam session, and
+`mp_guardian_bomb_plant_custom_x_mark_location`, where FACEIT servers put their
+match id.
 
 | Col Name | Type    | Nullable | Origin          | Dependents      | Merge Keys |
 | -------- | ------- | -------- | --------------- | --------------- | ---------- |
@@ -1675,19 +1679,20 @@ half, one row whenever any of them changes. `team_code` is the side, not the
 team: at halftime the names and half scores move to the other side's rows,
 the scores a moment before the names. Overtime rounds don't change the half
 scores. Matchmaking and Premier matches have empty names; FACEIT and league
-matches name both teams.
+matches name both teams. A name that is set reads `redacted` in the published
+data, because FACEIT names each team after one of its players.
 
-| Col Name          | Type    | Nullable | Origin     | Dependents      | Merge Keys |
-| ----------------- | ------- | -------- | ---------- | --------------- | ---------- |
-| round             | int64   | False    | replay     |                 |            |
-| tick              | int64   | False    | replay     |                 |            |
-| team_code         | int64   | False    | replay     |                 |            |
-| clan_name         | string  | False    | replay     |                 |            |
-| flag              | string  | False    | replay     |                 |            |
-| surrendered       | bool    | False    | replay     |                 |            |
-| score_first_half  | int64   | False    | replay     |                 |            |
-| score_second_half | int64   | False    | replay     |                 |            |
-| second            | float64 | True     | calculated | tick, tick_rate |            |
+| Col Name          | Type    | Nullable | Origin          | Dependents      | Merge Keys |
+| ----------------- | ------- | -------- | --------------- | --------------- | ---------- |
+| round             | int64   | False    | replay          |                 |            |
+| tick              | int64   | False    | replay          |                 |            |
+| team_code         | int64   | False    | replay          |                 |            |
+| clan_name         | string  | False    | replay-redacted |                 |            |
+| flag              | string  | False    | replay          |                 |            |
+| surrendered       | bool    | False    | replay          |                 |            |
+| score_first_half  | int64   | False    | replay          |                 |            |
+| score_second_half | int64   | False    | replay          |                 |            |
+| second            | float64 | True     | calculated      | tick, tick_rate |            |
 
 ## tick - telemetry
 

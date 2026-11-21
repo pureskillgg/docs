@@ -25,6 +25,14 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
+## 2026-11-22
+
+_Scrubber and converter releases (date provisional)._
+
+**Values changed**
+
+- `convar.value`, `team_info.clan_name`: Two values that lead back to a FACEIT match or one of its players are redacted in the published data. In `convar`, the value of `mp_guardian_bomb_plant_custom_x_mark_location`, where FACEIT servers put their match id, reads `redacted`. In `team_info`, every `clan_name` that is set reads `redacted`, because FACEIT names each team after one of its players; empty names, as on matchmaking and Premier matches, stay empty (see [PII Removal](./pii-removal.md)). FACEIT matches processed from 2026-10-15 until this date carry both values as the server sent them.
+
 ## 2026-11-21
 
 _No release; two revisions revoked._
