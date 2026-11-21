@@ -9,7 +9,7 @@ These data are extracted from CS2 replay files called demos.
 Each match is 56 files, collectively called csds:
 55 channel files plus a JSON index object, also named `csds`, that lists them,
 delivered as one zip. Older revisions in the window hold fewer channels, and
-those through 2026-10-12 deliver the files loose; the
+those through 2026-10-12 deliver the files loose, apart from the last few matches of 2026-10-12; the
 [archive](/datascience/old/#what-older-revisions-hold) says what each holds.
 The [CSDS Spec](./spec.md) documents every channel and column.
 New here? The [Quickstart](./quickstart.md) goes from subscribing to a first

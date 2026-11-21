@@ -11,10 +11,9 @@ channel, 55 in all, for 56 files per match, delivered as one zip. The index
 lists the channels, where each one sits, and what columns it declares. Every
 channel file is [Apache Parquet], `header` included.
 
-This document describes the 55 channels published since 2026-10-16, which
-the exportable revisions carry from 2026-10-17 on. Older
-revisions in the window hold fewer, and those through 2026-08-02 a different set
-of 30, described in the [archived spec](/datascience/old/cs2/csds/spec); the
+This document describes the 55 channels published since 2026-10-16. Older
+revisions in the window hold fewer, as do 4,891 older matches in the 2026-10-17
+revision, and those through 2026-08-02 a different set of 30, described in the [archived spec](/datascience/old/cs2/csds/spec); the
 [archive](/datascience/old/#what-older-revisions-hold) says what each revision holds, and the
 [changelog](./changelog.md) dates every change. Reading each match's index
 object rather than assuming a channel list will keep code working across the

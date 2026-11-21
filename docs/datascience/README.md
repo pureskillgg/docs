@@ -14,7 +14,7 @@ third-parties.
 Contains full player telemetry and timestamped game events.
 A new revision is published every day. Each match is one zip of 56 files: 55
 channel files plus an index object. Older revisions in the window hold fewer
-channels, and those through 2026-10-12 deliver the files loose; the
+channels, and those through 2026-10-12 deliver the files loose, apart from the last few matches of 2026-10-12; the
 [archive](/datascience/old/#what-older-revisions-hold) says what each holds.
 
 The data set carried Counter-Strike: Global Offensive (CS:GO) data until CS2

@@ -122,7 +122,7 @@ csds/
   `json.loads(gzip.decompress(open(path, "rb").read()))`.
 - **Object counts.** A match is one zip holding 56 files: 55 channel files and
   the index. Older matches hold fewer channels, and revisions through 2026-10-12
-  deliver the files loose, 31 or 43 objects a match
+  deliver the files loose, 31 or 43 objects a match, apart from the last few matches of 2026-10-12
   ([archive](/datascience/old/#what-older-revisions-hold)). Read the index rather than assuming a
   channel list.
 

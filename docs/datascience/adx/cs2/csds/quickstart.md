@@ -58,7 +58,7 @@ print("exported", DAY.strftime("csds/%Y/%m/%d"))
 That exports the revision created on `DAY`: every match processed that day,
 from a single match to several thousand ([Revision Stats](./revision-stats.md)
 lists each day's). Each match is one zip; revisions through 2026-10-12 deliver
-loose files instead, 31 or 43 objects a match. Revisions are pruned once they
+loose files instead, 31 or 43 objects a match, apart from the last few matches of 2026-10-12. Revisions are pruned once they
 are about a year old, so pick a day from the past year. The [Cost FAQ](../../../README.md#cost-faq)
 says what that costs.
 
