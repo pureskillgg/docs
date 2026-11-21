@@ -7,8 +7,9 @@ sidebar_label: CSDS Spec (CS2, archived)
 :::warning Archived page
 
 This is the CS2 channel spec as it stood on 2024-02-24, covering the 30 channels
-published at the time. Fourteen channels have been added since and two removed
-(`item_remove` and `player_action`), leaving 42.
+published at the time. Fourteen channels were added and two removed
+(`item_remove` and `player_action`) in August 2026, leaving 42, and thirteen
+more came in October 2026, for 55.
 
 Which spec you need depends on the revision, not on when you downloaded it. This
 one describes revisions through 2026-08-02, which are still retained and can

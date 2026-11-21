@@ -28,8 +28,9 @@ what the export functions below take.
   comment is the moment it was created, which is how the export functions
   pick revisions by date.
 - **Processed, not played.** A match sits in the revision for the day it was
-  processed, which can differ from the day it was played. Before 2026-09-07, a
-  revision that failed to close carried its matches into the next one.
+  processed, which can differ from the day it was played. A revision that gets
+  no matches all day stays open into the next day and takes that day's matches
+  too.
 - **Pruned once a year.** Revisions more than about a year old are revoked and
   emptied in a batch about once a year, so the window runs from one to two
   years. Revoked revisions still appear in the revision list but can't be
@@ -86,9 +87,8 @@ regions.
 
 ## File layout
 
-Newer revisions deliver each match as **one zip**; older ones deliver its files
-loose. The [Changelog](./changelog.md) records the first revision with zips
-once they start. Both unpack to the same layout:
+Each match comes as **one zip**; revisions before 2026-10-12 deliver its files
+loose instead ([archive](/datascience/old/#what-older-revisions-hold)). Both unpack to the same layout:
 
 ```text
 csds/
@@ -120,13 +120,11 @@ csds/
   [The player tables](./spec.md#the-player-tables) in the spec).
 - **The index object** is JSON compressed with gzip:
   `json.loads(gzip.decompress(open(path, "rb").read()))`.
-- **Object counts.** A zipped match is one object holding 56 files, or fewer in
-  matches from before the newer channels (`convar`, `team_info`, `pause_state`,
-  `smoke_voxel`, `world_object`, `hostage_vector`, `hostage_state`, `player_command`,
-  `player_subtick_input`, `map_ping`, `player_round_stats`, `round_facts` and `vote`) were added. A loose match is 43 objects since 2026-08-04
-  and 31 before; the 2026-08-03 revision
-  holds both, and so does the revision in which zips start. Read the index
-  rather than assuming a channel list.
+- **Object counts.** A match is one zip holding 56 files: 55 channel files and
+  the index. Older matches hold fewer channels, and revisions before 2026-10-12
+  deliver the files loose, 31 or 43 objects a match
+  ([archive](/datascience/old/#what-older-revisions-hold)). Read the index rather than assuming a
+  channel list.
 
 ### The index object
 
@@ -153,15 +151,19 @@ Each entry in `channels` has:
   `dependents`, `mergeKeys` and `comment`, as the spec's
   [How to read this](./spec.md#how-to-read-this) describes. Skip a column
   whose `origin` ends in `-deleted`: the file no longer stores it.
-- `available`, on eight channels whose events a demo may not carry
-  (`bot_takeover`, `bullet_damage`, `player_command`, `player_inputs`,
-  `player_sound`, `player_subtick_input`, `rank_update` and `round_mvp`). `false` means the demo didn't carry the
-  event, so the channel is empty for that reason; `true` means it did, though
-  the channel can still be empty when nothing happened. In the revision of
-  2026-10-07, `player_inputs` and `player_sound` were `false` in 88 of 89
-  matches. From parser 5.7.0 (2026-10-12), `player_inputs` is `true` on every
-  kind of demo, and `player_sound` on every demo that carries the game's sound
-  messages (see [Known Flaws](./known-flaws.md#empty-channels)).
+- `available`, on the channels whose data a demo may not carry:
+  `bot_takeover`, `bullet_damage`, `hostage_state`, `hostage_vector`,
+  `map_ping`, `player_command`, `player_inputs`, `player_round_stats`,
+  `player_sound`, `player_subtick_input`, `rank_update`, `round_facts`,
+  `round_mvp`, `smoke_voxel`, `vote` and `world_object`, and on `bomb_defuse`,
+  `other_death` and `player_blind` when they have rows. `false` means the demo
+  didn't carry the data, so the channel is empty for that reason; `true` means
+  it did, though the channel can still be empty when nothing happened.
+  `player_inputs` is `true` on every kind of demo, and `player_sound` on every
+  demo that carries the game's sound messages; in matches processed before
+  2026-10-12 both were `false` on most demos (see
+  [Known Flaws](./known-flaws.md#empty-channels)). Older matches carry
+  `available` on fewer channels.
 
 ## Match identity and dates
 

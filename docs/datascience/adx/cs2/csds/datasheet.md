@@ -41,7 +41,7 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 
 - **How many instances are there in total?**
   Each daily revision holds the matches processed that day.
-  [Revision Stats](./revision-stats.md) gives the matches, files and size of
+  [Revision Stats](./revision-stats.md) gives the matches, objects and size of
   every revision.
 
 - **Does the dataset contain all possible instances or is it a sample of instances from a larger set?**
@@ -52,10 +52,8 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
 
 - **What data does each instance consist of?**
   We extract the data from CS2 demo files with our own processing, and save it
-  as 55 separate channels (fewer before the newer channels, `convar`,
-  `team_info`, `pause_state`, `smoke_voxel`, `world_object`, `hostage_vector`,
-  `hostage_state`, `player_command`, `player_subtick_input`, `map_ping`,
-  `player_round_stats`, `round_facts` and `vote`, were added).
+  as 55 separate channels (fewer in older revisions; the
+  [archive](/datascience/old/#what-older-revisions-hold) says which).
   The collection of these channels for a match is called csds.
   Our open source libraries [dsdk] and [csgo-dsdk] read and work with the csds
   data.
@@ -186,7 +184,7 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   Collection began 2021-12-01 and continues daily.
   Revisions more than about a year old are revoked and emptied in a batch about
   once a year, most recently in July 2026, so the data you can export reaches
-  back between one and two years: on 2026-10-09 the oldest exportable revision
+  back between one and two years: on 2026-11-20 the oldest exportable revision
   was from 2025-07-19.
 
 - **Were any ethical review processes conducted?**
@@ -329,7 +327,7 @@ _Based on [Datasheets for Datasets]._ This page answers its questions for the
   Revisions are kept for at least about a year. Those older than that are
   revoked and emptied in a batch about once a year, most recently in July
   2026, so a revision can stay exportable for up to about two years. On
-  2026-10-09 the 408
+  2026-11-20 the 447
   exportable revisions covered 2025-07-19 onward. Download what you need
   rather than assuming a revision will still be there later.
   Pruned revisions are archived for our own records. If you have a good reason

@@ -7,23 +7,17 @@ sidebar_position: 1
 Documentation for CSDS channels built by FPS Critic, Inc.
 
 One match is published as a JSON index object named `csds` plus one file per
-channel, 55 in all, for 56 objects per match. The index lists the channels,
-where each one sits, and what columns it declares. Every channel file is
-[Apache Parquet], `header` included.
+channel, 55 in all, for 56 files per match, delivered as one zip. The index
+lists the channels, where each one sits, and what columns it declares. Every
+channel file is [Apache Parquet], `header` included.
 
-This document describes the channel set published since 2026-08-04, plus the
-`convar`, `team_info`, `pause_state`, `smoke_voxel`, `world_object`,
-`hostage_vector`, `hostage_state`, `player_command`, `player_subtick_input`,
-`map_ping`, `player_round_stats`, `round_facts` and `vote` channels added after it;
-the [changelog](./changelog.md) dates them. Matches processed before `convar`
-have 42 channels, those processed before `team_info` and `pause_state` have 43,
-those processed before `smoke_voxel` lack it, and those processed before
-`world_object`, `hostage_vector` and `hostage_state` lack them; those processed before `player_command` and `player_subtick_input` lack those two,
-and those processed before `map_ping`, `player_round_stats`, `round_facts` and `vote` lack those four. Revisions
-through 2026-08-02 carry an older set of 30 channels, described in the
-[archived spec](/datascience/old/cs2/csds/spec); the 2026-08-03 revision holds
-a mix of the two. Reading each match's index object rather than assuming a
-channel list will keep code working across the change.
+This document describes the 55 channels published since 2026-10-16. Older
+revisions in the window hold fewer, and those through 2026-08-02 a different set
+of 30, described in the [archived spec](/datascience/old/cs2/csds/spec); the
+[archive](/datascience/old/#what-older-revisions-hold) says what each revision holds, and the
+[changelog](./changelog.md) dates every change. Reading each match's index
+object rather than assuming a channel list will keep code working across the
+changes.
 
 ## Changes over time
 
