@@ -25,17 +25,21 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
-## 2026-11-07
+## 2026-11-15
 
-_The converter release after 9.0.2._
+_Converter 9.0.3 and 9.0.4._
 
 **File format**
 
 - Every channel is written with the Parquet encoding that suits each column best, and compressed at ZSTD level 3, so a match's files are about a third smaller. Values, nulls, types, row order, and the saved schema are unchanged. Float columns in most channels now use Parquet's byte stream split encoding, which fastparquet can't read; pyarrow (pandas' default engine), polars, and DuckDB read both the old and the new files.
 
-## 2026-11-02
+## 2026-11-03
 
-_The parser release after 7.1.0 (demoinfocs-golang v6.0.0-rc.1)._
+_Parser 7.1.0 to 7.2.2, on demoinfocs-golang v6.0.0-rc.1 from 7.2.0._
+
+**Columns added**
+
+- `player_status.is_silent_reload`: Boolean, nullable: true while the player's held weapon is reloading silently. CS2's update of 2026-09-22 lets a player reload silently, and more slowly, by holding the reload key. It is true only while the weapon is in a reload (`is_in_reload`), from the moment the game marks the reload silent, about a quarter of a second in. A silent reload's magazine lands up to twice as late as a normal one's. It is null when no weapon is held, and on every match recorded before the 2026-09-22 update, since those demos don't carry the game's flag. Matches processed before this date don't have the column.
 
 **Values changed**
 
@@ -54,17 +58,9 @@ _The parser release after 7.1.0 (demoinfocs-golang v6.0.0-rc.1)._
 
 - A match whose demo was cut in the middle of a message is published now, as a truncated match (`header.is_truncated` true, every channel holds what the demo reached); before, it failed to parse and was not published. Client (POV) recordings in which a fire had gone out before its entity came back into view no longer fail to parse either.
 
-## 2026-10-31
-
-_The parser release after 7.0.1._
-
-**Columns added**
-
-- `player_status.is_silent_reload`: Boolean, nullable: true while the player's held weapon is reloading silently. CS2's update of 2026-09-22 lets a player reload silently, and more slowly, by holding the reload key. It is true only while the weapon is in a reload (`is_in_reload`), from the moment the game marks the reload silent, about a quarter of a second in. A silent reload's magazine lands up to twice as late as a normal one's. It is null when no weapon is held, and on every match recorded before the 2026-09-22 update, since those demos don't carry the game's flag. Matches processed before this date don't have the column.
-
 ## 2026-10-21
 
-_The converter release that stops writing player_status.is_spotted._
+_Parser 7.0.0 and converter 9.0.0._
 
 **Columns removed**
 
@@ -87,17 +83,6 @@ _Parser 6.0.0 and 6.1.0, converter 8.8.0 and 8.8.1._
 **Channels added**
 
 - `convar`: Every setting the game server sent, one row per setting each time the server sent it, in the order sent: `round`, `tick`, `name` and `value` (the server's own string). Valve matchmaking demos send 41 to 47 rows at the start, all at tick 0 except the server's session id, a few dozen ticks later; FACEIT and league servers send 86 to 90 rows, and on FACEIT the match rules (`mp_startmoney`, cash awards) arrive mid-match after the warmup configuration. The setting in effect at a tick is the last row for that name at or before it. The server's session id (`steamworks_sessionid_server`) is redacted in the published data. Matches processed before this date don't have the channel.
-
-**Columns added**
-
-- `header.is_queued_matchmaking`, `header.queued_matchmaking_mode`: Nullable. `is_queued_matchmaking` is true when Valve's matchmaker queued the lobby (Premier, competitive, wingman) and false on FACEIT and league servers. `queued_matchmaking_mode` is 1 for Premier and 0 for the others. Both come from the game itself rather than from rank types and row counts.
-
-## 2026-10-14
-
-_Parser 6.0.0 and the release after it, converter 8.8.0 and the release after it._
-
-**Channels added**
-
 - `world_object`: The map's doors and breakable parts, one row per change: doors opening and closing (`spawned`, `opening`, `open`, `closing`, `closed`), the doors built into the map on cs_office and Vertigo moving (`moving`), and props, vents and Nuke's glass being destroyed (`broken`), with the player who broke one when there is one (`by_player_id`). `cleanup` rows are the map being reset between rounds, not breaks. Matches processed before this date don't have the channel.
 - `hostage_vector`, `hostage_state`: Hostages, on hostage maps: `hostage_vector` has each hostage's position, state, health and carrier every tick, and `hostage_state` a row each time a hostage changes state (picked up, carried, dropped, rescued, killed) or is hurt, with the player involved. Both are empty on bomb maps. Matches processed before this date don't have the channels.
 - `smoke_voxel`: What the game sends about each smoke's volume: the cells its fill starts from (`kind` `seed`) and, block by block, the map's surfaces around it (`kind` `block`, a 4 × 4 × 4 block of 20-unit world cells whose bits `mask_lo` and `mask_hi` mark the cells that are part of the map). It is not the smoke itself: filling out from the seeds through free cells for 4 steps gives the shape the game draws, as the [spec](./spec.md) describes. Rows carry the smoke's `grenade_id`. Matches from CS2 builds before the voxel data, and smokes already burning when a demo's recording began, have no rows.
@@ -106,6 +91,7 @@ _Parser 6.0.0 and the release after it, converter 8.8.0 and the release after it
 
 **Columns added**
 
+- `header.is_queued_matchmaking`, `header.queued_matchmaking_mode`: Nullable. `is_queued_matchmaking` is true when Valve's matchmaker queued the lobby (Premier, competitive, wingman) and false on FACEIT and league servers. `queued_matchmaking_mode` is 1 for Premier and 0 for the others. Both come from the game itself rather than from rank types and row counts.
 - `player_vector.is_airborne`, `player_vector.x_vel_engine`, `player_vector.y_vel_engine`, `player_vector.z_vel_engine`, `player_vector.shots_fired`, `player_vector.velocity_modifier`, `player_vector.view_offset_z`: The game's own movement and spray state for each player on each tick, all nullable. `is_airborne` is true when nothing is under the player's feet. `x_vel_engine`, `y_vel_engine` and `z_vel_engine` are the game's velocity at the tick, in units a second. dsdk's `x_vel`, `y_vel` and `z_vel`, which it calculates from positions, describe the move into the tick, half a tick earlier, so the two disagree most after missed ticks, on stairs and in the air. `shots_fired` counts the shots of the current spray and drops back to 0 soon after the player stops firing. `velocity_modifier` is the slowdown from being hit, 1 when there is none. `view_offset_z` is the eye's height above the player's position, about 64 standing and 46 crouched; the eye's height on the map is `z_pos + view_offset_z`.
 - `player_vector.aim_punch_pitch`, `player_vector.aim_punch_yaw`: Floats, in degrees: the recoil kick the player's shots have put on their aim, pitch negative upward. Across a spray they trace the weapon's recoil pattern. The game holds the last shot's value rather than letting it decay, so both are null unless the player fired within the last second (64 ticks), counting the shot's own tick.
 - `player_status.progress_bar_start`, `player_status.progress_bar_duration`, `player_status.last_injury_time`, `player_status.is_in_reload`, `player_status.reserve_ammo`, `player_status.deploy_tick`: The player's and the held weapon's own state, all nullable. `progress_bar_start` and `progress_bar_duration` are the defuse progress bar. `progress_bar_start` is when the player's last defuse began, in seconds on the clock of `second`, and keeps that value after the defuse ends. `progress_bar_duration` is the bar's length in seconds while it shows (10, or 5 with a kit) and negative otherwise. CS2 doesn't use the bar for planting. `last_injury_time` is when the player last took damage, on the clock of `second`. Both times are null until first set. `is_in_reload` is the held weapon's reload flag; unlike `is_reloading` it falls as soon as a reload stops, and about a third of reloads end early in a weapon switch. `reserve_ammo` is the held weapon's reserve and drops by one magazine per completed reload; null for knives, grenades and equipment. `deploy_tick` is the tick the held weapon was drawn, joinable on `tick`.

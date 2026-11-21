@@ -92,7 +92,7 @@ Most event channels already carry where their players were. A channel with a
 `player_vector`; an `attacker_id` or `assister_id` brings the same columns for
 that player. `grenade_bounce`, `player_connect`, `player_disconnect` and
 `round_mvp` carry none, nor does `player_footstep` before converter 8.8.0
-(2026-10-14), so check a channel's columns in the
+(2026-10-15), so check a channel's columns in the
 [CSDS Spec](./spec.md).
 
 - **Most channels** copy from the row on the event's own tick.
