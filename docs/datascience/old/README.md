@@ -20,15 +20,15 @@ and the older ones differ from today's. A match published today is one zip of
 56 files, 55 channels and the index object, about 15 MB. Older revisions differ
 as follows:
 
-| Revisions                | How their matches differ from today's                                                                                                                                                                                                                                               |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2025-07-19 to 2026-08-02 | 30 channels, described by the [archived spec](./cs2/csds/spec.md), delivered as 31 loose objects a match, about 35 to 40 MB. The channel files are compressed with GZIP until 2026-07-07 and ZSTD from 2026-07-08.                                                                  |
-| 2026-08-03               | A mix: some matches have the 30 channels above, the others the 42 below.                                                                                                                                                                                                            |
-| 2026-08-04 to 2026-10-12 | 42 channels, delivered as 43 loose objects a match, about 34 MB. On 2026-10-05 a match is about 26 MB, and from 2026-10-06 about 10 MB, after `player_vector` stopped storing its ten derived columns. Matches processed after 21:22 UTC on 2026-10-12 come as one zip of 43 files. |
-| 2026-10-13 and 2026-10-14 | 42 channels, as one zip of 43 files a match, about 13 MB.                                                                                                                                                                                                                         |
-| 2026-10-15 and 2026-10-16 | Revoked; see the [changelog](/datascience/adx/cs2/csds/changelog).                                                                                                                                                                                                                 |
-| 2026-10-17               | Mostly today's 55 channels, plus 4,891 matches processed on 2026-10-09 to 2026-10-11 with 42.                                                                                                                                                                                       |
-| 2026-10-17 to 2026-11-14 | Files about half again as big as today's, about 22 MB a match, before the tuned encodings of 2026-11-15.                                                                                                                                                                            |
+| Revisions                 | How their matches differ from today's                                                                                                                                                                                                                                               |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2025-07-19 to 2026-08-02  | 30 channels, described by the [archived spec](./cs2/csds/spec.md), delivered as 31 loose objects a match, about 35 to 40 MB. The channel files are compressed with GZIP until 2026-07-07 and ZSTD from 2026-07-08.                                                                  |
+| 2026-08-03                | A mix: some matches have the 30 channels above, the others the 42 below.                                                                                                                                                                                                            |
+| 2026-08-04 to 2026-10-12  | 42 channels, delivered as 43 loose objects a match, about 34 MB. On 2026-10-05 a match is about 26 MB, and from 2026-10-06 about 10 MB, after `player_vector` stopped storing its ten derived columns. Matches processed after 21:22 UTC on 2026-10-12 come as one zip of 43 files. |
+| 2026-10-13 and 2026-10-14 | 42 channels, as one zip of 43 files a match, about 13 MB.                                                                                                                                                                                                                           |
+| 2026-10-15 and 2026-10-16 | Revoked; see the [changelog](/datascience/adx/cs2/csds/changelog).                                                                                                                                                                                                                  |
+| 2026-10-17                | Mostly today's 55 channels, plus 4,891 matches processed on 2026-10-09 to 2026-10-11 with 42.                                                                                                                                                                                       |
+| 2026-10-17 to 2026-11-14  | Files about half again as big as today's, about 22 MB a match, before the tuned encodings of 2026-11-15.                                                                                                                                                                            |
 
 Two more things vary across the window:
 
@@ -83,8 +83,7 @@ still resolve.
 - **The tooling moved.** The tutorial needs Python 3.14 and [uv], not Python 3.9
   and Poetry.
 - **Revisions are kept for one to two years.** Those more than about a year old
-  are revoked and emptied in a batch about once a year, most recently in July
-  2026. The archived pages say old data is deleted "at our discretion", which
+  are revoked and emptied in a batch about once a year, most recently in July 2026. The archived pages say old data is deleted "at our discretion", which
   understates how regular the pruning now is.
 
 [revision stats]: /datascience/adx/cs2/csds/revision-stats

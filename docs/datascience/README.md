@@ -208,11 +208,11 @@ but we do not guarantee their accuracy or applicability to your AWS account.
 
 Measured on the production data set on 2026-11-21:
 
-| What                      | How big                                                                                                     |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| One match                 | about 15 MB, one zip of 56 files, since 2026-11-15; older matches differ ([archive](/datascience/old/#what-older-revisions-hold))                |
-| One recent daily revision | usually 400 to 650 matches, about 6 to 10 GB, one object a match; a backlog makes a few days much bigger   |
-| The whole retained window | 447 daily revisions, 74,334 matches, 2.04 TB; [Revision Stats][revision stats] has each day's size and count |
+| What                      | How big                                                                                                                           |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| One match                 | about 15 MB, one zip of 56 files, since 2026-11-15; older matches differ ([archive](/datascience/old/#what-older-revisions-hold)) |
+| One recent daily revision | usually 400 to 650 matches, about 6 to 10 GB, one object a match; a backlog makes a few days much bigger                          |
+| The whole retained window | 447 daily revisions, 74,334 matches, 2.04 TB; [Revision Stats][revision stats] has each day's size and count                      |
 
 Exporting from the AWS Data Exchange writes those objects into an S3 bucket you
 own, so you pay per object written and then for storing them. Pulling them out
