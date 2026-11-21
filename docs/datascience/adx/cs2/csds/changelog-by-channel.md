@@ -89,7 +89,7 @@ Dates are the day (UTC) a change reached production.
 
 ## convar
 
-- **2026-11-22**, values changed: `value`. Two values that lead back to a FACEIT match or one of its players are redacted in the published data. In `convar`, the value of `mp_guardian_bomb_plant_custom_x_mark_location`, where FACEIT servers put their match id, reads `redacted`. In `team_info`, every `clan_name` that is set reads `redacted`, because FACEIT names each team after one of its players; empty names, as on matchmaking and Premier matches, stay empty (see [PII Removal](./pii-removal.md)). FACEIT matches processed from 2026-10-15 until this date carry both values as the server sent them.
+- **2026-11-22**, values changed: `value`. The value of `mp_guardian_bomb_plant_custom_x_mark_location` reads `redacted` in the published data. FACEIT servers put their match id there, and the match id leads to the match and its players (see [PII Removal](./pii-removal.md)). FACEIT matches processed from 2026-10-15 until this date carry it as the server sent it.
 - **2026-10-15**, channel added. Every setting the game server sent, one row per setting each time the server sent it, in the order sent: `round`, `tick`, `name` and `value` (the server's own string). Valve matchmaking demos send 41 to 47 rows at the start, all at tick 0 except the server's session id, a few dozen ticks later; FACEIT and league servers send 86 to 90 rows, and on FACEIT the match rules (`mp_startmoney`, cash awards) arrive mid-match after the warmup configuration. The setting in effect at a tick is the last row for that name at or before it. The server's session id (`steamworks_sessionid_server`) is redacted in the published data. Matches processed before this date don't have the channel.
 
 ## grenade_bounce
@@ -436,7 +436,7 @@ Dates are the day (UTC) a change reached production.
 
 ## team_info
 
-- **2026-11-22**, values changed: `clan_name`. Two values that lead back to a FACEIT match or one of its players are redacted in the published data. In `convar`, the value of `mp_guardian_bomb_plant_custom_x_mark_location`, where FACEIT servers put their match id, reads `redacted`. In `team_info`, every `clan_name` that is set reads `redacted`, because FACEIT names each team after one of its players; empty names, as on matchmaking and Premier matches, stay empty (see [PII Removal](./pii-removal.md)). FACEIT matches processed from 2026-10-15 until this date carry both values as the server sent them.
+- **2026-11-22**, values changed: `clan_name`. Every `clan_name` that is set reads `redacted` in the published data, because FACEIT names each team after one of its players. Empty names, as on matchmaking and Premier matches, stay empty (see [PII Removal](./pii-removal.md)). FACEIT matches processed from 2026-10-15 until this date carry the names as the server sent them.
 - **2026-10-15**, channel added. Each side's team name (`clan_name`), `flag`, surrender flag and score in each half, one row whenever any of them changes. `team_code` is the side, not the team: at halftime the names and half scores move to the other side's rows. Matchmaking and Premier matches have empty names; FACEIT and league matches name both teams. Matches processed before this date don't have the channel.
 
 ## tick
