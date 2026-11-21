@@ -115,7 +115,7 @@ attacker_team_code,INTEGER,,True,,Merged from another channel. Null where no sou
 round,INTEGER,,False,,,,,convar,single_event
 tick,INTEGER,,False,,,,,convar,single_event
 name,VARCHAR,,False,,The server setting's name.,,,convar,single_event
-value,VARCHAR,,False,,"The setting's value as the server sent it, a string to parse per setting. For steamworks_sessionid_server it is replaced with the literal string ""redacted"".",,,convar,single_event
+value,VARCHAR,,False,,"The setting's value as the server sent it, a string to parse per setting. For steamworks_sessionid_server and mp_guardian_bomb_plant_custom_x_mark_location (where FACEIT servers put their match id) it is replaced with the literal string ""redacted"".",,,convar,single_event
 second,DECIMAL,,True,,,,,convar,single_event
 round,INTEGER,,False,,,,,grenade_bounce,single_event
 tick,INTEGER,,False,,,,,grenade_bounce,single_event
@@ -890,7 +890,7 @@ player_team_code,INTEGER,,True,,Merged from another channel. Null where no sourc
 round,INTEGER,,False,,,,,team_info,single_event
 tick,INTEGER,,False,,,,,team_info,single_event
 team_code,INTEGER,,False,"The side, not the team.",At halftime the names and half scores move to the other side.,,,team_info,single_event
-clan_name,VARCHAR,,False,The team's name.,Empty on matchmaking and Premier matches.,,,team_info,single_event
+clan_name,VARCHAR,,False,The team's name.,"Empty on matchmaking and Premier matches. A name that is set is replaced with the literal string ""redacted"": FACEIT names each team after one of its players.",,,team_info,single_event
 flag,VARCHAR,,False,The team's flag code.,Empty on matchmaking and Premier matches.,,,team_info,single_event
 surrendered,BOOLEAN,,False,True once this side has surrendered.,,,,team_info,single_event
 score_first_half,INTEGER,,False,This side's rounds won in the first half.,,,,team_info,single_event

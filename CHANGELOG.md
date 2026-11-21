@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- CS2 PII Removal, spec, data dictionary and changelog: FACEIT's match id (`convar`'s `mp_guardian_bomb_plant_custom_x_mark_location`) and team names (`team_info.clan_name`, where set) are redacted in the published data, under 2026-11-22 (provisional: the date is corrected when the converter release with the scrubber change reaches production).
 - CS2 changelog: the provisional dates move to the days the releases reached production (2026-10-14 to 2026-10-15, 2026-10-31 and 2026-11-02 to 2026-11-03, 2026-11-07 to 2026-11-15), with the releases named; the spec and How It Fits Together follow.
 - CS2 changelog: add the data changes it was missing from 2026-10-15, 2026-10-16, 2026-10-21, 2026-10-27 and 2026-11-14, and the revocation of the 2026-10-15 and 2026-10-16 revisions.
 - Revision Stats: counted through 2026-11-20 (447 revisions, 74,334 matches), keeping the earlier rows as published; Objects instead of Files; notes on the 1,162-match cap, the revisions that hold other days' matches, and the revoked revisions.
