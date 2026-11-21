@@ -12,11 +12,10 @@ The [PureSkill.gg Competitive Gameplay Data Set] contains
 Counter-Strike 2 (CS2) match data from matchmaking, FACEIT, and other
 third-parties.
 Contains full player telemetry and timestamped game events.
-A new revision is published every day. In revisions from 2026-08-04 onward,
-each match is 42 data files plus an index object; revisions still retained from
-before then carry 30 data files per match. Newer revisions deliver each match
-as one zip of its files. The [data set page](./adx/cs2/csds/) covers both
-changes.
+A new revision is published every day. Each match is one zip of 56 files: 55
+channel files plus an index object. Older revisions in the window hold fewer
+channels, and those through 2026-10-12 deliver the files loose, apart from the last few matches of 2026-10-12; the
+[archive](/datascience/old/#what-older-revisions-hold) says what each holds.
 
 The data set carried Counter-Strike: Global Offensive (CS:GO) data until CS2
 replaced the game in 2023. Those revisions are no longer retained. The
@@ -63,7 +62,8 @@ At least a year. A revision is published each day, and revisions more than
 about a year old are revoked and emptied in a batch about once a year, most
 recently in July 2026. So the data set holds a window of one to two years
 rather than a growing archive: about a year just after a prune, growing until
-the next. On 2026-10-09 it held 408 daily revisions covering 2025-07-19 onward.
+the next. On 2026-11-21 it held 447 daily revisions, from 2025-07-19 to
+2026-11-20.
 
 If you need a particular stretch of time, export it rather than assuming it
 will still be there. Pruned revisions are archived for our own records. If you
@@ -207,40 +207,40 @@ _FPS Critic Inc., owner of PureSkill.gg, is not liable for any AWS costs you inc
 We provide the measurements below for convenience,
 but we do not guarantee their accuracy or applicability to your AWS account.
 
-Measured on the production data set on 2026-10-09:
+Measured on the production data set on 2026-11-21:
 
-| What                      | How big                                                                                                                      |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| One match                 | about 10 MB across 43 objects if processed since 2026-10-06; 30 to 40 MB before 2026-10-05; about 26 MB on 2026-10-05, a mix |
-| One recent daily revision | usually 60 to 150 matches, roughly 0.6 to 1.5 GB in 2,500 to 6,500 objects; a few days hold over 1,000                       |
-| The whole retained window | 408 daily revisions, 37,881 matches, 1.37 TB; [Revision Stats][revision stats] has each day's size and count                 |
+| What                      | How big                                                                                                                                  |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| One match                 | about 15 MB, one zip of 56 files, since 2026-11-15; older matches differ ([archive](/datascience/old/#what-older-revisions-hold))        |
+| One recent daily revision | usually 400 to 650 matches, one object a match; about 6 to 10 GB since 2026-11-15, 11 to 15 GB before; a backlog makes a few days bigger |
+| The whole retained window | 447 daily revisions, 74,334 matches, 2.04 TB; [Revision Stats][revision stats] has each day's size and count                             |
 
 Exporting from the AWS Data Exchange writes those objects into an S3 bucket you
 own, so you pay per object written and then for storing them. Pulling them out
 of AWS afterwards adds data transfer. Check the current [S3 pricing] for your
 region before starting a large export; the object count matters as much as the
-byte count. Newer revisions deliver each match as one zip, so a match is one
-object instead of 43; the bytes are about the same, since the zip stores its
-files as they are and adds only a few KB of headers.
+byte count. From the 2026-10-13 revision on, each match comes as one zip, so a
+match is one object instead of 31 or 43; the bytes are about the same, since
+the zip stores its files as they are and adds only a few KB of headers.
 
 ### How should I optimize my costs?
 
 The data set is structured to help you control and optimize your costs.
-It is split into daily revisions which may be exported individually. In older
-revisions the data within a match is split by channel, so you can take only the
-channels you need; in newer ones a match is one zip, which cuts the objects you
-pay for 43-fold but comes whole.
+It is split into daily revisions which may be exported individually. In
+revisions through 2026-10-12 the data within a match is split by channel, so
+you can take only the channels you need; from 2026-10-13 a match is one zip, which
+cuts the objects you pay for to one a match but comes whole.
 
 Consider these steps:
 
 1. AWS has a free tier which
    may reduce or eliminate the cost to get started.
 2. **Skip `player_vector` and `player_status` unless you need per-tick
-   telemetry.** They are about 7 MB of a recent match's 10 MB. Every other
-   channel put together is under 3 MB, so leaving them out cuts the bytes by
-   about two thirds, though the object count barely changes. That works on
-   revisions of loose files; a zipped match carries them, and you can delete
-   them after unzipping.
+   telemetry.** `player_vector` alone is about 9 MB of a recent match's 15 MB;
+   every other channel put together is about 6 MB. On revisions of loose files,
+   leaving the two out cuts the bytes by two thirds or more, though the object
+   count barely changes. A zipped match carries them, and you can delete them
+   after unzipping.
 3. Estimate how much data you actually need by starting with one day.
    Remember that one revision is one day worth of data.
 4. Be careful when exporting a large number of revisions at once.

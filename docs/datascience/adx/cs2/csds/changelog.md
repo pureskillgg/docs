@@ -25,17 +25,37 @@ The same changes are listed channel by channel on the
   removes personal data; and the publisher, which sends matches to Data
   Exchange.
 
-## 2026-11-07
+## 2026-11-21
 
-_The converter release after 9.0.2._
+_No release; two revisions revoked._
+
+**Delivery**
+
+- The revisions of 2026-10-15 and 2026-10-16 are revoked and can no longer be exported. Matches processed from 2026-10-15 02:51 UTC to 2026-10-16 01:59 UTC were published before the scrubber removed `convar`'s server session id and `player_personal`'s crosshair code and viewmodel settings (see [PII Removal](./pii-removal.md)), so both revisions were withdrawn, with the other matches they held. The changes dated 2026-10-15 and 2026-10-16 first appear in the 2026-10-17 revision.
+
+## 2026-11-15
+
+_Converter 9.0.3 and 9.0.4._
 
 **File format**
 
 - Every channel is written with the Parquet encoding that suits each column best, and compressed at ZSTD level 3, so a match's files are about a third smaller. Values, nulls, types, row order, and the saved schema are unchanged. Float columns in most channels now use Parquet's byte stream split encoding, which fastparquet can't read; pyarrow (pandas' default engine), polars, and DuckDB read both the old and the new files.
 
-## 2026-11-02
+## 2026-11-14
 
-_The parser release after 7.1.0 (demoinfocs-golang v6.0.0-rc.1)._
+_Parser 7.2.3 to 7.2.5._
+
+**Delivery**
+
+- CS2's update of 2026-11-11 changed how demos encode some fields, and every demo recorded after it failed to parse from 2026-11-12 00:12 UTC until this release. Nearly all of those matches were processed again once it was fixed, on 2026-11-14. They sit in the revision dated 2026-11-13, which had no matches and so stayed open into 2026-11-14; there is no revision dated 2026-11-14, and the one dated 2026-11-12 holds 11 matches.
+
+## 2026-11-03
+
+_Parser 7.1.0 to 7.2.2, on demoinfocs-golang v6.0.0-rc.1 from 7.2.0._
+
+**Columns added**
+
+- `player_status.is_silent_reload`: Boolean, nullable: true while the player's held weapon is reloading silently. CS2's update of 2026-09-22 lets a player reload silently, and more slowly, by holding the reload key. It is true only while the weapon is in a reload (`is_in_reload`), from the moment the game marks the reload silent, about a quarter of a second in. A silent reload's magazine lands up to twice as late as a normal one's. It is null when no weapon is held, and on every match recorded before the 2026-09-22 update, since those demos don't carry the game's flag. Matches processed before this date don't have the column.
 
 **Values changed**
 
@@ -54,31 +74,56 @@ _The parser release after 7.1.0 (demoinfocs-golang v6.0.0-rc.1)._
 
 - A match whose demo was cut in the middle of a message is published now, as a truncated match (`header.is_truncated` true, every channel holds what the demo reached); before, it failed to parse and was not published. Client (POV) recordings in which a fire had gone out before its entity came back into view no longer fail to parse either.
 
-## 2026-10-31
+## 2026-10-27
 
-_The parser release after 7.0.1._
+_Parser 7.0.1 and converter 9.0.1._
 
-**Columns added**
+**Values changed**
 
-- `player_status.is_silent_reload`: Boolean, nullable: true while the player's held weapon is reloading silently. CS2's update of 2026-09-22 lets a player reload silently, and more slowly, by holding the reload key. It is true only while the weapon is in a reload (`is_in_reload`), from the moment the game marks the reload silent, about a quarter of a second in. A silent reload's magazine lands up to twice as late as a normal one's. It is null when no weapon is held, and on every match recorded before the 2026-09-22 update, since those demos don't carry the game's flag. Matches processed before this date don't have the column.
+- `bomb_action.site`, `bomb_state.site`, `hostage_state.old_state`, `round_facts.fun_fact_token`: A missing value in these text columns is null, as everywhere else in the data, instead of the text `None`. `bomb_action.site` read `None` on most of its rows, every row with no bomb site, from 2026-10-15 until this date.
+
+**Fixes**
+
+- `player_spawn`: Round 1 has its spawn rows. The game respawns every player just before round 1 starts, and those rows used to be cut along with the warmup, so round 1 had none. Their position, velocity, angle, weapon and team columns come from the player's first `player_vector` row of the round, where they stand frozen at the start.
+- `player_spawn.player_id_fixed`: Set on the spawns of a round with no roster, which is a round that ends in freeze time, as a surrender does. It takes the player from the last earlier round whose roster lists the `player_id`, and stays null when none does or when that `player_id` disconnected in between.
+
+**File format**
+
+- `molotov_fire`: Rows come out in the same order on every parse of a demo: when several fires change on the same tick, their rows follow the fire's entity id. Before, that order could differ between two parses of one demo. The rows and their values are unchanged.
 
 ## 2026-10-21
 
-_The converter release that stops writing player_status.is_spotted._
+_Parser 6.2.1 and 7.0.0, converter 9.0.0._
 
 **Columns removed**
 
 - `player_status.is_spotted`: **Breaking:** no longer written, so code that reads it breaks. It was the game's own "spotted" flag on each player, and it proved unreliable as a sign of who could see whom: checked against real kills, it was never set for one victim who was being shot, and set only a fraction of a second before another kill. Matches published earlier keep the column. Some later manifests still list it, with origin `replay-deleted` and no data behind it.
 
+**Values changed**
+
+- A team's coach is no longer written as a player. FACEIT seats a coach on the team they coach, so a coach had roster rows, positions, status, a death every round in `player_round_stats` and more, and showed up as an extra player. Now every row whose `player_id` is a coach is dropped from every channel; rows that name a coach only in another column, such as an attacker, stay. `header.max_unique_players` and `round_end.player_count` no longer count coaches. Matches without a coach are unchanged.
+
 ## 2026-10-16
 
-_Parser 6.2.0._
+_Parser 6.2.0, converter 8.8.2 and 8.8.3, scrubber 3.5.0._
+
+**Channels added**
+
+- `player_round_stats`: The game's own scoreboard numbers, one row per player per round: `kills`, `deaths`, `assists`, `headshot_kills`, `damage` (the health actually taken from enemies), `utility_damage`, `enemies_flashed`, `equipment_value`, `money_saved`, `kill_reward`, `cash_earned`, `live_time` and `objective` for that round, and the running match totals `total_damage` and `total_utility_damage`. The server keeps 30 rounds of them, so the per-round columns are null after round 30. Matches processed before this date don't have the channel.
+- `round_facts`: The fun fact the scoreboard shows when a round ends, one row per `round_end` row: Valve's token for the fact (`fun_fact_token`), the player it's about (`player_id`, null for a fact about a team or the round) and the numbers it quotes (`fun_fact_data1` to `fun_fact_data3`). A round without a fun fact, as every surrender is, has them all null. Matches processed before this date don't have the channel.
+- `map_ping`: One row per marker a player placed with the ping button, not network latency (that is `player_status.ping`): when and where it appeared, the player who placed it, `ping_type`, and `is_urgent` when the player pressed again to make it urgent. Matches processed before this date don't have the channel.
+- `vote`: One row per team vote that finished (a kick, a tactical timeout or a surrender): passed or failed, the team that voted, what the vote was about (`issue_index`), when it was called and the final tally. A demo doesn't record who called a vote or whom a kick was aimed at, so neither is here. Matches processed before this date don't have the channel.
 
 **Columns added**
 
 - `header.round_time`, `header.objective`: `round_time` is the round length in seconds that the game itself reports (115 on most maps, 90 in wingman), nullable. It is the value most of the match's rounds started with. It is not always `round_time_defuse` times 60: on FACEIT and league servers the first round starts under a warmup configuration (two minutes) and the match rules (1.92 minutes, 115 seconds) are applied a few thousand ticks in, so `round_time_defuse` can hold the warmup value while `round_time` holds the one the match was played with. `objective` is what the map asks of the players: `bomb`, `hostage`, `none` or `both`, nullable. Matches processed before this date have both as null or missing.
 - `header.patch_version`: Integer: the network protocol of the game build that recorded the demo (14176 to 14181 on the matches checked). `build_num` is the game build. This is a real value, unlike the old `network_protocol` column, which was always 1234 and was removed in parser 5.6.0.
-- `header.is_pov_recording`, `header.is_truncated`: Booleans. `is_pov_recording` is true for a recording made on a player's own computer rather than on a server. `is_truncated` is true when the demo ended early: every table holds what the demo reached, and the match is incomplete. A demo cut in the middle of a message is rejected instead and is not delivered.
+- `header.is_pov_recording`, `header.is_truncated`: Booleans. `is_pov_recording` is true for a recording made on a player's own computer rather than on a server. `is_truncated` is true when the demo ended early: every table holds what the demo reached, and the match is incomplete. Until parser 7.2.0 (2026-11-03), a demo cut in the middle of a message was rejected instead and not delivered.
+- `tick.host_time_us`, `tick.host_time_sd_us`: Integers: the game server's computation time per frame and its standard deviation, in microseconds. A 64-tick frame lasts 15,625; on our 50-match test set the median is about 2,200 and the 99th percentile about 5,000. Matches processed before this date don't have them.
+
+**Index object**
+
+- `map_ping`, `player_round_stats`, `round_facts` and `vote` carry `available` too.
 
 ## 2026-10-15
 
@@ -87,25 +132,17 @@ _Parser 6.0.0 and 6.1.0, converter 8.8.0 and 8.8.1._
 **Channels added**
 
 - `convar`: Every setting the game server sent, one row per setting each time the server sent it, in the order sent: `round`, `tick`, `name` and `value` (the server's own string). Valve matchmaking demos send 41 to 47 rows at the start, all at tick 0 except the server's session id, a few dozen ticks later; FACEIT and league servers send 86 to 90 rows, and on FACEIT the match rules (`mp_startmoney`, cash awards) arrive mid-match after the warmup configuration. The setting in effect at a tick is the last row for that name at or before it. The server's session id (`steamworks_sessionid_server`) is redacted in the published data. Matches processed before this date don't have the channel.
-
-**Columns added**
-
-- `header.is_queued_matchmaking`, `header.queued_matchmaking_mode`: Nullable. `is_queued_matchmaking` is true when Valve's matchmaker queued the lobby (Premier, competitive, wingman) and false on FACEIT and league servers. `queued_matchmaking_mode` is 1 for Premier and 0 for the others. Both come from the game itself rather than from rank types and row counts.
-
-## 2026-10-14
-
-_Parser 6.0.0 and the release after it, converter 8.8.0 and the release after it._
-
-**Channels added**
-
 - `world_object`: The map's doors and breakable parts, one row per change: doors opening and closing (`spawned`, `opening`, `open`, `closing`, `closed`), the doors built into the map on cs_office and Vertigo moving (`moving`), and props, vents and Nuke's glass being destroyed (`broken`), with the player who broke one when there is one (`by_player_id`). `cleanup` rows are the map being reset between rounds, not breaks. Matches processed before this date don't have the channel.
 - `hostage_vector`, `hostage_state`: Hostages, on hostage maps: `hostage_vector` has each hostage's position, state, health and carrier every tick, and `hostage_state` a row each time a hostage changes state (picked up, carried, dropped, rescued, killed) or is hurt, with the player involved. Both are empty on bomb maps. Matches processed before this date don't have the channels.
 - `smoke_voxel`: What the game sends about each smoke's volume: the cells its fill starts from (`kind` `seed`) and, block by block, the map's surfaces around it (`kind` `block`, a 4 × 4 × 4 block of 20-unit world cells whose bits `mask_lo` and `mask_hi` mark the cells that are part of the map). It is not the smoke itself: filling out from the seeds through free cells for 4 steps gives the shape the game draws, as the [spec](./spec.md) describes. Rows carry the smoke's `grenade_id`. Matches from CS2 builds before the voxel data, and smokes already burning when a demo's recording began, have no rows.
 - `player_command`: One row per user command, what each player's game sent the server for one tick, about a million rows a match. `mouse_dx` and `mouse_dy` are the mouse movement in raw counts, `forward_move` and `left_move` the movement keys (−1, 0 or 1), `weapon_select` the weapon switched to (0 when none), and `command_number` counts each player's commands. The view angles and held buttons are in `player_vector` and `player_inputs`. Matches processed before this date, and older CS2 recordings without full user commands, have no rows.
 - `player_subtick_input`: One row per sub-tick step inside a user command: a button pressed or released (`button`, the bit as in `player_inputs.buttons_mask`, and `pressed`), and `when`, the moment within the tick as a fraction of it. Steps that carry only analog movement have `button` 0. Matches processed before this date, and older CS2 recordings without full user commands, have no rows.
+- `team_info`: Each side's team name (`clan_name`), `flag`, surrender flag and score in each half, one row whenever any of them changes. `team_code` is the side, not the team: at halftime the names and half scores move to the other side's rows. Matchmaking and Premier matches have empty names; FACEIT and league matches name both teams. Matches processed before this date don't have the channel.
+- `pause_state`: One start row and one end row per pause: `timeout_*` for a tactical timeout, `technical_pause_*` for a technical pause and `pause_*` for any other. `team_code` is the side that called it, `t_timeouts_left` and `ct_timeouts_left` count each side's tactical timeouts left, and `remaining_seconds` is the calling side's timeout clock. Most matchmaking matches have no rows. Matches processed before this date don't have the channel.
 
 **Columns added**
 
+- `header.is_queued_matchmaking`, `header.queued_matchmaking_mode`: Nullable. `is_queued_matchmaking` is true when Valve's matchmaker queued the lobby (Premier, competitive, wingman) and false on FACEIT and league servers. `queued_matchmaking_mode` is 1 for Premier and 0 for the others. Both come from the game itself rather than from rank types and row counts.
 - `player_vector.is_airborne`, `player_vector.x_vel_engine`, `player_vector.y_vel_engine`, `player_vector.z_vel_engine`, `player_vector.shots_fired`, `player_vector.velocity_modifier`, `player_vector.view_offset_z`: The game's own movement and spray state for each player on each tick, all nullable. `is_airborne` is true when nothing is under the player's feet. `x_vel_engine`, `y_vel_engine` and `z_vel_engine` are the game's velocity at the tick, in units a second. dsdk's `x_vel`, `y_vel` and `z_vel`, which it calculates from positions, describe the move into the tick, half a tick earlier, so the two disagree most after missed ticks, on stairs and in the air. `shots_fired` counts the shots of the current spray and drops back to 0 soon after the player stops firing. `velocity_modifier` is the slowdown from being hit, 1 when there is none. `view_offset_z` is the eye's height above the player's position, about 64 standing and 46 crouched; the eye's height on the map is `z_pos + view_offset_z`.
 - `player_vector.aim_punch_pitch`, `player_vector.aim_punch_yaw`: Floats, in degrees: the recoil kick the player's shots have put on their aim, pitch negative upward. Across a spray they trace the weapon's recoil pattern. The game holds the last shot's value rather than letting it decay, so both are null unless the player fired within the last second (64 ticks), counting the shot's own tick.
 - `player_status.progress_bar_start`, `player_status.progress_bar_duration`, `player_status.last_injury_time`, `player_status.is_in_reload`, `player_status.reserve_ammo`, `player_status.deploy_tick`: The player's and the held weapon's own state, all nullable. `progress_bar_start` and `progress_bar_duration` are the defuse progress bar. `progress_bar_start` is when the player's last defuse began, in seconds on the clock of `second`, and keeps that value after the defuse ends. `progress_bar_duration` is the bar's length in seconds while it shows (10, or 5 with a kit) and negative otherwise. CS2 doesn't use the bar for planting. `last_injury_time` is when the player last took damage, on the clock of `second`. Both times are null until first set. `is_in_reload` is the held weapon's reload flag; unlike `is_reloading` it falls as soon as a reload stops, and about a third of reloads end early in a weapon switch. `reserve_ammo` is the held weapon's reserve and drops by one magazine per completed reload; null for knives, grenades and equipment. `deploy_tick` is the tick the held weapon was drawn, joinable on `tick`.
@@ -114,12 +151,32 @@ _Parser 6.0.0 and the release after it, converter 8.8.0 and the release after it
 - `weapon_fire.inaccuracy_total`, `weapon_fire.seed`, `weapon_fire.origin_x`, `weapon_fire.origin_y`, `weapon_fire.origin_z`, `weapon_fire.angle_pitch`, `weapon_fire.angle_yaw`: The server's own record of each shot, on rows where a gun fired a bullet. `inaccuracy_total` is the inaccuracy the game applied to the shot, including the movement and jumping part that `player_vector.inaccuracy` (the firing penalty only) leaves out; on about a quarter of shots the total is more than 10% higher. `seed` is the random seed for the shot's spread, `origin_x`, `origin_y` and `origin_z` are where it was fired from, and `angle_pitch` and `angle_yaw` its direction in degrees. Null on grenade, knife and other rows that fire no bullet, and on the rare shot whose record never arrives. Matches parsed before parser 6.0.0 reached production don't have them.
 - `weapon_fire.inaccuracy_move`, `weapon_fire.inaccuracy_air`, `weapon_fire.aim_punch_pitch`, `weapon_fire.aim_punch_yaw`, `weapon_fire.attack_tick`, `weapon_fire.attack_tick_frac`: Sent only by Valve's matchmaking servers, so null on FACEIT and league matches as well as on rows that fire no bullet. `inaccuracy_move` and `inaccuracy_air` are the movement and air parts of `inaccuracy_total`. `aim_punch_pitch` and `aim_punch_yaw` are the recoil kick on the view at the shot, in degrees. `attack_tick` and `attack_tick_frac` are the tick, and the fraction of it, when the player clicked: almost always 3 ticks before to 1 after the row's `tick`.
 - `player_footstep.player_x_pos`, `player_footstep.player_y_pos`, `player_footstep.player_z_pos`, `player_footstep.player_x_vel`, `player_footstep.player_y_vel`, `player_footstep.player_z_vel`, `player_footstep.player_phi_ang`, `player_footstep.player_theta_ang`, `player_footstep.player_weapon_code`, `player_footstep.player_team_code`: The player's position, velocity, view angles, weapon and team at the row's tick, merged from `player_vector` as on the other player events, so each step, jump and landing has a place. Null where `player_vector` has no row for that player and tick, about 1 row in 20,000 on a 50-match sample.
+- `round_state.overtime`, `round_state.t_loss_streak`, `round_state.ct_loss_streak`: `overtime` is the overtime period, 0 in regulation and 1 in the first overtime, the same on every row of a round. `t_loss_streak` and `ct_loss_streak` are each side's run of round losses as the game counts it for the loss bonus: they climb by one per loss and step down on a win rather than resetting to 0.
+- `grenade_vector.vel_x`, `grenade_vector.vel_y`, `grenade_vector.vel_z`, `grenade_vector.origin_x`, `grenade_vector.origin_y`, `grenade_vector.origin_z`, `grenade_vector.thrower_vel_x`, `grenade_vector.thrower_vel_y`, `grenade_vector.thrower_vel_z`: How each grenade was thrown, on its first row: its velocity (`vel_*`) and position (`origin_*`) as it left the thrower's hand, and the thrower's own velocity (`thrower_vel_*`). Null on the grenade's later rows.
+- `bomb_state.x_pos`, `bomb_state.y_pos`, `bomb_state.z_pos`, `bomb_state.timer_seconds`, `bomb_state.timer_ends_at_tick`, `bomb_state.explode_at_tick`: On the `bomb_planted` rows, null on the others: where the planted bomb lies, its timer in seconds, the tick the timer runs out (the plant's tick plus the timer) and the tick `bomb_exploded` fires if nobody defuses (one second later).
+- `bomb_action.site`, `bomb_state.site`: The bomb site's letter, `A` or `B`, for the site that `site_code` names. Rows with no site read the text `None` until 2026-10-27, and null since.
+- `player_death.distance`, `player_death.is_attacker_in_air`, `player_death.hit_box_code`, `player_death.health_removed`, `player_death.armor_removed`, `player_death.attacker_id_pawn`, `player_death.assister_id_pawn`, `player_death.wipe`: The killing hit's details from the same game event: `distance`, `is_attacker_in_air`, `hit_box_code`, and `health_removed` and `armor_removed` as `player_hurt` reports them, plus the attacker's and the assister's pawn entity indexes and `wipe`, the event's own key (0 on every death checked, so it doesn't mark aces). Each is null when the event lacks its key.
+- `bullet_damage.shoot_ang_x`, `bullet_damage.shoot_ang_y`, `bullet_damage.shoot_ang_z`, `bullet_damage.aim_punch_x`, `bullet_damage.aim_punch_y`, `bullet_damage.aim_punch_z`, `bullet_damage.attack_tick`, `bullet_damage.attack_tick_frac`, `bullet_damage.render_tick`, `bullet_damage.render_tick_frac`, `bullet_damage.inaccuracy_total`, `bullet_damage.inaccuracy_move`, `bullet_damage.inaccuracy_air`, `bullet_damage.recoil_index`, `bullet_damage.damage_type`: Fifteen more keys of the game's bullet damage event: the shot's angles (`shoot_ang_*`), the aim punch at the shot (`aim_punch_*`), when the player clicked and when the shot was drawn (`attack_tick`, `render_tick` and their `_frac`), the shot's inaccuracy and its movement and air parts, `recoil_index` and `damage_type`.
+- `grenade_state.thrower_id`: The player who threw the grenade, on every row: `player_id` where the event names one, otherwise the player the grenade's entity resolves to; null when neither does. `decoy_started` rows name their thrower only here; their `player_id` stays 0.
+- `player_hurt.health_taken`, `player_hurt.armor_taken`: The health and armor each hit actually took. `health_removed` and `armor_removed` still hold what the game event reports, which can differ: since CS2's update of 2025-10-16 a hit can take one health point more than it reports, and a killing hit reports more than the health the victim had left.
+- `player_personal.crosshair_code`, `player_personal.viewmodel_offset_x`, `player_personal.viewmodel_offset_y`, `player_personal.viewmodel_offset_z`, `player_personal.viewmodel_fov`: Each player's crosshair code and viewmodel settings. All five are redacted in the published data: `crosshair_code` reads `redacted` and the viewmodel settings are null (see [PII Removal](./pii-removal.md)).
+- `item_equip.def_index`: Back, now with the real item id, read from the weapon itself; it was removed on 2026-10-05 because CS2's equip event always sends 0. It tells apart the weapons that share a name: `hkp2000` is the P2000 (32) or the USP-S (61), `m4a1` the M4A4 (16) or the M4A1-S (60), `mp7` the MP7 (33) or the MP5-SD (23), and `deagle` the Desert Eagle (1) or the R8 (64). Null when no weapon settles it.
+
+**Columns removed**
+
+- `header.bomb_time`: **Breaking:** no longer written, so code that reads it breaks. It came from a server setting that no CS2 demo carries, so it was null in every match; the bomb's timer is on `bomb_state`'s plant rows now.
 
 **Fixes**
 
 - `weapon_fire`: Two shots by one player on the same tick used to make two identical rows, and the duplicate removal kept only one. The new columns tell them apart, so both are kept. It happens rarely: one match in a 50-match sample gained one row.
 - `player_footstep`: One row per player, kind and tick. A step the game played twice on one tick, at a jump or a landing, was two rows (about 1 step in 300) and is now one. `player_sound` still has a row for every time the game played it.
 - `player_sound.player_id`, `player_sound.source`: Set on more sounds. A sound whose source reaches the recording later in the same tick, such as a bought weapon or a molotov's fire, gets its player and its `source`, and an armor purchase goes to the player whose armor rose on that tick. Before, both had no player and `source` `other`. On a 50-match sample, `other` fell from 3.3% of sounds to 0.8%, and 21,250 sounds gained a player; no sound that had a player changed, and no rows were added or removed.
+- `bomb_action`, `bomb_defuse`: `bomb_action` has `bomb_abort_plant` rows and `bomb_defuse` has `bomb_abort_defuse` rows, on every kind of demo. CS2 never sends the game events these came from, so no match had one before.
+- `player_blind`, `bomb_action`, `bomb_defuse`, `other_death`: Recordings from servers that restrict GOTV (`header.is_gotv_recording` true, as on tournament servers) have flashes, bomb plants, defuses and other deaths. They don't carry those game events, so the channels were empty; the rows now come from what the game's entities record. On such recordings `bomb_action.site_code` and `entity_id` are null on plant rows, and `other_death` carries only `other_type` and `attacker_id`.
+
+**Index object**
+
+- More channels carry `available`: the new `hostage_state`, `hostage_vector`, `smoke_voxel`, `world_object`, `player_command` and `player_subtick_input`, and `player_blind`, `bomb_defuse` and `other_death`, which carry it, as `true`, only when they have rows; an empty one has no `available` key.
 
 ## 2026-10-12
 

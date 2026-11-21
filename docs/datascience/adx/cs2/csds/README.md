@@ -7,22 +7,14 @@ match data from matchmaking, FACEIT, and other third-parties.
 Contains full player telemetry and timestamped game events.
 These data are extracted from CS2 replay files called demos.
 Each match is 56 files, collectively called csds:
-55 channel files plus a JSON index object, also named `csds`, that lists them
-(fewer in matches from before the newer channels: `convar`, `team_info`,
-`pause_state`, `smoke_voxel`, `world_object`, `hostage_vector`,
-`hostage_state`, `player_command`, `player_subtick_input`, `map_ping`,
-`player_round_stats`, `round_facts` and `vote`).
-Newer revisions deliver each match as one zip of those files; older ones
-deliver them as separate objects. [Getting the Data](./getting-the-data.md#file-layout)
-shows both.
+55 channel files plus a JSON index object, also named `csds`, that lists them,
+delivered as one zip. Older revisions in the window hold fewer channels, and
+those through 2026-10-12 deliver the files loose, apart from the last few matches of 2026-10-12; the
+[archive](/datascience/old/#what-older-revisions-hold) says what each holds.
 The [CSDS Spec](./spec.md) documents every channel and column.
 New here? The [Quickstart](./quickstart.md) goes from subscribing to a first
 query, and [Getting the Data](./getting-the-data.md) explains how the data is
 delivered.
-
-Revisions through 2026-08-02 carry 31 objects per match rather than 50, and the
-2026-08-03 revision holds a mix of both. The
-[archived spec](/datascience/old/cs2/csds/spec) describes the older set.
 
 Please visit **[docs.pureskill.gg/datascience][datascience docs]**
 for full introduction to PureSkill.gg data science,

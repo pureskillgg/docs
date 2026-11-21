@@ -7,23 +7,17 @@ sidebar_position: 1
 Documentation for CSDS channels built by FPS Critic, Inc.
 
 One match is published as a JSON index object named `csds` plus one file per
-channel, 55 in all, for 56 objects per match. The index lists the channels,
-where each one sits, and what columns it declares. Every channel file is
-[Apache Parquet], `header` included.
+channel, 55 in all, for 56 files per match, delivered as one zip. The index
+lists the channels, where each one sits, and what columns it declares. Every
+channel file is [Apache Parquet], `header` included.
 
-This document describes the channel set published since 2026-08-04, plus the
-`convar`, `team_info`, `pause_state`, `smoke_voxel`, `world_object`,
-`hostage_vector`, `hostage_state`, `player_command`, `player_subtick_input`,
-`map_ping`, `player_round_stats`, `round_facts` and `vote` channels added after it;
-the [changelog](./changelog.md) dates them. Matches processed before `convar`
-have 42 channels, those processed before `team_info` and `pause_state` have 43,
-those processed before `smoke_voxel` lack it, and those processed before
-`world_object`, `hostage_vector` and `hostage_state` lack them; those processed before `player_command` and `player_subtick_input` lack those two,
-and those processed before `map_ping`, `player_round_stats`, `round_facts` and `vote` lack those four. Revisions
-through 2026-08-02 carry an older set of 30 channels, described in the
-[archived spec](/datascience/old/cs2/csds/spec); the 2026-08-03 revision holds
-a mix of the two. Reading each match's index object rather than assuming a
-channel list will keep code working across the change.
+This document describes the 55 channels published since 2026-10-16. Older
+revisions in the window hold fewer, as do 4,891 older matches in the 2026-10-17
+revision, and those through 2026-08-02 a different set of 30, described in the [archived spec](/datascience/old/cs2/csds/spec); the
+[archive](/datascience/old/#what-older-revisions-hold) says what each revision holds, and the
+[changelog](./changelog.md) dates every change. Reading each match's index
+object rather than assuming a channel list will keep code working across the
+changes.
 
 ## Changes over time
 
@@ -36,8 +30,9 @@ The [changelog](./changelog.md) lists every change by date, and the
 the day (UTC) it reached production, but a match sits in the revision for the
 day it was processed, and a release can land partway through a day. So the
 revision for a change's date can hold matches from both before and after it.
-Until 2026-09-07, a revision that failed to close also carried its matches into
-the next one, so one revision could hold more than one day. To tell which side
+A revision can also hold other days' matches: until 2026-09-07 one that failed
+to close carried its matches into the next, and
+[Revision Stats](./revision-stats.md) names the later revisions that do. To tell which side
 of a change a match is on, go by the match rather than its revision:
 `header.rushb_version` and `header.ppp_version` name the parser and converter
 releases that built it.
@@ -193,7 +188,7 @@ file's own schema says which format it is.
 **Reading the files.** pyarrow (pandas' default engine), polars, and DuckDB
 read every format. fastparquet can't read files that use Parquet's byte
 stream split encoding, which it doesn't support: the compact player tables,
-and, from the converter release after 9.0.2, most other channels too, whose
+and, from converter 9.0.3 (2026-11-15), most other channels too, whose
 float columns use it wherever it makes them smaller.
 
 **Reading old and compact files together.** pandas widens on its own;
@@ -478,7 +473,7 @@ and how the recording went:
   rather than on a server.
 - `is_truncated` is true when the demo ended early, including a demo cut in
   the middle of a message. Every table holds what the demo reached; the match
-  is incomplete. Before the parser release of 2026-11-02 a demo cut in the
+  is incomplete. Before parser 7.2.0 (2026-11-03) a demo cut in the
   middle of a message was rejected instead and not delivered.
 
 | Col Name                   | Type    | Nullable | Origin              | Dependents                                                                                       | Merge Keys |
@@ -1017,9 +1012,9 @@ make no steps, and small drops make no landing. A player has at most one row
 of each kind on a tick. The merged position columns are the player's, from
 `player_vector` at that tick. Matches parsed before parser 5.7.0 (2026-10-12)
 hold a different channel: jumps and landings only, with no `kind` or `surface`.
-Before parser 6.0.0 (2026-10-14), a step the game played twice on one tick, at
+Before parser 6.0.0 (2026-10-15), a step the game played twice on one tick, at
 a jump or a landing, was two rows (about 1 step in 300). Before converter 8.8.0
-(2026-10-14), the channel had no position columns. See the
+(2026-10-15), the channel had no position columns. See the
 [changelog](./changelog.md).
 
 | Col Name           | Type    | Nullable | Origin     | Dependents      | Merge Keys                 |
@@ -1258,7 +1253,7 @@ sounds, and under 1% of sounds whose source the parser can't place (`source`
 `other`). A sound whose source reaches the recording later in the same tick,
 such as a bought weapon or a molotov's fire, gets its player then, and an armor
 purchase goes to the player whose armor rose on that tick. Before parser 6.0.0
-(2026-10-14) those had no player and were `other`, about 3% of sounds. The
+(2026-10-15) those had no player and were `other`, about 3% of sounds. The
 merged position columns are that player's, and null when `player_id` is. A
 sound the game played twice on one tick, such as a grenade bouncing off two
 surfaces, is two rows. A demo with no sound messages falls back to the

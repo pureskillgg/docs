@@ -12,9 +12,16 @@ glossary; 31 was the right answer at the time.
 
 It describes revisions through 2026-08-02, which are still retained and can
 still be exported today, so which page you need depends on the revision rather
-than on when you downloaded it. From 2026-08-04 a match is 43 objects, 42
-channels plus the index, covered by the current
-[Competitive CS2 Gameplay](/datascience/adx/cs2/csds/) page.
+than on when you downloaded it. A match processed from 2026-08-04 has 42
+channels, and one processed from 2026-10-16 has 55, covered by the current
+[Competitive CS2 Gameplay](/datascience/adx/cs2/csds/) page; the
+[archive](/datascience/old/#what-older-revisions-hold) says what each revision holds.
+
+Its "approximately 60,000 matches of CS2 with ~250 added each day" came from
+the CS:GO page and can't have been true of CS2 then: CS2 data began on
+2023-11-05, and 111 days at about 250 a day is under 30,000. For the revisions
+still held, [Revision Stats](/datascience/adx/cs2/csds/revision-stats) has
+measured counts.
 
 :::
 
