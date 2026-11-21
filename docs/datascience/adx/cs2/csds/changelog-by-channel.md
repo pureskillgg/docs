@@ -15,8 +15,11 @@ Dates are the day (UTC) a change reached production.
 
 ## All channels
 
+- **2026-11-21**, delivery. The revisions of 2026-10-15 and 2026-10-16 are revoked and can no longer be exported. Matches processed from 2026-10-15 02:51 UTC to 2026-10-16 01:59 UTC were published before the scrubber removed `convar`'s server session id and `player_personal`'s crosshair code and viewmodel settings (see [PII Removal](./pii-removal.md)), so both revisions were withdrawn, with the other matches they held. The changes dated 2026-10-15 and 2026-10-16 first appear in the 2026-10-17 revision.
 - **2026-11-15**, file format. Every channel is written with the Parquet encoding that suits each column best, and compressed at ZSTD level 3, so a match's files are about a third smaller. Values, nulls, types, row order, and the saved schema are unchanged. Float columns in most channels now use Parquet's byte stream split encoding, which fastparquet can't read; pyarrow (pandas' default engine), polars, and DuckDB read both the old and the new files.
+- **2026-11-14**, delivery. CS2's update of 2026-11-11 changed how demos encode some fields, and every demo recorded after it failed to parse from 2026-11-12 00:12 UTC until this release. Nearly all of those matches were processed again once it was fixed, on 2026-11-14. They sit in the revision dated 2026-11-13, which had no matches and so stayed open into 2026-11-14; there is no revision dated 2026-11-14, and the one dated 2026-11-12 holds 11 matches.
 - **2026-11-03**, delivery. A match whose demo was cut in the middle of a message is published now, as a truncated match (`header.is_truncated` true, every channel holds what the demo reached); before, it failed to parse and was not published. Client (POV) recordings in which a fire had gone out before its entity came back into view no longer fail to parse either.
+- **2026-10-21**, values changed. A team's coach is no longer written as a player. FACEIT seats a coach on the team they coach, so a coach had roster rows, positions, status, a death every round in `player_round_stats` and more, and showed up as an extra player. Now every row whose `player_id` is a coach is dropped from every channel; rows that name a coach only in another column, such as an attacker, stay. `header.max_unique_players` and `round_end.player_count` no longer count coaches. Matches without a coach are unchanged.
 - **2026-10-12**, delivery. Each match is delivered as one zip, `csds/YYYY/MM/DD/<id>.zip`, instead of 43 separate objects. Its entries are the same files under their full keys, stored without recompression, so unzipping it where `csds/` sits rebuilds the old layout; dsdk 4.1.0's `extract_adx_zips` does that, and `download_adx_dataset_revision` unzips for you. Matches processed after 21:22 UTC are zipped, so the 2026-10-12 revision holds both kinds. See [Getting the Data](./getting-the-data.md#file-layout).
 - **2026-09-07**, delivery. The daily revision now closes reliably. Before, when a close failed, that day's matches were published in the next revision, so one revision could hold more than one day.
 - **2026-07-08**, file format. Parquet files are compressed with ZSTD instead of GZIP. Values are unchanged; your Parquet reader needs ZSTD support.
@@ -34,6 +37,8 @@ Dates are the day (UTC) a change reached production.
 
 ## Index object
 
+- **2026-10-16**, index object. `map_ping`, `player_round_stats`, `round_facts` and `vote` carry `available` too.
+- **2026-10-15**, index object. More channels carry `available`: the new `hostage_state`, `hostage_vector`, `smoke_voxel`, `world_object`, `player_command` and `player_subtick_input`, and `player_blind`, `bomb_defuse` and `other_death`, which carry it as true when they have rows.
 - **2026-10-06**, index object. Every column's entry gives the type it is written as and whether it can be null, and every merged and calculated column is declared nullable. Before, most columns declared a narrower type than the one written (`int32`, `float32`) or one with no width (`int`), and merged and calculated columns declared neither.
 - **2026-09-07**, index object. The `tick` channel's category is now `telemetry` (was `single_event`).
 - **2026-08-22**, index object. The index stops listing 62 columns that were never written. They are the header's `protocol`, `playback_time`, `playback_ticks`, `playback_frames`, `signon_length` and `second`, and the `player_tick` and `player_player_id` entries (and their `attacker_` and `assister_` forms) in 21 event channels. Duplicate entries are gone too: `player_vector`'s velocities, `round_state.second` and several header columns.
@@ -42,6 +47,10 @@ Dates are the day (UTC) a change reached production.
 ## bomb_action
 
 - **2026-11-03**, fixes. No `bomb_abort_plant` row without a plant begun; rare.
+- **2026-10-27**, values changed: `site`. A missing value in these text columns is null, as everywhere else in the data, instead of the text `None`. `bomb_action.site` read `None` on most of its rows, every row with no bomb site, from 2026-10-15 until this date.
+- **2026-10-15**, column added: `site`. The bomb site's letter, `A` or `B`, for the site that `site_code` names. Rows with no site read the text `None` until 2026-10-27, and null since.
+- **2026-10-15**, fixes. `bomb_action` has `bomb_abort_plant` rows and `bomb_defuse` has `bomb_abort_defuse` rows, on every kind of demo. CS2 never sends the game events these came from, so no match had one before.
+- **2026-10-15**, fixes. Recordings from servers that restrict GOTV (`header.is_gotv_recording` true, as on tournament servers) have flashes, bomb plants, defuses and other deaths. They don't carry those game events, so the channels were empty; the rows now come from what the game's entities record. On such recordings `bomb_action.site_code` and `entity_id` are null on plant rows, and `other_death` carries only `other_type` and `attacker_id`.
 - **2026-10-06**, types changed: `event_type`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 - **2026-10-05**, fixes: `player_id`. Set on `bomb_pickup` rows. It was null on all of them, so those rows joined to no player and carried no player position.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
@@ -49,12 +58,17 @@ Dates are the day (UTC) a change reached production.
 
 ## bomb_defuse
 
+- **2026-10-15**, fixes. `bomb_action` has `bomb_abort_plant` rows and `bomb_defuse` has `bomb_abort_defuse` rows, on every kind of demo. CS2 never sends the game events these came from, so no match had one before.
+- **2026-10-15**, fixes. Recordings from servers that restrict GOTV (`header.is_gotv_recording` true, as on tournament servers) have flashes, bomb plants, defuses and other deaths. They don't carry those game events, so the channels were empty; the rows now come from what the game's entities record. On such recordings `bomb_action.site_code` and `entity_id` are null on plant rows, and `other_death` carries only `other_type` and `attacker_id`.
 - **2026-10-06**, types changed: `event_type`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-22**, types changed: `has_kit`. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.
 
 ## bomb_state
 
+- **2026-10-27**, values changed: `site`. A missing value in these text columns is null, as everywhere else in the data, instead of the text `None`. `bomb_action.site` read `None` on most of its rows, every row with no bomb site, from 2026-10-15 until this date.
+- **2026-10-15**, columns added: `x_pos`, `y_pos`, `z_pos`, `timer_seconds`, `timer_ends_at_tick`, `explode_at_tick`. On the `bomb_planted` rows, null on the others: where the planted bomb lies, its timer in seconds, the tick the timer runs out (the plant's tick plus the timer) and the tick `bomb_exploded` fires if nobody defuses (one second later).
+- **2026-10-15**, column added: `site`. The bomb site's letter, `A` or `B`, for the site that `site_code` names. Rows with no site read the text `None` until 2026-10-27, and null since.
 - **2026-10-06**, types changed: `event_type`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 
@@ -66,6 +80,7 @@ Dates are the day (UTC) a change reached production.
 
 ## bullet_damage
 
+- **2026-10-15**, columns added: `shoot_ang_x`, `shoot_ang_y`, `shoot_ang_z`, `aim_punch_x`, `aim_punch_y`, `aim_punch_z`, `attack_tick`, `attack_tick_frac`, `render_tick`, `render_tick_frac`, `inaccuracy_total`, `inaccuracy_move`, `inaccuracy_air`, `recoil_index`, `damage_type`. Fifteen more keys of the game's bullet damage event: the shot's angles (`shoot_ang_*`), the aim punch at the shot (`aim_punch_*`), when the player clicked and when the shot was drawn (`attack_tick`, `render_tick` and their `_frac`), the shot's inaccuracy and its movement and air parts, `recoil_index` and `damage_type`.
 - **2026-10-05**, fixes: `num_penetrations`. Counts the surfaces the bullet went through. It was 0 on every row.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
@@ -84,6 +99,7 @@ Dates are the day (UTC) a change reached production.
 
 ## grenade_state
 
+- **2026-10-15**, column added: `thrower_id`. The player who threw the grenade, on every row: `player_id` where the event names one, otherwise the player the grenade's entity resolves to; null when neither does. `decoy_started` rows name their thrower only here; their `player_id` stays 0.
 - **2026-10-05**, column added: `grenade_id`. One id per thrown grenade for the whole match (int64). Join the three grenade channels on it. From parser 5.6.0 the grenades are numbered 1, 2, 3 in the order the parser first meets them, so a match parsed again gets the same ids; parser 5.5.0, in production for part of 2026-10-05, drew them at random on each parse. `entity_id` is reused within a match, so grouping on it can merge different grenades. It can be null on `grenade_state`.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
@@ -93,6 +109,7 @@ Dates are the day (UTC) a change reached production.
 
 ## grenade_vector
 
+- **2026-10-15**, columns added: `vel_x`, `vel_y`, `vel_z`, `origin_x`, `origin_y`, `origin_z`, `thrower_vel_x`, `thrower_vel_y`, `thrower_vel_z`. How each grenade was thrown, on its first row: its velocity (`vel_*`) and position (`origin_*`) as it left the thrower's hand, and the thrower's own velocity (`thrower_vel_*`). Null on the grenade's later rows.
 - **2026-10-05**, column added: `grenade_id`. One id per thrown grenade for the whole match (int64). Join the three grenade channels on it. From parser 5.6.0 the grenades are numbered 1, 2, 3 in the order the parser first meets them, so a match parsed again gets the same ids; parser 5.5.0, in production for part of 2026-10-05, drew them at random on each parse. `entity_id` is reused within a match, so grouping on it can merge different grenades. It can be null on `grenade_state`.
 - **2026-10-05**, column added: `grenade_weapon_code`. The grenade's Valve item id (int64): 43 flashbang, 44 HE grenade, 45 smoke grenade, 46 molotov, 47 decoy and 48 incendiary. These are the same codes every other `*_weapon_code` column uses.
 - **2026-10-05**, column removed: `grenade_type_code`. It held the parser library's own grenade numbering, 501 to 506, which collides with the item ids of knives. Read `grenade_weapon_code` instead.
@@ -106,6 +123,7 @@ Dates are the day (UTC) a change reached production.
 - **2026-10-16**, columns added: `is_pov_recording`, `is_truncated`. Booleans. `is_pov_recording` is true for a recording made on a player's own computer rather than on a server. `is_truncated` is true when the demo ended early: every table holds what the demo reached, and the match is incomplete. A demo cut in the middle of a message is rejected instead and is not delivered.
 - **2026-10-15**, columns added: `is_queued_matchmaking`, `queued_matchmaking_mode`. Nullable. `is_queued_matchmaking` is true when Valve's matchmaker queued the lobby (Premier, competitive, wingman) and false on FACEIT and league servers. `queued_matchmaking_mode` is 1 for Premier and 0 for the others. Both come from the game itself rather than from rank types and row counts.
 - **2026-10-15**, column added: `server_start_tick`. Integer, nullable: the game server's tick when the recording's tick 0 was recorded, which differs from match to match. The game counts some times from the server's start; the converter uses this to put `player_status.progress_bar_start`, `last_injury_time` and `deploy_tick` on the recording's clock. Null on a demo with no server tick messages.
+- **2026-10-15**, column removed: `bomb_time`. **Breaking:** no longer written, so code that reads it breaks. It came from a server setting that no CS2 demo carries, so it was null in every match; the bomb's timer is on `bomb_state`'s plant rows now.
 - **2026-10-06**, types changed: `bomb_time`, `ppp_version`, `rushb_version`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 - **2026-10-05**, column added: `rank_type`. The ladder the match was played on (int64), the rank type its players carry: 7 Wingman, 11 Premier, 12 Competitive; 0 when nobody is ranked; -1 off Valve's ladders, as on FACEIT. Null when the demo has no player information.
 - **2026-10-05**, column removed: `network_protocol`. It was 1234 in every match, a fixed value rather than the demo's.
@@ -125,6 +143,7 @@ Dates are the day (UTC) a change reached production.
 
 ## hostage_state
 
+- **2026-10-27**, values changed: `old_state`. A missing value in these text columns is null, as everywhere else in the data, instead of the text `None`. `bomb_action.site` read `None` on most of its rows, every row with no bomb site, from 2026-10-15 until this date.
 - **2026-10-15**, channel added. Hostages, on hostage maps: `hostage_vector` has each hostage's position, state, health and carrier every tick, and `hostage_state` a row each time a hostage changes state (picked up, carried, dropped, rescued, killed) or is hurt, with the player involved. Both are empty on bomb maps. Matches processed before this date don't have the channels.
 
 ## hostage_vector
@@ -139,6 +158,7 @@ Dates are the day (UTC) a change reached production.
 
 ## item_equip
 
+- **2026-10-15**, column added: `def_index`. Back, now with the real item id, read from the weapon itself; it was removed on 2026-10-05 because CS2's equip event always sends 0. It tells apart the weapons that share a name: `hkp2000` is the P2000 (32) or the USP-S (61), `m4a1` the M4A4 (16) or the M4A1-S (60), `mp7` the MP7 (33) or the MP5-SD (23), and `deagle` the Desert Eagle (1) or the R8 (64). Null when no weapon settles it.
 - **2026-10-05**, column removed: `def_index`. It was 0 on every row, because CS2's equip event carries no item id. `item_pickup.def_index` carries it.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
@@ -158,9 +178,14 @@ Dates are the day (UTC) a change reached production.
 
 - **2026-08-03**, channel removed. It never had rows in CS2 data; it was a placeholder kept from CS:GO.
 
+## map_ping
+
+- **2026-10-16**, channel added. One row per marker a player placed with the ping button, not network latency (that is `player_status.ping`): when and where it appeared, the player who placed it, `ping_type`, and `is_urgent` when the player pressed again to make it urgent. Matches processed before this date don't have the channel.
+
 ## molotov_fire
 
 - **2026-11-03**, values changed. Rarely, an inferno's not-burning rows come a little earlier (78 ticks on the one match seen), because the library now reports that inferno's end earlier.
+- **2026-10-27**, file format. Rows come out in the same order on every parse of a demo: when several fires change on the same tick, their rows follow the fire's entity id. Before, that order could differ between two parses of one demo. The rows and their values are unchanged.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-08-22**, column added: `entity_id_fixed`. The `molotov_state.entity_id_fixed` of the fire this flame belongs to, or -1 if unmatched. Join on this, not on `entity_id`, which the game reuses.
 - **2026-08-03**, channel added. Each flame of each molotov or incendiary fire, when it ignites and when it goes out.
@@ -181,10 +206,15 @@ Dates are the day (UTC) a change reached production.
 
 ## other_death
 
+- **2026-10-15**, fixes. Recordings from servers that restrict GOTV (`header.is_gotv_recording` true, as on tournament servers) have flashes, bomb plants, defuses and other deaths. They don't carry those game events, so the channels were empty; the rows now come from what the game's entities record. On such recordings `bomb_action.site_code` and `entity_id` are null on plant rows, and `other_death` carries only `other_type` and `attacker_id`.
 - **2026-10-06**, types changed: `other_type`, `weapon_name`. Written as the column's own type when a match has no value for it or the channel is empty. Before, such a column was written with Parquet's null type, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-10-05**, values changed: `attacker_id`, `attacker_id_fixed`. Null where there is no attacker or assister, not 65535. Declared nullable.
 - **2026-08-22**, types changed: `is_attacker_blind`, `is_noscope`, `is_through_smoke`. Was int64 holding 0 or 1, now bool, as the index always declared. Still nullable.
+
+## pause_state
+
+- **2026-10-15**, channel added. One start row and one end row per pause: `timeout_*` for a tactical timeout, `technical_pause_*` for a technical pause and `pause_*` for any other. `team_code` is the side that called it, `t_timeouts_left` and `ct_timeouts_left` count each side's tactical timeouts left, and `remaining_seconds` is the calling side's timeout clock. Most matchmaking matches have no rows. Matches processed before this date don't have the channel.
 
 ## player_action (removed 2026-08-03)
 
@@ -193,6 +223,7 @@ Dates are the day (UTC) a change reached production.
 
 ## player_blind
 
+- **2026-10-15**, fixes. Recordings from servers that restrict GOTV (`header.is_gotv_recording` true, as on tournament servers) have flashes, bomb plants, defuses and other deaths. They don't carry those game events, so the channels were empty; the rows now come from what the game's entities record. On such recordings `bomb_action.site_code` and `entity_id` are null on plant rows, and `other_death` carries only `other_type` and `attacker_id`.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2023-12-09**, values changed. Keeps only flashes on players alive at that tick. CS2 also reports flashes on dead and spectating players.
@@ -217,6 +248,7 @@ Dates are the day (UTC) a change reached production.
 
 ## player_death
 
+- **2026-10-15**, columns added: `distance`, `is_attacker_in_air`, `hit_box_code`, `health_removed`, `armor_removed`, `attacker_id_pawn`, `assister_id_pawn`, `wipe`. The killing hit's details from the same game event: `distance`, `is_attacker_in_air`, `hit_box_code`, and `health_removed` and `armor_removed` as `player_hurt` reports them, plus the attacker's and the assister's pawn entity indexes and `wipe`, the event's own key (0 on every death checked, so it doesn't mark aces). Each is null when the event lacks its key.
 - **2026-10-05**, types changed: `player_id_fixed`, `attacker_id_fixed`, `assister_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-10-05**, values changed: `attacker_id`, `attacker_id_fixed`, `assister_id`, `assister_id_fixed`. Null where there is no attacker or assister, not 65535. Declared nullable.
@@ -237,6 +269,7 @@ Dates are the day (UTC) a change reached production.
 
 ## player_hurt
 
+- **2026-10-15**, columns added: `health_taken`, `armor_taken`. The health and armor each hit actually took. `health_removed` and `armor_removed` still hold what the game event reports, which can differ: since CS2's update of 2025-10-16 a hit can take one health point more than it reports, and a killing hit reports more than the health the victim had left.
 - **2026-10-05**, types changed: `player_id_fixed`, `attacker_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-10-05**, values changed: `attacker_id`, `attacker_id_fixed`. Null where there is no attacker or assister, not 65535. Declared nullable.
@@ -272,9 +305,14 @@ Dates are the day (UTC) a change reached production.
 ## player_personal
 
 - **2026-11-03**, fixes: `steam_id`, `name`. Rare: where the old library read a player-info entry under the wrong slot, one player took another's name and Steam ID for a few rounds and the other's name reverted to a stale one. The entry is read under its own slot now. Players' names are otherwise unchanged: the parser keeps the name each player connected with, as before.
+- **2026-10-15**, columns added: `crosshair_code`, `viewmodel_offset_x`, `viewmodel_offset_y`, `viewmodel_offset_z`, `viewmodel_fov`. Each player's crosshair code and viewmodel settings. All five are redacted in the published data: `crosshair_code` reads `redacted` and the viewmodel settings are null (see [PII Removal](./pii-removal.md)).
 - **2026-10-05**, fixes. Every player who spawns in a round that reaches freeze end has a row for that round. Before, a player missing from the round's roster, such as one who joined or reconnected late, had none, so their rows in that round joined to no player.
 - **2026-06-07**, fixes: `player_id`. When a round records the same `player_id` for two players, the player's controller id is used instead. A match that would still have duplicate `tick` and `player_id_fixed` rows fails processing and is not published.
 - **2023-12-09**, column added: `player_controller_id`. The player's controller id, stable for a player slot. Joins `player_status` rows to `player_personal`.
+
+## player_round_stats
+
+- **2026-10-16**, channel added. The game's own scoreboard numbers, one row per player per round: `kills`, `deaths`, `assists`, `headshot_kills`, `damage` (the health actually taken from enemies), `utility_damage`, `enemies_flashed`, `equipment_value`, `money_saved`, `kill_reward`, `cash_earned`, `live_time` and `objective` for that round, and the running match totals `total_damage` and `total_utility_damage`. The server keeps 30 rounds of them, so the per-round columns are null after round 30. Matches processed before this date don't have the channel.
 
 ## player_sound
 
@@ -291,6 +329,8 @@ Dates are the day (UTC) a change reached production.
 
 ## player_spawn
 
+- **2026-10-27**, fixes. Round 1 has its spawn rows. The game respawns every player just before round 1 starts, and those rows used to be cut along with the warmup, so round 1 had none. Their position, velocity, angle, weapon and team columns come from the player's first `player_vector` row of the round, where they stand frozen at the start.
+- **2026-10-27**, fixes: `player_id_fixed`. Set on the spawns of a round with no roster, which is a round that ends in freeze time, as a surrender does. It takes the player from the last earlier round whose roster lists the `player_id`, and stays null when none does or when that `player_id` disconnected in between.
 - **2026-10-05**, types changed: `player_id_fixed`. An integer in every match, with nulls where no player matched. Before, a match in which any row found no player wrote the column as a double, so its type changed from match to match.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-10-05**, fixes: `round`. The round the player spawned into. Before, many rows carried the round before it (7,913 in our 50 test matches).
@@ -348,6 +388,11 @@ Dates are the day (UTC) a change reached production.
 - **2026-08-03**, values changed: `win_reason_code`, `win_reason_message`, `player_count`. Real round ends again. `win_reason_code` and `win_reason_message` come from the game, and `player_count` is the number of players on the team at the end of the round, bots included. Since 2024-02-12 the channel had been rebuilt from `round_state` with fixed values.
 - **2024-02-12**, values changed: `win_reason_code`, `win_reason_message`, `legacy_code`, `player_count`. CS2 demos stopped carrying round-end events. The channel is rebuilt from `round_state`: `win_reason_code` is 8 (CT win) or 9 (T win), `win_reason_message` is the generic team-win message, `legacy_code` is 0 and `player_count` is 20.
 
+## round_facts
+
+- **2026-10-27**, values changed: `fun_fact_token`. A missing value in these text columns is null, as everywhere else in the data, instead of the text `None`. `bomb_action.site` read `None` on most of its rows, every row with no bomb site, from 2026-10-15 until this date.
+- **2026-10-16**, channel added. The fun fact the scoreboard shows when a round ends, one row per `round_end` row: Valve's token for the fact (`fun_fact_token`), the player it's about (`player_id`, null for a fact about a team or the round) and the numbers it quotes (`fun_fact_data1` to `fun_fact_data3`). A round without a fun fact, as every surrender is, has them all null. Matches processed before this date don't have the channel.
+
 ## round_mvp
 
 - **2026-08-03**, column added: `mvp_count`. The player's running MVP total. `round_mvp` has rows again, one whenever a player's MVP count rises; it had been empty on most matches since early 2024.
@@ -364,6 +409,7 @@ Dates are the day (UTC) a change reached production.
 
 ## round_state
 
+- **2026-10-15**, columns added: `overtime`, `t_loss_streak`, `ct_loss_streak`. `overtime` is the overtime period, 0 in regulation and 1 in the first overtime, the same on every row of a round. `t_loss_streak` and `ct_loss_streak` are each side's run of round losses as the game counts it for the loss bonus: they climb by one per loss and step down on a win rather than resetting to 0.
 - **2026-10-05**, fixes: `event_type`. The `freezetime_ended_inferred` row, the first tick a player moves in a round, no longer fires early on a late player's respawn. In 8 of the 927 rounds of our 50 test matches it came 43 to 3,520 ticks before `round_freeze_end`; it now lands one tick after it.
 - **2026-08-22**, index object. The index stops listing 62 columns that were never written. They are the header's `protocol`, `playback_time`, `playback_ticks`, `playback_frames`, `signon_length` and `second`, and the `player_tick` and `player_player_id` entries (and their `attacker_` and `assister_` forms) in 21 event channels. Duplicate entries are gone too: `player_vector`'s velocities, `round_state.second` and several header columns.
 - **2026-08-03**, values changed. The `round_start` and `round_end` event rows are back (missing since 2024-02-12). Each round now has two `round_start` rows: the game's own, and the one the converter adds after `round_poststart` (since 2024-08-05).
@@ -387,13 +433,22 @@ Dates are the day (UTC) a change reached production.
 - **2026-10-05**, values changed. The `*_x_vel`, `*_y_vel` and `*_z_vel` columns merged from `player_vector` take its per-round velocities, so they no longer jump on a respawn.
 - **2026-08-03**, channel added. Players switching teams, including the silent half-time swap.
 
+## team_info
+
+- **2026-10-15**, channel added. Each side's team name (`clan_name`), `flag`, surrender flag and score in each half, one row whenever any of them changes. `team_code` is the side, not the team: at halftime the names and half scores move to the other side's rows. Matchmaking and Premier matches have empty names; FACEIT and league matches name both teams. Matches processed before this date don't have the channel.
+
 ## tick
 
+- **2026-10-16**, columns added: `host_time_us`, `host_time_sd_us`. Integers: the game server's computation time per frame and its standard deviation, in microseconds. A 64-tick frame lasts 15,625; on our 50-match test set the median is about 2,200 and the 99th percentile about 5,000. Matches processed before this date don't have them.
 - **2026-10-05**, values changed: `second_since_previous_phase`. Null before the match's first phase, not -1. Declared nullable.
 - **2026-09-07**, index object. The `tick` channel's category is now `telemetry` (was `single_event`).
 - **2026-08-22**, columns removed: `next_valid_tick`, `next_valid_tick_round`. Internal working columns that were written but never listed in the index.
 - **2026-07-07**, values changed: `previous_phase`, `second_since_previous_phase`. When several phase events share a tick, the phase now follows a fixed order instead of whichever event sorted last.
 - **2024-08-05**, columns added: `next_valid_tick`, `next_valid_tick_round`. Internal working columns, written but not listed in the index. Removed on 2026-08-22.
+
+## vote
+
+- **2026-10-16**, channel added. One row per team vote that finished (a kick, a tactical timeout or a surrender): passed or failed, the team that voted, what the vote was about (`issue_index`), when it was called and the final tally. A demo doesn't record who called a vote or whom a kick was aimed at, so neither is here. Matches processed before this date don't have the channel.
 
 ## weapon_action
 
